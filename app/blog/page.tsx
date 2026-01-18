@@ -18,14 +18,16 @@ import {
 import BlogBanner from "@/components/ui/blogBanner";
 import { getBlogPosts } from "@/app/actions/adminActions";
 
+// Categories should match the options in your Admin Panel
 const categories = ["All", "Physics", "Chess & Logic", "Study Tips", "Career Skills"];
 
 export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [posts, setPosts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // 1. Fetch data from Prisma on mount
   useEffect(() => {
     async function fetchData() {
       try {
@@ -34,38 +36,43 @@ export default function BlogPage() {
       } catch (error) {
         console.error("Failed to fetch blog posts:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
     fetchData();
   }, []);
 
+  // 2. Identify Featured Post (Top priority: featured flag, Secondary: newest post)
   const featuredPost = posts.find(post => post.featured) || posts[0];
-  const regularPosts = posts.filter(post => post.id !== featuredPost?.id);
+  
+  // 3. Filtering Logic for the grid
+  const filteredPosts = posts.filter(post => {
+    // Exclude the featured post from the general grid to avoid duplication
+    if (post.id === featuredPost?.id) return false;
 
-  const filteredPosts = regularPosts.filter(post => {
     const matchesCategory = activeCategory === "All" || post.category === activeCategory;
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+    
     return matchesCategory && matchesSearch;
   });
 
   return (
     <main className="bg-slate-50 min-h-screen font-sans">
-      {/* SEO: Ensure BlogBanner uses an <h1> tag internally. If not, add a hidden <h1> here */}
       <BlogBanner />
 
       <div className="container mx-auto px-4 md:px-8 max-w-7xl -mt-10 relative z-20 pb-20">
         
-        {loading ? (
-          <div className="flex justify-center items-center py-20 min-h-[400px]" aria-live="polite">
+        {isLoading ? (
+          <div className="flex flex-col justify-center items-center py-40 gap-4">
             <Loader2 className="w-12 h-12 text-teal-600 animate-spin" />
-            <span className="sr-only">Loading articles...</span>
+            <p className="text-slate-500 font-bold animate-pulse">Fetching latest articles...</p>
           </div>
         ) : (
           <>
-            {/* --- FEATURED POST (Semantic <section>) --- */}
-            {featuredPost && (
-              <section aria-labelledby="featured-post-title" className="mb-16">
+            {/* --- FEATURED POST SECTION --- */}
+            {featuredPost && !searchTerm && activeCategory === "All" && (
+              <section className="mb-16">
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -74,60 +81,57 @@ export default function BlogPage() {
                   <div className="w-full lg:w-1/2 relative h-64 lg:h-96 rounded-2xl overflow-hidden group bg-slate-100">
                      <img 
                        src={featuredPost.image} 
-                       alt={`Featured Article: ${featuredPost.title}`} 
+                       alt={featuredPost.title} 
                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                       loading="eager"
                      />
-                     <div className="absolute top-4 left-4 bg-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-md">
-                       Featured
+                     <div className="absolute top-4 left-4 bg-teal-600 text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest shadow-lg">
+                       Featured Story
                      </div>
                   </div>
 
-                  <div className="w-full lg:w-1/2 flex flex-col justify-center">
-                     <div className="flex items-center gap-4 text-sm text-slate-500 mb-4 font-medium">
-                        <span className="flex items-center gap-1">
-                          <Calendar size={14} /> 
-                          <time dateTime={featuredPost.date}>{new Date(featuredPost.date).toLocaleDateString()}</time>
+                  <div className="w-full lg:w-1/2 flex flex-col justify-center p-4">
+                     <div className="flex items-center gap-4 text-xs text-slate-400 mb-4 font-bold uppercase tracking-widest">
+                        <span className="flex items-center gap-1.5">
+                          <Calendar size={14} className="text-teal-500" /> 
+                          {new Date(featuredPost.date).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}
                         </span>
-                        <span className="flex items-center gap-1">
-                          <Clock size={14} /> {featuredPost.readTime} read
+                        <span className="flex items-center gap-1.5">
+                          <Clock size={14} className="text-teal-500" /> {featuredPost.readTime}
                         </span>
                      </div>
                      
-                     <h2 id="featured-post-title" className="text-3xl md:text-4xl font-black text-slate-900 mb-4 leading-tight group-hover:text-teal-600 transition-colors">
+                     <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
                         {featuredPost.title}
                      </h2>
                      
-                     <p className="text-slate-600 text-lg mb-8 leading-relaxed line-clamp-3">
+                     <p className="text-slate-500 text-lg mb-8 leading-relaxed line-clamp-3">
                         {featuredPost.excerpt}
                      </p>
 
                      <Link 
                         href={`/blog/${featuredPost.slug}`}
-                        className="group inline-flex items-center gap-2 text-teal-600 font-bold text-lg hover:text-teal-800 transition-colors"
-                        aria-label={`Read more about ${featuredPost.title}`}
+                        className="group inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-teal-600 transition-all shadow-xl shadow-slate-900/20"
                       >
-                        Read Article
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                        Read Full Article
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                      </Link>
                   </div>
                 </motion.div>
               </section>
             )}
 
-            {/* --- CONTROLS (Semantic <nav>) --- */}
-            <nav className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12" aria-label="Blog categories and search">
-              <div className="flex flex-wrap justify-center gap-2">
+            {/* --- FILTER CONTROLS --- */}
+            <nav className="flex flex-col lg:flex-row justify-between items-center gap-8 mb-12">
+              <div className="flex flex-wrap justify-center gap-3">
                 {categories.map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    aria-pressed={activeCategory === cat}
                     className={`
-                      px-5 py-2 rounded-full text-sm font-bold transition-all
+                      px-6 py-2.5 rounded-xl text-sm font-black tracking-tight transition-all
                       ${activeCategory === cat 
-                        ? "bg-slate-900 text-white shadow-lg shadow-slate-900/20" 
-                        : "bg-white text-slate-600 border border-slate-200 hover:border-teal-400 hover:text-teal-600"}
+                        ? "bg-teal-600 text-white shadow-lg shadow-teal-200" 
+                        : "bg-white text-slate-500 border border-slate-200 hover:border-teal-400 hover:text-teal-600 shadow-sm"}
                     `}
                   >
                     {cat}
@@ -135,22 +139,20 @@ export default function BlogPage() {
                 ))}
               </div>
 
-              <div className="relative w-full md:w-64">
-                 <label htmlFor="blog-search" className="sr-only">Search articles</label>
+              <div className="relative w-full lg:w-80">
                  <input 
-                   id="blog-search"
                    type="text" 
                    placeholder="Search articles..." 
                    value={searchTerm}
                    onChange={(e) => setSearchTerm(e.target.value)}
-                   className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-full text-sm font-medium focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder:text-slate-400"
+                   className="w-full pl-12 pr-6 py-4 bg-white border border-slate-200 rounded-2xl text-sm font-bold shadow-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all"
                  />
-                 <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-slate-400" aria-hidden="true" />
+                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
               </div>
             </nav>
 
-            {/* --- BLOG GRID (Semantic <section>) --- */}
-            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[300px]">
+            {/* --- BLOG GRID --- */}
+            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <AnimatePresence mode="popLayout">
                 {filteredPosts.length > 0 ? (
                   filteredPosts.map((post) => (
@@ -160,17 +162,16 @@ export default function BlogPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
                       key={post.id}
-                      className="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-teal-900/5 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full"
+                      className="group bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-teal-900/10 transition-all duration-500 flex flex-col h-full"
                     >
-                      <Link href={`/blog/${post.slug}`} className="block relative h-56 overflow-hidden bg-slate-100">
+                      <Link href={`/blog/${post.slug}`} className="block relative h-64 overflow-hidden bg-slate-100">
                          <img 
                            src={post.image} 
                            alt={post.title} 
                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                           loading="lazy"
                          />
                          <div className="absolute top-4 left-4">
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/90 backdrop-blur-sm text-slate-800 text-xs font-bold uppercase tracking-wider rounded-lg shadow-sm">
+                            <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-white/95 backdrop-blur-md text-slate-900 text-[10px] font-black uppercase tracking-widest rounded-xl shadow-lg">
                                {post.category.includes('Chess') ? <Crown size={12} className="text-amber-500"/> : 
                                 post.category.includes('Physics') ? <Atom size={12} className="text-teal-500"/> : 
                                 <BrainCircuit size={12} className="text-indigo-500"/>}
@@ -179,76 +180,46 @@ export default function BlogPage() {
                          </div>
                       </Link>
 
-                      <div className="p-6 flex flex-col flex-grow">
-                         <div className="flex items-center gap-3 text-xs text-slate-400 font-bold uppercase tracking-wider mb-3">
-                            <time dateTime={post.date}>{new Date(post.date).toLocaleDateString()}</time>
-                            <span className="w-1 h-1 rounded-full bg-slate-300" aria-hidden="true"></span>
-                            <span>{post.readTime} read</span>
+                      <div className="p-8 flex flex-col flex-grow">
+                         <div className="flex items-center gap-3 text-[10px] text-slate-400 font-black uppercase tracking-widest mb-4">
+                            <span>{new Date(post.date).toLocaleDateString()}</span>
+                            <span className="w-1 h-1 rounded-full bg-teal-500"></span>
+                            <span>{post.readTime}</span>
                          </div>
 
-                         <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-teal-600 transition-colors line-clamp-2">
+                         <h3 className="text-xl font-black text-slate-900 mb-4 group-hover:text-teal-600 transition-colors line-clamp-2">
                             <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                          </h3>
                          
-                         <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
+                         <p className="text-slate-500 text-sm leading-relaxed mb-8 line-clamp-3">
                             {post.excerpt}
                          </p>
 
                          <Link 
                             href={`/blog/${post.slug}`} 
-                            className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-teal-600 transition-colors"
-                            aria-label={`Read full article: ${post.title}`}
+                            className="mt-auto inline-flex items-center gap-2 text-sm font-black text-slate-900 group-hover:text-teal-600 transition-all"
                           >
-                            Read More <ChevronRight size={16} aria-hidden="true" />
+                            Keep Reading <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
                          </Link>
                       </div>
                     </motion.article>
                   ))
                 ) : (
-                  <div className="col-span-full text-center py-20 text-slate-500 bg-white rounded-3xl border border-dashed border-slate-300">
-                    <BookOpen className="w-12 h-12 mx-auto mb-4 text-slate-300" aria-hidden="true" />
-                    <p className="text-lg font-medium">No articles found matching your criteria.</p>
+                  <div className="col-span-full text-center py-32 bg-white rounded-[3rem] border-2 border-dashed border-slate-100">
+                    <BookOpen className="w-16 h-16 mx-auto mb-6 text-slate-200" />
+                    <p className="text-xl font-black text-slate-400 uppercase tracking-widest">No matching articles found</p>
+                    <button 
+                        onClick={() => {setActiveCategory("All"); setSearchTerm("");}} 
+                        className="mt-4 text-teal-600 font-bold hover:underline"
+                    >
+                        Clear filters
+                    </button>
                   </div>
                 )}
               </AnimatePresence>
             </section>
           </>
         )}
-
-        {/* --- NEWSLETTER (Semantic <section>) --- */}
-        <section aria-labelledby="newsletter-title" className="mt-20 bg-slate-900 rounded-[2.5rem] p-8 md:p-16 text-center relative overflow-hidden">
-           <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" 
-             style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '24px 24px' }}
-             aria-hidden="true">
-           </div>
-           
-           <div className="relative z-10 max-w-2xl mx-auto">
-              <h2 id="newsletter-title" className="text-3xl md:text-4xl font-bold text-white mb-4">
-                 Get Study Tips Delivered
-              </h2>
-              <p className="text-slate-400 mb-8 text-lg">
-                 Join 500+ students receiving our monthly digest on Physics hacks, Chess puzzles, and exam strategies.
-              </p>
-
-              <form className="flex flex-col sm:flex-row gap-4" onSubmit={(e) => e.preventDefault()}>
-                 <label htmlFor="email-input" className="sr-only">Email Address</label>
-                 <input 
-                   id="email-input"
-                   type="email" 
-                   required
-                   placeholder="Enter your email address" 
-                   className="flex-grow px-6 py-4 rounded-xl bg-white/10 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:border-teal-500 focus:bg-white/5 transition-all"
-                 />
-                 <button type="submit" className="px-8 py-4 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-teal-500/20">
-                    Subscribe
-                 </button>
-              </form>
-              <p className="text-slate-500 text-xs mt-4">
-                 No spam. Unsubscribe anytime.
-              </p>
-           </div>
-        </section>
-
       </div>
     </main>
   );

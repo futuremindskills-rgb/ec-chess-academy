@@ -2,87 +2,119 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Home, ChevronRight, Camera, Sparkles, Atom, Aperture } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Home, ChevronRight, Camera, Sparkles } from 'lucide-react';
 
 const GalleryBanner: React.FC = () => {
+  // Array of images for the Netflix-style background grid
+  const bgThumbnails = [
+    "/1.webp", "/2.webp", "/3.webp", "/1.webp",
+    "/2.webp", "/3.webp", "/1.webp", "/2.webp",
+  ];
+
   return (
-    <div className="relative w-full bg-slate-50 overflow-hidden pt-32 pb-20 lg:pt-15 lg:pb-6 font-sans">
+    <div className="relative w-full bg-white overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-16 lg:pt-44 lg:pb-24 font-sans border-b border-slate-50">
       
-      {/* --- Background Decorative Elements --- */}
-      
-      {/* 1. Scientific Grid Pattern */}
-      <div className="absolute inset-0 opacity-[0.03]" 
-           style={{ 
-             backgroundImage: 'linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(to right, #0f172a 1px, transparent 1px)', 
-             backgroundSize: '40px 40px' 
-           }}>
+      {/* --- 1. NETFLIX-STYLE IMAGE GRID BACKGROUND --- */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }} 
+          // Responsive Grid: 2 cols for mobile, 3 for tablet, 4 for desktop
+          className="absolute -inset-[10%] sm:-inset-[5%] grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 transform rotate-3 scale-110"
+        >
+          {bgThumbnails.map((src, i) => (
+            <div 
+              key={i} 
+              className="aspect-video bg-slate-100 rounded-lg sm:rounded-2xl overflow-hidden border border-slate-100 shadow-sm"
+            >
+              <img 
+                src={src} 
+                alt="Academy Life" 
+                className="w-full h-full object-cover" 
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </motion.div>
+
+        {/* --- 2. THE OVERLAY (Enhanced Gradients for better readability) --- */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/20 to-white z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10" />
       </div>
 
-      {/* 2. Soft Scientific Blobs */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-100/40 rounded-full blur-[100px] opacity-60 pointer-events-none -translate-y-1/3 translate-x-1/3"></div>
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-100/40 rounded-full blur-[100px] opacity-70 pointer-events-none translate-y-1/3 -translate-x-1/4"></div>
-
-      {/* 3. Floating Icons (Theme: Physics & Photography) */}
-      
-      {/* Atom - Top Left */}
-      <div className="absolute top-24 left-10 md:left-20 opacity-10 text-teal-600 animate-[spin_20s_linear_infinite]">
-        <Atom className="w-16 h-16" strokeWidth={1.5} />
-      </div>
-
-      {/* Camera Aperture - Right Side */}
-      <div className="absolute top-1/3 right-10 md:right-32 opacity-10 text-indigo-500 transform rotate-12 hidden md:block animate-pulse">
-        <Aperture className="w-20 h-20" />
-      </div>
-
-      {/* Sparkles - Near Text */}
-      <div className="absolute bottom-20 left-1/3 text-teal-500 opacity-40 animate-bounce-slow">
-        <Sparkles className="w-6 h-6" />
-      </div>
-
-      {/* --- Main Content --- */}
-      <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center text-center">
+      {/* --- 3. MAIN CONTENT --- */}
+      <div className="container mx-auto px-4 sm:px-6 relative z-20 flex flex-col items-center text-center">
         
-        {/* Title */}
-        <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight relative">
-          Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600">Gallery</span>
-          {/* Decorative Underline */}
-          <svg className="absolute w-32 h-3 -bottom-2 left-1/2 -translate-x-1/2 text-teal-400 opacity-50" viewBox="0 0 100 10" preserveAspectRatio="none">
-             <path d="M0 5 Q 25 10 50 5 T 100 5" stroke="currentColor" strokeWidth="4" fill="none" />
-          </svg>
-        </h1>
+        {/* Top Mini Badge */}
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 text-white text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] mb-4 sm:mb-6 shadow-xl"
+        >
+          <Camera size={12} className="text-[#f59e0b]" />
+          Visual Journey
+        </motion.div>
+
+        {/* Title: Fluid font size from mobile to desktop */}
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-5xl sm:text-7xl lg:text-9xl font-[1000] text-slate-900 mb-4 sm:mb-6 tracking-tighter leading-[0.85] uppercase"
+        >
+          OUR <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] to-[#f59e0b]">
+            GALLERY
+          </span>
+        </motion.h1>
         
-        {/* Description / Subtext */}
-        <p className="text-lg md:text-xl text-slate-600 max-w-2xl mb-8 leading-relaxed font-medium">
+        {/* Compact Description: Responsive width and size */}
+        <motion.p 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-xs sm:text-base md:text-lg text-slate-600 max-w-[280px] sm:max-w-md md:max-w-xl mb-8 sm:mb-10 font-medium leading-relaxed"
+        >
           Capturing the moments of discovery, critical thinking, and joy in our classrooms.
-        </p>
+        </motion.p>
 
-        {/* Breadcrumb Navigation (Pill Style) */}
-        <nav className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 backdrop-blur-sm border border-slate-200 shadow-sm">
-          <Link href="/" className="text-slate-500 hover:text-teal-600 transition-colors flex items-center gap-1.5 text-sm font-semibold">
-            <Home className="w-4 h-4" />
-            <span>Home</span>
+        {/* Breadcrumb Navigation: Touch-friendly padding for mobile */}
+        <motion.nav 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="inline-flex items-center gap-2 px-4 py-2.5 sm:py-3 rounded-2xl bg-white/80 backdrop-blur-md shadow-2xl shadow-slate-200/50 border border-slate-100"
+        >
+          <Link href="/" className="text-slate-400 hover:text-[#1a5f5f] transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
+            <Home size={14} />
+            <span className="hidden xs:inline">Home</span>
           </Link>
           
-          <ChevronRight className="w-4 h-4 text-slate-300" strokeWidth={2.5} />
+          <ChevronRight className="w-3 h-3 text-slate-300" strokeWidth={3} />
           
-          <span className="text-slate-900 font-bold text-sm">
+          <span className="text-slate-900 font-black text-[10px] uppercase tracking-widest">
             Gallery
           </span>
-        </nav>
+        </motion.nav>
 
       </div>
 
-      {/* --- CSS Animation --- */}
-      <style jsx>{`
-        @keyframes bounce-slow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-15px); }
-        }
-        .animate-bounce-slow {
-          animation: bounce-slow 4s ease-in-out infinite;
-        }
-      `}</style>
+      {/* Floating Sparkles: Multiple icons with varying positions for visual depth */}
+      <motion.div 
+        animate={{ y: [0, -15, 0], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-12 left-[10%] text-[#f59e0b] hidden sm:block pointer-events-none"
+      >
+        <Sparkles size={28} />
+      </motion.div>
 
+      <motion.div 
+        animate={{ y: [0, 15, 0], opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute top-20 right-[10%] text-[#1a5f5f] hidden lg:block pointer-events-none"
+      >
+        <Sparkles size={20} />
+      </motion.div>
     </div>
   );
 };

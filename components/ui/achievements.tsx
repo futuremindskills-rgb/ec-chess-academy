@@ -1,167 +1,168 @@
 "use client";
 
 import React from 'react';
-import { Trophy, Award, Medal, Star, Target, Crown, CheckCircle2, TrendingUp, Atom } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { 
+  Trophy, 
+  Star, 
+  Crown, 
+  CheckCircle2, 
+  TrendingUp, 
+  Zap,
+  ShieldCheck,
+  Medal,
+  Users
+} from 'lucide-react';
 
 export default function AchievementsSection() {
-  // --- Data based on Physics Made Easy context ---
   const stats = [
-    { label: "O-Level A/B Grade", value: "95%", icon: <Target /> },
-    { label: "IB HL Physics Gr. 7", value: "95%", icon: <Trophy /> },
-    { label: "Years Experience", value: "20+", icon: <Award /> },
-    { label: "FIDE Rated Coach", value: "Yes", icon: <Crown /> },
+    { label: "FIDE Rating Gained", value: "3000+", icon: <TrendingUp /> },
+    { label: "Tournament Wins", value: "50+", icon: <Trophy /> },
+    { label: "Active Students", value: "500+", icon: <Users /> },
+    { label: "Elite Coaches", value: "12", icon: <Crown /> },
   ];
 
   const milestones = [
     {
       year: '2024',
-      title: 'Academic Excellence',
-      subtitle: 'GCE O-Levels & IB',
-      description: 'Maintained our streak of 95% A/B grades in O-Levels and 95% Grade 7 in IB HL Physics.',
-      icon: <Star className="w-6 h-6 text-white" />,
-      bg: "bg-slate-900",
-      accent: "border-teal-500"
+      title: 'Digital Mastery',
+      subtitle: 'AI Analysis',
+      description: 'Integrated advanced engine analysis into our curriculum for pro-level training.',
+      icon: <Zap className="w-5 h-5 md:w-6 md:h-6 text-white" />,
+      bg: "bg-indigo-600",
     },
     {
-      year: '2023',
-      title: 'FIDE Certification',
-      subtitle: 'Strategic Pedagogy',
-      description: 'Officially recognized as a FIDE Developmental Instructor, integrating chess strategy into physics tuition.',
-      icon: <Crown className="w-6 h-6 text-slate-900" />,
-      bg: "bg-teal-400",
-      accent: "border-slate-900"
+      year: '2020',
+      title: 'HK Championship',
+      subtitle: 'Podium Success',
+      description: 'Our students achieved multiple Top 3 finishes in the HK Junior Open championships.',
+      icon: <Star className="w-5 h-5 md:w-6 md:h-6 text-white" />,
+      bg: "bg-orange-500",
     },
     {
       year: '2015',
-      title: 'Curriculum Innovation',
-      subtitle: 'Multiple Intelligences',
-      description: 'Pioneered the "MI Theory" approach in tuition, customizing lessons for Visual and Logical learners.',
-      icon: <Atom className="w-6 h-6 text-white" />,
-      bg: "bg-indigo-600",
-      accent: "border-indigo-400"
+      title: 'FIDE Hub',
+      subtitle: 'Global Standards',
+      description: 'Officially recognized as a FIDE Training Hub with international certified instructors.',
+      icon: <ShieldCheck className="w-5 h-5 md:w-6 md:h-6 text-white" />,
+      bg: "bg-purple-600",
     },
     {
-      year: '2005',
-      title: 'Foundation',
-      subtitle: 'The Beginning',
-      description: 'Established by Mr. Chew (PSC Scholar) with a mission to bridge the gap between rote learning and understanding.',
-      icon: <Medal className="w-6 h-6 text-slate-900" />,
-      bg: "bg-white",
-      accent: "border-slate-200"
+      year: '2010',
+      title: 'The Foundation',
+      subtitle: 'HK Origins',
+      description: 'Established EC Chess in Hong Kong with a mission to develop strategic young minds.',
+      icon: <Medal className="w-5 h-5 md:w-6 md:h-6 text-slate-900" />,
+      bg: "bg-slate-100",
     },
-  ];
-
-  const certifications = [
-    "Ex-MOE & NIE-Trained Teacher",
-    "PSC Teaching Scholar (Physics)",
-    "FIDE International Chess Instructor",
   ];
 
   return (
-    <section className="relative py-20 bg-white font-sans overflow-hidden">
-      
-      {/* Background Texture (Scientific Grid) */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-           style={{ backgroundImage: 'linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(to right, #0f172a 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
-      </div>
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-50 rounded-full blur-3xl opacity-50 z-0"></div>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+    <section className="relative py-16 md:py-24 lg:py-32 bg-white font-sans overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
         
         {/* --- PART 1: HEADER & STATS BAR --- */}
-        <div className="flex flex-col lg:flex-row gap-12 mb-20 items-end">
-          <div className="lg:w-1/2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full bg-teal-50 text-teal-800 text-xs font-bold uppercase tracking-wider border border-teal-100">
-              <TrendingUp className="w-3.5 h-3.5" />
-              <span>Proven Track Record</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight">
-              A Legacy of <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600">
-                Academic Mastery.
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 mb-20 md:mb-32 items-center">
+          <div className="w-full lg:w-1/2 text-center lg:text-left space-y-6">
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] shadow-xl"
+            >
+              <Star size={12} className="text-orange-400 fill-orange-400" />
+              <span>Proven Excellence</span>
+            </motion.div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 leading-[1.1] md:leading-[0.9] tracking-tighter uppercase">
+              Where Strategy <br className="hidden sm:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-600 italic">
+                Becomes Success.
               </span>
             </h2>
-            <p className="mt-4 text-slate-600 text-lg leading-relaxed border-l-4 border-teal-500 pl-4">
-              We don't just teach physics; we consistently produce top-tier results through our unique blend of scientific rigor and strategic thinking.
+            <p className="text-slate-500 text-base md:text-xl font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
+              We don&apos;t just teach moves; we produce champions. Our record reflects a commitment to elite training and long-term cognitive growth.
             </p>
           </div>
 
-          {/* Floating Stats Card */}
-          <div className="lg:w-1/2 w-full">
-            <div className="grid grid-cols-2 gap-4">
-              {stats.map((stat, idx) => (
-                <div key={idx} className="bg-white border border-slate-100 p-6 rounded-2xl shadow-xl shadow-slate-200/50 hover:-translate-y-1 transition-transform group">
-                  <div className="flex items-center gap-3 mb-2 text-teal-500 group-hover:text-indigo-600 transition-colors">
-                    {React.cloneElement(stat.icon as React.ReactElement, { size: 24, strokeWidth: 2 })}
-                  </div>
-                  <div className="text-3xl font-black text-slate-900">{stat.value}</div>
-                  <div className="text-sm font-semibold text-slate-500">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+          {/* 3D-Shadow Stats Grid */}
+          <div className="w-full lg:w-1/2 grid grid-cols-2 gap-4 md:gap-6">
+            {stats.map((stat, idx) => (
+              <div key={idx} className="group relative">
+                 <div className="absolute inset-0 bg-slate-900 rounded-[24px] md:rounded-[30px] translate-x-1 translate-y-1 md:translate-x-2 md:translate-y-2 transition-transform group-hover:translate-x-1.5 group-hover:translate-y-1.5" />
+                 <div className="relative h-full bg-white border-2 border-slate-900 p-4 md:p-8 rounded-[24px] md:rounded-[30px] flex flex-col items-center text-center transition-all group-hover:-translate-y-1">
+                    <div className="w-10 h-10 md:w-14 md:h-14 bg-slate-50 rounded-xl md:rounded-2xl flex items-center justify-center text-indigo-600 mb-3 md:mb-4 shadow-inner shrink-0">
+                      {React.cloneElement(stat.icon as React.ReactElement, { className: "w-5 h-5 md:w-7 md:h-7", strokeWidth: 2.5 })}
+                    </div>
+                    <div className="text-2xl md:text-4xl font-[1000] text-slate-900 leading-none mb-1">{stat.value}</div>
+                    <div className="text-[8px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</div>
+                 </div>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* --- PART 2: MILESTONE CARDS --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-20 md:mb-32">
           {milestones.map((item, index) => (
-            <div 
+            <motion.div 
               key={index} 
-              className={`
-                group relative p-1 rounded-2xl transition-all duration-300 hover:scale-105
-                bg-gradient-to-b from-slate-100 to-white hover:from-teal-400 hover:to-indigo-500
-              `}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -10 }}
+              className="relative group"
             >
-              <div className="h-full bg-white rounded-xl p-6 relative overflow-hidden border border-slate-100">
+              <div className="absolute inset-0 bg-slate-100 rounded-[32px] md:rounded-[40px] translate-x-1.5 translate-y-1.5" />
+              
+              <div className="h-full bg-white rounded-[32px] md:rounded-[40px] p-6 md:p-8 relative overflow-hidden border-2 border-slate-100 group-hover:border-indigo-200 transition-all shadow-sm">
                 
-                {/* Year Tag */}
-                <div className="absolute top-0 right-0 px-4 py-2 bg-slate-900 rounded-bl-xl text-white font-bold text-sm z-10">
+                {/* Year Badge */}
+                <div className="absolute top-5 right-5 px-2.5 py-1 bg-slate-900 rounded-lg text-white font-black text-[9px] md:text-[10px] tracking-widest z-10">
                   {item.year}
                 </div>
 
-                {/* Icon Circle */}
-                <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-6 shadow-lg ${item.bg}`}>
+                {/* Icon Module */}
+                <div className={`w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center mb-6 md:mb-8 shadow-lg ${item.bg} group-hover:rotate-12 transition-transform`}>
                   {item.icon}
                 </div>
 
-                {/* Content */}
-                <h3 className="text-lg font-bold text-slate-900 mb-1 group-hover:text-teal-700 transition-colors">
+                <h3 className="text-lg md:text-xl font-[1000] text-slate-900 mb-1 uppercase tracking-tight">
                   {item.title}
                 </h3>
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-4">
+                <p className="text-[9px] md:text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-3 md:mb-4">
                   {item.subtitle}
                 </p>
-                <p className="text-slate-600 text-sm leading-relaxed">
+                <p className="text-slate-500 text-xs md:text-sm font-medium leading-relaxed">
                   {item.description}
                 </p>
-
-                {/* Decorative Bottom Bar */}
-                <div className={`absolute bottom-0 left-0 w-full h-1 ${index % 2 === 0 ? 'bg-teal-500' : 'bg-indigo-500'}`}></div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* --- PART 3: CERTIFICATIONS STRIP --- */}
-        <div className="bg-slate-900 rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden">
-          {/* Decorative Pattern */}
-          <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-            <Atom size={200} textAnchor="middle" fill="currentColor" className="text-teal-500" />
+        <div className="bg-[#0f172a] rounded-[32px] md:rounded-[50px] p-8 md:p-16 relative overflow-hidden shadow-2xl">
+          {/* Decorative Crown */}
+          <div className="absolute -bottom-10 -right-10 opacity-10 pointer-events-none rotate-12 hidden md:block">
+            <Crown size={240} className="text-white" />
           </div>
 
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="text-center md:text-left">
-              <h3 className="text-2xl font-bold text-white mb-2">Our Credentials</h3>
-              <p className="text-slate-400 text-sm"> Recognized by Singapore's leading educational bodies.</p>
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+            <div className="text-center lg:text-left">
+              <h3 className="text-2xl md:text-4xl font-[1000] text-white uppercase tracking-tighter mb-2 leading-none">Academy Credentials</h3>
+              <p className="text-slate-400 font-bold uppercase text-[8px] md:text-[10px] tracking-[0.3em]">Recognized by HK & International Strategic bodies</p>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-              {certifications.map((cert, i) => (
-                <div key={i} className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-5 py-3 rounded-full border border-white/10 hover:bg-white/20 transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center shrink-0">
-                    <CheckCircle2 className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-sm font-semibold text-white">{cert}</span>
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 w-full lg:w-auto">
+              {[
+                "FIDE Certified Academy",
+                "HK Representative Training Hub",
+                "Grandmaster Level Pedagogy",
+              ].map((cert, i) => (
+                <div key={i} className="flex items-center gap-3 bg-white/5 backdrop-blur-xl px-5 py-4 rounded-2xl md:rounded-3xl border border-white/10 hover:bg-white/10 transition-colors">
+                  <CheckCircle2 className="w-5 h-5 text-orange-500 shrink-0" />
+                  <span className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">{cert}</span>
                 </div>
               ))}
             </div>

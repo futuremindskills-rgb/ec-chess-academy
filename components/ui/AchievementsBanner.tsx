@@ -1,97 +1,125 @@
+"use client";
+
 import React from 'react';
-import { PlanetIcon, PaperPlaneIcon, StarIcon, NotebookIcon, RocketIcon } from './BannerIcon';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Home, ChevronRight, Award, Sparkles, Medal } from 'lucide-react';
 
 const AchievementsBanner: React.FC = () => {
+  // Array of images for the Netflix-style background grid
+  const bgThumbnails = [
+    "/1.webp", "/2.webp", "/3.webp", "/1.webp",
+    "/2.webp", "/3.webp", "/1.webp", "/2.webp",
+  ];
+
   return (
-    <div className="relative w-full bg-[#F3F0FF] overflow-hidden pt-20 pb-0">
+    <div className="relative w-full bg-white overflow-hidden pt-28 pb-16 lg:pt-36 lg:pb-20 font-sans border-b border-slate-50">
       
-      {/* --- Background Decorative Elements --- */}
-      
-      {/* Small blue dot on the far left */}
-      <div className="absolute top-20 left-4 w-3 h-3 bg-blue-600 rounded-full opacity-80"></div>
-
-      {/* Planet Icon (Top Left) */}
-      <div className="absolute top-12 left-10 md:left-24 opacity-40 transform -rotate-12 pointer-events-none">
-        <PlanetIcon className="w-16 h-16 md:w-24 md:h-24 text-purple-400" />
-      </div>
-
-      {/* Paper Plane (Top Middle/Right) */}
-      <div className="absolute top-16 right-1/3 opacity-40 pointer-events-none hidden md:block">
-        <PaperPlaneIcon className="w-16 h-16 md:w-20 md:h-20 text-purple-400" />
-      </div>
-
-      {/* Star (Top Right) */}
-      <div className="absolute top-10 right-10 md:right-32 opacity-50 transform rotate-12 pointer-events-none">
-        <StarIcon className="w-12 h-12 md:w-16 md:h-16 text-purple-400" />
-      </div>
-
-      {/* Notebook (Bottom Right - floating above wave) */}
-      <div className="absolute bottom-16 right-20 md:right-48 opacity-40 transform -rotate-12 pointer-events-none hidden sm:block">
-        <NotebookIcon className="w-14 h-14 md:w-16 md:h-16 text-purple-400" />
-      </div>
-
-      {/* --- Main Content --- */}
-      <div className="container mx-auto px-6 md:px-12 relative z-10 pb-32 pt-8">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-[#1a1a4b] mb-4">
-          Achievements
-        </h1>
-        
-        <nav className="flex items-center text-base md:text-lg font-medium">
-          <a href="#" className="text-gray-600 hover:text-gray-800 transition-colors">
-            Home
-          </a>
-          <span className="mx-3 text-gray-400 text-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </span>
-          <span className="text-blue-600">
-           Achievements
-          </span>
-        </nav>
-      </div>
-
-      {/* --- Wave Separator --- */}
-      <div className="absolute bottom-0 left-0 w-full leading-none">
-        <svg
-          className="relative block w-full h-[60px] md:h-[80px]"
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
+      {/* --- 1. NETFLIX-STYLE IMAGE GRID BACKGROUND --- */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.35 }} 
+          className="absolute -inset-[5%] grid grid-cols-2 md:grid-cols-4 gap-3 transform rotate-2 scale-105"
         >
-          <path
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            className="fill-[#F3F0FF] hidden" 
-          ></path>
-           {/* 
-             The image shows a specific repeating sine wave pattern. 
-             Let's use a path that closely mimics the "scalloped" look.
-           */}
-           <path 
-             d="M0,60 C150,120 300,0 450,60 C600,120 750,0 900,60 C1050,120 1200,0 1350,60 V120 H0 V60Z" 
-             fill="#ffffff"
-             transform="scale(1, 0.8) translate(0, 30)"
-           ></path>
-           {/* Let's try a cleaner more symmetrical wave path */}
-           <path 
-             d="M0,120 C200,100 300,40 400,60 C550,90 650,110 800,80 C950,50 1050,20 1200,60 V120 H0 Z" 
-             fill="#ffffff"
-             className="hidden"
-           ></path>
-             <path 
-             d="M0,40 Q100,90 200,40 T400,40 T600,40 T800,40 T1000,40 T1200,40 V120 H0 Z" 
-             fill="#ffffff"
-             transform="scale(1.5, 1)"
-           ></path>
-        </svg>
+          {bgThumbnails.map((src, i) => (
+            <div 
+              key={i} 
+              className="aspect-video bg-slate-100 rounded-xl overflow-hidden border border-slate-100 shadow-sm"
+            >
+              <img 
+                src={src} 
+                alt="Winning Moments" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+          ))}
+        </motion.div>
+
+        {/* --- 2. THE OVERLAY --- */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/10 to-white z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10" />
       </div>
 
-       {/* --- Rocket (Bottom Left - Overlapping the wave/white area) --- */}
-       <div className="absolute bottom-4 left-10 md:left-24 z-20">
-          <RocketIcon className="w-8 h-8 md:w-10 md:h-10 text-green-500 transform -rotate-45" />
+      {/* --- 3. MAIN CONTENT --- */}
+      <div className="container mx-auto px-6 relative z-20 flex flex-col items-center text-center">
+        
+        {/* Top Mini Badge */}
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest mb-4 shadow-lg"
+        >
+          <Award size={10} className="text-[#f59e0b]" />
+          Hall of Fame
+        </motion.div>
+
+        {/* Title */}
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-4xl md:text-7xl font-[1000] text-slate-900 mb-4 tracking-tighter leading-[0.95] uppercase"
+        >
+          OUR <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] to-[#f59e0b]">
+            ACHIEVEMENTS
+          </span>
+        </motion.h1>
+        
+        {/* Compact Description */}
+        <motion.p 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-sm md:text-lg text-slate-600 max-w-xl mb-8 font-medium leading-snug"
+        >
+          Celebrating the dedication and success of our students across local, national, and international chess championships.
+        </motion.p>
+
+        {/* Breadcrumb Navigation */}
+        <motion.nav 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white shadow-xl border border-slate-100"
+        >
+          <Link href="/" className="text-slate-400 hover:text-[#1a5f5f] transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
+            <Home size={12} />
+            <span>Home</span>
+          </Link>
+          
+          <ChevronRight className="w-3 h-3 text-slate-200" strokeWidth={3} />
+          
+          <span className="text-slate-900 font-black text-[10px] uppercase tracking-widest">
+            Achievements
+          </span>
+        </motion.nav>
+
       </div>
 
+      {/* Subtle Floating Medal Icon */}
+      <motion.div 
+        animate={{ 
+          rotate: [0, 10, -10, 0],
+          opacity: [0.1, 0.3, 0.1]
+        }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-12 right-[12%] text-[#f59e0b] hidden md:block"
+      >
+        <Medal size={32} />
+      </motion.div>
+
+      {/* Subtle Floating Sparkle */}
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.3, 1],
+          opacity: [0.2, 0.6, 0.2]
+        }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-24 left-[12%] text-[#1a5f5f] hidden md:block"
+      >
+        <Sparkles size={24} />
+      </motion.div>
     </div>
   );
 };

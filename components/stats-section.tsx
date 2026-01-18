@@ -1,203 +1,203 @@
 "use client";
-
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Plus, 
-  Minus, 
+  ChevronDown, 
   HelpCircle, 
+  Sparkles, 
+  Users, 
+  Award, 
+  Globe, 
+  LineChart,
   MessageCircle,
-  Phone,
-  ChevronDown
+  Phone
 } from "lucide-react";
 
-// --- FAQ Data (Specific to Physics Made Easy) ---
 const faqData = [
   {
-    id: 1,
-    question: "What makes 'Physics Made Easy' different from other tuition centers?",
-    answer:
-      "We use the Multiple Intelligences (MI) theory to teach. Led by Mr. Chew (Ex-MOE Scholar & FIDE Instructor), we combine academic rigor with Chess strategy. This helps students not just memorize formulas, but develop the critical thinking skills needed to solve complex exam problems.",
+    question: "What is the best age to start learning?",
+    answer: "We recommend starting as early as 3-4 years old. At this stage, we focus on 'Cognitive Play' to build spatial awareness and basic logic through fun chess-themed games.",
+    icon: <Users className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "bg-[#FFD8B1]", 
+    iconBg: "bg-[#FF7A00]"
   },
   {
-    id: 2,
-    question: "Which levels and boards do you cover?",
-    answer:
-      "We specialize in Physics for GCE O-Levels, A-Levels (H1/H2), IB (HL/SL), IP, and IGCSE. We also offer lower secondary science coaching to build a strong foundation early on.",
+    question: "Do you provide FIDE certified coaching?",
+    answer: "Yes, our lead coaches are FIDE-certified and have over 15 years of international coaching experience. We follow the official HK and Global standards.",
+    icon: <Award className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "bg-[#E9D5FF]", 
+    iconBg: "bg-[#8A2BE2]"
   },
   {
-    id: 3,
-    question: "Where are classes held? Do you offer online lessons?",
-    answer:
-      "Physical classes are held at our center in Toa Payoh Central (Lobby H). Yes, we also offer high-quality online lessons for students who prefer learning from home or are based overseas.",
+    question: "Do you offer online or hybrid classes?",
+    answer: "Absolutely. We use advanced chess software and interactive platforms to ensure students across Hong Kong can learn from home without losing tactical quality.",
+    icon: <Globe className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "bg-[#B2F5F5]", 
+    iconBg: "bg-[#00B5AD]"
   },
   {
-    id: 4,
-    question: "How does Chess help with Physics?",
-    answer:
-      "Chess teaches pattern recognition, foresight, and disciplined calculation—skills directly transferable to Physics problem-solving. It trains the brain to think continuously and logically, which is crucial for tackling high-level exam questions.",
-  },
-  {
-    id: 5,
-    question: "What is your track record for student results?",
-    answer:
-      "We have a proven history of excellence: 95% of our O-Level students have scored A/B grades, and 95% of our IB HL Physics students achieved Grade 7. We focus on turning improvements into consistency.",
-  },
-  {
-    id: 6,
-    question: "Do you offer trial classes?",
-    answer:
-      "Yes! We believe in the right fit. You can book a paid trial lesson to experience our teaching style firsthand before committing to a term package. Contact us via WhatsApp to schedule.",
-  },
+    question: "How do you track student progress?",
+    answer: "Every student receives a digital 'Grandmaster Progress Report' every term, detailing their rating growth, tactical accuracy, and strategic focus areas.",
+    icon: <LineChart className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "bg-[#C7D2FE]", 
+    iconBg: "bg-[#4F46E5]"
+  }
 ];
 
-export default function FaqSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  const toggleAccordion = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+const FAQSection: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   return (
-    <section className="relative bg-white py-20 lg:py-28 font-sans overflow-hidden" id="faq">
+    <section className="py-12 md:py-20 lg:py-24 bg-white relative overflow-hidden font-sans">
       
-      {/* --- Background Decor --- */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none" 
-           style={{ backgroundImage: 'linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(to right, #0f172a 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
-      </div>
-      
-      <div className="absolute top-1/4 left-0 w-96 h-96 bg-teal-100/40 rounded-full blur-[100px] pointer-events-none"></div>
-      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-indigo-100/40 rounded-full blur-[100px] pointer-events-none"></div>
-
-      <div className="container mx-auto px-4 max-w-4xl relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
-        {/* --- Header --- */}
-        <div className="text-center mb-16">
+        {/* --- HEADER --- */}
+        <div className="text-center mb-12 md:mb-16 lg:mb-24">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 mb-6 shadow-sm border border-teal-100"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] mb-4"
           >
-            <HelpCircle size={24} />
+            <HelpCircle size={14} className="text-orange-400" />
+            Support Center
           </motion.div>
-          <motion.h2 
-            initial={{ opacity: 0, y: 10 }}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 tracking-tighter uppercase leading-[1.1] md:leading-none">
+            Strategic <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-600">Q&A</span>
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          
+          {/* LEFT: ANIMATION PANEL */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-5 lg:sticky lg:top-32 order-2 lg:order-1"
+          >
+            <div className="relative group max-w-md mx-auto lg:max-w-none">
+              <div className="absolute inset-0 bg-slate-900 rounded-[32px] md:rounded-[40px] translate-x-1 translate-y-1 md:translate-x-2 md:translate-y-2 -z-10" />
+              
+              <div className="relative aspect-square bg-white rounded-[32px] md:rounded-[40px] border-2 border-slate-900 flex items-center justify-center p-6 md:p-12 shadow-xl">
+                <motion.div
+                  animate={{ y: [0, -15, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  className="w-full h-full"
+                >
+                  <video
+                    src="/faq.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-contain"
+                  />
+                </motion.div>
+
+                {/* Floating Label */}
+                <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8">
+                  <div className="p-3 md:p-4 bg-white/80 backdrop-blur-md border border-slate-100 rounded-xl md:rounded-2xl shadow-lg flex items-center gap-3">
+                    <Sparkles size={16} className="text-orange-500 shrink-0" />
+                    <p className="text-slate-900 font-black text-[9px] md:text-[10px] uppercase tracking-widest leading-tight">
+                      EC Mastery Process
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* RIGHT: ACCORDIONS */}
+          <div className="lg:col-span-7 space-y-4 order-1 lg:order-2">
+            {faqData.map((faq, idx) => (
+              <motion.div
+                key={idx}
+                className={`group rounded-[24px] md:rounded-[32px] border-2 transition-all duration-300 ${faq.color} ${
+                    activeIndex === idx ? "border-slate-900 shadow-[4px_4px_0px_#0f172a] md:shadow-[8px_8px_0px_#0f172a]" : "border-transparent"
+                }`}
+              >
+                <button
+                  onClick={() => setActiveIndex(activeIndex === idx ? null : idx)}
+                  className="w-full p-5 md:p-7 flex items-center justify-between text-left gap-4"
+                >
+                  <div className="flex items-center gap-4 md:gap-5">
+                    <div className={`w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-xl md:rounded-2xl flex items-center justify-center text-white shadow-lg transition-transform ${
+                        activeIndex === idx ? "scale-110" : ""
+                    } ${faq.iconBg}`}>
+                      {faq.icon}
+                    </div>
+                    <h4 className="text-base md:text-lg lg:text-xl font-black tracking-tight text-slate-900 leading-tight">
+                      {faq.question}
+                    </h4>
+                  </div>
+                  <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center transition-all ${
+                    activeIndex === idx ? "bg-slate-900 text-white rotate-180" : "bg-white/50 text-slate-600"
+                  }`}>
+                    <ChevronDown size={18} />
+                  </div>
+                </button>
+
+                <AnimatePresence>
+                  {activeIndex === idx && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                    >
+                      <div className="px-5 pb-5 md:px-10 lg:px-24 md:pb-8">
+                        <div className="p-5 md:p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
+                            <p className="text-slate-700 text-sm md:text-base font-bold leading-relaxed">
+                            {faq.answer}
+                            </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* --- BOTTOM CONTACT PILL --- */}
+        <motion.div 
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight"
-          >
-            Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600">Questions</span>
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-slate-600 text-lg max-w-xl mx-auto"
-          >
-            Everything you need to know about our methodology, logistics, and results.
-          </motion.p>
-        </div>
-
-        {/* --- FAQ Accordion --- */}
-        <div className="space-y-4">
-          {faqData.map((item, index) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className={`
-                group rounded-2xl border transition-all duration-300 overflow-hidden bg-white
-                ${openIndex === index 
-                  ? 'border-teal-500/30 shadow-lg shadow-teal-900/5 ring-1 ring-teal-500/20' 
-                  : 'border-slate-200 hover:border-teal-300'
-                }
-              `}
-            >
-              <button
-                onClick={() => toggleAccordion(index)}
-                className="w-full flex items-center justify-between p-6 text-left focus:outline-none"
-              >
-                <div className="flex items-center gap-4">
-                   <span className={`text-sm font-bold w-6 h-6 rounded flex items-center justify-center transition-colors ${openIndex === index ? 'bg-teal-100 text-teal-700' : 'bg-slate-100 text-slate-500'}`}>
-                      {index + 1}
-                   </span>
-                   <span className={`font-bold text-lg md:text-xl pr-4 transition-colors ${openIndex === index ? 'text-teal-900' : 'text-slate-700 group-hover:text-slate-900'}`}>
-                    {item.question}
-                  </span>
-                </div>
-                
-                {/* Icon Toggle */}
-                <div className={`
-                  flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300
-                  ${openIndex === index ? 'bg-teal-600 text-white rotate-180' : 'bg-slate-50 text-slate-400 group-hover:bg-teal-50 group-hover:text-teal-600'}
-                `}>
-                  <ChevronDown size={18} />
-                </div>
-              </button>
-              
-              {/* Answer Content */}
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    <div className="px-6 pb-6 pl-[4.5rem] pr-8">
-                      <p className="text-slate-600 leading-relaxed">
-                        {item.answer}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* --- Bottom Contact Box --- */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-16 bg-slate-900 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden"
+            className="mt-16 md:mt-20 max-w-3xl mx-auto p-6 md:p-8 bg-slate-900 rounded-[32px] md:rounded-[40px] relative overflow-hidden shadow-2xl"
         >
-          {/* Decor */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 rounded-full blur-[80px] pointer-events-none"></div>
-          
-          <div className="relative z-10">
-            <h3 className="text-2xl font-bold text-white mb-3">
-                Still have questions?
-            </h3>
-            <p className="text-slate-400 mb-8 max-w-lg mx-auto">
-                Mr. Chew is available to answer your specific queries regarding your child's learning needs.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <a 
-                    href="https://wa.me/6597277419" 
-                    target="_blank"
-                    className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl font-bold hover:bg-teal-500 transition-all shadow-lg hover:shadow-teal-500/20"
-                >
-                    <MessageCircle size={18} />
-                    WhatsApp Us
-                </a>
-                <a 
-                    href="tel:+6597277419" 
-                    className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-800 text-white border border-slate-700 rounded-xl font-bold hover:bg-slate-700 transition-all"
-                >
-                    <Phone size={18} />
-                    +65 9727 7419
-                </a>
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 text-center md:text-left">
+                
+                <div className="flex flex-col md:flex-row items-center gap-4 md:gap-5">
+                    <div className="shrink-0 w-12 h-12 md:w-14 md:h-14 bg-orange-500 rounded-2xl flex items-center justify-center shadow-lg md:rotate-3">
+                        <MessageCircle className="text-white w-6 h-6 md:w-7 md:h-7" />
+                    </div>
+                    <div>
+                        <h3 className="text-lg md:text-2xl font-black text-white tracking-tight uppercase leading-none">
+                            Still have <span className="text-orange-400">Questions?</span>
+                        </h3>
+                        <p className="text-slate-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mt-2">
+                            Support team is here 24/7
+                        </p>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-3 w-full md:w-auto">
+                    <button className="flex-1 md:flex-none px-6 md:px-8 py-3.5 md:py-4 bg-orange-500 text-white font-black text-[9px] md:text-[10px] uppercase tracking-widest rounded-xl hover:bg-white hover:text-slate-900 transition-all shadow-lg active:scale-95">
+                        WhatsApp Us
+                    </button>
+                    <button className="p-3.5 md:p-4 bg-white/10 text-white rounded-xl hover:bg-white hover:text-slate-900 transition-all border border-white/10">
+                        <Phone size={18} />
+                    </button>
+                </div>
             </div>
-          </div>
         </motion.div>
 
       </div>
     </section>
   );
-}
+};
+
+export default FAQSection;

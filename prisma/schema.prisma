@@ -7,26 +7,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Course {
-  id          Int      @id @default(autoincrement())
-  title       String
-  category    String   // 'Physics', 'Chess', 'Skills'
-  level       String
-  price       String
-  image       String   // Cloudinary URL
-  description String
-  features    String[]
-  slug        String   @unique
-  popular     Boolean  @default(false)
-  createdAt   DateTime @default(now())
+// --- TOURNAMENTS ---
+
+enum TournamentStatus {
+  OPEN
+  ONGOING
+  COMPLETED
+  CANCELLED
 }
+
+model Tournament {
+  id           Int              @id @default(autoincrement())
+  title        String
+  description  String
+  entryFee     Int              // stored in smallest currency unit (e.g. paise)
+  maxPlayers   Int
+  startDate    DateTime
+  endDate      DateTime
+  location     String
+  bannerImage  String?
+  status       TournamentStatus @default(OPEN)
+  createdAt    DateTime         @default(now())
+}
+
+// --- BLOGS ---
 
 model BlogPost {
   id        Int      @id @default(autoincrement())
   title     String
   excerpt   String
-  content   String   // Markdown or HTML
-  category  String   // 'Physics', 'Chess', 'Study Tips'
+  content   String   
+  category  String   
   readTime  String
   image     String
   slug      String   @unique
@@ -34,15 +45,18 @@ model BlogPost {
   date      DateTime @default(now())
 }
 
+// --- GALLERY ---
+
 model GalleryImage {
   id          Int      @id @default(autoincrement())
   title       String
   description String?
-  category    String   // 'Physics', 'Chess', 'Awards'
-  src         String   // Cloudinary URL
+  category    String   
+  src         String   
   createdAt   DateTime @default(now())
 }
 
+// --- ENQUIRIES ---
 
 model Enquiry {
   id          Int      @id @default(autoincrement())
@@ -50,18 +64,9 @@ model Enquiry {
   studentName String?
   email       String
   phone       String
-  subject     String   // e.g. 'O-Level Physics'
+  subject     String   
   message     String
-  status      String   @default("New") // 'New', 'Contacted', 'Closed'
-  notes       String?  // Admin internal notes
+  status      String   @default("New") 
+  notes       String?  
   createdAt   DateTime @default(now())
-}
-
-model StudyMaterial {
-  id        Int      @id @default(autoincrement())
-  title     String
-  type      String   // 'Video' or 'PDF'
-  category  String   // 'Physics', 'Chess', 'Maths'
-  link      String   // Google Drive View Link or YouTube URL
-  createdAt DateTime @default(now())
 }

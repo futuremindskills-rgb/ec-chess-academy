@@ -4,179 +4,139 @@ import React from "react";
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { 
-  Award, 
+  Trophy, 
   BrainCircuit, 
-  BookOpenCheck, 
-  Microscope, 
-  CheckCircle2,
-  Binary,
-  Compass
+  Target, 
+  Lightbulb, 
+  ShieldCheck,
+  Star,
+  Zap
 } from "lucide-react";
 
-export default function WhyChooseUsSection() {
+export default function TeachingPhilosophy() {
   
-  // Structured Data for SEO: Service Schema
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Academic Enrichment & Strategy Coaching",
-    "provider": {
-      "@type": "EducationalOrganization",
-      "name": "Physics & Strategy Academy",
-      "founder": "Mr. Chew Kok Mun"
-    },
-    "areaServed": "Singapore",
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Education Domains",
-      "itemListElement": [
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Physics Tuition (O/A Level, IB, IP)" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "FIDE Certified Chess Coaching" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Integrated Mathematics & Logic" } }
-      ]
-    }
-  };
-
-  const benefits = [
+  const pillars = [
     {
-      title: "Cross-Domain Pedagogy",
-      description: "Led by Mr. Chew (Ex-MOE Scholar, NIE-Trained). We bridge Physics, Mathematics, and Logic to create versatile learners.",
-      icon: <BookOpenCheck className="w-6 h-6 text-teal-600" />,
-      color: "teal",
-      keywords: "MOE Scholar, NIE Trained, STEM Education"
+      title: "Cognitive Theory",
+      description: "Developing spatial and logical thinking architecture through board play.",
+      icon: <BrainCircuit className="w-5 h-5 text-indigo-900" />,
+      cardBg: "bg-[#FFD700]", // YELLOW
+      textColor: "text-slate-900",
+      descColor: "text-slate-800",
     },
     {
-      title: "Cognitive MI Theory",
-      description: "Beyond rote learning. We apply Multiple Intelligences to develop spatial, logical, and strategic thinking through Chess and Science.",
-      icon: <BrainCircuit className="w-6 h-6 text-indigo-600" />,
-      color: "indigo",
-      keywords: "Multiple Intelligences, Strategic Thinking"
+      title: "Tactical Grit",
+      description: "Teaching students to handle pressure and recover from setbacks with focus.",
+      icon: <Target className="w-5 h-5 text-white" />,
+      cardBg: "bg-[#8A2BE2]", // PURPLE
+      textColor: "text-white",
+      descColor: "text-purple-100",
     },
     {
-      title: "Academic Excellence",
-      description: "Proven 95% Grade A/B track record in O-Levels & 100% Grade 7 in IB HL Physics. We specialize in IP and IGCSE curriculums.",
-      icon: <Award className="w-6 h-6 text-amber-500" />,
-      color: "amber",
-      keywords: "IB Physics Specialist, O-Level Results"
+      title: "Elite Pedagogy",
+      description: "Expert coaching using AI-driven software for deep tactical game analysis.",
+      icon: <Lightbulb className="w-5 h-5 text-white" />,
+      cardBg: "bg-[#4F46E5]", // INDIGO
+      textColor: "text-white",
+      descColor: "text-indigo-100",
     },
     {
-      title: "Strategic Mindset",
-      description: "FIDE-certified coaching that uses Chess to enhance focus, foresight, and problem-solving skills applicable to any career.",
-      icon: <Compass className="w-6 h-6 text-blue-600" />,
-      color: "blue",
-      keywords: "FIDE Chess Coach, Critical Thinking"
+      title: "Strategic Foresight",
+      description: "Fostering the ability to think 10 steps ahead for academic and life success.",
+      icon: <Trophy className="w-5 h-5 text-white" />,
+      cardBg: "bg-[#00CEC9]", // TEAL
+      textColor: "text-white",
+      descColor: "text-teal-50",
     },
   ];
 
-  // Animation Variants
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.2 }
-    }
-  };
-
   const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    hidden: { opacity: 0, scale: 0.9, y: 20 },
     visible: { 
       opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { duration: 0.5, ease: [0.21, 1.02, 0.73, 1] } 
+      scale: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" } 
     }
   };
 
   return (
-    <section className="py-16 md:py-28 relative overflow-hidden bg-white font-sans">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+    <section className="min-h-screen flex items-center py-16 lg:py-24 relative overflow-hidden bg-white font-sans">
       
-      {/* --- Optimized Background Decor --- */}
+      {/* Background Ambient Accents */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-teal-50/40 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4" />
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-indigo-50/40 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/4" />
+        <div className="absolute top-0 right-0 w-full lg:w-1/3 h-1/3 bg-yellow-50 rounded-full blur-[80px] lg:blur-[120px] opacity-60" />
+        <div className="absolute bottom-0 left-0 w-full lg:w-1/3 h-1/3 bg-purple-50 rounded-full blur-[80px] lg:blur-[120px] opacity-60" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 z-10">
+      <div className="relative max-w-7xl mx-auto px-6 z-10 w-full">
         
-        {/* Headline Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="text-center mb-16 md:mb-24"
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] mb-6">
-            <CheckCircle2 size={14} className="text-teal-400" />
-            The Competitive Edge
-          </span>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-6">
-            More Than Just <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600">Grades.</span><br className="hidden md:block"/>
-            We Build <span className="text-indigo-600">Intelligent Minds.</span>
-          </h2>
-          <p className="max-w-3xl mx-auto text-slate-600 text-lg md:text-xl leading-relaxed">
-            From the laws of Physics to the strategies of the Grandmasters, we provide a multidisciplinary approach to education that prepares students for Singapore&apos;s most rigorous exams.
-          </p>
-        </motion.div>
-
-        {/* Content Layout */}
-        <div className="grid lg:grid-cols-3 gap-2 items-center">
-          
-          {/* LEFT COLUMN */}
+        {/* Responsive Header Section */}
+        <div className="text-center mb-12 lg:mb-20">
           <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="space-y-6 order-2 lg:order-1"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest mb-4 shadow-xl"
           >
-             <BenefitCard benefit={benefits[0]} cardVariants={cardVariants} />
-             <BenefitCard benefit={benefits[1]} cardVariants={cardVariants} />
+            <ShieldCheck size={14} className="text-yellow-400" />
+            Strategic Pedagogy
           </motion.div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 tracking-tighter leading-none uppercase">
+            Our Teaching <br className="md:hidden" /> 
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500">Philosophy</span>
+          </h2>
+        </div>
 
-          {/* CENTRAL VISUAL - Replaced with optimized Next Image */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="relative flex justify-center order-1 lg:order-2"
-          >
-            <div className="relative w-64 h-64 md:w-80 md:h-80 xl:w-96 xl:h-96">
-              {/* Animated Rings */}
-              <div className="absolute inset-0 border-2 border-dashed border-teal-200 rounded-full animate-[spin_20s_linear_infinite]" />
-              <div className="absolute inset-8 border border-indigo-100 rounded-full animate-[spin_30s_linear_infinite_reverse]" />
+        {/* Layout: Content grid (Stacked on mobile, 2 cols on tablet, 12 on desktop) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+          
+          {/* Left Cards - Order 2 on Mobile */}
+          <div className="lg:col-span-3 space-y-6 order-2 lg:order-1">
+             <PhilosophyCard pillar={pillars[0]} cardVariants={cardVariants} />
+             <PhilosophyCard pillar={pillars[1]} cardVariants={cardVariants} />
+          </div>
+
+          {/* Center Visual - Order 1 on Mobile */}
+          <div className="lg:col-span-6 flex justify-center relative order-1 lg:order-2 py-10 lg:py-0">
+            <div className="relative w-56 h-56 sm:w-72 sm:h-72 lg:w-80 lg:h-80 xl:w-[400px] xl:h-[400px]">
+              {/* Spinning Decorative Rings */}
+              <div className="absolute inset-0 border-2 border-dashed border-yellow-200 rounded-full animate-[spin_20s_linear_infinite] opacity-60" />
+              <div className="absolute inset-4 sm:inset-6 border border-purple-200 rounded-full animate-[spin_30s_linear_infinite_reverse] opacity-60" />
               
-              <div className="absolute inset-4 rounded-full overflow-hidden border-8 border-white shadow-[0_20px_50px_rgba(0,0,0,0.1)] bg-slate-50">
+              {/* Main Image Frame */}
+              <div className="absolute inset-3 sm:inset-4 rounded-[40px] sm:rounded-[60px] overflow-hidden border-[6px] sm:border-[10px] border-white shadow-2xl bg-slate-50 z-10">
                  <Image 
-                   src="/sir3.webp" 
-                   alt="Mr Chew Kok Mun Teaching Physics and Chess Strategy" 
+                   src="/demo.png" 
+                   alt="Chess Mentorship" 
                    fill
-                   className="object-cover transition-transform duration-700 hover:scale-110"
+                   className="object-cover"
+                   priority
                  />
               </div>
 
-              {/* Float-in Tags */}
+              {/* Floating Performance Tag */}
               <motion.div 
                 animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 3, repeat: Infinity }}
-                className="absolute -top-4 -right-4 bg-white p-3 rounded-xl shadow-lg border border-slate-100 hidden md:block"
+                transition={{ duration: 4, repeat: Infinity }}
+                className="absolute -top-4 -right-2 sm:right-4 z-20 bg-white p-2 sm:p-3 rounded-2xl shadow-2xl flex items-center gap-2 border border-slate-50"
               >
-                <Binary className="text-indigo-600 w-8 h-8" />
+                <div className="bg-yellow-400 p-1.5 rounded-lg shadow-inner">
+                   <Zap className="text-white w-3 h-3 sm:w-4 sm:h-4 fill-current" />
+                </div>
+                <div className="flex flex-col">
+                   <span className="text-[8px] font-black text-slate-400 uppercase leading-none">Peak</span>
+                   <span className="text-[10px] sm:text-[11px] font-bold text-slate-900 leading-none">Logic</span>
+                </div>
               </motion.div>
             </div>
-          </motion.div>
+          </div>
 
-          {/* RIGHT COLUMN */}
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="space-y-6 order-3"
-          >
-             <BenefitCard benefit={benefits[2]} cardVariants={cardVariants} />
-             <BenefitCard benefit={benefits[3]} cardVariants={cardVariants} />
-          </motion.div>
+          {/* Right Cards - Order 3 on Mobile */}
+          <div className="lg:col-span-3 space-y-6 order-3">
+             <PhilosophyCard pillar={pillars[2]} cardVariants={cardVariants} />
+             <PhilosophyCard pillar={pillars[3]} cardVariants={cardVariants} />
+          </div>
 
         </div>
       </div>
@@ -184,33 +144,38 @@ export default function WhyChooseUsSection() {
   );
 }
 
-function BenefitCard({ benefit, cardVariants }: { benefit: any, cardVariants: any }) {
+function PhilosophyCard({ pillar, cardVariants }: { pillar: any, cardVariants: any }) {
   return (
     <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
       variants={cardVariants}
-      className="group bg-slate-50 p-8 rounded-3xl border border-transparent hover:border-teal-100 hover:bg-white hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300"
+      whileHover={{ y: -8 }}
+      className={`${pillar.cardBg} p-6 sm:p-8 rounded-[30px] sm:rounded-[35px] shadow-lg transition-all duration-300 relative group overflow-hidden h-full flex flex-col justify-between`}
     >
-      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-500 group-hover:rotate-[360deg] shadow-sm
-        ${benefit.color === 'teal' ? 'bg-teal-100' : ''}
-        ${benefit.color === 'indigo' ? 'bg-indigo-100' : ''}
-        ${benefit.color === 'amber' ? 'bg-amber-100' : ''}
-        ${benefit.color === 'blue' ? 'bg-blue-100' : ''}
-      `}>
-        {benefit.icon}
+      {/* Visual Watermark */}
+      <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-125 transition-transform duration-700">
+         <Star size={80} fill="currentColor" />
       </div>
 
-      <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-teal-700 transition-colors">
-        {benefit.title}
-      </h3>
-      <p className="text-slate-600 leading-relaxed text-sm md:text-base">
-        {benefit.description}
-      </p>
+      <div className="relative z-10">
+        <div className="bg-white/20 w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-6 backdrop-blur-md shadow-sm">
+          {pillar.icon}
+        </div>
+
+        <h3 className={`text-xl font-black ${pillar.textColor} mb-3 uppercase tracking-tighter leading-tight`}>
+          {pillar.title}
+        </h3>
+        <p className={`leading-relaxed text-sm font-medium ${pillar.descColor} mb-6`}>
+          {pillar.description}
+        </p>
+      </div>
       
-      {/* SEO-Friendly Keyword Tags (Hidden visually but readable by bots if needed, or used as subtle meta) */}
-      <div className="mt-4 pt-4 border-t border-slate-200/60 flex flex-wrap gap-2">
-         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
-           {benefit.keywords}
-         </span>
+      <div className="relative z-10">
+        <span className="text-[9px] font-black uppercase tracking-widest bg-white/30 px-3 py-1 rounded-full text-inherit border border-white/20">
+          Academy Standard
+        </span>
       </div>
     </motion.div>
   );

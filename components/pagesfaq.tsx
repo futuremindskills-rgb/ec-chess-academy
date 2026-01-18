@@ -1,221 +1,170 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Plus, Minus, MessageCircle, Phone, HelpCircle, ArrowRight } from "lucide-react"
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  ChevronDown, 
+  ShieldCheck, 
+  Star, 
+  Zap, 
+  MessageCircle
+} from "lucide-react";
 
-export default function ColorfulFAQSection() {
-  // State to track which FAQ is open
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
-
-const faqs = [
+const faqData = [
   {
-    question: "Is this just another boring tuition center?",
-    answer: "Negative. We don't do rote learning. We use Chess strategies to hack Physics problems. Think of it as learning the meta of the game before you play.",
-    category: "Gameplay",
-    theme: "blue"
+    question: "What is the best age to start learning?",
+    answer: "We recommend starting as early as 4 years old. At this stage, we focus on 'Cognitive Play' to build spatial awareness and basic logic through fun chess-themed games.",
+    category: "Beginner",
+    color: "bg-[#FFD700]", // YELLOW
+    accent: "text-slate-900"
   },
   {
-    question: "Can I join online if I'm too lazy to travel?",
-    answer: "Affirmative. We have a high-res discord-style online setup. Live streams, digital whiteboards, and recordings available 24/7.",
+    question: "Do you provide FIDE certified coaching?",
+    answer: "Yes, our lead coaches are FIDE-certified and have over 15 years of international experience. We follow official global standards for competitive training.",
+    category: "Pro Training",
+    color: "bg-[#8A2BE2]", // PURPLE
+    accent: "text-white"
+  },
+  {
+    question: "Do you offer online or hybrid classes?",
+    answer: "Absolutely. We use advanced chess software and interactive platforms to ensure students across the region can learn from home without losing tactical quality.",
     category: "Logistics",
-    theme: "amber"
+    color: "bg-[#4F46E5]", // INDIGO
+    accent: "text-white"
   },
   {
-    question: "What if I'm failing Physics right now?",
-    answer: "Then you're our favorite kind of student. We specialize in 'respawning' grades. Our crash courses are designed to boost stats fast.",
-    category: "Difficulty",
-    theme: "green"
-  },
+    question: "How do you track student progress?",
+    answer: "Every student receives a digital 'Mastery Report' every term, detailing their rating growth, tactical accuracy, and strategic focus areas.",
+    category: "Academy",
+    color: "bg-[#1a5f5f]", // ACADEMY TEAL
+    accent: "text-white"
+  }
 ];
 
-
-  // Helper to get dynamic style classes based on theme
-  const getThemeStyles = (theme: string, isOpen: boolean) => {
-    const styles: Record<string, any> = {
-      blue: {
-        active: "bg-blue-50 border-blue-200 shadow-blue-100",
-        icon: "bg-blue-500 text-white",
-        text: "text-blue-800"
-      },
-      amber: {
-        active: "bg-amber-50 border-amber-200 shadow-amber-100",
-        icon: "bg-amber-500 text-white",
-        text: "text-amber-800"
-      },
-      green: {
-        active: "bg-green-50 border-green-200 shadow-green-100",
-        icon: "bg-green-500 text-white",
-        text: "text-green-800"
-      },
-      rose: {
-        active: "bg-rose-50 border-rose-200 shadow-rose-100",
-        icon: "bg-rose-500 text-white",
-        text: "text-rose-800"
-      },
-    }
-    
-    const current = styles[theme] || styles.blue
-    
-    return {
-      container: isOpen 
-        ? `${current.active} shadow-lg scale-[1.02]` 
-        : "bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50",
-      icon: isOpen ? current.icon : "bg-slate-100 text-slate-400",
-      answerText: current.text
-    }
-  }
+const FAQSection: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-20 bg-white overflow-hidden font-sans">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+    <section className="py-20 lg:py-28 bg-white relative overflow-hidden font-sans">
+      
+      {/* Dynamic Background Blurs */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-1/4 h-1/4 bg-yellow-50 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-purple-50 rounded-full blur-[120px]" />
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
         
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-          
-          {/* -----------------------------------------------------------------
-             LEFT COLUMN: THE FAQS
-             ----------------------------------------------------------------- */}
-          <div className="lg:col-span-7 space-y-8">
-            <div className="text-left space-y-4">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-50 border border-yellow-100 text-yellow-700 font-bold text-xs uppercase tracking-wider">
-                <HelpCircle size={14} /> 
-                <span>Got Questions?</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight">
-                Everything You Need <br />
-                To <span className="text-amber-500 underline decoration-wavy decoration-amber-300 underline-offset-4">Know</span> 🤔
-              </h2>
-              <p className="text-slate-500 text-lg max-w-xl">
-                We know choosing a school is a big decision. Here are answers to the most common questions parents ask us.
-              </p>
-            </div>
+        {/* HEADER SECTION */}
+        <div className="text-center mb-16 lg:mb-20">
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest mb-4 shadow-lg"
+          >
+            <ShieldCheck size={12} className="text-yellow-400" />
+            Strategic Support
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 tracking-tighter leading-none uppercase mb-6">
+            Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500">Inquiries</span>
+          </h2>
+          <p className="text-slate-500 font-medium max-w-xl mx-auto">
+            Everything you need to know about starting your child's chess journey with Dubai's premier academy.
+          </p>
+        </div>
 
-            <div className="space-y-4">
-              {faqs.map((faq, index) => {
-                const isOpen = openIndex === index
-                const styles = getThemeStyles(faq.theme, isOpen)
+        {/* FAQ ACCORDIONS STACK */}
+        <div className="space-y-5">
+          {faqData.map((faq, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              className={`group rounded-[35px] transition-all duration-500 relative overflow-hidden shadow-lg border-2 ${
+                activeIndex === idx 
+                ? `${faq.color} border-transparent` 
+                : "bg-white border-slate-50 hover:border-slate-200 shadow-sm"
+              }`}
+            >
+              {/* Decorative Star for Active State */}
+              {activeIndex === idx && (
+                <div className="absolute -right-4 -bottom-4 opacity-10 pointer-events-none">
+                  <Star size={140} fill="currentColor" className={faq.accent} />
+                </div>
+              )}
 
-                return (
-                  <div
-                    key={index}
-                    onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className={`
-                      group rounded-2xl border-2 p-1 transition-all duration-300 cursor-pointer
-                      ${isOpen ? 'border-transparent' : 'border-transparent'}
-                    `}
+              <button
+                onClick={() => setActiveIndex(activeIndex === idx ? null : idx)}
+                className="w-full p-7 lg:p-9 flex items-center justify-between text-left relative z-10"
+              >
+                <div className="flex flex-col md:flex-row md:items-center gap-4">
+                  <span className={`text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full w-fit ${
+                    activeIndex === idx ? "bg-white/30 text-inherit" : "bg-slate-100 text-slate-400"
+                  }`}>
+                    {faq.category}
+                  </span>
+                  <h4 className={`text-lg lg:text-xl font-black tracking-tighter uppercase ${
+                    activeIndex === idx ? faq.accent : "text-slate-900"
+                  }`}>
+                    {faq.question}
+                  </h4>
+                </div>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 shrink-0 ml-4 ${
+                  activeIndex === idx ? "bg-white/20 rotate-180" : "bg-slate-50"
+                }`}>
+                  <ChevronDown size={20} className={activeIndex === idx ? faq.accent : "text-slate-400"} />
+                </div>
+              </button>
+
+              <AnimatePresence>
+                {activeIndex === idx && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="relative z-10"
                   >
-                    <div className={`
-                      rounded-xl border p-5 transition-all duration-300
-                      ${styles.container}
-                    `}>
-                      <div className="flex items-center justify-between gap-4">
-                        <h3 className={`font-bold text-lg leading-snug transition-colors ${isOpen ? 'text-slate-900' : 'text-slate-700'}`}>
-                          {faq.question}
-                        </h3>
-                        <span className={`
-                          flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 shadow-sm
-                          ${styles.icon}
-                        `}>
-                          {isOpen ? <Minus size={18} strokeWidth={3} /> : <Plus size={18} strokeWidth={3} />}
-                        </span>
-                      </div>
-                      
-                      <div className={`
-                        grid transition-all duration-300 ease-in-out
-                        ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'}
-                      `}>
-                        <div className="overflow-hidden">
-                          <p className={`font-medium leading-relaxed pr-8 ${styles.answerText}`}>
-                            {faq.answer}
-                          </p>
-                        </div>
-                      </div>
+                    <div className="px-7 pb-9 lg:px-9 lg:pb-12">
+                      <div className={`w-12 h-1 rounded-full mb-6 opacity-40 ${activeIndex === idx ? 'bg-white' : 'bg-indigo-600'}`} />
+                      <p className={`text-sm lg:text-lg font-bold leading-relaxed max-w-3xl ${
+                        activeIndex === idx ? faq.accent : "text-slate-500"
+                      }`}>
+                        {faq.answer}
+                      </p>
                     </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
 
-          {/* -----------------------------------------------------------------
-             RIGHT COLUMN: IMAGE & DECORATIONS
-             ----------------------------------------------------------------- */}
-          <div className="lg:col-span-5 relative mt-8 lg:mt-12">
-            <div className="relative group perspective-1000">
-              
-              {/* Abstract Blobs Background */}
-              <div className="absolute top-10 -right-10 w-64 h-64 bg-amber-200 rounded-full blur-3xl opacity-40 -z-10 animate-pulse"></div>
-              <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-40 -z-10"></div>
-
-              {/* Main Image Container */}
-              <div className="relative rounded-[2.5rem] overflow-hidden border-8 border-white shadow-2xl shadow-slate-200 transform transition-transform duration-500 hover:rotate-1">
-                <img
-                  src="/teach1.webp"
-                  alt="Student raising hand"
-                  className="w-full h-[550px] object-cover"
-                />
-                
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                
-                <div className="absolute bottom-8 left-8 text-white">
-                   <p className="font-bold text-2xl">Admissions Open</p>
-                   <p className="text-white/90">Session 2024-25</p>
+          {/* Support CTA Card */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="mt-12 p-10 bg-slate-900 rounded-[40px] flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden shadow-2xl"
+          >
+             <div className="absolute top-0 right-0 p-4 opacity-10">
+                <Zap size={60} className="text-yellow-400" />
+             </div>
+             <div className="flex items-center gap-6 text-center md:text-left relative z-10">
+                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md">
+                  <MessageCircle className="text-[#f59e0b] w-7 h-7" />
                 </div>
-              </div>
-
-              {/* Floating Card 1: Contact Support */}
-              <div className="absolute -bottom-6 -right-4 bg-white p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 flex items-center gap-4 animate-bounce-slow max-w-[200px]">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 shrink-0">
-                  <Phone size={20} />
+                <div className="flex flex-col">
+                  <p className="text-white font-[1000] text-xl uppercase tracking-tighter">Still Unsure?</p>
+                  <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Chat with our Grandmaster Support Team</p>
                 </div>
-                <div>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Admission Desk</p>
-                  <p className="text-sm font-black text-slate-800">+91 98765 43210</p>
-                </div>
-              </div>
-
-              {/* Floating Card 2: Chat Bubble */}
-              <div className="absolute top-12 -left-8 bg-white p-4 pr-6 rounded-2xl rounded-tr-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 animate-float hidden md:block">
-                <div className="flex items-center gap-3">
-                   <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center text-amber-600">
-                      <MessageCircle size={20} />
-                   </div>
-                   <div>
-                     <p className="font-bold text-slate-800 text-sm">Can't find answer?</p>
-                     <div className="flex items-center gap-1 text-xs text-amber-600 font-bold cursor-pointer hover:underline">
-                        <span>Chat with us</span>
-                        <ArrowRight size={12} />
-                     </div>
-                   </div>
-                </div>
-              </div>
-
-              {/* Decorative Star */}
-              <div className="absolute -top-6 right-6 text-yellow-400 rotate-12 animate-pulse">
-                <svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                </svg>
-              </div>
-
-            </div>
-          </div>
-
+             </div>
+             <button className="relative z-10 px-8 py-4 bg-[#f59e0b] text-slate-900 font-black text-xs uppercase tracking-widest rounded-2xl hover:scale-105 transition-all shadow-xl shadow-[#f59e0b]/20 active:scale-95">
+                Connect via WhatsApp
+             </button>
+          </motion.div>
         </div>
       </div>
-      
-      {/* Custom Keyframe Styles for Animations */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-        .animate-float {
-          animation: float 4s ease-in-out infinite;
-        }
-        .animate-bounce-slow {
-          animation: float 5s ease-in-out infinite 1s;
-        }
-      `}</style>
     </section>
-  )
-}
+  );
+};
+
+export default FAQSection;

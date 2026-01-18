@@ -1,28 +1,63 @@
-import { getCourses, getGalleryImages, getBlogPosts } from "@/app/actions/adminActions";
-import { BookOpen, Image as ImageIcon, FileText, TrendingUp } from "lucide-react";
+import { 
+  getTournaments, 
+  getGalleryImages, 
+  getBlogPosts, 
+  getEnquiries 
+} from "@/app/actions/adminActions";
+import { 
+  Trophy, 
+  Image as ImageIcon, 
+  FileText, 
+  MessageSquare, 
+  TrendingUp 
+} from "lucide-react";
 
 // FORCE UPDATE: This ensures the data is never cached
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function AdminDashboard() {
-  // Fetch real counts from your DB (Will now refresh on every load)
-  const courses = await getCourses();
-  const images = await getGalleryImages();
-  const blogs = await getBlogPosts();
+  // Fetch data in parallel
+  const [tournaments, images, blogs, enquiries] = await Promise.all([
+    getTournaments(),
+    getGalleryImages(),
+    getBlogPosts(),
+    getEnquiries()
+  ]);
 
   const stats = [
-    { label: "Total Courses", value: courses.length, icon: BookOpen, color: "bg-teal-500" },
-    { label: "Gallery Images", value: images.length, icon: ImageIcon, color: "bg-indigo-500" },
-    { label: "Blog Posts", value: blogs.length, icon: FileText, color: "bg-amber-500" },
+    { 
+      label: "Tournaments", 
+      value: tournaments.length, 
+      icon: Trophy, 
+      color: "bg-blue-600" 
+    },
+    { 
+      label: "Gallery Images", 
+      value: images.length, 
+      icon: ImageIcon, 
+      color: "bg-indigo-500" 
+    },
+    { 
+      label: "Blog Posts", 
+      value: blogs.length, 
+      icon: FileText, 
+      color: "bg-amber-500" 
+    },
+    { 
+      label: "Enquiries", 
+      value: enquiries.length, 
+      icon: MessageSquare, 
+      color: "bg-rose-500" 
+    },
   ];
 
   return (
     <div className="p-8">
       <h1 className="text-3xl font-black text-slate-900 mb-8">Dashboard Overview</h1>
       
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      {/* Stats Grid - Now 4 columns on desktop */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {stats.map((stat, i) => (
           <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
             <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg ${stat.color}`}>
@@ -47,7 +82,7 @@ export default async function AdminDashboard() {
             <h2 className="text-2xl font-bold">System Status: Live</h2>
           </div>
           <p className="text-slate-400 max-w-md">
-            All systems operational. Data shown is fetched in real-time from your database.
+            All systems operational. Real-time data sync active for Tournaments, Blogs, Gallery, and Enquiries.
           </p>
         </div>
         <TrendingUp className="absolute right-8 bottom-[-20px] w-40 h-40 text-white opacity-5" />

@@ -2,102 +2,127 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Home, ChevronRight, Atom, Sparkles, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Home, ChevronRight, Newspaper, Sparkles, PenTool } from 'lucide-react';
 
-interface PageBannerProps {
-  title?: string;
-  highlight?: string;
-  description?: string;
-  currentPage?: string;
-}
+const BlogBanner: React.FC = () => {
+  // Array of images for the Netflix-style background grid
+  const bgThumbnails = [
+    "/1.webp", "/2.webp", "/3.webp", "/1.webp",
+    "/2.webp", "/3.webp", "/1.webp", "/2.webp",
+  ];
 
-const BlogBanner: React.FC<PageBannerProps> = ({
-  title = "Blog",
-  highlight = "Insights",
-  description = "Latest articles on Physics, Chess, and Academic Excellence.",
-  currentPage = "Blog"
-}) => {
   return (
-    <div className="relative w-full bg-slate-50 overflow-hidden pt-32 pb-20 lg:pt-14 lg:pb-10 font-sans">
+    <div className="relative w-full bg-white overflow-hidden pt-28 pb-16 lg:pt-36 lg:pb-20 font-sans border-b border-slate-50">
       
-      {/* --- Background Decorative Elements --- */}
-      
-      {/* 1. Scientific Grid Pattern */}
-      <div className="absolute inset-0 opacity-[0.03]" 
-           style={{ 
-             backgroundImage: 'linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(to right, #0f172a 1px, transparent 1px)', 
-             backgroundSize: '40px 40px' 
-           }}>
+      {/* --- 1. NETFLIX-STYLE IMAGE GRID BACKGROUND --- */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.35 }} 
+          className="absolute -inset-[5%] grid grid-cols-2 md:grid-cols-4 gap-3 transform rotate-2 scale-105"
+        >
+          {bgThumbnails.map((src, i) => (
+            <div 
+              key={i} 
+              className="aspect-video bg-slate-100 rounded-xl overflow-hidden border border-slate-100 shadow-sm"
+            >
+              <img 
+                src={src} 
+                alt="Blog Content" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+          ))}
+        </motion.div>
+
+        {/* --- 2. THE OVERLAY (Fading into white background) --- */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/10 to-white z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10" />
       </div>
 
-      {/* 2. Soft Scientific Blobs */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-100/40 rounded-full blur-[100px] opacity-60 pointer-events-none -translate-y-1/3 translate-x-1/3"></div>
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-100/40 rounded-full blur-[100px] opacity-70 pointer-events-none translate-y-1/3 -translate-x-1/4"></div>
-
-      {/* 3. Floating Icons (Physics Themed) */}
-      
-      {/* Atom - Top Left */}
-      <div className="absolute top-24 left-10 md:left-20 opacity-10 text-teal-600 animate-[spin_20s_linear_infinite]">
-        <Atom className="w-16 h-16" strokeWidth={1.5} />
-      </div>
-
-      {/* Energy Bolt - Right Side */}
-      <div className="absolute top-1/3 right-10 md:right-32 opacity-10 text-indigo-500 transform -rotate-12 hidden md:block animate-pulse">
-        <Zap className="w-20 h-20 fill-indigo-500" />
-      </div>
-
-      {/* Sparkles - Near Text */}
-      <div className="absolute bottom-10 left-1/3 text-teal-500 opacity-30 animate-bounce-slow">
-        <Sparkles className="w-6 h-6" />
-      </div>
-
-      {/* --- Main Content --- */}
-      <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center text-center">
+      {/* --- 3. MAIN CONTENT --- */}
+      <div className="container mx-auto px-6 relative z-20 flex flex-col items-center text-center">
         
+        {/* Top Mini Badge */}
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest mb-4 shadow-lg"
+        >
+          <Newspaper size={10} className="text-[#f59e0b]" />
+          Masters Insights
+        </motion.div>
+
         {/* Title */}
-        <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight relative">
-          {title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600">{highlight}</span>
-          
-          {/* Decorative Underline (Sine Wave) */}
-          <svg className="absolute w-32 h-3 -bottom-2 left-1/2 -translate-x-1/2 text-teal-400 opacity-50" viewBox="0 0 100 10" preserveAspectRatio="none">
-             <path d="M0 5 Q 25 10 50 5 T 100 5" stroke="currentColor" strokeWidth="4" fill="none" />
-          </svg>
-        </h1>
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-4xl md:text-7xl font-[1000] text-slate-900 mb-4 tracking-tighter leading-[0.95] uppercase"
+        >
+          STRATEGY & <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] to-[#f59e0b]">
+            INSIGHTS
+          </span>
+        </motion.h1>
         
-        {/* Description / Subtext */}
-        <p className="text-lg md:text-xl text-slate-600 max-w-2xl mb-8 leading-relaxed">
-          {description}
-        </p>
+        {/* Compact Description */}
+        <motion.p 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-sm md:text-lg text-slate-600 max-w-xl mb-8 font-medium leading-snug"
+        >
+          Deep dives into chess theory, tournament recaps, and parent guides to supporting your child&apos;s cognitive journey.
+        </motion.p>
 
         {/* Breadcrumb Navigation */}
-        <nav className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 backdrop-blur-sm border border-slate-200 shadow-sm">
-          <Link href="/" className="text-slate-500 hover:text-teal-600 transition-colors flex items-center gap-1.5 text-sm font-semibold">
-            <Home className="w-4 h-4" />
+        <motion.nav 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white shadow-xl border border-slate-100"
+        >
+          <Link href="/" className="text-slate-400 hover:text-[#1a5f5f] transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
+            <Home size={12} />
             <span>Home</span>
           </Link>
           
-          <ChevronRight className="w-4 h-4 text-slate-300" strokeWidth={2.5} />
+          <ChevronRight className="w-3 h-3 text-slate-200" strokeWidth={3} />
           
-          <span className="text-slate-900 font-bold text-sm">
-            {currentPage}
+          <span className="text-slate-900 font-black text-[10px] uppercase tracking-widest">
+            Blog
           </span>
-        </nav>
+        </motion.nav>
 
       </div>
 
-      {/* --- CSS Animation --- */}
-      <style jsx>{`
-        @keyframes bounce-slow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-15px); }
-        }
-        .animate-bounce-slow {
-          animation: bounce-slow 4s ease-in-out infinite;
-        }
-      `}</style>
+      {/* Subtle Floating Pen Icon */}
+      <motion.div 
+        animate={{ 
+          y: [0, -10, 0],
+          rotate: [0, 5, -5, 0],
+          opacity: [0.1, 0.3, 0.1]
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-12 left-[12%] text-[#1a5f5f] hidden md:block"
+      >
+        <PenTool size={32} />
+      </motion.div>
 
+      {/* Subtle Floating Sparkle */}
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.3, 1],
+          opacity: [0.2, 0.5, 0.2]
+        }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-24 right-[12%] text-[#f59e0b] hidden md:block"
+      >
+        <Sparkles size={24} />
+      </motion.div>
     </div>
   );
 };
 
-export default BlogBanner;
+export default BlogBanner; 

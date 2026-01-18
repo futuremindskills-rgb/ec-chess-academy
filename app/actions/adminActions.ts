@@ -3,61 +3,105 @@
 import { PrismaClient } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 
-// Best practice: Use a global singleton for Prisma in dev to avoid connection limit errors
 const globalForPrisma = global as unknown as { prisma: PrismaClient }
 const prisma = globalForPrisma.prisma || new PrismaClient()
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
 /* ==========================================================================
-   COURSES
+   TOURNAMENTS
    ========================================================================== */
 
-export async function addCourse(formData: FormData) {
-  const title = formData.get('title') as string
-  const category = formData.get('category') as string
-  const level = formData.get('level') as string
-  const price = formData.get('price') as string
-  const image = formData.get('image') as string 
-  const description = formData.get('description') as string
-  const features = (formData.get('features') as string).split(',').map(f => f.trim())
-  const slug = title.toLowerCase().replace(/ /g, '-')
+export async function addTournament(formData: FormData) {
+  const data = {
+    title: formData.get('title') as string,
+    description: formData.get('description') as string,
+    entryFee: parseInt(formData.get('entryFee') as string),
+    maxPlayers: parseInt(formData.get('maxPlayers') as string),
+    startDate: new Date(formData.get('startDate') as string),
+    endDate: new Date(formData.get('endDate') as string),
+    location: formData.get('location') as string,
+    bannerImage: formData.get('bannerImage') as string,
+    status: (formData.get('status') as any) || "OPEN",
+  }
 
-  await prisma.course.create({
-    data: { title, category, level, price, image, description, features, slug }
-  })
+  await prisma.tournament.create({ data })
   
-  revalidatePath('/courses')
+  revalidatePath('/tournaments')
+  revalidatePath('/admin/tournaments')
 }
 
-// ✅ NEW: Edit Course Function
-export async function editCourse(id: number, formData: FormData) {
-  const title = formData.get('title') as string
-  const category = formData.get('category') as string
-  const level = formData.get('level') as string
-  const price = formData.get('price') as string
-  const description = formData.get('description') as string
-  const features = (formData.get('features') as string).split(',').map(f => f.trim())
+export async function editTournament(id: number, formData: FormData) {
+  const bannerImage = formData.get('bannerImage') as string
+  const dataToUpdate: any = {
+    title: formData.get('title') as string,
+    description: formData.get('description') as string,
+    entryFee: parseInt(formData.get('entryFee') as string),
+    maxPlayers: parseInt(formData.get('maxPlayers') as string),
+    startDate: new Date(formData.get('startDate') as string),
+    endDate: new Date(formData.get('endDate') as string),
+    location: formData.get('location') as string,
+    status: formData.get('status') as any,
+  }
   
-  // Only update image if a new one is provided
+  if (bannerImage) dataToUpdate.bannerImage = bannerImage
+
+  await prisma.tournament.update({ where: { id }, data: dataToUpdate })
+  revalidatePath('/tournaments')
+  revalidatePath('/admin/tournaments')
+}
+
+export async function getTournaments() {
+  return await prisma.tournament.findMany({ orderBy: { startDate: 'desc' } })
+}
+
+export async function deleteTournament(id: number) {
+  await prisma.tournament.delete({ where: { id } })
+  revalidatePath('/tournaments')
+  revalidatePath('/admin/tournaments')
+}
+
+/* ==========================================================================
+   BLOGS
+   ========================================================================== */
+
+export async function addBlogPost(formData: FormData) {
+  const title = formData.get('title') as string
+  const data = {
+    title,
+    excerpt: formData.get('excerpt') as string,
+    content: formData.get('content') as string,
+    category: formData.get('category') as string,
+    readTime: formData.get('readTime') as string,
+    image: formData.get('image') as string,
+    slug: title.toLowerCase().replace(/ /g, '-'),
+  }
+
+  await prisma.blogPost.create({ data })
+  revalidatePath('/blog')
+}
+
+export async function editBlogPost(id: number, formData: FormData) {
   const image = formData.get('image') as string
-  const dataToUpdate: any = { title, category, level, price, description, features }
-  if (image) dataToUpdate.image = image
+  const data: any = {
+    title: formData.get('title') as string,
+    excerpt: formData.get('excerpt') as string,
+    category: formData.get('category') as string,
+    readTime: formData.get('readTime') as string,
+    content: formData.get('content') as string,
+  }
+  if (image) data.image = image
 
-  await prisma.course.update({
-    where: { id },
-    data: dataToUpdate
-  })
-
-  revalidatePath('/courses')
+  await prisma.blogPost.update({ where: { id }, data })
+  revalidatePath('/blog')
 }
 
-export async function getCourses() {
-  return await prisma.course.findMany({ orderBy: { id: 'desc' } })
+export async function getBlogPosts() {
+  return await prisma.blogPost.findMany({ orderBy: { date: 'desc' } })
 }
 
-export async function deleteCourse(id: number) {
-  await prisma.course.delete({ where: { id } })
-  revalidatePath('/courses')
+export async function deleteBlogPost(id: number) {
+  await prisma.blogPost.delete({ where: { id } })
+  revalidatePath('/blog')
 }
 
 /* ==========================================================================
@@ -65,33 +109,27 @@ export async function deleteCourse(id: number) {
    ========================================================================== */
 
 export async function addGalleryImage(formData: FormData) {
-  const title = formData.get('title') as string
-  const category = formData.get('category') as string
-  const src = formData.get('src') as string
-  const description = formData.get('description') as string
-
   await prisma.galleryImage.create({
-    data: { title, category, src, description }
+    data: {
+      title: formData.get('title') as string,
+      category: formData.get('category') as string,
+      src: formData.get('src') as string,
+      description: formData.get('description') as string,
+    }
   })
-
   revalidatePath('/gallery')
 }
 
-// ✅ NEW: Edit Gallery Function
 export async function editGalleryImage(id: number, formData: FormData) {
-  const title = formData.get('title') as string
-  const category = formData.get('category') as string
-  const description = formData.get('description') as string
-  
   const src = formData.get('src') as string
-  const dataToUpdate: any = { title, category, description }
-  if (src) dataToUpdate.src = src
+  const data: any = {
+    title: formData.get('title') as string,
+    category: formData.get('category') as string,
+    description: formData.get('description') as string,
+  }
+  if (src) data.src = src
 
-  await prisma.galleryImage.update({
-    where: { id },
-    data: dataToUpdate
-  })
-
+  await prisma.galleryImage.update({ where: { id }, data })
   revalidatePath('/gallery')
 }
 
@@ -105,135 +143,62 @@ export async function deleteGalleryImage(id: number) {
 }
 
 /* ==========================================================================
-   BLOGS
+   ENQUIRIES
    ========================================================================== */
 
-export async function addBlogPost(formData: FormData) {
-  const title = formData.get('title') as string
-  const excerpt = formData.get('excerpt') as string
-  const image = formData.get('image') as string
-  const category = formData.get('category') as string
-  const readTime = formData.get('readTime') as string
-  const content = formData.get('content') as string
-  const slug = title.toLowerCase().replace(/ /g, '-')
-
-  await prisma.blogPost.create({
-    data: { title, excerpt, content, category, readTime, image, slug }
-  })
-  
-  revalidatePath('/blog')
-}
-
-// ✅ NEW: Edit Blog Function
-export async function editBlogPost(id: number, formData: FormData) {
-  const title = formData.get('title') as string
-  const excerpt = formData.get('excerpt') as string
-  const category = formData.get('category') as string
-  const readTime = formData.get('readTime') as string
-  const content = formData.get('content') as string
-  
-  const image = formData.get('image') as string
-  const dataToUpdate: any = { title, excerpt, category, readTime, content }
-  if (image) dataToUpdate.image = image
-
-  await prisma.blogPost.update({
-    where: { id },
-    data: dataToUpdate
-  })
-
-  revalidatePath('/blog')
-}
-
-export async function getBlogPosts() {
-  return await prisma.blogPost.findMany({ orderBy: { date: 'desc' } })
-}
-
-export async function deleteBlogPost(id: number) {
-  await prisma.blogPost.delete({ where: { id } })
-  revalidatePath('/blog')
-}
-
-// ... existing imports
-// Add 'revalidatePath' if not already imported
-
-// --- ENQUIRIES ---
-
-// 1. Submit Enquiry (Public Action)
 export async function submitEnquiry(formData: FormData) {
-  const parentName = formData.get('parentName') as string;
-  const studentName = formData.get('studentName') as string;
-  const email = formData.get('email') as string;
-  const phone = formData.get('phone') as string;
-  const subject = formData.get('subject') as string;
-  const message = formData.get('message') as string;
-
   await prisma.enquiry.create({
     data: {
-      parentName,
-      studentName,
-      email,
-      phone,
-      subject,
-      message,
-      status: "New"
+      parentName: formData.get('parentName') as string,
+      studentName: formData.get('studentName') as string,
+      email: formData.get('email') as string,
+      phone: formData.get('phone') as string,
+      subject: formData.get('subject') as string,
+      message: formData.get('message') as string,
     }
-  });
-
-  // Revalidate admin page so the new query shows up immediately
-  revalidatePath('/admin/enquiries');
+  })
+  revalidatePath('/admin/enquiries')
 }
 
-// 2. Get Enquiries (Admin)
 export async function getEnquiries() {
-  return await prisma.enquiry.findMany({
-    orderBy: { createdAt: 'desc' }
-  });
+  return await prisma.enquiry.findMany({ orderBy: { createdAt: 'desc' } })
 }
 
-// 3. Update Status/Notes (Admin)
-export async function updateEnquiry(id: number, formData: FormData) {
-  const status = formData.get('status') as string;
-  const notes = formData.get('notes') as string;
-
+export async function updateEnquiryStatus(id: number, status: string, notes?: string) {
   await prisma.enquiry.update({
     where: { id },
     data: { status, notes }
-  });
-
-  revalidatePath('/admin/enquiries');
+  })
+  revalidatePath('/admin/enquiries')
 }
 
-// 4. Delete Enquiry (Admin)
 export async function deleteEnquiry(id: number) {
-  await prisma.enquiry.delete({ where: { id } });
-  revalidatePath('/admin/enquiries');
+  await prisma.enquiry.delete({ where: { id } })
+  revalidatePath('/admin/enquiries')
 }
 
+/* ==========================================================================
+   ENQUIRIES - UPDATE ACTION
+   ========================================================================== */
 
-// --- STUDY MATERIALS ---
+export async function updateEnquiry(id: number, formData: FormData) {
+  // Extract values from the FormData object
+  const status = formData.get('status') as string;
+  const notes = formData.get('notes') as string;
 
-export async function addStudyMaterial(formData: FormData) {
-  const title = formData.get('title') as string;
-  const type = formData.get('type') as string;
-  const category = formData.get('category') as string;
-  const link = formData.get('link') as string;
+  try {
+    await prisma.enquiry.update({
+      where: { id },
+      data: { 
+        status: status, 
+        notes: notes 
+      },
+    });
 
-  await prisma.studyMaterial.create({
-    data: { title, type, category, link }
-  });
-  
-  revalidatePath('/study-materials');
-  revalidatePath('/admin/materials');
-}
-
-export async function getStudyMaterials() {
-  return await prisma.studyMaterial.findMany({
-    orderBy: { createdAt: 'desc' }
-  });
-}
-
-export async function deleteStudyMaterial(id: number) {
-  await prisma.studyMaterial.delete({ where: { id } });
-  revalidatePath('/study-materials');
-  revalidatePath('/admin/materials');
+    // Revalidate the admin path to show updated data immediately
+    revalidatePath('/admin/enquiries');
+  } catch (error) {
+    console.error("Failed to update enquiry:", error);
+    throw new Error("Could not update enquiry details.");
+  }
 }

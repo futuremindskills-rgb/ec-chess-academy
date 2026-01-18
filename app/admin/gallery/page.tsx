@@ -50,15 +50,13 @@ export default function GalleryAdmin() {
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true);
     
-    // For gallery, image is mandatory on Create, optional on Edit (if keeping same)
-    if (!editingItem && !imageUrl) {
+    // For gallery, 'src' is the field name used in the Prisma model/actions
+    if (imageUrl) {
+        formData.set("src", imageUrl);
+    } else if (!editingItem) {
         alert("Please upload an image.");
         setIsSubmitting(false);
         return;
-    }
-
-    if (imageUrl) {
-        formData.append("src", imageUrl);
     }
 
     try {
@@ -121,7 +119,7 @@ export default function GalleryAdmin() {
             <ImageIcon className="text-indigo-600" size={32} />
             Gallery Manager
           </h1>
-          <p className="text-slate-500 mt-1">Curate photos for Physics, Chess, and Events.</p>
+          <p className="text-slate-500 mt-1">Manage photos for various categories.</p>
         </div>
         
         <button 
@@ -138,7 +136,7 @@ export default function GalleryAdmin() {
         <input 
           type="text" 
           placeholder="Search by title or category..." 
-          className="flex-1 outline-none text-slate-700 placeholder:text-slate-400"
+          className="flex-1 outline-none text-slate-700 placeholder:text-slate-400 font-medium"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -167,19 +165,17 @@ export default function GalleryAdmin() {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                   />
                   
-                  {/* Hover Overlay Actions */}
+                  {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-sm">
                     <button 
                       onClick={() => openEdit(img)} 
                       className="p-3 bg-white text-indigo-600 rounded-full hover:bg-indigo-50 transition-colors shadow-lg"
-                      title="Edit"
                     >
                       <Pencil size={18} />
                     </button>
                     <button 
                       onClick={() => handleDelete(img.id)} 
                       className="p-3 bg-white text-red-600 rounded-full hover:bg-red-50 transition-colors shadow-lg"
-                      title="Delete"
                     >
                       <Trash2 size={18} />
                     </button>
@@ -187,7 +183,7 @@ export default function GalleryAdmin() {
 
                   {/* Category Tag */}
                   <div className="absolute top-3 left-3">
-                    <span className="px-2 py-1 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider rounded-md">
+                    <span className="px-2 py-1 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-md">
                         {img.category}
                     </span>
                   </div>
@@ -195,8 +191,8 @@ export default function GalleryAdmin() {
 
                 {/* Details */}
                 <div className="p-4 flex flex-col flex-grow">
-                  <h3 className="font-bold text-slate-900 truncate" title={img.title}>{img.title}</h3>
-                  <p className="text-slate-500 text-sm mt-1 line-clamp-2">{img.description || "No description"}</p>
+                  <h3 className="font-bold text-slate-900 truncate">{img.title}</h3>
+                  <p className="text-slate-500 text-xs mt-1 line-clamp-2">{img.description || "No description provided."}</p>
                 </div>
               </div>
             ))
@@ -204,62 +200,58 @@ export default function GalleryAdmin() {
         </div>
       )}
 
-      {/* --- ADD / EDIT MODAL --- */}
+      {/* --- MODAL --- */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-white rounded-3xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh]">
             
-            {/* Modal Header */}
             <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-              <h2 className="text-2xl font-black text-slate-900">
+              <h2 className="text-xl font-black text-slate-900 uppercase">
                 {editingItem ? "Edit Photo" : "Upload Photo"}
               </h2>
-              <button onClick={closeModal} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 hover:text-slate-600">
-                <X size={24} />
-              </button>
+              <button onClick={closeModal} className="p-2 hover:bg-slate-100 rounded-full text-slate-400"><X size={24} /></button>
             </div>
             
-            {/* Modal Body */}
             <form action={handleSubmit} className="p-6 space-y-6 overflow-y-auto">
               
               <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-700">Photo <span className="text-red-500">*</span></label>
+                <label className="block text-[10px] font-black uppercase text-slate-400 tracking-widest">Image Content</label>
                 <ImageUpload value={imageUrl} onChange={setImageUrl} />
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-700">Title</label>
+                <label className="block text-[10px] font-black uppercase text-slate-400 tracking-widest">Image Title</label>
                 <input 
                   name="title" 
                   defaultValue={editingItem?.title} 
                   required 
-                  placeholder="e.g. Science Fair 2024"
-                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all font-medium" 
+                  placeholder="e.g. Physics Workshop 2024"
+                  className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 transition-all font-bold text-slate-900" 
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-700">Category</label>
+                <label className="block text-[10px] font-black uppercase text-slate-400 tracking-widest">Category</label>
                 <select 
                   name="category" 
                   defaultValue={editingItem?.category || "Physics"} 
-                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none font-medium appearance-none"
+                  className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none font-bold text-slate-900 appearance-none"
                 >
-                  <option value="Physics Classes">Physics Classes</option>
-                  <option value="Chess Lessons">Chess Lessons</option>
+                  <option value="Physics">Physics</option>
+                  <option value="Chess">Chess</option>
                   <option value="Awards">Awards</option>
-                  <option value="Student Activities">Student Activities</option>
+                  <option value="Events">Events</option>
                 </select>
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-700">Description</label>
+                <label className="block text-[10px] font-black uppercase text-slate-400 tracking-widest">Description (Optional)</label>
                 <textarea 
                   name="description" 
                   defaultValue={editingItem?.description} 
                   rows={3} 
-                  placeholder="Brief context about the image..."
-                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all font-medium resize-none" 
+                  placeholder="Add a short caption..."
+                  className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-slate-600 resize-none" 
                 />
               </div>
 
@@ -267,10 +259,10 @@ export default function GalleryAdmin() {
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-indigo-200 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2 disabled:opacity-70"
                 >
                   {isSubmitting && <Loader2 size={18} className="animate-spin" />}
-                  {editingItem ? "Save Changes" : "Upload to Gallery"}
+                  {editingItem ? "Update Image" : "Publish to Gallery"}
                 </button>
               </div>
 

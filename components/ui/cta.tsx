@@ -1,165 +1,162 @@
 "use client";
 
 import React from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { MapPin, Calendar, ArrowRight, Navigation, Clock, Star } from 'lucide-react';
+import { 
+  MapPin, 
+  Navigation, 
+  Clock, 
+  Star, 
+  Zap, 
+  ShieldCheck,
+  ChevronRight,
+  Trophy,
+  Phone
+} from 'lucide-react';
 
 const VisitCampusCTA: React.FC = () => {
-  // SEO: Local Business Structured Data
-  const locationSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Physics Made Easy",
-    "image": "/center-photo.jpg",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "186 Toa Payoh Central, Lobby H 02-430",
-      "addressLocality": "Toa Payoh",
-      "postalCode": "310186",
-      "addressCountry": "SG"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "1.3323", 
-      "longitude": "103.8475"
-    },
-    "url": "https://physicsmadeeasy.sg",
-    "telephone": "+6597277419"
-  };
-
   return (
-    <section className="relative py-12 md:py-24 bg-slate-950 overflow-hidden font-sans selection:bg-teal-500/30">
-      {/* SEO Script */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(locationSchema) }}
-      />
+    <section className="relative py-16 lg:py-24 bg-white overflow-hidden font-sans">
+      
+      {/* Dynamic Background Blurs */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-1/3 h-1/3 bg-indigo-50 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-amber-50 rounded-full blur-[120px]" />
+      </div>
 
-      {/* --- Background Textures --- */}
-      <div className="absolute inset-0 opacity-[0.07] pointer-events-none" 
-           style={{ 
-             backgroundImage: 'linear-gradient(#14b8a6 1px, transparent 1px), linear-gradient(to right, #14b8a6 1px, transparent 1px)', 
-             backgroundSize: '32px 32px' 
-           }} />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-teal-900/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
+        
+        {/* Header Section */}
+        <div className="text-center mb-12 lg:mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest mb-3 shadow-lg"
+          >
+            <ShieldCheck size={12} className="text-amber-400" />
+            Academy Network
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 tracking-tighter leading-none uppercase">
+            Visit Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-amber-500">HK Centers</span>
+          </h2>
+        </div>
 
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-slate-900/40 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl"
-        >
-          <div className="flex flex-col lg:flex-row items-stretch">
-            
-            {/* --- LEFT: Content Area --- */}
-            <div className="w-full lg:w-1/2 p-8 md:p-14 lg:p-16 flex flex-col justify-center">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-[10px] md:text-xs font-black uppercase tracking-widest mb-8 w-fit"
-              >
-                <Star className="w-3.5 h-3.5 fill-teal-400" />
-                <span>Premier Toa Payoh Center</span>
-              </motion.div>
-              
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 leading-[1.1] tracking-tight">
-                Experience the <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-400 to-indigo-400">
-                  Learning Logic.
-                </span>
-              </h2>
-              
-              <address className="not-italic text-slate-400 text-lg mb-10 max-w-md leading-relaxed">
-                Visit our specialized studio at <span className="text-white font-semibold">186 Toa Payoh Central</span>. 
-                Meet Mr. Chew and explore our unique MI-based Physics & Chess resources.
-              </address>
+        <div className="grid lg:grid-cols-12 gap-6 items-stretch">
+          
+          {/* LEFT COLUMN: Kowloon City Card (PURPLE) */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="lg:col-span-3 bg-[#4F46E5] p-8 rounded-[35px] text-white shadow-xl flex flex-col justify-between relative overflow-hidden group"
+          >
+             <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform">
+                <Star size={120} fill="currentColor" />
+             </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="https://wa.me/6597277419" target="_blank" className="flex-1">
-                  <button className="w-full group bg-teal-600 hover:bg-teal-500 text-white font-black py-5 px-8 rounded-2xl flex items-center justify-center gap-3 transition-all shadow-xl shadow-teal-900/20 active:scale-95">
-                    <Calendar className="w-5 h-5" />
-                    Book a Visit
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </Link>
-                
-                <Link 
-                  href="https://www.google.com/maps/dir/?api=1&destination=186+Toa+Payoh+Central+Lobby+H+Singapore+310186" 
-                  target="_blank"
-                  className="flex-1"
+             <div className="relative z-10">
+                <div className="bg-white/20 w-12 h-12 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-md">
+                   <MapPin className="text-white" size={24} />
+                </div>
+                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-200 mb-2">Branch 01</h3>
+                <p className="text-xl font-[1000] leading-tight mb-2 uppercase tracking-tighter">
+                   Kowloon City
+                </p>
+                <p className="text-xs font-bold text-indigo-100 leading-relaxed mb-6">
+                   Smart-A Unit 3/B, 348-352 <br />
+                   Prince Edward Road West
+                </p>
+             </div>
+
+             <div className="relative z-10 space-y-4">
+                <div className="flex items-center gap-3">
+                   <Phone size={16} className="text-indigo-200" />
+                   <span className="text-sm font-black tracking-widest">4614 4561</span>
+                </div>
+                <a 
+                   href="https://www.google.com/maps/dir/?api=1&destination=348+Prince+Edward+Road+West+Kowloon+City"
+                   target="_blank"
+                   className="flex items-center justify-between bg-white/10 hover:bg-white/20 p-4 rounded-2xl border border-white/10 transition-all group/btn"
                 >
-                  <button className="w-full group bg-slate-800/50 border border-slate-700 text-slate-300 font-black py-5 px-8 rounded-2xl hover:bg-slate-800 hover:text-white transition-all flex items-center justify-center gap-3 active:scale-95">
-                    <Navigation className="w-5 h-5 text-teal-500" />
-                    Directions
-                  </button>
-                </Link>
-              </div>
-            </div>
+                   <span className="text-[10px] font-black uppercase tracking-widest text-white">Get Directions</span>
+                   <Navigation size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                </a>
+             </div>
+          </motion.div>
 
-            {/* --- RIGHT: Live Map Embed --- */}
-            <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-full">
-              {/* Overlay for theme matching */}
-              <div className="absolute inset-0 z-10 pointer-events-none border-l border-white/10 hidden lg:block" />
-              
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.742385960416!2d103.8474811!3d1.3323069!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da10e206085555%3A0x7d287010f384a83e!2s186%20Toa%20Payoh%20Central%2C%20Singapore%20310186!5e0!3m2!1sen!2ssg!4v1700000000000!5m2!1sen!2ssg"
-                className="w-full h-full min-h-[400px] lg:min-h-full border-0 grayscale-[0.3] invert-[0.9] contrast-[1.2] opacity-80"
+          {/* CENTER COLUMN: Interactive Map (CLEAN) */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            className="lg:col-span-6 min-h-[400px] bg-slate-50 rounded-[40px] border-4 border-white shadow-2xl overflow-hidden relative"
+          >
+             <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.0371302835154!2d114.1866324760592!3d22.32483864169542!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340406d4e287a26f%3A0x6b772276587d6091!2s348-352%20Prince%20Edward%20Rd%20W%2C%20Kowloon%20City!5e0!3m2!1sen!2shk!4v1710000000000!5m2!1sen!2shk"
+                className="w-full h-full border-0 grayscale-[0.2] contrast-[1.1]"
                 allowFullScreen
                 loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Physics Made Easy Location - Toa Payoh Central"
-              />
-              
-              {/* Floating Address Badge (Desktop only) */}
-              <div className="absolute top-6 left-6 z-20 hidden xl:flex items-center gap-3 bg-slate-900/90 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-2xl">
-                <div className="bg-teal-500 p-2 rounded-lg">
-                  <MapPin className="w-5 h-5 text-slate-900" />
+                title="EC Chess Academy Location"
+             />
+             
+             <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md p-3 px-5 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3">
+                <div className="bg-indigo-600 p-2 rounded-xl">
+                   <Trophy size={16} className="text-white" />
                 </div>
-                <div>
-                  <p className="text-white font-black text-sm leading-none">Lobby H, 02-430</p>
-                  <p className="text-slate-400 text-[10px] uppercase font-bold tracking-widest mt-1">Toa Payoh Central</p>
+                <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">Professional Chess Hub</span>
+             </div>
+          </motion.div>
+
+          {/* RIGHT COLUMN: Yuen Long Card (AMBER/DARK) */}
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="lg:col-span-3 bg-slate-900 p-8 rounded-[35px] text-white shadow-xl flex flex-col justify-between relative overflow-hidden group"
+          >
+             <div className="absolute -right-4 -top-4 opacity-5 group-hover:scale-110 transition-transform">
+                <Zap size={120} fill="currentColor" />
+             </div>
+
+             <div className="relative z-10">
+                <div className="bg-amber-400 w-12 h-12 rounded-2xl flex items-center justify-center mb-8">
+                   <MapPin className="text-slate-900" size={24} />
                 </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Branch 02</h3>
+                <p className="text-xl font-[1000] leading-tight mb-2 uppercase tracking-tighter">
+                   Yuen Long
+                </p>
+                <p className="text-xs font-bold text-slate-400 leading-relaxed mb-6">
+                   Room 218, Yuen Long Centre, <br />
+                   Sau Fu Street
+                </p>
+             </div>
 
-        {/* --- Bottom Info Strip --- */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-x-6 text-center lg:text-left">
-           <div className="col-span-1 flex flex-col items-center lg:items-start gap-3 group">
-              <div className="flex items-center gap-2">
-                 <Clock className="w-4 h-4 text-teal-400" />
-                 <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">Operating Hours</span>
-              </div>
-              <p className="text-slate-200 font-bold text-sm leading-relaxed">
-                Mon - Fri: 2:30 PM - 10 PM <br />
-                Sat - Sun: 9:00 AM - 7 PM
-              </p>
-           </div>
-           
-           <div className="col-span-1 flex flex-col items-center lg:items-start gap-3 group">
-              <div className="flex items-center gap-2">
-                 <Navigation className="w-4 h-4 text-teal-400" />
-                 <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">Contact Line</span>
-              </div>
-              <p className="text-slate-200 font-bold text-sm leading-relaxed">
-                General: +65 9727 7419 <br />
-                Email: chewkm2001@yahoo.com
-              </p>
-           </div>
+             <div className="relative z-10 space-y-4">
+                <div className="flex items-center gap-3">
+                   <Phone size={16} className="text-amber-400" />
+                   <span className="text-sm font-black tracking-widest">5406 6800</span>
+                </div>
+                <a 
+                   href="https://www.google.com/maps/dir/?api=1&destination=Yuen+Long+Centre+Sau+Fu+Street"
+                   target="_blank"
+                   className="flex items-center justify-between bg-white/5 hover:bg-white/10 p-4 rounded-2xl border border-white/10 transition-all group/btn"
+                >
+                   <span className="text-[10px] font-black uppercase tracking-widest text-white">Get Directions</span>
+                   <Navigation size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                </a>
+             </div>
+          </motion.div>
 
-           <div className="col-span-2 md:col-span-1 flex flex-col items-center lg:items-start gap-3 group">
+        </div>
+
+        {/* Footer Support Info */}
+        <div className="mt-8 flex justify-center">
+           <div className="bg-slate-50 border border-slate-100 px-6 py-3 rounded-full flex items-center gap-4">
               <div className="flex items-center gap-2">
-                 <MapPin className="w-4 h-4 text-teal-400" />
-                 <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">Building Info</span>
+                 <Clock size={14} className="text-indigo-600" />
+                 <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">General Enquiry:</span>
               </div>
-              <p className="text-slate-200 font-bold text-sm leading-relaxed">
-                186 Toa Payoh Central <br />
-                Lobby H (Level 2), Singapore 310186
-              </p>
+              <a href="mailto:enquiry.ecchess@gmail.com" className="text-[11px] font-black text-slate-900 hover:text-indigo-600 transition-colors uppercase">
+                 enquiry.ecchess@gmail.com
+              </a>
            </div>
         </div>
       </div>

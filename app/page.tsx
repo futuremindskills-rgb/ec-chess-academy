@@ -1,21 +1,16 @@
-import  HeroSection  from "@/components/hero-section"
-import  CoursesSection  from "@/components/events-preview"
+import  {HeroSection}  from "@/components/hero-section"
 import  DemoBookingCTA  from "@/components/demo-booking-cta"
 import  TestimonialsSection  from "@/components/testimonials-section"
 import  FaqSection  from "@/components/stats-section"
-import  FeaturesSection  from "@/components/features-section"
 import AchievementsSection from "@/components/ui/AchievementsSection"
 import WhyChooseUsSection from "@/components/why-choose"
 import LearningEnvironment from "@/components/ui/learning"
-import PhilosophySection from "@/components/philoshophy"
 import LeadInstructorSection from "@/components/lead"
-import ResultsSection from "@/components/result"
-import ResourcesSection from "@/components/material"
 import GallerySection from "@/components/gallery"
-import SuccessStories from "@/components/sucess"
-import CareerGuidance from "@/components/carrier"
-import CareerCompass from "@/components/carrierCompass"
-import PeterLohMentorProfile from "@/components/advisor"
+import ProgramsSection from "@/components/programs"
+import AboutSection from "@/components/about-section"
+import CurriculumSection from "@/components/courses-section"
+import SuccessStoriesSlider from "@/components/ui/stories"
 
 
 export default function HomePage() {
@@ -23,18 +18,12 @@ export default function HomePage() {
     <div className="min-h-screen">
       <main>
         <HeroSection />
+        <ProgramsSection/>
         <WhyChooseUsSection/>
-        <LeadInstructorSection/>
-        <PeterLohMentorProfile/>
-        <CareerGuidance/>
-        <CareerCompass/>
-        <CoursesSection />
-        <PhilosophySection/>
-        <SuccessStories/>
-        <ResultsSection/>
+        <AboutSection/>
+        <CurriculumSection/>
+        <SuccessStoriesSlider/>
         <TestimonialsSection />
-        <GallerySection/>
-        <ResourcesSection/>
         <FaqSection />
         <DemoBookingCTA />
       </main>

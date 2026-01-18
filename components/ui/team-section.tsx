@@ -1,134 +1,155 @@
 "use client";
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { 
-  Lightbulb,      // Big Ideas
-  Layers,         // Scaffolding/Worked Examples
-  BrainCircuit,   // Metacognition
-  Globe,          // Real World
-  BookOpen, 
-  Atom            // Central Icon
+  Lightbulb, 
+  Layers, 
+  BrainCircuit, 
+  ShieldCheck, 
+  Crown, 
+  CheckCircle2,
+  ChevronRight
 } from 'lucide-react';
 
-export default function TeachingPhilosophySection() {
+export default function MethodologySection() {
   
   const pillars = [
     {
-      title: "Deep Conceptual Understanding",
-      description: "We move beyond rote memorization of formulas. Our focus is on the 'Big Ideas'—ensuring students grasp the fundamental principles governing the physical universe.",
-      icon: <Lightbulb className="w-8 h-8 text-amber-500" />,
-      bg: "bg-amber-50/50",
-      border: "border-amber-100",
-      glow: "group-hover:shadow-amber-500/10"
+      title: "Concept-Based Mastery",
+      description: "We move beyond memorizing opening moves. Our focus is on the 'Deep Logic'—ensuring students grasp the fundamental positional principles that govern the board.",
+      icon: <Lightbulb className="w-7 h-7 md:w-8 md:h-8 text-orange-500" />,
+      color: "bg-orange-500",
     },
     {
-      title: "Step-by-Step Scaffolding",
-      description: "Complex problems are broken down into manageable logical steps using worked examples. This builds confidence and models the expert thinking process.",
-      icon: <Layers className="w-8 h-8 text-teal-600" />,
-      bg: "bg-teal-50/50",
-      border: "border-teal-100",
-      glow: "group-hover:shadow-teal-500/10"
+      title: "Tactical Scaffolding",
+      description: "Complex strategies are broken down into manageable patterns—Forks, Pins, and Skewers. We use 'Step-by-Step' logic to build a powerful tactical database.",
+      icon: <Layers className="w-7 h-7 md:w-8 md:h-8 text-purple-600" />,
+      color: "bg-purple-600",
     },
     {
-      title: "Metacognitive Strategies",
-      description: "We teach students 'how to think'—monitoring their own understanding, identifying gaps, and regulating their learning process for long-term retention.",
-      icon: <BrainCircuit className="w-8 h-8 text-indigo-600" />,
-      bg: "bg-indigo-50/50",
-      border: "border-indigo-100",
-      glow: "group-hover:shadow-indigo-500/10"
+      title: "Metacognitive Thinking",
+      description: "We teach students 'how to calculate'—monitoring their own thought process, identifying opponent threats, and regulating their focus for long-term accuracy.",
+      icon: <BrainCircuit className="w-7 h-7 md:w-8 md:h-8 text-indigo-600" />,
+      color: "bg-indigo-600",
     },
     {
-      title: "Real-World Application",
-      description: "Physics isn't just abstract theory. We connect concepts to daily life—from how a car brakes to the physics behind climate change.",
-      icon: <Globe className="w-8 h-8 text-blue-600" />,
-      bg: "bg-blue-50/50",
-      border: "border-blue-100",
-      glow: "group-hover:shadow-blue-500/10"
+      title: "Tournament Resilience",
+      description: "Chess isn't just abstract theory. We build the 'Champion Mindset'—from time management under pressure to recovering from mistakes with analytical grit.",
+      icon: <ShieldCheck className="w-7 h-7 md:w-8 md:h-8 text-cyan-500" />,
+      color: "bg-cyan-500",
     }
   ];
 
   return (
-    <section className="py-24 bg-white font-sans relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-white font-sans relative overflow-hidden">
       
-      {/* Background Decor */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none" 
-           style={{ backgroundImage: 'linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(to right, #0f172a 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
-      </div>
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-slate-50 -skew-x-12 z-0"></div>
+      {/* Decorative Background - Hidden on small mobile to reduce clutter */}
+      <div className="hidden sm:block absolute top-0 right-0 w-1/3 h-full bg-slate-50 -skew-x-12 z-0"></div>
 
-      <div className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-7xl">
         
-        {/* --- Header --- */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 mb-6 shadow-sm">
-            <BookOpen className="w-4 h-4 text-teal-700" />
-            <span className="text-xs font-bold text-slate-700 uppercase tracking-widest">Our Methodology</span>
-          </div>
+        {/* --- HEADER SECTION --- */}
+        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] mb-6 shadow-xl"
+          >
+            <ShieldCheck className="w-4 h-4 text-orange-400" />
+            <span>FIDE-Standard Pedagogy</span>
+          </motion.div>
           
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-[1000] text-slate-900 leading-[1.1] md:leading-[0.9] tracking-tighter uppercase mb-6 md:mb-8">
             Teaching for <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600">
-              True Understanding.
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-950 italic">
+              Strategic Mastery.
             </span>
           </h2>
           
-          <p className="text-lg text-slate-600 leading-relaxed">
-            At Physics Made Easy, we bridge the gap between abstract theory and concrete reality. Our philosophy blends scientific rigor with strategic thinking.
+          <p className="text-base md:text-lg lg:text-xl text-slate-500 font-medium leading-relaxed px-4">
+            At EC Chess Academy, we bridge the gap between simple moves and competitive excellence. Our philosophy blends international FIDE rigor with 15 years of HK training experience.
           </p>
         </div>
 
-        {/* --- The Pillars Grid --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 relative">
+        {/* --- THE PILLARS GRID --- */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 lg:gap-14 relative">
           
-          {/* Central Connecting Icon (Desktop) */}
-          <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-white rounded-full border-4 border-slate-50 z-20 items-center justify-center shadow-2xl shadow-indigo-100">
-             <Atom className="w-10 h-10 text-teal-600 animate-[spin_10s_linear_infinite]" />
+          {/* Central Connecting Node - Visible only on Desktop/Tablets */}
+          <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 lg:w-32 lg:h-32 bg-white rounded-[32px] lg:rounded-[40px] border-[6px] lg:border-8 border-slate-50 z-20 items-center justify-center shadow-2xl shadow-indigo-500/20">
+             <motion.div 
+               animate={{ rotate: [0, 10, -10, 0] }}
+               transition={{ duration: 6, repeat: Infinity }}
+               className="text-indigo-600"
+             >
+                <Crown size={40} className="lg:w-12 lg:h-12" strokeWidth={2.5} />
+             </motion.div>
           </div>
 
           {pillars.map((pillar, idx) => (
-            <div 
+            <motion.div 
               key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              viewport={{ once: true, margin: "-50px" }}
               className={`
-                group relative p-8 rounded-[2rem] border ${pillar.border} bg-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${pillar.glow}
-                ${idx % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}
+                group relative p-8 md:p-10 rounded-[32px] md:rounded-[40px] border-2 border-slate-900 bg-white 
+                shadow-[8px_8px_0px_#0f172a] md:shadow-[12px_12px_0px_#0f172a] 
+                hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-300
+                ${idx % 2 === 0 ? 'md:text-right md:pr-14 lg:pr-16' : 'md:text-left md:pl-14 lg:pl-16'}
               `}
             >
-              {/* Background Blob */}
-              <div className={`absolute inset-0 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${pillar.bg}`}></div>
-              
               <div className={`relative z-10 flex flex-col ${idx % 2 === 0 ? 'md:items-end' : 'md:items-start'}`}>
-                {/* Icon Box */}
+                
+                {/* Icon Sticker */}
                 <div className={`
-                  w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-slate-100 bg-white
+                  w-14 h-14 md:w-16 md:h-16 rounded-[20px] md:rounded-[24px] flex items-center justify-center mb-6 shadow-xl text-white
+                  ${pillar.color} group-hover:rotate-12 transition-transform duration-500
                   ${idx % 2 === 0 ? 'md:order-last md:mt-6 md:mb-0' : ''}
                 `}>
                   {pillar.icon}
                 </div>
 
-                <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-teal-700 transition-colors">
+                <h3 className="text-xl md:text-2xl font-[1000] text-slate-900 mb-3 md:mb-4 uppercase tracking-tighter">
                   {pillar.title}
                 </h3>
                 
-                <p className="text-slate-600 leading-relaxed font-medium">
+                <p className="text-slate-500 leading-relaxed font-medium text-sm md:text-base">
                   {pillar.description}
                 </p>
+
+                <div className={`mt-6 flex items-center gap-2 font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] ${idx % 2 === 0 ? 'flex-row-reverse' : ''} opacity-40 group-hover:opacity-100 transition-opacity`}>
+                   <CheckCircle2 size={14} />
+                   <span>Quality Standard</span>
+                </div>
               </div>
 
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        {/* --- Bottom Statement --- */}
-        <div className="mt-20 text-center">
-           <div className="inline-block relative p-10 bg-slate-900 rounded-[2.5rem] text-white max-w-4xl shadow-2xl overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        {/* --- BOTTOM STATEMENT --- */}
+        <div className="mt-16 md:mt-24 text-center px-2">
+           <div className="inline-block relative p-8 sm:p-12 lg:p-16 bg-[#0f172a] rounded-[32px] sm:rounded-[60px] text-white w-full max-w-5xl shadow-2xl overflow-hidden border-4 border-slate-800">
+              {/* Catchy internal glow */}
+              <div className="absolute top-0 right-0 w-48 sm:w-80 h-48 sm:h-80 bg-indigo-500/10 rounded-full blur-[60px] sm:blur-[100px] -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute bottom-0 left-0 w-48 sm:w-80 h-48 sm:h-80 bg-orange-500/10 rounded-full blur-[60px] sm:blur-[100px] translate-y-1/2 -translate-x-1/2" />
               
-              <h3 className="text-2xl md:text-3xl font-serif italic mb-4 relative z-10">
-                "Understanding core ideas and the ability to transfer them to new situations should be the twin goals of education."
+              <h3 className="text-xl sm:text-2xl md:text-4xl font-[1000] uppercase tracking-tighter mb-8 relative z-10 leading-tight sm:leading-none">
+                "Chess is more than a game—it's a <span className="text-orange-400 italic">blueprint</span> for cognitive architecture."
               </h3>
-              <p className="text-teal-400 font-bold text-sm uppercase tracking-widest relative z-10">
-                — Our Philosophy
-              </p>
+              
+              <div className="flex flex-col items-center gap-4 relative z-10">
+                <p className="text-slate-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em]">
+                  — The EC Academy Philosophy
+                </p>
+                <div className="h-[1px] w-16 sm:w-20 bg-orange-500/50" />
+                <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-orange-400 hover:text-white transition-colors group">
+                   Learn the full process <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
            </div>
         </div>
 

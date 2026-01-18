@@ -1,77 +1,107 @@
 "use client";
-
 import React from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { 
   ArrowRight, 
   MessageCircle, 
   Sparkles,
-  Atom
+  Zap,
+  Crown
 } from "lucide-react";
 
 export default function CTASection() {
   return (
-    <section className="relative py-12 px-4 md:px-6 font-sans">
+    <section className="relative py-16 bg-white overflow-hidden font-sans">
       
-      <div className="container mx-auto max-w-5xl relative z-10">
+      <div className="container mx-auto max-w-4xl px-6 relative z-10">
         
-        {/* --- Main Compact Card --- */}
-        <div className="relative bg-slate-900 rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-900/20 px-8 py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
+        {/* --- COMPACT MODULE --- */}
+        <div className="relative group">
           
-          {/* Background Effects */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 rounded-full blur-[80px] pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/20 rounded-full blur-[80px] pointer-events-none"></div>
-          
-          {/* Decorative Pattern */}
-          <div className="absolute inset-0 opacity-10" 
-               style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '24px 24px' }}>
-          </div>
+          {/* 3D SOLID SHADOW */}
+          <div className="absolute inset-0 bg-[#1e1b4b] rounded-[32px] translate-x-2 translate-y-2 transition-transform group-hover:translate-x-3 group-hover:translate-y-3" />
 
-          {/* --- Left: Text Content --- */}
-          <div className="relative z-10 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-900/50 border border-teal-500/30 text-teal-300 text-xs font-bold uppercase tracking-wider mb-3">
-              <Sparkles size={12} className="text-teal-400" />
-              <span>Limited Slots for 2025</span>
+          {/* MAIN CARD */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="relative bg-[#4F46E5] rounded-[32px] border-4 border-[#1e1b4b] p-8 md:p-12 overflow-hidden"
+          >
+            
+            {/* Subtle Chess Pattern */}
+            <div className="absolute inset-0 opacity-5 pointer-events-none" 
+                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h15v15H0V0zm15 15h15v15H15V15z' fill='%23ffffff' /%3E%3C/svg%3E")` }} />
+
+            <div className="relative z-10 flex flex-col items-center text-center space-y-6">
+              
+              {/* Sticker Tags */}
+              <div className="flex gap-2">
+                <div className="px-3 py-1 bg-white rounded-full border-2 border-[#1e1b4b] flex items-center gap-1.5 shadow-[3px_3px_0px_#1e1b4b]">
+                  <Sparkles size={12} className="text-orange-500" />
+                  <span className="text-[9px] font-black uppercase tracking-widest text-[#1e1b4b]">Enrolling 2025</span>
+                </div>
+                <div className="px-3 py-1 bg-yellow-400 rounded-full border-2 border-[#1e1b4b] flex items-center gap-1.5 shadow-[3px_3px_0px_#1e1b4b]">
+                  <Crown size={12} className="text-[#1e1b4b]" />
+                  <span className="text-[9px] font-black uppercase tracking-widest text-[#1e1b4b]">Master Class</span>
+                </div>
+              </div>
+
+              {/* Headline */}
+              <h2 className="text-3xl md:text-5xl font-[1000] text-white leading-none tracking-tighter uppercase italic">
+                Ready to make <br />
+                <span className="bg-white text-[#4F46E5] px-3 py-1 inline-block transform -rotate-1 mt-2 border-[3px] border-[#1e1b4b] shadow-[6px_6px_0px_#1e1b4b]">
+                   YOUR MOVE?
+                </span>
+              </h2>
+
+              <p className="text-white/90 text-sm md:text-lg font-bold max-w-lg">
+                Unlock focus and strategic thinking. Join HK&apos;s premier Academy today.
+              </p>
+
+              {/* ACTION BUTTONS */}
+              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center pt-2">
+                <Link href="https://wa.me/yournumber" target="_blank">
+                  <button className="w-full sm:w-auto px-8 py-4 bg-white text-[#1e1b4b] rounded-xl font-[1000] uppercase tracking-widest text-xs border-[3px] border-[#1e1b4b] shadow-[5px_5px_0px_#1e1b4b] transition-all hover:translate-y-0.5 hover:shadow-none flex items-center justify-center gap-2">
+                    <MessageCircle size={18} className="fill-current" />
+                    Book Free Trial
+                  </button>
+                </Link>
+
+                <Link href="/courses">
+                  <button className="w-full sm:w-auto px-8 py-4 bg-[#1e1b4b] text-white rounded-xl font-[1000] uppercase tracking-widest text-xs border-[3px] border-white/10 transition-all hover:bg-white hover:text-[#1e1b4b] flex items-center justify-center gap-2">
+                    View Courses
+                    <ArrowRight size={18} />
+                  </button>
+                </Link>
+              </div>
+
             </div>
-            
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-2 leading-tight">
-              Ready to Master <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-indigo-400">
-                Physics & Chess?
-              </span>
-            </h2>
-            
-            <p className="text-slate-400 text-sm md:text-base max-w-md mx-auto md:mx-0">
-              Join Mr. Chew's classes today. Experience the Multiple Intelligences approach that guarantees results.
-            </p>
-          </div>
 
-          {/* --- Right: Buttons --- */}
-          <div className="relative z-10 flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-            
-            {/* WhatsApp / Book Button */}
-            <Link href="https://wa.me/6597277419" target="_blank" className="w-full sm:w-auto">
-              <button className="group w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-teal-600 text-white rounded-xl font-bold hover:bg-teal-500 transition-all shadow-lg shadow-teal-900/20 hover:-translate-y-0.5">
-                <MessageCircle size={18} />
-                Book Free Trial
-              </button>
-            </Link>
-            
-            {/* View Courses Button */}
-            <Link href="/courses" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-slate-800 text-white border border-slate-700 rounded-xl font-bold hover:bg-slate-700 transition-all hover:-translate-y-0.5">
-                Explore Courses
-                <ArrowRight size={18} className="text-slate-400 group-hover:text-white" />
-              </button>
-            </Link>
-          </div>
+            {/* DECORATIVE BREAKOUTS - Scaled Down */}
+            <div className="absolute -top-4 -right-4 w-20 h-20 bg-[#FF7A00] rounded-full flex items-center justify-center border-[3px] border-[#1e1b4b] shadow-lg transform rotate-12 z-20">
+               <div className="text-center leading-none">
+                  <div className="text-lg font-black text-white">-$300</div>
+                  <div className="text-[6px] font-bold text-white uppercase">Off</div>
+               </div>
+            </div>
 
-          {/* Floating Atom Decor */}
-          <div className="absolute -bottom-6 right-[20%] text-slate-800 opacity-30 animate-[spin_10s_linear_infinite] pointer-events-none hidden md:block">
-            <Atom size={120} />
-          </div>
+            {/* Corner Icon */}
+            <div className="absolute bottom-4 left-4 opacity-10">
+               <Zap size={60} className="text-white fill-current" />
+            </div>
 
+          </motion.div>
         </div>
+
+        {/* CATCHY FOOTER NOTE */}
+        <div className="mt-10 flex items-center justify-center gap-6 opacity-30">
+            <span className="text-[9px] font-black uppercase tracking-[0.2em]">FIDE Certified</span>
+            <div className="w-1 h-1 rounded-full bg-slate-900" />
+            <span className="text-[9px] font-black uppercase tracking-[0.2em]">Hong Kong Representative</span>
+        </div>
+
       </div>
     </section>
   );
