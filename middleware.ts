@@ -5,15 +5,10 @@ import type { NextRequest } from "next/server";
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // 1. Skip NextAuth routes
-  if (pathname.startsWith("/api/auth")) {
-    return NextResponse.next();
-  }
-
-  // 2. ⚠️ FIX: Skip UploadThing Route
-  // UploadThing sends a POST webhook to this URL. It has no session cookies,
-  // so we must allow it to pass through. Internal security is handled by UploadThing's secret.
-  if (pathname.startsWith("/api/uploadthing")) {
+  if (
+    pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/api/uploadthing")
+  ) {
     return NextResponse.next();
   }
 
@@ -25,6 +20,7 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,
+    secureCookie: true,
   });
 
   if ((isAdminPath || isApiMutation) && !token) {
@@ -41,8 +37,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/admin/:path*",
-    "/api/:path*",
-  ],
+  matcher: ["/admin/:path*", "/api/:path*"],
 };
