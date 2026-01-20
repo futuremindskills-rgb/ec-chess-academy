@@ -15,29 +15,30 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
 
-    try {
-      const res = await signIn("credentials", {
-        redirect: false,
-        email,
-        password,
-      });
+  try {
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
 
-      if (res?.error) {
-        setError("Invalid email or password");
-      } else {
-        router.push(callbackUrl);
-      }
-    } catch (err) {
-      setError("Something went wrong");
-    } finally {
-      setLoading(false);
+    if (res?.error) {
+      setError("Invalid email or password");
+    } else {
+      router.replace("/admin"); // 🔥 always go to admin
     }
-  };
+  } catch (err) {
+    setError("Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-900 relative overflow-hidden font-sans">
