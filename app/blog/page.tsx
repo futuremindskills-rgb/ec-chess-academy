@@ -19,7 +19,7 @@ import BlogBanner from "@/components/ui/blogBanner";
 import { getBlogPosts } from "@/app/actions/adminActions";
 
 // Categories should match the options in your Admin Panel
-const categories = ["All", "Physics", "Chess & Logic", "Study Tips", "Career Skills"];
+const categories = ["All", "Chess & Logic", "Skills"];
 
 export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -173,7 +173,6 @@ export default function BlogPage() {
                          <div className="absolute top-4 left-4">
                             <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-white/95 backdrop-blur-md text-slate-900 text-[10px] font-black uppercase tracking-widest rounded-xl shadow-lg">
                                {post.category.includes('Chess') ? <Crown size={12} className="text-amber-500"/> : 
-                                post.category.includes('Physics') ? <Atom size={12} className="text-teal-500"/> : 
                                 <BrainCircuit size={12} className="text-indigo-500"/>}
                                {post.category}
                             </span>

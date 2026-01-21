@@ -225,7 +225,7 @@ export default function GalleryAdmin() {
                   name="title" 
                   defaultValue={editingItem?.title} 
                   required 
-                  placeholder="e.g. Physics Workshop 2024"
+                  placeholder="e.g. Workshop 2024"
                   className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 transition-all font-bold text-slate-900" 
                 />
               </div>
@@ -234,10 +234,9 @@ export default function GalleryAdmin() {
                 <label className="block text-[10px] font-black uppercase text-slate-400 tracking-widest">Category</label>
                 <select 
                   name="category" 
-                  defaultValue={editingItem?.category || "Physics"} 
+                  defaultValue={editingItem?.category || "Chess"} 
                   className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none font-bold text-slate-900 appearance-none"
                 >
-                  <option value="Physics">Physics</option>
                   <option value="Chess">Chess</option>
                   <option value="Awards">Awards</option>
                   <option value="Events">Events</option>

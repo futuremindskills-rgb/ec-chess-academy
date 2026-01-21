@@ -22,7 +22,6 @@ const CoursesBanner: React.FC = () => {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-100/40 rounded-full blur-[100px] opacity-60 pointer-events-none -translate-y-1/3 translate-x-1/3"></div>
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-100/40 rounded-full blur-[100px] opacity-70 pointer-events-none translate-y-1/3 -translate-x-1/4"></div>
 
-      {/* 3. Floating Icons (Theme: Physics & Strategy) */}
       
       {/* Atom - Top Left */}
       <div className="absolute top-24 left-10 md:left-20 opacity-10 text-teal-600 animate-[spin_20s_linear_infinite]">
@@ -53,7 +52,7 @@ const CoursesBanner: React.FC = () => {
         
         {/* Description / Subtext */}
         <p className="text-lg md:text-xl text-slate-600 max-w-2xl mb-8 leading-relaxed font-medium">
-          Comprehensive Physics tuition and Chess coaching designed to maximize potential and results.
+          Comprehensive Chess coaching designed to maximize potential and results.
         </p>
 
         {/* Breadcrumb Navigation (Pill Style) */}

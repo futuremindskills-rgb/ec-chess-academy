@@ -23,8 +23,8 @@ export default function LeadInstructorSection() {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Mr. Chew Kok Mun",
-    "jobTitle": "Lead Physics Instructor",
-    "description": "Ex-MOE Scholar, NIE-trained educator specializing in Physics, Math, and Chess strategy.",
+    "jobTitle": "Lead Instructor",
+    "description": "Ex-MOE Scholar, NIE-trained educator specializing, Math, and Chess strategy.",
     "affiliation": {
       "@type": "Organization",
       "name": "Ministry of Education Singapore"
@@ -82,7 +82,7 @@ export default function LeadInstructorSection() {
             <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-[8px] border-white aspect-[4/5] z-10">
               <Image 
                 src="/image.png" 
-                alt="Mr. Chew Kok Mun - Physics Specialist & MOE Scholar" 
+                alt="Mr. Chew Kok Mun -  Specialist & MOE Scholar" 
                 fill
                 className="object-cover transition-transform duration-1000 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, 40vw"
@@ -137,7 +137,7 @@ export default function LeadInstructorSection() {
                 </span>
               </h2>
               <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl">
-                Master the <strong>Physics syllabus</strong> and <strong>Chess strategy</strong> with a mentor who bridges the gap between scientific logic and creative expression.
+                Master the <strong>Chess syllabus</strong> and <strong>Chess strategy</strong> with a mentor who bridges the gap between scientific logic and creative expression.
               </p>
             </motion.div>
 
@@ -149,7 +149,7 @@ export default function LeadInstructorSection() {
                 </div>
                 <h4 className="font-bold text-slate-900 text-lg mb-2">Communication Edge</h4>
                 <p className="text-sm text-slate-500 leading-relaxed">
-                  Minors in <span className="text-slate-900 font-semibold">Math & English (NUS)</span> allow for precise explanation of the most abstract physics concepts.
+                  Minors in <span className="text-slate-900 font-semibold">Math & English (NUS)</span> allow for precise explanation of the most abstract concepts.
                 </p>
               </div>
 

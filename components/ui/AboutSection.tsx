@@ -86,7 +86,7 @@ const AboutSection: React.FC = () => {
             {/* Bottom Academy Seal */}
             <div className="flex items-center justify-center lg:justify-start gap-4 sm:gap-5 pt-6 border-t border-slate-100">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-slate-900 p-1 shrink-0">
-                    <img src="/logo.webp" className="w-full h-full object-contain" alt="EC Logo" />
+                    <img src="/icon.png" className="w-full h-full object-contain" alt="EC Logo" />
                 </div>
                 <div className="text-left">
                   <h4 className="text-base sm:text-lg font-black text-slate-900 uppercase leading-none">EC Academy HK</h4>

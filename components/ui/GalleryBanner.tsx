@@ -39,7 +39,7 @@ const GalleryBanner: React.FC = () => {
         </motion.div>
 
         {/* --- 2. THE OVERLAY (Enhanced Gradients for better readability) --- */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/20 to-white z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/10 to-white z-10" />
         <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10" />
       </div>
 
@@ -60,7 +60,7 @@ const GalleryBanner: React.FC = () => {
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-5xl sm:text-7xl lg:text-9xl font-[1000] text-slate-900 mb-4 sm:mb-6 tracking-tighter leading-[0.85] uppercase"
+          className="text-4xl sm:text-4xl lg:text-7xl font-[1000] text-slate-900 mb-4 sm:mb-6 tracking-tighter leading-[0.85] uppercase"
         >
           OUR <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] to-[#f59e0b]">

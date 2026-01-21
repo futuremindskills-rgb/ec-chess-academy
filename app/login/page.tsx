@@ -58,7 +58,7 @@ export default function LoginPage() {
             <Atom className="text-white w-8 h-8 animate-[spin_10s_linear_infinite]" />
           </div>
           <h1 className="text-2xl font-black text-white tracking-tight">Admin Portal</h1>
-          <p className="text-slate-400 text-sm mt-2">Physics Made Easy Academy</p>
+          <p className="text-slate-400 text-sm mt-2">EC Chess Academy</p>
         </div>
 
         {/* Error Message */}
@@ -81,7 +81,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-11 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all font-medium"
-                placeholder="admin@physicsmadeeasy.com"
+                placeholder="admin@ecchessacademy.com"
                 required
               />
             </div>
@@ -124,7 +124,7 @@ export default function LoginPage() {
         <div className="mt-8 text-center border-t border-white/5 pt-6">
           <p className="text-xs text-slate-500">
             Authorized personnel only. <br />
-            © {new Date().getFullYear()} Physics Made Easy.
+            © {new Date().getFullYear()} EC Chess Academy.
           </p>
         </div>
 

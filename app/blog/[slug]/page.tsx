@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return { title: "Post Not Found" };
 
   return {
-    title: `${post.title} | Physics Made Easy`,
-    description: post.excerpt || `Learn more about ${post.title} with Cornelius Chew.`,
+    title: `${post.title} | EC Chess Academy`,
+    description: post.excerpt || `Learn more about ${post.title}.`,
     openGraph: {
       images: [post.image],
     },
@@ -165,7 +165,7 @@ export default async function BlogDetailPage({ params }: Props) {
                 About Author
               </h4>
               <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                Cornelius Chew is the head coach at Physics Made Easy, specializing in differentiated learning and Howard Gardner's theory of Multiple Intelligences.
+                Cornelius Chew is the head coach at EC Chess Academy, specializing in differentiated learning and Howard Gardner's theory of Multiple Intelligences.
               </p>
               <Link href="/contact" className="text-teal-600 font-bold text-sm hover:underline">
                 Book a Trial Class →
@@ -199,7 +199,7 @@ export default async function BlogDetailPage({ params }: Props) {
           <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 rounded-full blur-[80px]"></div>
           <h2 className="text-3xl md:text-4xl font-black mb-6 relative z-10">Confused by this topic?</h2>
           <p className="text-indigo-200 mb-8 max-w-xl mx-auto relative z-10">
-            Let's break it down together. Join our personalized coaching sessions where we make Physics and Science actually make sense.
+            Let's break it down together. Join our personalized coaching sessions where we make and Science actually make sense.
           </p>
           <Link href="/contact" className="relative z-10">
             <button className="bg-white text-indigo-900 px-8 py-4 rounded-xl font-bold hover:bg-teal-400 hover:text-white transition-all">

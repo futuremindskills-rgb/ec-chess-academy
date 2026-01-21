@@ -245,13 +245,12 @@ export default function BlogAdmin() {
                         <label className="block text-xs font-bold text-slate-500 uppercase">Category</label>
                         <select 
                             name="category" 
-                            defaultValue={editingItem?.category || "Physics"} 
+                            defaultValue={editingItem?.category || "Chess"} 
                             className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none font-medium"
                         >
-                            <option value="Physics">Physics</option>
                             <option value="Chess & Logic">Chess & Logic</option>
-                            <option value="Study Tips">Study Tips</option>
-                            <option value="Career Skills">Career Skills</option>
+                            <option value="Study Tips">Events</option>
+                            <option value="Career Skills">Skills</option>
                         </select>
                     </div>
 

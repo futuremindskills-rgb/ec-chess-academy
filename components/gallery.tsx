@@ -19,7 +19,6 @@ import { getGalleryImages } from "@/app/actions/adminActions";
 
 const tabs = [
   { id: "All", label: "All", icon: ImageIcon },
-  { id: "Physics", label: "Physics", icon: Atom },
   { id: "Chess", label: "Chess", icon: Crown },
   { id: "Awards", label: "Awards", icon: Trophy },
   { id: "Student Activities", label: "Activities", icon: Users },
@@ -34,11 +33,11 @@ export default function GallerySection() {
   const gallerySchema = {
     "@context": "https://schema.org",
     "@type": "ImageGallery",
-    "name": "Physics & Chess Learning Gallery",
-    "description": "Visual highlights of student achievements, physics experiments, and chess tournaments at the Academy.",
+    "name": " & Chess Learning Gallery",
+    "description": "Visual highlights of student achievements, xperiments, and chess tournaments at the Academy.",
     "provider": {
       "@type": "EducationalOrganization",
-      "name": "Physics & Strategy Academy"
+      "name": " & Strategy Academy"
     }
   };
 
@@ -134,7 +133,7 @@ export default function GallerySection() {
                   >
                     <Image 
                       src={image.src} 
-                      alt={`${image.title} - ${image.category} at Physics & Strategy Academy`} 
+                      alt={`${image.title} - ${image.category} Strategy Academy`} 
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
