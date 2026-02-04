@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Camera,
@@ -8,59 +8,85 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Maximize2,
   Crown, 
-  Users,
-  Loader2,
   ShieldCheck,
-  Star,
-  Target,
-  Zap
 } from 'lucide-react';
-import { getGalleryImages } from "@/app/actions/adminActions";
 
-// Categories kept exactly as your design
+// --- 1. STATIC CHAMPION DATA ---
+const CHAMPION_PHOTOS = [
+  { id: "1", src: "/1.jpeg", category: "Awards" },
+  { id: "2", src: "/2.jpeg", category: "Tournaments" },
+  { id: "3", src: "/3.jpeg", category: "Awards" },
+  { id: "4", src: "/4.jpeg", category: "Awards" },
+  { id: "5", src: "/5.jpeg", category: "Tournaments" },
+  { id: "6", src: "/6.jpeg", category: "Tournaments" },
+  { id: "7", src: "/7.jpeg", category: "Awards" },
+  { id: "8", src: "/8.jpeg", category: "Tournaments" },
+  { id: "9", src: "/9.jpeg", category: "Awards" },
+  { id: "10", src: "/10.jpeg", category: "Awards" },
+  { id: "11", src: "/11.jpeg", category: "Tournaments" },
+  { id: "12", src: "/12.jpeg", category: "Tournaments" },
+  { id: "13", src: "/13.jpeg", category: "Awards" },
+  { id: "14", src: "/14.jpeg", category: "Tournaments" },
+  { id: "15", src: "/15.jpeg", category: "Awards" },
+  { id: "16", src: "/16.jpeg", category: "Awards" },
+  { id: "17", src: "/17.jpeg", category: "Tournaments" },
+  { id: "18", src: "/18.jpeg", category: "Tournaments" },
+  { id: "19", src: "/19.jpeg", category: "Awards" },
+  { id: "20", src: "/20.jpeg", category: "Tournaments" },
+  { id: "21", src: "/21.jpeg", category: "Awards" },
+  { id: "22", src: "/22.jpeg", category: "Awards" },
+  { id: "23", src: "/23.jpeg", category: "Tournaments" },
+  { id: "24", src: "/24.jpeg", category: "Tournaments" },
+  { id: "25", src: "/25.jpeg", category: "Awards" },
+  { id: "26", src: "/26.jpeg", category: "Tournaments" },
+  { id: "27", src: "/27.jpeg", category: "Awards" },
+  { id: "28", src: "/28.jpeg", category: "Awards" },
+  { id: "29", src: "/29.jpeg", category: "Tournaments" },
+  { id: "30", src: "/30.jpeg", category: "Tournaments" },
+  { id: "31", src: "/31.jpeg", category: "Awards" },
+  { id: "32", src: "/32.jpeg", category: "Tournaments" },
+  { id: "33", src: "/33.jpeg", category: "Awards" },
+  { id: "34", src: "/34.jpeg", category: "Awards" },
+  { id: "35", src: "/35.jpeg", category: "Tournaments" },
+  { id: "36", src: "/36.jpeg", category: "Tournaments" },
+  { id: "37", src: "/37.jpeg", category: "Awards" },
+  { id: "38", src: "/38.jpeg", category: "Tournaments" },
+  { id: "39", src: "/39.jpeg", category: "Awards" },
+  { id: "40", src: "/40.jpeg", category: "Awards" },
+  { id: "41", src: "/41.jpeg", category: "Tournaments" },
+  { id: "42", src: "/42.jpeg", category: "Tournaments" },
+  { id: "43", src: "/43.jpeg", category: "Awards" },
+  { id: "44", src: "/44.jpeg", category: "Tournaments" },
+  { id: "45", src: "/45.jpeg", category: "Awards" },
+  { id: "46", src: "/46.jpeg", category: "Awards" },
+  { id: "47", src: "/47.jpeg", category: "Tournaments" },
+  { id: "48", src: "/48.jpeg", category: "Tournaments" },
+  { id: "49", src: "/49.jpeg", category: "Awards" },
+  { id: "50", src: "/50.jpeg", category: "Tournaments" },
+  { id: "51", src: "/51.jpeg", category: "Awards" },
+  { id: "52", src: "/52.jpeg", category: "Awards" },
+  { id: "53", src: "/53.jpeg", category: "Tournaments" },
+  { id: "54", src: "/54.jpeg", category: "Tournaments" },
+  { id: "55", src: "/55.jpeg", category: "Awards" },
+  { id: "56", src: "/56.jpeg", category: "Tournaments" },
+  { id: "57", src: "/57.jpeg", category: "Awards" },
+];
+
 const categories = [
   { id: "All", label: "All Moments", icon: Camera, color: "bg-slate-900" },
-  { id: "Coaching", label: "Elite Coaching", icon: Target, color: "bg-[#8A2BE2]" },
-  { id: "Tournaments", label: "Chess Arena", icon: Crown, color: "bg-[#4F46E5]" },
-  { id: "Awards", label: "Hall of Fame", icon: Trophy, color: "bg-[#FFD700]" },
-  { id: "Student Life", label: "Student Life", icon: Users, color: "bg-[#1a5f5f]" },
+  { id: "Tournaments", label: "Tournaments", icon: Crown, color: "bg-[#4F46E5]" },
+  { id: "Awards", label: "Awards", icon: Trophy, color: "bg-[#FFD700]" },
 ];
 
-const demoImages = [
-  { id: "d1", src: "/1.webp", title: "UAE National Qualifiers", category: "Tournaments", description: "Students competing at the highest level of national chess." },
-  { id: "d2", src: "/2.webp", title: "Grandmaster Masterclass", category: "Coaching", description: "Deep tactical analysis session with our FIDE lead coach." },
-  { id: "d3", src: "/3.webp", title: "Junior Podium Finish", category: "Awards", description: "Celebrating excellence and strategic growth in our U-12 category." },
-  { id: "d4", src: "/1.webp", title: "Opening Theory Workshop", category: "Coaching", description: "Focusing on the Sicilian Defense and central control." },
-  { id: "d5", src: "/2.webp", title: "Internal League Day", category: "Student Life", description: "A day of fun, friendly competition and sportsmanship." },
-  { id: "d6", src: "/3.webp", title: "Tactical Puzzle Challenge", category: "Tournaments", description: "Speed solving session to improve calculation skills." },
-];
-
-export default function GallerySection() {
-  const [images, setImages] = useState<any[]>([]); 
-  const [isLoading, setIsLoading] = useState(true);
+export default function FullGalleryPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [lightboxImage, setLightboxImage] = useState<any | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    async function loadImages() {
-      try {
-        const data = await getGalleryImages();
-        setImages(data.length > 0 ? data : demoImages);
-      } catch (error) {
-        setImages(demoImages);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    loadImages();
-  }, []);
-
   const filteredImages = activeCategory === "All"
-    ? images
-    : images.filter(img => img.category === activeCategory);
+    ? CHAMPION_PHOTOS
+    : CHAMPION_PHOTOS.filter(img => img.category === activeCategory);
 
   const handleNext = (e?: React.MouseEvent) => {
     e?.stopPropagation();
@@ -79,10 +105,9 @@ export default function GallerySection() {
   return (
     <section className="relative py-16 md:py-28 bg-white overflow-hidden font-sans" id="gallery">
       
-      {/* Background Blurs */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-full md:w-1/3 h-1/3 bg-yellow-50/50 rounded-full blur-[80px] md:blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-full md:w-1/3 h-1/3 bg-purple-50/50 rounded-full blur-[80px] md:blur-[120px]" />
+      {/* Background Decor */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:32px_32px]" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
@@ -91,35 +116,32 @@ export default function GallerySection() {
         <div className="text-center mb-10 md:mb-20">
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest mb-4 shadow-lg"
           >
-            <ShieldCheck size={12} className="text-yellow-400" />
-            Visual Archive
+            <ShieldCheck size={12} className="text-teal-400" />
+            Academy Archive
           </motion.div>
-          <h2 className="text-3xl md:text-6xl font-[1000] text-slate-900 tracking-tighter leading-[1.1] md:leading-none uppercase mb-6">
-            Academy <br className="block md:hidden" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500">
-                Moments
+          <h1 className="text-4xl md:text-5xl font-[1000] text-slate-900 tracking-tighter leading-[1.1] uppercase mb-6">
+            Hall of {" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-indigo-600 to-cyan-500">
+                Champions
             </span>
-          </h2>
+          </h1>
         </div>
 
-        {/* --- FILTER TABS (Mobile Scrollable) --- */}
-        <div className="relative mb-12 md:mb-16">
-            <div 
-                ref={scrollRef}
-                className="flex overflow-x-auto no-scrollbar pb-4 md:pb-0 md:flex-wrap md:justify-center gap-3 snap-x"
-            >
+        {/* --- FILTER TABS --- */}
+        <div className="relative mb-12">
+            <div ref={scrollRef} className="flex overflow-x-auto no-scrollbar justify-center gap-3 snap-x">
                 {categories.map((cat) => {
                 const isActive = activeCategory === cat.id;
                 return (
                     <button
                         key={cat.id}
                         onClick={() => setActiveCategory(cat.id)}
-                        className={`flex-shrink-0 snap-center flex items-center gap-2 px-5 py-3 md:px-6 md:py-3 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all duration-300 border-2
+                        className={`flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-300 border-2
                         ${isActive
-                            ? `${cat.color} text-white border-transparent shadow-lg scale-105`
+                            ? `${cat.color} text-white border-transparent shadow-xl scale-105`
                             : 'bg-white text-slate-500 border-slate-100 hover:border-slate-200'
                         }`}
                     >
@@ -131,128 +153,71 @@ export default function GallerySection() {
             </div>
         </div>
 
-        {/* --- MASONRY GRID --- */}
-        {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-20">
-            <Loader2 className="w-10 h-10 animate-spin text-indigo-600 mb-4" />
-            <p className="font-black text-[10px] uppercase tracking-widest text-slate-400">Syncing Gallery...</p>
-          </div>
-        ) : (
-          <motion.div 
-            layout
-            className="columns-1 sm:columns-2 lg:columns-3 gap-4 md:gap-6 space-y-4 md:space-y-6"
-          >
-            <AnimatePresence mode='popLayout'>
-              {filteredImages.map((image) => (
-                <motion.div
-                  key={image.id}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="group relative break-inside-avoid rounded-[24px] md:rounded-[35px] overflow-hidden cursor-zoom-in bg-slate-100 border-2 border-white shadow-sm hover:shadow-xl transition-all duration-500"
-                  onClick={() => setLightboxImage(image)}
-                >
-                  <img
-                    src={image.src}
-                    alt={image.title}
-                    className="w-full h-auto object-cover transition-transform duration-700 md:group-hover:scale-105"
-                  />
-                  
-                  {/* Overlay (Hidden on mobile unless clicked, visible on desktop hover) */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-0 md:group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-5 md:p-8">
-                    <span className="inline-block px-3 py-1 bg-[#f59e0b] text-slate-900 text-[8px] md:text-[9px] font-black uppercase tracking-widest rounded-full mb-2 w-fit">
-                      {image.category}
-                    </span>
-                    <h4 className="text-white text-lg md:text-xl font-black uppercase tracking-tighter mb-1">{image.title}</h4>
-                    <p className="text-slate-300 text-[10px] md:text-xs font-medium line-clamp-2">{image.description}</p>
-                    
-                    <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-lg text-white hidden md:block">
-                      <Maximize2 size={18} />
-                    </div>
-                  </div>
-
-                  {/* Mobile Mobile Quick Info (Always slightly visible on mobile for UX) */}
-                  <div className="md:hidden absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
-                     <h4 className="text-white text-sm font-bold uppercase tracking-tight">{image.title}</h4>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        )}
+        {/* --- MASONRY GRID (PURE IMAGES) --- */}
+        <motion.div 
+          layout
+          className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6"
+        >
+          <AnimatePresence mode='popLayout'>
+            {filteredImages.map((image) => (
+              <motion.div
+                key={image.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="group relative break-inside-avoid rounded-[2rem] overflow-hidden cursor-zoom-in bg-slate-50 border-2 border-slate-100 hover:border-teal-500 hover:shadow-2xl transition-all duration-500"
+                onClick={() => setLightboxImage(image)}
+              >
+                <img
+                  src={image.src}
+                  alt="Academy Moment"
+                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                
+                {/* Subtle Hover Glow (No text) */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
 
-      {/* --- PREMIUM LIGHTBOX --- */}
+      {/* --- LIGHTBOX (PURE IMAGE VIEWER) --- */}
       <AnimatePresence>
         {lightboxImage && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-slate-950/98 backdrop-blur-xl flex items-center justify-center p-0 md:p-10"
+            className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl flex items-center justify-center"
             onClick={() => setLightboxImage(null)}
           >
-            {/* Close Button */}
+            {/* Close */}
             <button className="absolute top-6 right-6 p-3 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors z-[110]">
               <X size={24} />
             </button>
             
-            {/* Nav Arrows (Desktop Only) */}
-            <button className="absolute left-6 top-1/2 -translate-y-1/2 p-4 text-white/30 hover:text-white transition-colors hidden xl:block" onClick={handlePrev}>
-              <ChevronLeft size={64} />
+            {/* Nav Arrows */}
+            <button className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 p-4 text-white/40 hover:text-white transition-colors" onClick={handlePrev}>
+              <ChevronLeft size={48} />
             </button>
-            <button className="absolute right-6 top-1/2 -translate-y-1/2 p-4 text-white/30 hover:text-white transition-colors hidden xl:block" onClick={handleNext}>
-              <ChevronRight size={64} />
+            <button className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 p-4 text-white/40 hover:text-white transition-colors" onClick={handleNext}>
+              <ChevronRight size={48} />
             </button>
 
             <motion.div
-              initial={{ scale: 0.9, y: 40 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 40 }}
-              className="bg-white md:rounded-[40px] overflow-hidden max-w-6xl w-full h-full md:h-auto md:max-h-[90vh] flex flex-col md:flex-row shadow-2xl relative"
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              className="max-w-[90vw] max-h-[90vh] flex items-center justify-center"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Image Area */}
-              <div className="w-full h-[50vh] md:h-auto md:w-2/3 bg-black flex items-center justify-center relative group">
-                 <img src={lightboxImage.src} alt={lightboxImage.title} className="max-w-full max-h-full md:max-h-[85vh] object-contain" />
-                 
-                 {/* Mobile Swipe Indicators/Navigation */}
-                 <div className="absolute inset-x-0 bottom-4 flex justify-center gap-10 md:hidden">
-                    <button onClick={handlePrev} className="p-3 bg-white/10 rounded-full text-white"><ChevronLeft /></button>
-                    <button onClick={handleNext} className="p-3 bg-white/10 rounded-full text-white"><ChevronRight /></button>
-                 </div>
-              </div>
-              
-              {/* Text Area */}
-              <div className="w-full md:w-1/3 p-8 md:p-10 lg:p-14 bg-white flex flex-col overflow-y-auto">
-                  <div className="absolute -right-10 -bottom-10 opacity-[0.03] pointer-events-none text-slate-900 hidden md:block">
-                      <Zap size={250} fill="currentColor" />
-                  </div>
-
-                  <span className="inline-block px-4 py-1 bg-indigo-50 text-indigo-600 rounded-full text-[9px] font-black uppercase tracking-widest mb-4 w-fit">
-                    {lightboxImage.category}
-                  </span>
-                  <h3 className="text-2xl md:text-3xl font-[1000] text-slate-900 mb-4 md:mb-6 uppercase tracking-tighter leading-tight">
-                    {lightboxImage.title}
-                  </h3>
-                  <p className="text-slate-500 font-medium text-sm md:text-base leading-relaxed mb-8">
-                    {lightboxImage.description}
-                  </p>
-                  
-                  {/* Footer Info */}
-                  <div className="pt-6 border-t border-slate-100 mt-auto">
-                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-[#f59e0b] rounded-xl flex items-center justify-center shrink-0">
-                            <Star className="text-white w-5 h-5" fill="currentColor" />
-                        </div>
-                        <div>
-                          <p className="text-[9px] text-slate-400 uppercase font-black tracking-widest leading-none mb-1">Academy Moment</p>
-                          <p className="text-xs md:text-sm font-bold text-slate-900">EC Chess Academy</p>
-                        </div>
-                     </div>
-                  </div>
-              </div>
+              <img 
+                src={lightboxImage.src} 
+                alt="Enlarged moment" 
+                className="rounded-[2rem] md:rounded-[3rem] border-4 border-white/10 shadow-2xl object-contain max-h-[85vh]" 
+              />
             </motion.div>
           </motion.div>
         )}

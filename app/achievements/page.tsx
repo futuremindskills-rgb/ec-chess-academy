@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import AchievementsBanner from "@/components/ui/AchievementsBanner";
 import SuccessStoriesSlider from "@/components/ui/stories";
+import ChampionGallery from "@/components/ui/champion";
 
 export default function AchievementsPage() {
   const stats = [
@@ -61,6 +62,7 @@ export default function AchievementsPage() {
       </section>
 
       <SuccessStoriesSlider/>
+      <ChampionGallery/>
 
       {/* --- 4. RATING IMPROVEMENT JOURNEYS --- */}
       <section className="py-16 md:py-24 container mx-auto px-4 md:px-6">

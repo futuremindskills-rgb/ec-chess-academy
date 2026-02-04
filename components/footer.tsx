@@ -73,10 +73,10 @@ export default function Footer() {
                 <span className="text-sm font-medium">enquiry.ecchess@gmail.com</span>
               </div>
               <div className="flex gap-4 pt-2">
-                <Link href="#" className="p-2 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
+                <Link href="https://www.facebook.com/ecchess" className="p-2 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
                   <Facebook size={20} />
                 </Link>
-                <Link href="#" className="p-2 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
+                <Link href="https://www.instagram.com/ec_chess/" className="p-2 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
                   <Instagram size={20} />
                 </Link>
               </div>

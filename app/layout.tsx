@@ -45,7 +45,7 @@ export default function RootLayout({
           },
           "sameAs": [
             "https://www.facebook.com/ecchess",
-            "https://www.instagram.com/ecchess"
+            "https://www.instagram.com/ec_chess/"
           ]
         }
         `}
