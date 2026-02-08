@@ -8,6 +8,7 @@ type FileUploadProps = {
   endpoint: "imageUploader" | "pdfUploader";
 };
 
+
 export function FileUpload({ onUploadComplete, endpoint }: FileUploadProps) {
   return (
     <UploadButton<OurFileRouter, typeof endpoint>
