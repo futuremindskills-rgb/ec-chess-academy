@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// --- TOURNAMENTS ---
+// --- ENUMS (CRITICAL: These define the allowed statuses) ---
 
 enum TournamentStatus {
   OPEN
@@ -16,11 +16,19 @@ enum TournamentStatus {
   CANCELLED
 }
 
+enum RegistrationStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+// --- TOURNAMENTS ---
+
 model Tournament {
   id           Int              @id @default(autoincrement())
   title        String
   description  String
-  entryFee     Int              // stored in smallest currency unit (e.g. paise)
+  entryFee     Int              // stored in smallest currency unit (e.g. cents for HKD)
   maxPlayers   Int
   startDate    DateTime
   endDate      DateTime
@@ -28,6 +36,26 @@ model Tournament {
   bannerImage  String?
   status       TournamentStatus @default(OPEN)
   createdAt    DateTime         @default(now())
+  
+  // Relation to registrations
+  registrations Registration[]
+}
+
+// --- REGISTRATIONS ---
+
+model Registration {
+  id           String             @id @default(cuid())
+  playerName   String
+  email        String
+  phone        String
+  status       RegistrationStatus @default(PENDING)
+  
+  // Link to Tournament
+  tournamentId Int
+  tournament   Tournament         @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  
+  stripeSessionId String?         @unique
+  createdAt       DateTime        @default(now())
 }
 
 // --- BLOGS ---
@@ -36,7 +64,7 @@ model BlogPost {
   id        Int      @id @default(autoincrement())
   title     String
   excerpt   String
-  content   String   
+  content   String   @db.Text
   category  String   
   readTime  String
   image     String
