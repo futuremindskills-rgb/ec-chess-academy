@@ -9,9 +9,7 @@ const globalForPrisma = global as unknown as { prisma: PrismaClient };
 const prisma = globalForPrisma.prisma || new PrismaClient();
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-01-28.clover",
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function registerForTournament(formData: FormData) {
   const tournamentId = parseInt(formData.get("tournamentId") as string);
