@@ -10,7 +10,7 @@ const prisma = globalForPrisma.prisma || new PrismaClient();
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-12-18-preview" as any,
+  apiVersion: "2026-01-28.clover",
 });
 
 export async function registerForTournament(formData: FormData) {
