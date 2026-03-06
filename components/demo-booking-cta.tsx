@@ -62,7 +62,7 @@ export default function CTASection() {
 
               {/* ACTION BUTTONS */}
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center pt-2">
-                <Link href="https://wa.me/yournumber" target="_blank">
+                <Link href="https://wa.me/85254066800" target="_blank">
                   <button className="w-full sm:w-auto px-8 py-4 bg-white text-[#1e1b4b] rounded-xl font-[1000] uppercase tracking-widest text-xs border-[3px] border-[#1e1b4b] shadow-[5px_5px_0px_#1e1b4b] transition-all hover:translate-y-0.5 hover:shadow-none flex items-center justify-center gap-2">
                     <MessageCircle size={18} className="fill-current" />
                     Book Free Trial

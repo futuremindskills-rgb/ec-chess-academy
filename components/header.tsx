@@ -40,7 +40,7 @@ const Header: React.FC = () => {
     { name: "Tournaments", href: "/tournaments" },
     { name: "Achievements", href: "/achievements" },
     { name: "Gallery", href: "/gallery" },
-    { name: "Contact", href: "/contact" },
+    { name: "Blog", href: "/blog" },
   ];
 
   return (
@@ -91,7 +91,7 @@ const Header: React.FC = () => {
               href="/book-demo"
               className="hidden md:inline-flex items-center justify-center px-7 py-3 text-[13px] font-black uppercase tracking-widest text-white transition-all duration-300 bg-slate-900 rounded-full hover:bg-purple-600 hover:shadow-[0_10px_20px_rgba(147,51,234,0.3)] active:scale-95"
             >
-              Book a Demo
+              Contact Us
             </Link>
 
             <button

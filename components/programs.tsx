@@ -13,7 +13,7 @@ const ProgramsSection: React.FC = () => {
       image: "/go.png",
       gradient: "from-blue-500 to-indigo-600",
       shadow: "shadow-blue-200/50",
-      href: "/contact",
+      href: "/go-wieqi",
     },
     {
       title: "Intl. Chess",
@@ -22,7 +22,7 @@ const ProgramsSection: React.FC = () => {
       image: "/chess.png",
       gradient: "from-purple-600 to-indigo-700",
       shadow: "shadow-purple-200/50",
-      href: "/contact",
+      href: "/international-chess",
     },
     {
       title: "Chinese Chess",
@@ -31,7 +31,7 @@ const ProgramsSection: React.FC = () => {
       image: "/c-chess.png",
       gradient: "from-orange-500 to-red-600",
       shadow: "shadow-orange-200/50",
-      href: "/contact",
+      href: "/chinese-chess",
     },
   ];
 

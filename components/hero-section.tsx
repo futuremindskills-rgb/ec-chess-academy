@@ -4,6 +4,7 @@ import React from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, CheckCircle2, Star, Trophy, Zap, Crown } from "lucide-react"
+import Link from "next/link"
 
 export function HeroSection() {
   // Precision Scalloped Wave SVG - Keeping your exact structure
@@ -105,13 +106,25 @@ export function HeroSection() {
               transition={{ delay: 0.6 }}
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2"
             >
-              <Button size="lg" className="w-full sm:w-auto h-14 md:h-16 px-8 md:px-12 bg-orange-500 hover:bg-white hover:text-[#1e1b4b] text-white rounded-2xl md:rounded-[2rem] text-lg md:text-xl font-black uppercase tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95">
-                Book a Demo
-                <ArrowRight className="ml-2 w-5 h-5 md:w-6 md:h-6" />
-              </Button>
-              <Button variant="ghost" size="lg" className="w-full sm:w-auto h-14 md:h-16 px-8 md:px-10 text-white hover:bg-white/10 rounded-2xl md:rounded-[2rem] text-base md:text-lg font-bold border-2 border-white/20 backdrop-blur-sm uppercase tracking-widest">
-                Explore Courses
-              </Button>
+              <Link href="/contact">
+  <Button
+    size="lg"
+    className="w-full sm:w-auto h-14 md:h-16 px-8 md:px-12 bg-orange-500 hover:bg-white hover:text-[#1e1b4b] text-white rounded-2xl md:rounded-[2rem] text-lg md:text-xl font-black uppercase tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95"
+  >
+    Book a Demo
+    <ArrowRight className="ml-2 w-5 h-5 md:w-6 md:h-6" />
+  </Button>
+</Link>
+
+<Link href="/courses">
+  <Button
+    variant="ghost"
+    size="lg"
+    className="w-full sm:w-auto h-14 md:h-16 px-8 md:px-10 text-white hover:bg-white/10 rounded-2xl md:rounded-[2rem] text-base md:text-lg font-bold border-2 border-white/20 backdrop-blur-sm uppercase tracking-widest"
+  >
+    Explore Courses
+  </Button>
+</Link>
             </motion.div>
           </div>
 

@@ -10,8 +10,23 @@ import {
   Facebook,
   Instagram,
   ChevronUp,
-  MapPin
+  MapPin,
+  ExternalLink
 } from "lucide-react";
+
+const footerLinks = [
+  { name: "Home", href: "/" },
+  { name: "Curriculum", href: "/courses" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "Blog", href: "/blog" },
+];
+
+const links = [
+  { name: "Contact Us", href: "/contact" },
+  { name: "Achievements", href: "/achievements" },
+  { name: "About Us", href: "/about" },
+  { name: "Registration", href: "/tournaments" },
+];
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -88,9 +103,14 @@ export default function Footer() {
             <h4 className="text-lg font-black uppercase tracking-widest mb-4">Useful Links</h4>
             <div className="w-10 h-1.5 bg-indigo-500 rounded-full mb-6" />
             <ul className="space-y-4 text-slate-300">
-              {["Home", "Curriculum", "Gallery", "Blog"].map((link) => (
-                <li key={link}>
-                  <Link href={`/${link.toLowerCase()}`} className="hover:text-white hover:translate-x-1 inline-block transition-all font-bold">{link}</Link>
+              {footerLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="hover:text-white hover:translate-x-1 inline-block transition-all font-bold"
+                  >
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -101,9 +121,14 @@ export default function Footer() {
             <h4 className="text-lg font-black uppercase tracking-widest mb-4">Our Company</h4>
             <div className="w-10 h-1.5 bg-purple-500 rounded-full mb-6" />
             <ul className="space-y-4 text-slate-300">
-              {["Contact Us", "Achievements", "About Us", "Registration"].map((link) => (
-                <li key={link}>
-                  <Link href={`/${link.replace(/\s+/g, '').toLowerCase()}`} className="hover:text-white hover:translate-x-1 inline-block transition-all font-bold">{link}</Link>
+              {links.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="hover:text-white hover:translate-x-1 inline-block transition-all font-bold"
+                  >
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -114,32 +139,46 @@ export default function Footer() {
             <h4 className="text-lg font-black uppercase tracking-widest mb-4">HK Branches</h4>
             <div className="w-10 h-1.5 bg-orange-500 rounded-full mb-6" />
             
-            <div className="space-y-6">
-              <div className="group">
-                <div className="flex items-center gap-2 mb-1 text-orange-400">
-                   <MapPin size={14} />
-                   <span className="text-[10px] font-black uppercase tracking-widest">Kowloon City</span>
+            <div className="space-y-8">
+              {/* Kowloon City Branch */}
+              <Link href="https://form.wa.link/ecchess" target="_blank" className="block group">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2 text-orange-400">
+                    <MapPin size={14} />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Kowloon City</span>
+                  </div>
+                  <span className="text-[8px] font-black bg-orange-500 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">ENQUIRE NOW</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-white/10 group-hover:bg-orange-500 transition-all">
-                    <Phone size={16} />
+                  <div className="p-2 rounded-lg bg-white/10 group-hover:bg-orange-500 group-hover:scale-110 transition-all">
+                    <MessageCircle size={16} />
                   </div>
-                  <span className="text-sm font-bold tracking-widest">4614 4561</span>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-bold tracking-widest">4614 4561</span>
+                    <span className="text-[9px] text-slate-400 font-bold group-hover:text-white">Click for WhatsApp Form</span>
+                  </div>
                 </div>
-              </div>
+              </Link>
 
-              <div className="group">
-                <div className="flex items-center gap-2 mb-1 text-indigo-400">
-                   <MapPin size={14} />
-                   <span className="text-[10px] font-black uppercase tracking-widest">Yuen Long</span>
+              {/* Yuen Long Branch */}
+              <Link href="https://form.wa.link/ecchessylc" target="_blank" className="block group">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2 text-indigo-400">
+                    <MapPin size={14} />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Yuen Long</span>
+                  </div>
+                  <span className="text-[8px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">ENQUIRE NOW</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-white/10 group-hover:bg-indigo-500 transition-all">
-                    <Phone size={16} />
+                  <div className="p-2 rounded-lg bg-white/10 group-hover:bg-indigo-500 group-hover:scale-110 transition-all">
+                    <MessageCircle size={16} />
                   </div>
-                  <span className="text-sm font-bold tracking-widest">5406 6800</span>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-bold tracking-widest">5406 6800</span>
+                    <span className="text-[9px] text-slate-400 font-bold group-hover:text-white">Click for WhatsApp Form</span>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
 
@@ -155,7 +194,7 @@ export default function Footer() {
             className="flex items-center gap-3 bg-[#25D366] px-6 py-3 rounded-2xl shadow-xl border-b-4 border-green-700"
           >
             <MessageCircle size={20} fill="white" />
-            <span className="text-sm font-black uppercase tracking-wider">WhatsApp Us</span>
+            <span className="text-sm font-black uppercase tracking-wider">WhatsApp</span>
           </motion.a>
 
           <p className="text-[10px] font-bold opacity-40 uppercase tracking-[0.2em] text-center">

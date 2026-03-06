@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react"; // Added useCallback
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Trophy, 
@@ -12,7 +12,7 @@ import {
   Medal
 } from "lucide-react";
 
-// New data structure based on your photos
+// ... (successStories data remains the same)
 const successStories = [
   {
     name: "Ng Kwun Wang",
@@ -25,7 +25,6 @@ const successStories = [
     beforeResult: "Regional Participant",
     afterResult: "DCD Charity Tournament 1st",
     insight: "Guanhong's calm judgement and steady mindset allowed him to stand out in a highly competitive open field.",
-    // Replace these with your actual image paths
     images: ["/ng1.jpeg", "/ng2.jpeg", "/ng3.jpeg"],
     cardBg: "bg-[#F5F3FF]", 
     accent: "text-purple-600",
@@ -129,9 +128,27 @@ const InnerImageSlider = ({ images }: { images: string[] }) => {
 
 const SuccessStoriesSlider: React.FC = () => {
   const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false); // State to handle hover pausing
 
-  const next = () => setIndex((prev) => (prev + 1) % successStories.length);
-  const prev = () => setIndex((prev) => (prev - 1 + successStories.length) % successStories.length);
+  // Use callback to prevent unnecessary re-renders in useEffect
+  const next = useCallback(() => {
+    setIndex((prev) => (prev + 1) % successStories.length);
+  }, []);
+
+  const prev = () => {
+    setIndex((prev) => (prev - 1 + successStories.length) % successStories.length);
+  };
+
+  // AUTO SCROLL LOGIC
+  useEffect(() => {
+    if (isPaused) return; // Stop timer if user is hovering
+
+    const interval = setInterval(() => {
+      next();
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [next, isPaused, index]); // Reset interval if index changes manually or pause state toggles
 
   return (
     <section className="py-16 md:py-24 bg-white overflow-hidden font-sans">
@@ -154,7 +171,11 @@ const SuccessStoriesSlider: React.FC = () => {
         </div>
 
         {/* SLIDER CONTAINER */}
-        <div className="relative max-w-5xl mx-auto">
+        <div 
+          className="relative max-w-5xl mx-auto"
+          onMouseEnter={() => setIsPaused(true)} // Pause on Hover
+          onMouseLeave={() => setIsPaused(false)} // Resume on Leave
+        >
           <AnimatePresence mode="wait">
             <motion.div 
               key={index}
@@ -171,7 +192,7 @@ const SuccessStoriesSlider: React.FC = () => {
                 <div className="absolute inset-0 opacity-100 pointer-events-none z-0" 
                      style={{ backgroundImage: `url("${successStories[index].pattern}")` }} />
 
-                {/* IMAGE SECTION WITH NESTED SLIDER */}
+                {/* IMAGE SECTION */}
                 <div className="relative z-10 flex-shrink-0">
                   <div className="w-44 h-44 sm:w-60 sm:h-60 md:w-80 md:h-80 relative">
                     <motion.div 
@@ -182,7 +203,6 @@ const SuccessStoriesSlider: React.FC = () => {
                     <div className="w-full h-full rounded-full overflow-hidden border-[6px] md:border-[10px] border-white shadow-xl relative z-10 bg-slate-200">
                       <InnerImageSlider images={successStories[index].images} />
                     </div>
-                    {/* Badge */}
                     <div className="absolute -bottom-1 -right-1 md:-bottom-2 md:-right-2 w-16 h-16 md:w-20 md:h-20 bg-yellow-400 rounded-full flex items-center justify-center border-[3px] md:border-4 border-slate-900 shadow-xl rotate-12 z-20">
                        <Medal className="text-slate-900" size={24} />
                     </div>
@@ -202,7 +222,6 @@ const SuccessStoriesSlider: React.FC = () => {
                     </h3>
                   </div>
 
-                  {/* DATA GRID */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                     <div className="p-4 md:p-6 bg-white/40 backdrop-blur-md rounded-2xl md:rounded-3xl border-2 border-white shadow-sm flex flex-col items-center lg:items-start">
                       <div className="flex items-center gap-2 mb-2">
@@ -225,7 +244,6 @@ const SuccessStoriesSlider: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* COACH INSIGHT */}
                   <div className="p-5 md:p-6 bg-white border-2 border-slate-900 rounded-[24px] md:rounded-[32px] relative shadow-sm text-left">
                     <Quote className="absolute top-2 right-4 md:top-4 md:right-6 text-slate-100 w-8 h-8 md:w-12 md:h-12" />
                     <div className="flex items-center gap-2 mb-2">
@@ -260,7 +278,6 @@ const SuccessStoriesSlider: React.FC = () => {
             </button>
           </div>
         </div>
-
       </div>
     </section>
   );
