@@ -60,9 +60,9 @@ export default function AchievementsPage() {
           ))}
         </div>
       </section>
-
-      <SuccessStoriesSlider/>
       <ChampionGallery/>
+      <SuccessStoriesSlider/>
+      
 
       {/* --- 4. RATING IMPROVEMENT JOURNEYS --- */}
       <section className="py-16 md:py-24 container mx-auto px-4 md:px-6">
@@ -178,7 +178,7 @@ export default function AchievementsPage() {
                
                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-5 pt-4 md:pt-6">
                   <Link 
-                    href="/book-demo" 
+                    href="/contact" 
                     className="w-full sm:w-auto px-8 md:px-12 py-4 md:py-5 bg-slate-900 text-white rounded-xl md:rounded-2xl font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-orange-600 transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-orange-200 active:scale-95"
                   >
                     Book Free Demo <ChevronRight size={18} />

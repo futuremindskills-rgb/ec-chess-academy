@@ -139,28 +139,7 @@ const FAQSection: React.FC = () => {
             </motion.div>
           ))}
 
-          {/* Support CTA Card */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="mt-12 p-10 bg-slate-900 rounded-[40px] flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden shadow-2xl"
-          >
-             <div className="absolute top-0 right-0 p-4 opacity-10">
-                <Zap size={60} className="text-yellow-400" />
-             </div>
-             <div className="flex items-center gap-6 text-center md:text-left relative z-10">
-                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md">
-                  <MessageCircle className="text-[#f59e0b] w-7 h-7" />
-                </div>
-                <div className="flex flex-col">
-                  <p className="text-white font-[1000] text-xl uppercase tracking-tighter">Still Unsure?</p>
-                  <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Chat with our Grandmaster Support Team</p>
-                </div>
-             </div>
-             <button className="relative z-10 px-8 py-4 bg-[#f59e0b] text-slate-900 font-black text-xs uppercase tracking-widest rounded-2xl hover:scale-105 transition-all shadow-xl shadow-[#f59e0b]/20 active:scale-95">
-                Connect via WhatsApp
-             </button>
-          </motion.div>
+          
         </div>
       </div>
     </section>

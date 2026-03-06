@@ -50,7 +50,7 @@ const StickySidebar: React.FC = () => {
       ">
         
         {/* FREE TRIAL BUTTON */}
-        <Link href="/book-demo" className="group flex flex-col items-center gap-1 lg:gap-2">
+        <Link href="/contact" className="group flex flex-col items-center gap-1 lg:gap-2">
           <motion.div 
             whileHover={{ scale: 1.15, rotate: 12 }}
             whileTap={{ scale: 0.9 }}

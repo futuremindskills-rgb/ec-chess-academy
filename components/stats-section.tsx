@@ -161,39 +161,7 @@ const FAQSection: React.FC = () => {
           </div>
         </div>
 
-        {/* --- BOTTOM CONTACT PILL --- */}
-        <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-16 md:mt-20 max-w-3xl mx-auto p-6 md:p-8 bg-slate-900 rounded-[32px] md:rounded-[40px] relative overflow-hidden shadow-2xl"
-        >
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 text-center md:text-left">
-                
-                <div className="flex flex-col md:flex-row items-center gap-4 md:gap-5">
-                    <div className="shrink-0 w-12 h-12 md:w-14 md:h-14 bg-orange-500 rounded-2xl flex items-center justify-center shadow-lg md:rotate-3">
-                        <MessageCircle className="text-white w-6 h-6 md:w-7 md:h-7" />
-                    </div>
-                    <div>
-                        <h3 className="text-lg md:text-2xl font-black text-white tracking-tight uppercase leading-none">
-                            Still have <span className="text-orange-400">Questions?</span>
-                        </h3>
-                        <p className="text-slate-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mt-2">
-                            Support team is here 24/7
-                        </p>
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-3 w-full md:w-auto">
-                    <button className="flex-1 md:flex-none px-6 md:px-8 py-3.5 md:py-4 bg-orange-500 text-white font-black text-[9px] md:text-[10px] uppercase tracking-widest rounded-xl hover:bg-white hover:text-slate-900 transition-all shadow-lg active:scale-95">
-                        WhatsApp Us
-                    </button>
-                    <button className="p-3.5 md:p-4 bg-white/10 text-white rounded-xl hover:bg-white hover:text-slate-900 transition-all border border-white/10">
-                        <Phone size={18} />
-                    </button>
-                </div>
-            </div>
-        </motion.div>
+       
 
       </div>
     </section>

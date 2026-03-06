@@ -88,7 +88,7 @@ const Header: React.FC = () => {
           {/* Right Section */}
           <div className="flex items-center gap-4">
             <Link
-              href="/book-demo"
+              href="/contact"
               className="hidden md:inline-flex items-center justify-center px-7 py-3 text-[13px] font-black uppercase tracking-widest text-white transition-all duration-300 bg-slate-900 rounded-full hover:bg-purple-600 hover:shadow-[0_10px_20px_rgba(147,51,234,0.3)] active:scale-95"
             >
               Contact Us
@@ -163,7 +163,7 @@ const Header: React.FC = () => {
           {/* Mobile CTA */}
           <div className="p-6 border-t border-gray-50">
             <Link
-              href="/book-demo"
+              href="/contact"
               className="flex items-center justify-center w-full py-4 text-white bg-slate-900 font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-slate-200"
               onClick={() => setIsMobileMenuOpen(false)}
             >
