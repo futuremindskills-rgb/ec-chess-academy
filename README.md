@@ -1,8 +1,5 @@
 ﻿# ec-chess-ac
 
 
- 
-
-
 
 
