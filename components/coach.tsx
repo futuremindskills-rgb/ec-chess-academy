@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useCallback, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, useScroll } from "framer-motion"
 import { Trophy, ChevronLeft, ChevronRight, Medal, Star } from "lucide-react"
 
 interface Coach {
@@ -14,7 +14,7 @@ interface Coach {
   details: string[]
 }
 
-// ... (Coaches data remains exactly the same as your provided code)
+// ... (Coaches data remains the same)
 const coaches: Coach[] = [
     {
       id: 1,
@@ -293,110 +293,138 @@ const coaches: Coach[] = [
     }
   ];
 
-export function CompactCoachSlider() {
+export default function CompactCoachSlider() {
   const [index, setIndex] = useState(0)
   const [visibleCards, setVisibleCards] = useState(1)
-  const [gapSize, setGapSize] = useState(16)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  // Update visible cards based on window width
   useEffect(() => {
-    const handleResize = () => {
-      if (typeof window !== "undefined") {
-        if (window.innerWidth >= 1024) {
-          setVisibleCards(3)
-          setGapSize(24)
-        } else if (window.innerWidth >= 768) {
-          setVisibleCards(2)
-          setGapSize(20)
-        } else {
-          setVisibleCards(1)
-          setGapSize(16)
-        }
-      }
+    const updateSize = () => {
+      if (window.innerWidth >= 1280) setVisibleCards(3)
+      else if (window.innerWidth >= 768) setVisibleCards(2)
+      else setVisibleCards(1)
     }
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
+    updateSize()
+    window.addEventListener("resize", updateSize)
+    return () => window.removeEventListener("resize", updateSize)
   }, [])
 
-  const maxIndex = coaches.length - visibleCards
-  const next = useCallback(() => setIndex((prev) => (prev >= maxIndex ? 0 : prev + 1)), [maxIndex])
-  const prev = useCallback(() => setIndex((prev) => (prev <= 0 ? maxIndex : prev - 1)), [maxIndex])
+  const maxIndex = Math.max(0, coaches.length - visibleCards)
+  
+  const next = useCallback(() => {
+    setIndex((prev) => (prev >= maxIndex ? 0 : prev + 1))
+  }, [maxIndex])
 
+  const prev = useCallback(() => {
+    setIndex((prev) => (prev <= 0 ? maxIndex : prev - 1))
+  }, [maxIndex])
+
+  // Auto-play
   useEffect(() => {
-    const timer = setInterval(next, 5000)
+    const timer = setInterval(next, 6000)
     return () => clearInterval(timer)
   }, [next])
 
   return (
-    <section className="relative w-full py-12 md:py-24 bg-[#1e1b4b] overflow-hidden font-sans">
-      <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-        <div className="absolute top-10 left-10 w-48 md:w-64 h-48 md:h-64 bg-orange-500 rounded-full blur-[80px] md:blur-[120px]" />
-        <div className="absolute bottom-10 right-10 w-48 md:w-64 h-48 md:h-64 bg-indigo-500 rounded-full blur-[80px] md:blur-[120px]" />
+    <section className="relative w-full py-16 md:py-24 bg-[#0f172a] overflow-hidden font-sans">
+      {/* Background Glows */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-orange-600 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-600 rounded-full blur-[120px]" />
       </div>
 
-      <div className="container relative z-30 mx-auto px-4 max-w-7xl">
-        <div className="text-center mb-8 md:mb-16 space-y-2 md:space-y-4">
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="flex items-center justify-center gap-2 text-orange-500">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        {/* Header Section */}
+        <div className="text-center mb-10 md:mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="flex items-center justify-center gap-2 text-orange-500 mb-2"
+          >
             <Trophy className="w-4 h-4 md:w-5 md:h-5" />
-            <span className="font-black uppercase tracking-[0.2em] text-[8px] md:text-[10px]">Elite Faculty</span>
+            <span className="font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">Elite Faculty</span>
           </motion.div>
-          <h2 className="text-3xl md:text-6xl font-[1000] text-white uppercase tracking-tighter leading-none">
+          
+          <h2 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter leading-none mb-4">
             The <span className="text-orange-500 italic">Masters</span>
           </h2>
-          <div className="w-12 md:w-20 h-1 bg-orange-500 mx-auto rounded-full" />
+          <div className="w-16 md:w-24 h-1.5 bg-orange-500 mx-auto rounded-full" />
         </div>
 
-        <div className="relative">
-          <div className="overflow-hidden" ref={containerRef}>
+        <div className="relative group">
+          {/* Main Slider Container */}
+          <div className="overflow-hidden px-2 py-4" ref={containerRef}>
             <motion.div 
-              className="flex"
-              style={{ gap: `${gapSize}px` }}
-              animate={{ x: `calc(-${index * (100 / visibleCards)}% - ${index * ((visibleCards - 1) * gapSize / visibleCards)}px)` }}
-              transition={{ type: "spring", stiffness: 100, damping: 24 }}
+              className="flex gap-4 md:gap-6"
+              animate={{ 
+                x: `calc(-${index * (100 / visibleCards)}% - ${index * (visibleCards === 1 ? 0 : (visibleCards === 2 ? 12 : 16))}px)` 
+              }}
+              transition={{ type: "spring", stiffness: 200, damping: 30 }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragEnd={(e, { offset, velocity }) => {
+                if (offset.x < -50 && index < maxIndex) next()
+                else if (offset.x > 50 && index > 0) prev()
+              }}
             >
               {coaches.map((coach) => (
-                <div key={coach.id} className="min-w-full md:min-w-[calc(50%-10px)] lg:min-w-[calc(33.333%-16px)] shrink-0">
-                  {/* COMPACT HEIGHT ON MOBILE: h-[420px] vs h-[620px] on Desktop */}
-                  <div className="bg-white/5 border-2 border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden backdrop-blur-md flex flex-col h-[420px] md:h-[620px] group hover:border-orange-500/50 transition-all">
+                <div 
+                  key={coach.id} 
+                  className="w-full md:w-[calc(50%-12px)] xl:w-[calc(33.333%-16px)] shrink-0"
+                >
+                  <div className="bg-[#1e1b4b]/40 border border-white/10 rounded-[2.5rem] overflow-hidden backdrop-blur-xl flex flex-col h-[520px] md:h-[650px] group/card hover:border-orange-500/40 transition-all duration-500 shadow-2xl">
                     
-                    {/* IMAGE SECTION: Shorter on mobile */}
-                    <div className="relative h-44 md:h-72 shrink-0 overflow-hidden">
-                      <img src={coach.image} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" alt={coach.nameEn} />
+                    {/* Top Image Section */}
+                    <div className="relative h-56 md:h-80 shrink-0 overflow-hidden">
+                      <img 
+                        src={coach.image} 
+                        className="w-full h-full object-cover grayscale-[30%] group-hover/card:grayscale-0 group-hover/card:scale-105 transition-all duration-1000" 
+                        alt={coach.nameEn} 
+                      />
+                      {/* Gradient Overlay to match image */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1e1b4b] via-transparent to-transparent opacity-90" />
                       
-                      <div className="absolute bottom-3 md:bottom-6 left-4 md:left-8">
-                        <h3 className="text-lg md:text-3xl font-[1000] text-white uppercase leading-none">{coach.nameEn}</h3>
-                        <p className="text-orange-500 font-black text-sm md:text-xl mt-0.5 md:mt-1">{coach.nameZh}</p>
+                      {/* Name Overlay */}
+                      <div className="absolute bottom-5 left-6 md:bottom-8 md:left-10">
+                        <h3 className="text-2xl md:text-4xl font-black text-white uppercase leading-none tracking-tight">
+                          {coach.nameEn}
+                        </h3>
+                        <p className="text-orange-500 font-bold text-lg md:text-2xl mt-1">
+                          {coach.nameZh}
+                        </p>
                       </div>
                       
-                      <div className="absolute top-3 md:top-6 right-3 md:right-6 bg-orange-500 text-white text-[8px] md:text-[10px] font-black px-2 md:px-4 py-1 md:py-2 rounded-lg md:rounded-xl shadow-lg">
+                      {/* Floating Rank Badge */}
+                      <div className="absolute top-5 right-5 bg-orange-500 text-white text-[10px] md:text-xs font-black px-3 py-1.5 md:px-5 md:py-2.5 rounded-xl shadow-xl border border-white/20">
                         {coach.mainRank}
                       </div>
                     </div>
 
-                    {/* CONTENT SECTION: Reduced padding and font on mobile */}
-                    <div className="p-4 md:p-8 flex-grow flex flex-col justify-between overflow-hidden">
-                      <div className="space-y-3 md:space-y-6 overflow-hidden">
+                    {/* Info Section */}
+                    <div className="p-6 md:p-10 flex-grow flex flex-col justify-between">
+                      <div className="space-y-4 md:space-y-6">
                         <div className="flex items-center gap-2">
                            <Medal className="w-4 h-4 text-orange-500" />
-                           <span className="text-orange-400 text-[8px] md:text-[10px] font-black uppercase tracking-widest">Achievements</span>
+                           <span className="text-orange-400 text-[10px] font-black uppercase tracking-widest">Achievements</span>
                         </div>
                         
-                        <div className="overflow-y-auto pr-1 custom-scrollbar h-[120px] md:h-[180px]">
-                          <ul className="space-y-2 md:space-y-3">
+                        {/* Scrollable List */}
+                        <div className="max-h-[160px] md:max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
+                          <ul className="space-y-3 md:space-y-4">
                             {coach.details.map((detail, i) => (
-                              <li key={i} className="flex items-start gap-2 text-[10px] md:text-[12px] text-indigo-100 font-bold leading-tight md:leading-relaxed">
-                                <Star size={8} className="mt-1 shrink-0 text-orange-500 fill-orange-500" />
-                                {detail}
+                              <li key={i} className="flex items-start gap-3 text-[12px] md:text-[14px] text-indigo-50 font-medium leading-relaxed">
+                                <Star size={10} className="mt-1 shrink-0 text-orange-500 fill-orange-500" />
+                                <span>{detail}</span>
                               </li>
                             ))}
                           </ul>
                         </div>
                       </div>
                       
-                      <div className="pt-3 md:pt-6 border-t border-white/10 shrink-0">
-                        <p className="text-[9px] md:text-[11px] text-indigo-300 font-black uppercase tracking-[0.1em] md:tracking-[0.2em] italic truncate">
+                      {/* Footer Title */}
+                      <div className="pt-6 border-t border-white/10 mt-auto">
+                        <p className="text-[10px] md:text-[12px] text-indigo-300 font-black uppercase tracking-[0.2em] italic truncate">
                           {coach.title}
                         </p>
                       </div>
@@ -407,27 +435,29 @@ export function CompactCoachSlider() {
             </motion.div>
           </div>
 
-          {/* MOBILE ADAPTIVE NAVIGATION */}
-          <div className="flex justify-center gap-4 mt-8 md:mt-0">
+          {/* Navigation Controls */}
+          <div className="flex justify-center md:block mt-8">
             <button 
                 onClick={prev} 
-                className="md:absolute md:-left-4 lg:-left-12 md:top-1/2 md:-translate-y-1/2 w-10 h-10 md:w-14 md:h-14 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-lg md:shadow-[6px_6px_0px_#000] border-2 border-white z-40 hover:scale-110 active:scale-95 transition-all"
+                className="md:absolute md:-left-4 lg:-left-8 xl:-left-12 md:top-1/2 md:-translate-y-1/2 mr-4 md:mr-0 w-12 h-12 md:w-16 md:h-16 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-[0_8px_30px_rgb(249,115,22,0.3)] border-2 border-white/20 z-40 hover:bg-orange-600 transition-all active:scale-90"
+                aria-label="Previous coach"
             >
-              <ChevronLeft className="w-5 h-5 md:w-7 md:h-7 stroke-[3px]" />
+              <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 stroke-[3px]" />
             </button>
             <button 
                 onClick={next} 
-                className="md:absolute md:-right-4 lg:-right-12 md:top-1/2 md:-translate-y-1/2 w-10 h-10 md:w-14 md:h-14 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-lg md:shadow-[6px_6px_0px_#000] border-2 border-white z-40 hover:scale-110 active:scale-95 transition-all"
+                className="md:absolute md:-right-4 lg:-right-8 xl:-right-12 md:top-1/2 md:-translate-y-1/2 w-12 h-12 md:w-16 md:h-16 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-[0_8px_30px_rgb(249,115,22,0.3)] border-2 border-white/20 z-40 hover:bg-orange-600 transition-all active:scale-90"
+                aria-label="Next coach"
             >
-              <ChevronRight className="w-5 h-5 md:w-7 md:h-7 stroke-[3px]" />
+              <ChevronRight className="w-6 h-6 md:w-8 md:h-8 stroke-[3px]" />
             </button>
           </div>
         </div>
       </div>
 
       <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #f97316; border-radius: 10px; }
       `}</style>
     </section>

@@ -7,7 +7,7 @@ import AchievementsSection from "@/components/ui/achievements";
 import TeamSection from "@/components/ui/team-section";
 import FinalCTASection from "@/components/ui/final-cta-section";
 import DemoBookingCTA from "@/components/demo-booking-cta";
-import {   CompactCoachSlider } from "@/components/coach";
+import    CompactCoachSlider  from "@/components/coach";
 
 
 export default function AboutPage() {
