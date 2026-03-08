@@ -4,24 +4,10 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { 
-  Trophy, 
-  Calendar, 
-  Clock, 
-  MapPin, 
-  ChevronRight, 
-  Zap, 
-  Target, 
-  ShieldCheck, 
-  Star,
-  Users,
-  Loader2,
-  DollarSign,
-  X,
-  User,
-  Mail,
-  Phone
+  Trophy, Calendar, Clock, MapPin, ChevronRight, Zap, Target, 
+  ShieldCheck, Star, Users, Loader2, DollarSign, X, User, 
+  Mail, Phone, Baby, Cake, BarChart, Hash, Globe
 } from "lucide-react";
-import Link from "next/link";
 import TournamentBanner from "@/components/ui/tournamentBanner";
 import { getTournaments } from "@/app/actions/adminActions";
 import { registerForTournament } from "@/app/actions/tournamentActions";
@@ -56,7 +42,6 @@ export default function TournamentsPage() {
     try {
       const result = await registerForTournament(formData);
       if (result?.url) {
-        // Redirect the user to Stripe Checkout
         window.location.href = result.url;
       }
     } catch (error) {
@@ -70,20 +55,14 @@ export default function TournamentsPage() {
 
   return (
     <div className="bg-white font-sans overflow-x-hidden text-slate-900">
-      
       <TournamentBanner/>
 
-      {/* --- 1. TOURNAMENT LISTING --- */}
+      {/* TOURNAMENT LISTING */}
       <section className="py-12 md:py-24 container mx-auto px-4 md:px-6">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-12 md:mb-16 gap-6">
-           <div>
-              <h2 className="text-3xl md:text-5xl font-[1000] uppercase tracking-tighter leading-tight">
-                Upcoming <span className="text-indigo-600 underline decoration-indigo-100 decoration-4 md:decoration-8 underline-offset-4 md:underline-offset-8">Events</span>
-              </h2>
-              <p className="text-slate-400 font-black uppercase text-[10px] tracking-widest mt-4">
-                {displayTournaments.length} Championships Available in Hong Kong
-              </p>
-           </div>
+        <div className="text-center md:text-left mb-12">
+            <h2 className="text-3xl md:text-5xl font-[1000] uppercase tracking-tighter leading-tight">
+            Upcoming <span className="text-indigo-600 underline underline-offset-8">Events</span>
+            </h2>
         </div>
 
         {loading ? (
@@ -93,145 +72,132 @@ export default function TournamentsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-12">
-            <AnimatePresence mode="popLayout">
-              {displayTournaments.length > 0 ? (
-                displayTournaments.map((t) => (
-                  <motion.div 
-                    key={t.id} 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    whileHover={{ y: -8 }} 
-                    className="relative group h-full"
-                  >
-                    <div className="absolute inset-0 bg-[#0f172a] rounded-[32px] md:rounded-[40px] translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3 transition-transform group-hover:translate-x-4 group-hover:translate-y-4" />
-                    
+            {displayTournaments.map((t) => (
+                <motion.div key={t.id} whileHover={{ y: -8 }} className="relative group h-full">
+                    <div className="absolute inset-0 bg-[#0f172a] rounded-[32px] md:rounded-[40px] translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3" />
                     <div className="relative bg-white border-4 border-slate-900 rounded-[32px] md:rounded-[40px] flex flex-col h-full overflow-hidden">
-                        
                         <div className="relative w-full h-48 md:h-56 bg-slate-200 overflow-hidden border-b-4 border-slate-900">
-                          {t.bannerImage ? (
-                            <Image src={t.bannerImage} alt={t.title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-indigo-50"><Trophy size={48} className="text-indigo-200" /></div>
-                          )}
-                          
+                          {t.bannerImage && <Image src={t.bannerImage} alt={t.title} fill className="object-cover" />}
                           <div className="absolute top-4 right-4">
-                            <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-lg border-2 border-slate-900 shadow-[2px_2px_0px_#000] ${
-                              t.status === 'OPEN' ? 'bg-emerald-400 text-slate-900' : 'bg-amber-400 text-slate-900'
-                            }`}>
-                                {t.status}
-                            </span>
+                            <span className="px-3 py-1 text-[10px] font-black uppercase bg-emerald-400 border-2 border-slate-900 shadow-[2px_2px_0px_#000]">{t.status}</span>
                           </div>
-                          <div className="absolute -bottom-6 left-8 w-12 h-12 md:w-14 md:h-14 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg border-2 border-white z-10"><Trophy size={24} /></div>
                         </div>
-
-                        <div className="p-6 md:p-8 lg:p-10 pt-10 flex flex-col flex-1">
-                          <h3 className="text-xl md:text-2xl font-[1000] uppercase tracking-tight text-slate-900 leading-tight mb-6 line-clamp-2">{t.title}</h3>
-                          
-                          <div className="space-y-3 mb-8 flex-1">
-                            <div className="flex items-center gap-3 text-slate-500 font-bold text-xs md:text-sm uppercase tracking-tight">
-                                <Calendar size={16} className="text-orange-500" /> 
-                                {new Date(t.startDate).toLocaleDateString('en-HK', { month: 'short', day: 'numeric', year: 'numeric' })}
-                            </div>
-                            <div className="flex items-center gap-3 text-slate-500 font-bold text-xs md:text-sm uppercase tracking-tight">
-                                <MapPin size={16} className="text-indigo-600" /> {t.location}
-                            </div>
-                            <div className="flex items-center gap-3 text-slate-500 font-bold text-xs md:text-sm uppercase tracking-tight">
-                                <Users size={16} className="text-cyan-500" /> Max {t.maxPlayers} Players
-                            </div>
-                            {/* FEE DISPLAY HKD */}
-                            <div className="flex items-center gap-3 text-indigo-700 font-black text-xs md:text-sm uppercase tracking-tight bg-indigo-50 p-3 rounded-xl border border-indigo-100 mt-4">
-                                <DollarSign size={14} /> Fee: {t.entryFee === 0 ? "FREE" : `HK$${(t.entryFee / 100).toLocaleString('en-HK')}`}
-                            </div>
+                        <div className="p-6 md:p-8 pt-6 flex flex-col flex-1">
+                          <h3 className="text-xl md:text-2xl font-[1000] uppercase tracking-tight mb-4">{t.title}</h3>
+                          <div className="space-y-2 mb-6 flex-1 text-slate-500 font-bold text-xs uppercase">
+                            <div className="flex items-center gap-3"><Calendar size={16} className="text-orange-500" /> {new Date(t.startDate).toLocaleDateString()}</div>
+                            <div className="flex items-center gap-3"><MapPin size={16} className="text-indigo-600" /> {t.location}</div>
                           </div>
-
                           <button 
                             onClick={() => setSelectedTournament(t)}
-                            disabled={t.status !== 'OPEN'} 
-                            className={`w-full py-4 md:py-5 rounded-2xl text-white font-black uppercase tracking-widest text-[10px] md:text-xs flex items-center justify-center gap-2 transition-all shadow-xl ${
-                              t.status === 'OPEN' ? 'bg-indigo-600 hover:bg-orange-500' : 'bg-slate-400 cursor-not-allowed'
-                            }`}
+                            className="w-full py-4 bg-indigo-600 hover:bg-orange-500 text-white font-black uppercase rounded-2xl transition-all shadow-xl"
                           >
-                            {t.status === 'OPEN' ? 'Register Now' : 'Registration Closed'} <ChevronRight size={16} />
+                            Register Now
                           </button>
                         </div>
                     </div>
-                  </motion.div>
-                ))
-              ) : (
-                <div className="col-span-full py-20 text-center border-4 border-dashed border-slate-100 rounded-[40px]">
-                  <p className="text-slate-400 font-black uppercase tracking-widest text-sm">No new tournaments scheduled. Check back soon!</p>
-                </div>
-              )}
-            </AnimatePresence>
+                </motion.div>
+            ))}
           </div>
         )}
       </section>
 
-      {/* --- 2. REGISTRATION MODAL --- */}
+      {/* REGISTRATION MODAL */}
       <AnimatePresence>
         {selectedTournament && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md overflow-y-auto">
             <motion.div 
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="bg-white border-4 border-slate-900 rounded-[32px] md:rounded-[40px] w-full max-w-lg overflow-hidden relative shadow-[20px_20px_0px_#000]"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white border-4 border-slate-900 rounded-[32px] md:rounded-[40px] w-full max-w-2xl my-auto relative shadow-[20px_20px_0px_#000]"
             >
-              <button 
-                onClick={() => setSelectedTournament(null)}
-                className="absolute top-6 right-6 p-2 hover:bg-slate-100 rounded-full transition-colors"
-              >
-                <X size={24} />
-              </button>
+              <button onClick={() => setSelectedTournament(null)} className="absolute top-6 right-6 p-2 hover:bg-slate-100 rounded-full z-10"><X size={24} /></button>
 
-              <form onSubmit={handleFormSubmit} className="p-8 md:p-12">
+              <form onSubmit={handleFormSubmit} className="p-6 md:p-10 max-h-[85vh] overflow-y-auto no-scrollbar">
                 <div className="mb-8">
-                  <h3 className="text-3xl font-[1000] uppercase tracking-tighter">Enter Details</h3>
-                  <p className="text-slate-500 font-bold text-[10px] uppercase tracking-widest">
-                    Tournament: <span className="text-indigo-600">{selectedTournament.title}</span>
-                  </p>
+                  <h3 className="text-3xl font-[1000] uppercase tracking-tighter">Student Registration</h3>
+                  <p className="text-slate-500 font-bold text-[10px] uppercase tracking-widest">Tournament: {selectedTournament.title}</p>
                 </div>
 
-                {/* Hidden input to pass ID to server action */}
                 <input type="hidden" name="tournamentId" value={selectedTournament.id} />
 
-                <div className="space-y-4">
-                  <div className="relative">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Basic Info */}
+                  <div className="relative md:col-span-2">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required name="playerName" placeholder="PLAYER FULL NAME" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs focus:ring-4 ring-indigo-100 outline-none" />
+                    <input required name="playerName" placeholder="STUDENT FULL NAME" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
                   </div>
 
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required name="email" type="email" placeholder="EMAIL ADDRESS" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs focus:ring-4 ring-indigo-100 outline-none" />
+                    <input required name="email" type="email" placeholder="EMAIL ADDRESS" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
                   </div>
 
                   <div className="relative">
                     <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required name="phone" placeholder="PHONE NUMBER" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs focus:ring-4 ring-indigo-100 outline-none" />
+                    <input required name="phone" placeholder="PHONE NUMBER" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
+                  </div>
+
+                  {/* New Details */}
+                  <div className="relative">
+                    <Cake className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <input required name="dob" type="date" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
+                    <span className="absolute -top-2 left-4 bg-white px-1 text-[8px] font-black text-slate-400">DATE OF BIRTH</span>
+                  </div>
+
+                  <div className="relative">
+                    <select required name="gender" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none appearance-none bg-white">
+                        <option value="">SELECT GENDER</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div className="relative md:col-span-2">
+                    <Baby className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <select required name="studentCategory" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none appearance-none bg-white">
+                        <option value="">SELECT STUDENT CATEGORY</option>
+                        <option value="lower_primary">Lower Primary</option>
+                        <option value="upper_primary">Upper Primary</option>
+                        <option value="secondary">Secondary</option>
+                        <option value="college">College</option>
+                        <option value="open">Open</option>
+                        <option value="age">Age Based</option>
+                    </select>
+                  </div>
+
+                  <div className="relative">
+                    <BarChart className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <input name="rating" placeholder="RATING / LEVEL" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
+                  </div>
+
+                  <div className="relative">
+                    <Hash className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <input name="fideId" placeholder="FIDE ID (OPTIONAL)" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
+                  </div>
+
+                  <div className="relative md:col-span-2">
+                    <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <input required name="onlineUsername" placeholder="USERNAME (LICHESS / CHESS.COM)" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
                   </div>
                 </div>
 
                 <div className="mt-8 p-6 bg-indigo-50 border-4 border-indigo-100 rounded-[24px] flex justify-between items-center">
                    <div>
-                      <p className="font-black text-indigo-900 uppercase text-[10px]">Registration Fee</p>
+                      <p className="font-black text-indigo-900 uppercase text-[10px]">Total Registration Fee</p>
                       <p className="font-[1000] text-2xl text-indigo-600">HK${(selectedTournament.entryFee / 100).toLocaleString()}</p>
                    </div>
-                   <div className="w-12 h-12 bg-white border-2 border-indigo-200 rounded-xl flex items-center justify-center text-indigo-600">
-                     <DollarSign size={24} />
-                   </div>
+                   <DollarSign className="text-indigo-200" size={40} />
                 </div>
 
                 <button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full mt-8 py-5 bg-slate-900 hover:bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all disabled:opacity-50 shadow-[0_8px_0_#4f46e5] active:translate-y-1 active:shadow-none"
+                  className="w-full mt-8 py-5 bg-slate-900 hover:bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all disabled:opacity-50"
                 >
-                  {isSubmitting ? (
-                    <Loader2 className="animate-spin" size={20} />
-                  ) : (
-                    <>Proceed to Payment <ChevronRight size={18} /></>
-                  )}
+                  {isSubmitting ? <Loader2 className="animate-spin" /> : <>Proceed to Payment <ChevronRight size={18} /></>}
                 </button>
               </form>
             </motion.div>
@@ -292,7 +258,6 @@ export default function TournamentsPage() {
             </div>
          </div>
       </section>
-
     </div>
   );
 }

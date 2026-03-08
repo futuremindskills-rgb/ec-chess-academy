@@ -111,42 +111,115 @@ export async function deleteBlogPost(id: number) {
   revalidatePath('/blog')
 }
 
-/* ==========================================================================
-   GALLERY
-   ========================================================================== */
-
-export async function addGalleryImage(formData: FormData) {
-  await prisma.galleryImage.create({
-    data: {
-      title: formData.get('title') as string,
-      category: formData.get('category') as string,
-      src: formData.get('src') as string,
-      description: formData.get('description') as string,
-    }
-  })
-  revalidatePath('/gallery')
-}
-
-export async function editGalleryImage(id: number, formData: FormData) {
-  const src = formData.get('src') as string
-  const data: any = {
-    title: formData.get('title') as string,
-    category: formData.get('category') as string,
-    description: formData.get('description') as string,
+/**
+ * Fetch all albums including their nested images
+ */
+export async function getAlbums() {
+  try {
+    return await prisma.album.findMany({
+      include: { 
+        images: true 
+      },
+      orderBy: { 
+        createdAt: 'desc' 
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching albums:", error);
+    return [];
   }
-  if (src) data.src = src
-
-  await prisma.galleryImage.update({ where: { id }, data })
-  revalidatePath('/gallery')
 }
 
-export async function getGalleryImages() {
-  return await prisma.galleryImage.findMany({ orderBy: { id: 'desc' } })
+/**
+ * Create a new album with multiple images at once
+ */
+export async function createAlbum(formData: FormData, imageUrls: string[]) {
+  const title = formData.get("title") as string;
+  const category = formData.get("category") as string;
+  const description = formData.get("description") as string;
+
+  try {
+    await prisma.album.create({
+      data: {
+        title,
+        category,
+        description,
+        images: {
+          // This maps the array of URLs into the AlbumImage records automatically
+          create: imageUrls.map((url) => ({ src: url })),
+        },
+      },
+    });
+
+    revalidatePath("/gallery");
+    revalidatePath("/admin/gallery"); // Revalidate admin path too
+  } catch (error) {
+    console.error("Error creating album:", error);
+    throw new Error("Failed to create album");
+  }
 }
 
-export async function deleteGalleryImage(id: number) {
-  await prisma.galleryImage.delete({ where: { id } })
-  revalidatePath('/gallery')
+/**
+ * Update album details and optionally add more images
+ */
+export async function updateAlbum(id: number, formData: FormData, newImageUrls: string[]) {
+  const title = formData.get("title") as string;
+  const category = formData.get("category") as string;
+  const description = formData.get("description") as string;
+
+  try {
+    await prisma.album.update({
+      where: { id },
+      data: {
+        title,
+        category,
+        description,
+        images: {
+          // This appends new images to the existing album
+          create: newImageUrls.map((url) => ({ src: url })),
+        },
+      },
+    });
+
+    revalidatePath("/gallery");
+    revalidatePath("/admin/gallery");
+  } catch (error) {
+    console.error("Error updating album:", error);
+    throw new Error("Failed to update album");
+  }
+}
+
+/**
+ * Delete an entire album
+ * Note: Because of 'onDelete: Cascade' in schema, all images are deleted automatically
+ */
+export async function deleteAlbum(id: number) {
+  try {
+    await prisma.album.delete({
+      where: { id },
+    });
+    revalidatePath("/gallery");
+    revalidatePath("/admin/gallery");
+  } catch (error) {
+    console.error("Error deleting album:", error);
+    throw new Error("Failed to delete album");
+  }
+}
+
+/**
+ * Delete a single image from an album without deleting the whole album
+ */
+export async function deleteAlbumImage(imageId: number) {
+  try {
+    await prisma.albumImage.delete({
+      where: { id: imageId },
+    });
+    revalidatePath("/gallery");
+    revalidatePath("/admin/gallery");
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    throw new Error("Failed to delete image");
+  }
 }
 
 /* ==========================================================================

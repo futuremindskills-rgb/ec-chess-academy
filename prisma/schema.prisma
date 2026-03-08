@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// --- ENUMS (CRITICAL: These define the allowed statuses) ---
+// --- ENUMS ---
 
 enum TournamentStatus {
   OPEN
@@ -27,8 +27,8 @@ enum RegistrationStatus {
 model Tournament {
   id           Int              @id @default(autoincrement())
   title        String
-  description  String
-  entryFee     Int              // stored in smallest currency unit (e.g. cents for HKD)
+  description  String           @db.Text
+  entryFee     Int              // stored in smallest currency unit (e.g. cents)
   maxPlayers   Int
   startDate    DateTime
   endDate      DateTime
@@ -36,52 +36,71 @@ model Tournament {
   bannerImage  String?
   status       TournamentStatus @default(OPEN)
   createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @default(now()) @updatedAt
   
-  // Relation to registrations
   registrations Registration[]
 }
 
-// --- REGISTRATIONS ---
+// --- REGISTRATIONS (UPDATED WITH STUDENT DETAILS) ---
 
 model Registration {
-  id           String             @id @default(cuid())
-  playerName   String
-  email        String
-  phone        String
-  status       RegistrationStatus @default(PENDING)
+  id              String             @id @default(cuid())
+  playerName      String
+  email           String
+  phone           String
   
-  // Link to Tournament
-  tournamentId Int
-  tournament   Tournament         @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  // --- New Detailed Fields ---
+  dob             DateTime           // Date of Birth
+  gender          String             // Male / Female / Other
+  studentCategory String             // Lower primary / Upper / secondary / college / open
+  rating          String?            // Rating or Level (Optional)
+  fideId          String?            // FIDE ID (Optional)
+  onlineUsername  String?            // Lichess or Chess.com username
+  // ---------------------------
+
+  status          RegistrationStatus @default(PENDING)
   
-  stripeSessionId String?         @unique
-  createdAt       DateTime        @default(now())
+  tournamentId    Int
+  tournament      Tournament         @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  
+  stripeSessionId String?            @unique
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @default(now()) @updatedAt
 }
 
 // --- BLOGS ---
 
 model BlogPost {
-  id        Int      @id @default(autoincrement())
-  title     String
-  excerpt   String
-  content   String   @db.Text
-  category  String   
-  readTime  String
-  image     String
-  slug      String   @unique
-  featured  Boolean  @default(false)
-  date      DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  title        String
+  excerpt      String   @db.Text
+  content      String   @db.Text
+  category     String   
+  readTime     String
+  image        String
+  slug         String   @unique
+  featured     Boolean  @default(false)
+  date         DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
 }
 
-// --- GALLERY ---
+// --- ALBUM-BASED GALLERY ---
 
-model GalleryImage {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  category    String   
-  src         String   
-  createdAt   DateTime @default(now())
+model Album {
+  id           Int          @id @default(autoincrement())
+  title        String
+  description  String?      @db.Text
+  category     String       
+  images       AlbumImage[] 
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @default(now()) @updatedAt
+}
+
+model AlbumImage {
+  id      Int    @id @default(autoincrement())
+  src     String 
+  albumId Int
+  album   Album  @relation(fields: [albumId], references: [id], onDelete: Cascade)
 }
 
 // --- ENQUIRIES ---
@@ -93,8 +112,8 @@ model Enquiry {
   email       String
   phone       String
   subject     String   
-  message     String
+  message     String   @db.Text
   status      String   @default("New") 
-  notes       String?  
+  notes       String?  @db.Text
   createdAt   DateTime @default(now())
 }

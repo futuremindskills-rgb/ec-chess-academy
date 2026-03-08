@@ -17,11 +17,10 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith("/api") &&
     ["POST", "PUT", "DELETE"].includes(req.method);
 
-  const token = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-    secureCookie: true,
-  });
+ const token = await getToken({
+  req,
+  secret: process.env.NEXTAUTH_SECRET,
+});
 
   if ((isAdminPath || isApiMutation) && !token) {
     if (pathname.startsWith("/api")) {

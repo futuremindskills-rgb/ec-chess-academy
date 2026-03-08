@@ -10,23 +10,11 @@ import {
 } from "@/app/actions/adminActions";
 import ImageUpload from "@/components/admin/ImageUpload";
 import { 
-  Plus, 
-  Trash2, 
-  Pencil, 
-  X, 
-  Trophy, 
-  Loader2, 
-  Search, 
-  Calendar, 
-  MapPin, 
-  Users, 
-  DollarSign,
-  UserCheck,
-  CheckCircle2,
-  Clock3,
-  ShieldAlert,
-  ChevronRight,
-  Printer
+  Plus, Trash2, Pencil, X, Trophy, Loader2, Search, 
+  MapPin, Users, DollarSign, UserCheck, CheckCircle2, 
+  Clock3, ShieldAlert, ChevronRight, Printer, 
+  Cake, Baby, Hash, Globe, BarChart, VenusMars, Mail, Phone,
+  ChevronDown, ChevronUp, Filter
 } from "lucide-react";
 
 export default function TournamentAdmin() {
@@ -36,16 +24,16 @@ export default function TournamentAdmin() {
   
   // Modals / UI States
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [viewingPlayers, setViewingPlayers] = useState<any>(null); // State for Participant Drawer
+  const [viewingPlayers, setViewingPlayers] = useState<any>(null); 
+  const [playerFilter, setPlayerFilter] = useState<'ALL' | 'PAID' | 'PENDING'>('ALL');
+  const [expandedPlayer, setExpandedPlayer] = useState<string | null>(null);
   
   // Form State
   const [editingItem, setEditingItem] = useState<any>(null);
   const [bannerUrl, setBannerUrl] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useEffect(() => { loadData(); }, []);
 
   async function loadData() {
     setIsLoading(true);
@@ -59,46 +47,31 @@ export default function TournamentAdmin() {
     }
   }
 
+  // --- Utility Functions ---
+  const calculateAge = (dob: string) => {
+    const birthDate = new Date(dob);
+    const difference = Date.now() - birthDate.getTime();
+    return Math.abs(new Date(difference).getUTCFullYear() - 1970);
+  };
+
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true);
-    
-    if (bannerUrl) {
-        formData.set("bannerImage", bannerUrl);
-    }
-
+    if (bannerUrl) formData.set("bannerImage", bannerUrl);
     try {
-      if (editingItem) {
-        await editTournament(editingItem.id, formData);
-      } else {
-        await addTournament(formData);
-      }
+      if (editingItem) await editTournament(editingItem.id, formData);
+      else await addTournament(formData);
       closeModal();
       await loadData();
     } catch (error) {
-      console.error("Error saving tournament", error);
       alert("Failed to save tournament.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    } finally { setIsSubmitting(false); }
   }
 
   async function handleDelete(id: number) {
-    if (confirm("Are you sure you want to delete this tournament and all its records?")) {
+    if (confirm("Delete this tournament and all its records?")) {
       await deleteTournament(id);
       loadData();
     }
-  }
-
-  function openAdd() {
-    setEditingItem(null);
-    setBannerUrl("");
-    setIsModalOpen(true);
-  }
-
-  function openEdit(item: any) {
-    setEditingItem(item);
-    setBannerUrl(item.bannerImage || "");
-    setIsModalOpen(true);
   }
 
   function closeModal() {
@@ -117,194 +90,183 @@ export default function TournamentAdmin() {
     }
   };
 
-  const getPaymentBadge = (status: string) => {
-    switch (status) {
-      case 'COMPLETED': return <span className="flex items-center gap-1 text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md text-[10px] font-black border border-emerald-100"><CheckCircle2 size={12}/> PAID</span>;
-      case 'PENDING': return <span className="flex items-center gap-1 text-amber-600 bg-amber-50 px-2 py-1 rounded-md text-[10px] font-black border border-amber-100"><Clock3 size={12}/> PENDING</span>;
-      case 'FAILED': return <span className="flex items-center gap-1 text-red-600 bg-red-50 px-2 py-1 rounded-md text-[10px] font-black border border-red-100"><ShieldAlert size={12}/> FAILED</span>;
-      default: return status;
-    }
-  };
-
-  const filteredTournaments = tournaments.filter(t => 
-    t.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    t.location.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter Logic for Drawer
+  const filteredRegistrations = viewingPlayers?.registrations?.filter((reg: any) => {
+    if (playerFilter === 'PAID') return reg.status === 'COMPLETED';
+    if (playerFilter === 'PENDING') return reg.status === 'PENDING';
+    return true;
+  }) || [];
 
   return (
-    <div className="min-h-screen pb-20 p-4 md:p-8">
+    <div className="min-h-screen pb-20 p-4 md:p-8 font-sans">
       
-      {/* --- HEADER --- */}
+      {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
         <div>
           <h1 className="text-4xl font-[1000] text-slate-900 flex items-center gap-3 uppercase tracking-tighter">
             Tournament <span className="text-blue-600">Admin</span>
           </h1>
-          <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest mt-1">Management & Player Registrations</p>
+          <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest mt-1">Management & Full Player Analytics</p>
         </div>
-        
         <button 
-          onClick={openAdd} 
-          className="bg-blue-600 hover:bg-slate-900 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center gap-2 transition-all shadow-[6px_6px_0px_#1e1b4b] active:translate-y-1 active:shadow-none"
+          onClick={() => { setEditingItem(null); setBannerUrl(""); setIsModalOpen(true); }}
+          className="bg-blue-600 hover:bg-slate-900 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-[6px_6px_0px_#1e1b4b] active:translate-y-1 active:shadow-none"
         >
-          <Plus size={18} /> New Tournament
+          <Plus size={18} className="inline mr-2" /> New Tournament
         </button>
       </div>
 
-      {/* --- SEARCH BAR --- */}
+      {/* SEARCH BAR */}
       <div className="bg-white p-2 rounded-2xl border-4 border-slate-900 shadow-[6px_6px_0px_#f1f5f9] mb-10 flex items-center gap-3">
         <div className="bg-slate-100 p-3 rounded-xl"><Search className="text-slate-500" size={20} /></div>
         <input 
-          type="text" 
-          placeholder="SEARCH EVENTS..." 
-          className="flex-1 bg-transparent outline-none text-slate-900 placeholder:text-slate-400 font-black uppercase text-xs"
-          value={searchTerm}
+          type="text" placeholder="SEARCH EVENTS..." 
+          className="flex-1 bg-transparent outline-none font-black uppercase text-xs"
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      {/* --- TOURNAMENT GRID --- */}
+      {/* TOURNAMENT GRID */}
       {isLoading ? (
-        <div className="p-20 flex flex-col justify-center items-center gap-4 text-blue-600">
-          <Loader2 size={48} className="animate-spin" />
-          <p className="font-black uppercase text-xs tracking-widest text-slate-400">Loading Database...</p>
-        </div>
+        <div className="p-20 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-blue-600" size={48} /></div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredTournaments.length === 0 ? (
-            <div className="col-span-full p-20 text-center border-4 border-dashed border-slate-200 rounded-[40px]">
-              <p className="text-slate-400 font-black uppercase tracking-widest text-sm">No Events Found</p>
-            </div>
-          ) : (
-            filteredTournaments.map((t) => (
-              <div key={t.id} className="group bg-white rounded-[32px] border-4 border-slate-900 overflow-hidden shadow-[10px_10px_0px_#f1f5f9] flex flex-col transition-all hover:shadow-none hover:translate-x-1 hover:translate-y-1">
-                
-                {/* Banner */}
-                <div className="relative h-44 overflow-hidden bg-slate-100 border-b-4 border-slate-900">
-                  <img src={t.bannerImage || "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=800"} alt="" className="w-full h-full object-cover" />
-                  <div className="absolute top-4 right-4">
-                    <span className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase border-2 border-slate-900 shadow-[3px_3px_0px_#000] ${getStatusColor(t.status)}`}>
-                        {t.status}
-                    </span>
-                  </div>
+            {tournaments.filter(t => t.title.toLowerCase().includes(searchTerm.toLowerCase())).map((t) => (
+                <div key={t.id} className="bg-white rounded-[32px] border-4 border-slate-900 overflow-hidden shadow-[10px_10px_0px_#f1f5f9] flex flex-col transition-all hover:translate-x-1 hover:translate-y-1">
+                    <div className="relative h-44 bg-slate-100 border-b-4 border-slate-900">
+                        <img src={t.bannerImage || "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=800"} alt="" className="w-full h-full object-cover" />
+                        <div className="absolute top-4 right-4"><span className={`px-3 py-1 rounded-lg text-[10px] font-black border-2 border-slate-900 shadow-[3px_3px_0px_#000] ${getStatusColor(t.status)}`}>{t.status}</span></div>
+                    </div>
+                    <div className="p-6 flex flex-col flex-grow space-y-4">
+                        <h3 className="font-[1000] text-slate-900 text-xl uppercase line-clamp-1">{t.title}</h3>
+                        <div className="flex justify-between items-end">
+                            <div className="space-y-1">
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Confirmed Players</p>
+                                <p className="text-lg font-black">{t.registrations?.filter((r:any)=>r.status === 'COMPLETED').length || 0} / {t.maxPlayers}</p>
+                            </div>
+                            <button 
+                                onClick={() => setViewingPlayers(t)}
+                                className="px-4 py-2 bg-slate-900 text-white rounded-xl font-black uppercase text-[10px] hover:bg-blue-600 transition-all"
+                            >
+                                Manage Roster
+                            </button>
+                        </div>
+                        <div className="pt-4 flex gap-2 border-t-2 border-slate-50">
+                            <button onClick={() => { setEditingItem(t); setBannerUrl(t.bannerImage || ""); setIsModalOpen(true); }} className="flex-1 py-3 bg-blue-50 text-blue-600 rounded-xl font-black uppercase text-[10px] border-2 border-blue-100 hover:bg-blue-600 hover:text-white">Edit</button>
+                            <button onClick={() => handleDelete(t.id)} className="p-3 bg-red-50 text-red-600 rounded-xl border-2 border-red-100 hover:bg-red-600 hover:text-white"><Trash2 size={16}/></button>
+                        </div>
+                    </div>
                 </div>
-
-                <div className="p-6 flex flex-col flex-grow space-y-5">
-                  <div>
-                    <h3 className="font-[1000] text-slate-900 text-xl uppercase leading-tight line-clamp-1">{t.title}</h3>
-                    <p className="text-slate-500 font-bold uppercase text-[10px] flex items-center gap-1 mt-1">
-                        <MapPin size={12} className="text-blue-600" /> {t.location}
-                    </p>
-                  </div>
-
-                  {/* Player Counter */}
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-[10px] font-black uppercase text-slate-400">
-                        <span>Registrations</span>
-                        <span className="text-slate-900">{t.registrations?.filter((r:any)=>r.status === 'COMPLETED').length || 0} / {t.maxPlayers}</span>
-                    </div>
-                    <div className="h-3 bg-slate-100 border-2 border-slate-900 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-blue-500" 
-                          style={{ width: `${Math.min(((t.registrations?.filter((r:any)=>r.status === 'COMPLETED').length || 0) / t.maxPlayers) * 100, 100)}%` }}
-                        />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-50 p-3 rounded-xl border-2 border-slate-100">
-                        <p className="text-[9px] font-black text-slate-400 uppercase">Fee (HKD)</p>
-                        <p className="font-black text-slate-900 text-sm flex items-center gap-0.5"><DollarSign size={14}/>{t.entryFee / 100}</p>
-                    </div>
-                    <div className="bg-slate-50 p-3 rounded-xl border-2 border-slate-100">
-                        <p className="text-[9px] font-black text-slate-400 uppercase">Start Date</p>
-                        <p className="font-black text-slate-900 text-[10px]">{new Date(t.startDate).toLocaleDateString()}</p>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 flex flex-col gap-2">
-                    <button 
-                      onClick={() => setViewingPlayers(t)}
-                      className="w-full py-3 bg-blue-50 text-blue-600 rounded-xl font-black uppercase text-[10px] border-2 border-blue-100 flex items-center justify-center gap-2 hover:bg-blue-600 hover:text-white transition-all"
-                    >
-                      <UserCheck size={16} /> View Participants
-                    </button>
-                    <div className="flex gap-2">
-                        <button onClick={() => openEdit(t)} className="flex-1 py-3 bg-slate-900 text-white rounded-xl font-black uppercase text-[10px] hover:bg-blue-600 transition-all">Edit</button>
-                        <button onClick={() => handleDelete(t.id)} className="p-3 bg-red-50 text-red-600 rounded-xl border-2 border-red-100 hover:bg-red-600 hover:text-white transition-all"><Trash2 size={16} /></button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
+            ))}
         </div>
       )}
 
-      {/* --- PARTICIPANT DRAWER (Side Panel) --- */}
+      {/* --- PARTICIPANT DRAWER (Full Info & Filter) --- */}
       <AnimatePresence>
         {viewingPlayers && (
           <div className="fixed inset-0 z-[100] flex justify-end">
-            {/* Backdrop */}
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setViewingPlayers(null)}
-              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-            />
-            {/* Panel */}
-            <motion.div 
-              initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="relative w-full max-w-2xl bg-white border-l-8 border-slate-900 h-full shadow-2xl flex flex-col"
-            >
-              <div className="p-8 border-b-4 border-slate-900 flex justify-between items-center bg-blue-600 text-white">
-                <div>
-                  <h2 className="text-2xl font-[1000] uppercase tracking-tighter">Event Roster</h2>
-                  <p className="text-xs font-bold text-blue-100 uppercase mt-1">{viewingPlayers.title}</p>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setViewingPlayers(null)} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" />
+            <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 30 }} className="relative w-full max-w-3xl bg-white border-l-8 border-slate-900 h-full shadow-2xl flex flex-col">
+              
+              <div className="p-8 border-b-4 border-slate-900 bg-blue-600 text-white">
+                <div className="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 className="text-3xl font-[1000] uppercase tracking-tighter">Participant Hub</h2>
+                        <p className="text-sm font-bold text-blue-100 uppercase">{viewingPlayers.title}</p>
+                    </div>
+                    <button onClick={() => setViewingPlayers(null)} className="p-3 bg-slate-900 text-white rounded-2xl hover:bg-white hover:text-slate-900 transition-all"><X size={24} /></button>
                 </div>
-                <button onClick={() => setViewingPlayers(null)} className="p-3 bg-slate-900 text-white rounded-2xl hover:bg-white hover:text-slate-900 transition-all"><X size={24} /></button>
+
+                {/* FILTER TABS */}
+                <div className="flex gap-2 p-1 bg-blue-700 rounded-2xl w-fit">
+                    {(['ALL', 'PAID', 'PENDING'] as const).map((tab) => (
+                        <button 
+                            key={tab}
+                            onClick={() => setPlayerFilter(tab)}
+                            className={`px-4 py-2 rounded-xl text-[10px] font-black transition-all ${playerFilter === tab ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-blue-600'}`}
+                        >
+                            {tab} ({tab === 'ALL' ? viewingPlayers.registrations.length : viewingPlayers.registrations.filter((r:any) => tab === 'PAID' ? r.status === 'COMPLETED' : r.status === 'PENDING').length})
+                        </button>
+                    ))}
+                </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-8">
-                {viewingPlayers.registrations?.length === 0 ? (
-                  <div className="text-center py-20 flex flex-col items-center">
-                    <Users size={64} className="text-slate-100 mb-4" />
-                    <p className="text-slate-400 font-black uppercase text-sm">No registrations found.</p>
-                  </div>
+              <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                {filteredRegistrations.length === 0 ? (
+                    <div className="text-center py-20 text-slate-400 font-bold uppercase text-xs">No records found for this filter.</div>
                 ) : (
-                  <div className="space-y-6">
-                    <div className="flex justify-between items-center mb-4">
-                        <p className="text-[10px] font-black uppercase text-slate-400">Participant Details</p>
-                        <button onClick={() => window.print()} className="flex items-center gap-2 text-[10px] font-black uppercase text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 hover:bg-blue-600 hover:text-white transition-all">
-                            <Printer size={14} /> Print List
-                        </button>
-                    </div>
-                    <div className="space-y-3">
-                      {viewingPlayers.registrations.map((reg: any) => (
-                        <div key={reg.id} className="bg-white p-5 rounded-[24px] border-4 border-slate-900 shadow-[6px_6px_0px_#f1f5f9] flex items-center justify-between">
-                          <div>
-                            <p className="font-black text-slate-900 uppercase text-sm tracking-tight">{reg.playerName}</p>
-                            <div className="flex gap-4 mt-1">
-                                <span className="text-[10px] font-bold text-slate-500 flex items-center gap-1 uppercase tracking-tight"><Mail size={12}/>{reg.email}</span>
-                                <span className="text-[10px] font-bold text-slate-500 flex items-center gap-1 uppercase tracking-tight"><Phone size={12}/>{reg.phone}</span>
+                    filteredRegistrations.map((reg: any) => (
+                        <div key={reg.id} className={`bg-white rounded-[24px] border-4 border-slate-900 transition-all ${expandedPlayer === reg.id ? 'shadow-none translate-x-1 translate-y-1' : 'shadow-[6px_6px_0px_#f1f5f9]'}`}>
+                            <div 
+                                onClick={() => setExpandedPlayer(expandedPlayer === reg.id ? null : reg.id)}
+                                className="p-5 cursor-pointer flex items-center justify-between"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white shadow-md ${reg.status === 'COMPLETED' ? 'bg-emerald-500' : 'bg-amber-500'}`}>
+                                        {reg.playerName.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <p className="font-black text-slate-900 uppercase tracking-tight">{reg.playerName}</p>
+                                        <p className="text-[10px] font-bold text-slate-400 uppercase">{reg.studentCategory} • {reg.gender}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <div className="text-right hidden sm:block">
+                                        <p className={`text-[10px] font-black uppercase ${reg.status === 'COMPLETED' ? 'text-emerald-600' : 'text-amber-600'}`}>
+                                            {reg.status === 'COMPLETED' ? 'PAID' : 'PENDING'}
+                                        </p>
+                                        <p className="text-[9px] font-bold text-slate-300">{new Date(reg.createdAt).toLocaleDateString()}</p>
+                                    </div>
+                                    {expandedPlayer === reg.id ? <ChevronUp size={20}/> : <ChevronDown size={20}/>}
+                                </div>
                             </div>
-                          </div>
-                          <div className="text-right">
-                             {getPaymentBadge(reg.status)}
-                             <p className="text-[9px] font-bold text-slate-400 mt-2 uppercase">{new Date(reg.createdAt).toLocaleDateString()}</p>
-                          </div>
+
+                            <AnimatePresence>
+                                {expandedPlayer === reg.id && (
+                                    <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden bg-slate-50 border-t-2 border-slate-100 rounded-b-[20px]">
+                                        <div className="p-6 grid grid-cols-2 md:grid-cols-3 gap-6">
+                                            {/* Contact Info */}
+                                            <div className="col-span-2 md:col-span-1 space-y-3">
+                                                <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Contact Details</p>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Mail size={14} className="text-blue-500"/> {reg.email}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Phone size={14} className="text-blue-500"/> {reg.phone}</div>
+                                            </div>
+                                            
+                                            {/* Student Details */}
+                                            <div className="space-y-3">
+                                                <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Student Profile</p>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Cake size={14} className="text-orange-500"/> {new Date(reg.dob).toLocaleDateString()} ({calculateAge(reg.dob)} Yrs)</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Baby size={14} className="text-indigo-500"/> {reg.studentCategory}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><VenusMars size={14} className="text-rose-500"/> {reg.gender}</div>
+                                            </div>
+
+                                            {/* Chess Stats */}
+                                            <div className="space-y-3">
+                                                <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Chess Data</p>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><BarChart size={14} className="text-emerald-500"/> Rating: {reg.rating || "N/A"}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Hash size={14} className="text-slate-900"/> FIDE: {reg.fideId || "N/A"}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Globe size={14} className="text-cyan-500"/> {reg.onlineUsername || "No Username"}</div>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
-                      ))}
-                    </div>
-                  </div>
+                    ))
                 )}
+              </div>
+              
+              {/* Footer Actions */}
+              <div className="p-8 border-t-4 border-slate-900 bg-slate-50 flex gap-4">
+                 <button onClick={() => window.print()} className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black uppercase text-xs flex items-center justify-center gap-2">
+                    <Printer size={18} /> Export Participant PDF
+                 </button>
               </div>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* --- ADD / EDIT MODAL --- */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md">
           <motion.div 
@@ -379,10 +341,7 @@ export default function TournamentAdmin() {
           </motion.div>
         </div>
       )}
+
     </div>
   );
 }
-
-// Re-using same input icons for the Drawer
-function Mail({ size }: { size: number }) { return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>; }
-function Phone({ size }: { size: number }) { return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>; }
