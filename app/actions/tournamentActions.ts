@@ -32,7 +32,6 @@ const tournament = await prisma.tournament.findUnique({
 where: { id: tournamentId },
 });
 
-```
 if (!tournament) throw new Error("Tournament not found");
 
 // Create registration
