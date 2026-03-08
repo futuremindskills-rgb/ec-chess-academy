@@ -13,7 +13,7 @@ import {
   Plus, Trash2, Pencil, X, Trophy, Loader2, Search, 
   MapPin, Users, DollarSign, UserCheck, CheckCircle2, 
   Clock3, ShieldAlert, ChevronRight, Printer, 
-  Cake, Baby, Hash, Globe, BarChart, VenusMars, Mail, Phone,
+  Cake, Baby, Hash, Globe, BarChart,  Mail, Phone,
   ChevronDown, ChevronUp, Filter
 } from "lucide-react";
 
@@ -237,7 +237,7 @@ export default function TournamentAdmin() {
                                                 <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Student Profile</p>
                                                 <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Cake size={14} className="text-orange-500"/> {new Date(reg.dob).toLocaleDateString()} ({calculateAge(reg.dob)} Yrs)</div>
                                                 <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Baby size={14} className="text-indigo-500"/> {reg.studentCategory}</div>
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><VenusMars size={14} className="text-rose-500"/> {reg.gender}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Baby size={14} className="text-rose-500"/> {reg.gender}</div>
                                             </div>
 
                                             {/* Chess Stats */}
