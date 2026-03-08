@@ -15,7 +15,6 @@ import {
   Loader2,
   Sparkles
 } from "lucide-react";
-import { getGalleryImages } from "@/app/actions/adminActions";
 
 const tabs = [
   { id: "All", label: "All", icon: ImageIcon },
@@ -44,8 +43,6 @@ export default function GallerySection() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getGalleryImages();
-        setImages(data);
       } catch (error) {
         console.error("Gallery Fetch Error:", error);
       } finally {
