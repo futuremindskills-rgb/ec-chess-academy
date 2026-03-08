@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useCallback, useRef } from "react"
-import { motion, AnimatePresence, useScroll } from "framer-motion"
+import { motion } from "framer-motion"
 import { Trophy, ChevronLeft, ChevronRight, Medal, Star } from "lucide-react"
 
 interface Coach {
@@ -14,7 +14,6 @@ interface Coach {
   details: string[]
 }
 
-// ... (Coaches data remains the same)
 const coaches: Coach[] = [
     {
       id: 1,
@@ -298,7 +297,6 @@ export default function CompactCoachSlider() {
   const [visibleCards, setVisibleCards] = useState(1)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Update visible cards based on window width
   useEffect(() => {
     const updateSize = () => {
       if (window.innerWidth >= 1280) setVisibleCards(3)
@@ -320,7 +318,6 @@ export default function CompactCoachSlider() {
     setIndex((prev) => (prev <= 0 ? maxIndex : prev - 1))
   }, [maxIndex])
 
-  // Auto-play
   useEffect(() => {
     const timer = setInterval(next, 6000)
     return () => clearInterval(timer)
@@ -328,14 +325,12 @@ export default function CompactCoachSlider() {
 
   return (
     <section className="relative w-full py-16 md:py-24 bg-[#0f172a] overflow-hidden font-sans">
-      {/* Background Glows */}
       <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-orange-600 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-600 rounded-full blur-[120px]" />
       </div>
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        {/* Header Section */}
         <div className="text-center mb-10 md:mb-16">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
@@ -353,17 +348,16 @@ export default function CompactCoachSlider() {
         </div>
 
         <div className="relative group">
-          {/* Main Slider Container */}
           <div className="overflow-hidden px-2 py-4" ref={containerRef}>
             <motion.div 
               className="flex gap-4 md:gap-6"
               animate={{ 
-                x: `calc(-${index * (100 / visibleCards)}% - ${index * (visibleCards === 1 ? 0 : (visibleCards === 2 ? 12 : 16))}px)` 
+                x: `calc(-${index * (100 / visibleCards)}% - ${index * (visibleCards === 1 ? 0 : (visibleCards === 2 ? 16 : 24))}px)` 
               }}
-              transition={{ type: "spring", stiffness: 200, damping: 30 }}
+              transition={{ type: "spring", stiffness: 180, damping: 25 }}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
-              onDragEnd={(e, { offset, velocity }) => {
+              onDragEnd={(e, { offset }) => {
                 if (offset.x < -50 && index < maxIndex) next()
                 else if (offset.x > 50 && index > 0) prev()
               }}
@@ -371,46 +365,41 @@ export default function CompactCoachSlider() {
               {coaches.map((coach) => (
                 <div 
                   key={coach.id} 
-                  className="w-full md:w-[calc(50%-12px)] xl:w-[calc(33.333%-16px)] shrink-0"
+                  className="w-full md:w-[calc(50%-8px)] xl:w-[calc(33.333%-16px)] shrink-0"
                 >
-                  <div className="bg-[#1e1b4b]/40 border border-white/10 rounded-[2.5rem] overflow-hidden backdrop-blur-xl flex flex-col h-[520px] md:h-[650px] group/card hover:border-orange-500/40 transition-all duration-500 shadow-2xl">
+                  <div className="bg-[#1e1b4b]/50 border border-white/10 rounded-[2.5rem] overflow-hidden backdrop-blur-xl flex flex-col h-[550px] md:h-[680px] group/card hover:border-orange-500/40 transition-all duration-500 shadow-2xl">
                     
-                    {/* Top Image Section */}
-                    <div className="relative h-56 md:h-80 shrink-0 overflow-hidden">
+                    {/* IMAGE SECTION: Height reduced and object-top added for 'zoom out' effect */}
+                    <div className="relative h-58 md:h-72 shrink-0 overflow-hidden bg-slate-900">
                       <img 
                         src={coach.image} 
-                        className="w-full h-full object-cover grayscale-[30%] group-hover/card:grayscale-0 group-hover/card:scale-105 transition-all duration-1000" 
+                        className="w-full h-full object-cover object-top group-hover/card:scale-105 transition-all duration-700" 
                         alt={coach.nameEn} 
                       />
-                      {/* Gradient Overlay to match image */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1e1b4b] via-transparent to-transparent opacity-90" />
                       
-                      {/* Name Overlay */}
-                      <div className="absolute bottom-5 left-6 md:bottom-8 md:left-10">
-                        <h3 className="text-2xl md:text-4xl font-black text-white uppercase leading-none tracking-tight">
+                      <div className="absolute bottom-4 left-6 md:bottom-6 md:left-8">
+                        <h3 className="text-xl md:text-3xl font-black text-white uppercase leading-none tracking-tight">
                           {coach.nameEn}
                         </h3>
-                        <p className="text-orange-500 font-bold text-lg md:text-2xl mt-1">
+                        <p className="text-orange-500 font-bold text-base md:text-xl mt-1">
                           {coach.nameZh}
                         </p>
                       </div>
                       
-                      {/* Floating Rank Badge */}
-                      <div className="absolute top-5 right-5 bg-orange-500 text-white text-[10px] md:text-xs font-black px-3 py-1.5 md:px-5 md:py-2.5 rounded-xl shadow-xl border border-white/20">
+                      <div className="absolute top-4 right-4 bg-orange-500 text-white text-[9px] md:text-[11px] font-black px-3 py-1.5 rounded-lg shadow-xl border border-white/10">
                         {coach.mainRank}
                       </div>
                     </div>
 
-                    {/* Info Section */}
-                    <div className="p-6 md:p-10 flex-grow flex flex-col justify-between">
+                    <div className="p-6 md:p-8 flex-grow flex flex-col justify-between">
                       <div className="space-y-4 md:space-y-6">
                         <div className="flex items-center gap-2">
-                           <Medal className="w-4 h-4 text-orange-500" />
+                           <Medal className="w-3.5 h-3.5 text-orange-500" />
                            <span className="text-orange-400 text-[10px] font-black uppercase tracking-widest">Achievements</span>
                         </div>
                         
-                        {/* Scrollable List */}
-                        <div className="max-h-[160px] md:max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
+                        <div className="max-h-[180px] md:max-h-[240px] overflow-y-auto pr-2 custom-scrollbar">
                           <ul className="space-y-3 md:space-y-4">
                             {coach.details.map((detail, i) => (
                               <li key={i} className="flex items-start gap-3 text-[12px] md:text-[14px] text-indigo-50 font-medium leading-relaxed">
@@ -422,9 +411,8 @@ export default function CompactCoachSlider() {
                         </div>
                       </div>
                       
-                      {/* Footer Title */}
-                      <div className="pt-6 border-t border-white/10 mt-auto">
-                        <p className="text-[10px] md:text-[12px] text-indigo-300 font-black uppercase tracking-[0.2em] italic truncate">
+                      <div className="pt-5 border-t border-white/10 mt-auto">
+                        <p className="text-[10px] md:text-[11px] text-indigo-300 font-black uppercase tracking-[0.2em] italic truncate">
                           {coach.title}
                         </p>
                       </div>
@@ -435,29 +423,28 @@ export default function CompactCoachSlider() {
             </motion.div>
           </div>
 
-          {/* Navigation Controls */}
           <div className="flex justify-center md:block mt-8">
             <button 
                 onClick={prev} 
-                className="md:absolute md:-left-4 lg:-left-8 xl:-left-12 md:top-1/2 md:-translate-y-1/2 mr-4 md:mr-0 w-12 h-12 md:w-16 md:h-16 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-[0_8px_30px_rgb(249,115,22,0.3)] border-2 border-white/20 z-40 hover:bg-orange-600 transition-all active:scale-90"
-                aria-label="Previous coach"
+                className="md:absolute md:-left-4 lg:-left-8 xl:-left-12 md:top-1/2 md:-translate-y-1/2 mr-4 md:mr-0 w-11 h-11 md:w-14 md:h-14 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-lg border-2 border-white/20 z-40 hover:bg-orange-600 transition-all active:scale-90"
+                aria-label="Previous"
             >
-              <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 stroke-[3px]" />
+              <ChevronLeft className="w-6 h-6 md:w-7 md:h-7 stroke-[3px]" />
             </button>
             <button 
                 onClick={next} 
-                className="md:absolute md:-right-4 lg:-right-8 xl:-right-12 md:top-1/2 md:-translate-y-1/2 w-12 h-12 md:w-16 md:h-16 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-[0_8px_30px_rgb(249,115,22,0.3)] border-2 border-white/20 z-40 hover:bg-orange-600 transition-all active:scale-90"
-                aria-label="Next coach"
+                className="md:absolute md:-right-4 lg:-right-8 xl:-right-12 md:top-1/2 md:-translate-y-1/2 w-11 h-11 md:w-14 md:h-14 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-lg border-2 border-white/20 z-40 hover:bg-orange-600 transition-all active:scale-90"
+                aria-label="Next"
             >
-              <ChevronRight className="w-6 h-6 md:w-8 md:h-8 stroke-[3px]" />
+              <ChevronRight className="w-6 h-6 md:w-7 md:h-7 stroke-[3px]" />
             </button>
           </div>
         </div>
       </div>
 
       <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #f97316; border-radius: 10px; }
       `}</style>
     </section>
