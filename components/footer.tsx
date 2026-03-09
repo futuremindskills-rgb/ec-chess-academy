@@ -26,6 +26,7 @@ const links = [
   { name: "Achievements", href: "/achievements" },
   { name: "About Us", href: "/about" },
   { name: "Registration", href: "/tournaments" },
+  { name: "Policies", href: "/policies" }
 ];
 
 export default function Footer() {
