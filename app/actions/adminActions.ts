@@ -11,6 +11,7 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
    TOURNAMENTS
    ========================================================================== */
 
+
 export async function addTournament(formData: FormData) {
   const data = {
     title: formData.get('title') as string,
@@ -22,10 +23,11 @@ export async function addTournament(formData: FormData) {
     location: formData.get('location') as string,
     bannerImage: formData.get('bannerImage') as string,
     status: (formData.get('status') as any) || "OPEN",
+    categories: formData.get('categories') as string, // Stringified JSON
+    regulations: formData.get('regulations') as string, // Full Text
   }
 
   await prisma.tournament.create({ data })
-  
   revalidatePath('/tournaments')
   revalidatePath('/admin/tournaments')
 }
@@ -41,6 +43,8 @@ export async function editTournament(id: number, formData: FormData) {
     endDate: new Date(formData.get('endDate') as string),
     location: formData.get('location') as string,
     status: formData.get('status') as any,
+    categories: formData.get('categories') as string,
+    regulations: formData.get('regulations') as string,
   }
   
   if (bannerImage) dataToUpdate.bannerImage = bannerImage
@@ -52,11 +56,7 @@ export async function editTournament(id: number, formData: FormData) {
 
 export async function getTournaments() {
   return await prisma.tournament.findMany({ 
-    include: { 
-      registrations: {
-        orderBy: { createdAt: 'desc' }
-      } 
-    }, 
+    include: { registrations: { orderBy: { createdAt: 'desc' } } }, 
     orderBy: { startDate: 'desc' } 
   });
 }
@@ -66,7 +66,6 @@ export async function deleteTournament(id: number) {
   revalidatePath('/tournaments')
   revalidatePath('/admin/tournaments')
 }
-
 /* ==========================================================================
    BLOGS
    ========================================================================== */

@@ -10,11 +10,9 @@ import {
 } from "@/app/actions/adminActions";
 import ImageUpload from "@/components/admin/ImageUpload";
 import { 
-  Plus, Trash2, Pencil, X, Trophy, Loader2, Search, 
-  MapPin, Users, DollarSign, UserCheck, CheckCircle2, 
-  Clock3, ShieldAlert, ChevronRight, Printer, 
-  Cake, Baby, Hash, Globe, BarChart,  Mail, Phone,
-  ChevronDown, ChevronUp, Filter
+  Plus, Trash2, X, Loader2, Search, 
+  FileText, Gamepad2, ChevronDown, ChevronUp, 
+  Mail, Phone, Cake, Baby, Hash, Globe, BarChart, Printer 
 } from "lucide-react";
 
 export default function TournamentAdmin() {
@@ -47,7 +45,6 @@ export default function TournamentAdmin() {
     }
   }
 
-  // --- Utility Functions ---
   const calculateAge = (dob: string) => {
     const birthDate = new Date(dob);
     const difference = Date.now() - birthDate.getTime();
@@ -57,6 +54,10 @@ export default function TournamentAdmin() {
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true);
     if (bannerUrl) formData.set("bannerImage", bannerUrl);
+    
+    const selectedCategories = Array.from(formData.getAll("categories"));
+    formData.set("categories", JSON.stringify(selectedCategories));
+
     try {
       if (editingItem) await editTournament(editingItem.id, formData);
       else await addTournament(formData);
@@ -90,7 +91,6 @@ export default function TournamentAdmin() {
     }
   };
 
-  // Filter Logic for Drawer
   const filteredRegistrations = viewingPlayers?.registrations?.filter((reg: any) => {
     if (playerFilter === 'PAID') return reg.status === 'COMPLETED';
     if (playerFilter === 'PENDING') return reg.status === 'PENDING';
@@ -98,7 +98,7 @@ export default function TournamentAdmin() {
   }) || [];
 
   return (
-    <div className="min-h-screen pb-20 p-4 md:p-8 font-sans">
+    <div className="min-h-screen pb-20 p-4 md:p-8 font-sans bg-slate-50">
       
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
@@ -120,7 +120,7 @@ export default function TournamentAdmin() {
       <div className="bg-white p-2 rounded-2xl border-4 border-slate-900 shadow-[6px_6px_0px_#f1f5f9] mb-10 flex items-center gap-3">
         <div className="bg-slate-100 p-3 rounded-xl"><Search className="text-slate-500" size={20} /></div>
         <input 
-          type="text" placeholder="SEARCH EVENTS..." 
+          type="text" 
           className="flex-1 bg-transparent outline-none font-black uppercase text-xs"
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -134,11 +134,18 @@ export default function TournamentAdmin() {
             {tournaments.filter(t => t.title.toLowerCase().includes(searchTerm.toLowerCase())).map((t) => (
                 <div key={t.id} className="bg-white rounded-[32px] border-4 border-slate-900 overflow-hidden shadow-[10px_10px_0px_#f1f5f9] flex flex-col transition-all hover:translate-x-1 hover:translate-y-1">
                     <div className="relative h-44 bg-slate-100 border-b-4 border-slate-900">
-                        <img src={t.bannerImage || "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=800"} alt="" className="w-full h-full object-cover" />
+                        {t.bannerImage && <img src={t.bannerImage} alt="" className="w-full h-full object-cover" />}
                         <div className="absolute top-4 right-4"><span className={`px-3 py-1 rounded-lg text-[10px] font-black border-2 border-slate-900 shadow-[3px_3px_0px_#000] ${getStatusColor(t.status)}`}>{t.status}</span></div>
                     </div>
                     <div className="p-6 flex flex-col flex-grow space-y-4">
                         <h3 className="font-[1000] text-slate-900 text-xl uppercase line-clamp-1">{t.title}</h3>
+                        
+                        <div className="flex gap-2">
+                           {t.categories && JSON.parse(t.categories).map((cat: string) => (
+                             <span key={cat} className="px-2 py-1 bg-slate-100 border border-slate-300 rounded text-[8px] font-bold uppercase">{cat}</span>
+                           ))}
+                        </div>
+
                         <div className="flex justify-between items-end">
                             <div className="space-y-1">
                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Confirmed Players</p>
@@ -161,7 +168,92 @@ export default function TournamentAdmin() {
         </div>
       )}
 
-      {/* --- PARTICIPANT DRAWER (Full Info & Filter) --- */}
+      {/* --- ADD/EDIT MODAL --- */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md">
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+            className="bg-white border-4 border-slate-900 rounded-[40px] w-full max-w-2xl shadow-[15px_15px_0px_#000] overflow-hidden flex flex-col max-h-[90vh]"
+          >
+            <div className="p-8 border-b-4 border-slate-900 flex justify-between items-center bg-slate-50">
+              <h2 className="text-2xl font-[1000] text-slate-900 uppercase tracking-tighter">Tournament Editor</h2>
+              <button onClick={closeModal} className="p-3 bg-white border-4 border-slate-900 text-slate-900 rounded-2xl hover:bg-slate-900 hover:text-white transition-all"><X size={24} /></button>
+            </div>
+            
+            <form action={handleSubmit} className="p-10 space-y-6 overflow-y-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div className="md:col-span-2">
+                    <label className="block text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2">Banner Image</label>
+                    <ImageUpload value={bannerUrl} onChange={setBannerUrl} />
+                </div>
+
+                <div className="md:col-span-2">
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2 flex items-center gap-2"><Gamepad2 size={14}/> Game Categories</label>
+                    <div className="flex flex-wrap gap-4 bg-slate-50 p-4 rounded-2xl border-2 border-dashed border-slate-300">
+                        {['Weiqi', 'Xiangqi', 'International Chess'].map((cat) => (
+                           <label key={cat} className="flex items-center gap-2 cursor-pointer group">
+                              <input 
+                                type="checkbox" 
+                                name="categories" 
+                                value={cat} 
+                                defaultChecked={editingItem?.categories ? JSON.parse(editingItem.categories).includes(cat) : false}
+                                className="w-5 h-5 border-2 border-slate-900 rounded checked:bg-blue-600 transition-all"
+                              />
+                              <span className="font-black uppercase text-[10px] text-slate-600 group-hover:text-blue-600 transition-colors">{cat}</span>
+                           </label>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="md:col-span-2">
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Event Title</label>
+                    <input name="title" defaultValue={editingItem?.title} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs focus:ring-4 ring-blue-100 outline-none" />
+                </div>
+
+                <div>
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Fee (HKD)</label>
+                    <input type="number" name="entryFee" defaultValue={editingItem?.entryFee} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none" />
+                </div>
+                <div>
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Max Players</label>
+                    <input type="number" name="maxPlayers" defaultValue={editingItem?.maxPlayers} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none" />
+                </div>
+
+                <div>
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Starts</label>
+                    <input type="datetime-local" name="startDate" defaultValue={editingItem?.startDate ? new Date(editingItem.startDate).toISOString().slice(0, 16) : ""} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-[10px] outline-none" />
+                </div>
+                <div>
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Ends</label>
+                    <input type="datetime-local" name="endDate" defaultValue={editingItem?.endDate ? new Date(editingItem.endDate).toISOString().slice(0, 16) : ""} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-[10px] outline-none" />
+                </div>
+
+                <div className="md:col-span-2">
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Location</label>
+                    <input name="location" defaultValue={editingItem?.location} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px] outline-none" />
+                </div>
+
+                <div className="md:col-span-2">
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2 flex items-center gap-2"><FileText size={14}/> Competition Regulations</label>
+                    <textarea 
+                      name="regulations" 
+                      defaultValue={editingItem?.regulations} 
+                      rows={10}
+                      className="w-full p-4 border-4 border-slate-900 rounded-2xl font-medium text-xs outline-none whitespace-pre-wrap" 
+                    />
+                </div>
+              </div>
+
+              <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-blue-600 hover:bg-slate-900 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-[6px_6px_0px_#1e1b4b] flex items-center justify-center gap-2">
+                {isSubmitting ? <Loader2 className="animate-spin" /> : "Save Tournament"}
+              </button>
+            </form>
+          </motion.div>
+        </div>
+      )}
+
+      {/* --- PARTICIPANT DRAWER --- */}
       <AnimatePresence>
         {viewingPlayers && (
           <div className="fixed inset-0 z-[100] flex justify-end">
@@ -171,13 +263,12 @@ export default function TournamentAdmin() {
               <div className="p-8 border-b-4 border-slate-900 bg-blue-600 text-white">
                 <div className="flex justify-between items-start mb-6">
                     <div>
-                        <h2 className="text-3xl font-[1000] uppercase tracking-tighter">Participant Hub</h2>
-                        <p className="text-sm font-bold text-blue-100 uppercase">{viewingPlayers.title}</p>
+                        <h2 className="text-3xl font-[1000] uppercase tracking-tighter leading-none">Participant Hub</h2>
+                        <p className="text-[10px] font-bold text-blue-100 uppercase mt-2 tracking-widest">{viewingPlayers.title}</p>
                     </div>
                     <button onClick={() => setViewingPlayers(null)} className="p-3 bg-slate-900 text-white rounded-2xl hover:bg-white hover:text-slate-900 transition-all"><X size={24} /></button>
                 </div>
 
-                {/* FILTER TABS */}
                 <div className="flex gap-2 p-1 bg-blue-700 rounded-2xl w-fit">
                     {(['ALL', 'PAID', 'PENDING'] as const).map((tab) => (
                         <button 
@@ -193,16 +284,13 @@ export default function TournamentAdmin() {
 
               <div className="flex-1 overflow-y-auto p-6 space-y-4">
                 {filteredRegistrations.length === 0 ? (
-                    <div className="text-center py-20 text-slate-400 font-bold uppercase text-xs">No records found for this filter.</div>
+                    <div className="text-center py-20 text-slate-300 font-black uppercase text-xs tracking-widest">No matching records found.</div>
                 ) : (
                     filteredRegistrations.map((reg: any) => (
-                        <div key={reg.id} className={`bg-white rounded-[24px] border-4 border-slate-900 transition-all ${expandedPlayer === reg.id ? 'shadow-none translate-x-1 translate-y-1' : 'shadow-[6px_6px_0px_#f1f5f9]'}`}>
-                            <div 
-                                onClick={() => setExpandedPlayer(expandedPlayer === reg.id ? null : reg.id)}
-                                className="p-5 cursor-pointer flex items-center justify-between"
-                            >
+                        <div key={reg.id} className={`bg-white rounded-[24px] border-4 border-slate-900 transition-all ${expandedPlayer === reg.id ? 'translate-x-1 translate-y-1' : 'shadow-[6px_6px_0px_#f1f5f9]'}`}>
+                            <div onClick={() => setExpandedPlayer(expandedPlayer === reg.id ? null : reg.id)} className="p-5 cursor-pointer flex items-center justify-between">
                                 <div className="flex items-center gap-4">
-                                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white shadow-md ${reg.status === 'COMPLETED' ? 'bg-emerald-500' : 'bg-amber-500'}`}>
+                                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white ${reg.status === 'COMPLETED' ? 'bg-emerald-500' : 'bg-amber-500'}`}>
                                         {reg.playerName.charAt(0)}
                                     </div>
                                     <div>
@@ -212,40 +300,29 @@ export default function TournamentAdmin() {
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <div className="text-right hidden sm:block">
-                                        <p className={`text-[10px] font-black uppercase ${reg.status === 'COMPLETED' ? 'text-emerald-600' : 'text-amber-600'}`}>
-                                            {reg.status === 'COMPLETED' ? 'PAID' : 'PENDING'}
-                                        </p>
-                                        <p className="text-[9px] font-bold text-slate-300">{new Date(reg.createdAt).toLocaleDateString()}</p>
+                                        <p className={`text-[10px] font-black uppercase ${reg.status === 'COMPLETED' ? 'text-emerald-600' : 'text-amber-600'}`}>{reg.status === 'COMPLETED' ? 'PAID' : 'PENDING'}</p>
                                     </div>
                                     {expandedPlayer === reg.id ? <ChevronUp size={20}/> : <ChevronDown size={20}/>}
                                 </div>
                             </div>
-
                             <AnimatePresence>
                                 {expandedPlayer === reg.id && (
-                                    <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden bg-slate-50 border-t-2 border-slate-100 rounded-b-[20px]">
+                                    <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden bg-slate-50 border-t-4 border-slate-900 rounded-b-[20px]">
                                         <div className="p-6 grid grid-cols-2 md:grid-cols-3 gap-6">
-                                            {/* Contact Info */}
                                             <div className="col-span-2 md:col-span-1 space-y-3">
-                                                <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Contact Details</p>
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Mail size={14} className="text-blue-500"/> {reg.email}</div>
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Phone size={14} className="text-blue-500"/> {reg.phone}</div>
+                                                <p className="text-[10px] font-black text-slate-400 uppercase">Contact</p>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><Mail size={14} className="text-blue-500"/> {reg.email}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><Phone size={14} className="text-blue-500"/> {reg.phone}</div>
                                             </div>
-                                            
-                                            {/* Student Details */}
                                             <div className="space-y-3">
-                                                <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Student Profile</p>
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Cake size={14} className="text-orange-500"/> {new Date(reg.dob).toLocaleDateString()} ({calculateAge(reg.dob)} Yrs)</div>
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Baby size={14} className="text-indigo-500"/> {reg.studentCategory}</div>
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Baby size={14} className="text-rose-500"/> {reg.gender}</div>
+                                                <p className="text-[10px] font-black text-slate-400 uppercase">Profile</p>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><Cake size={14} className="text-orange-500"/> {new Date(reg.dob).toLocaleDateString()} ({calculateAge(reg.dob)} Yrs)</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><Baby size={14} className="text-indigo-500"/> {reg.studentCategory}</div>
                                             </div>
-
-                                            {/* Chess Stats */}
                                             <div className="space-y-3">
-                                                <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Chess Data</p>
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><BarChart size={14} className="text-emerald-500"/> Rating: {reg.rating || "N/A"}</div>
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Hash size={14} className="text-slate-900"/> FIDE: {reg.fideId || "N/A"}</div>
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-600"><Globe size={14} className="text-cyan-500"/> {reg.onlineUsername || "No Username"}</div>
+                                                <p className="text-[10px] font-black text-slate-400 uppercase">Chess Data</p>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><BarChart size={14} className="text-emerald-500"/> Rating: {reg.rating || "None"}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><Globe size={14} className="text-cyan-500"/> {reg.onlineUsername || "No Account"}</div>
                                             </div>
                                         </div>
                                     </motion.div>
@@ -256,91 +333,15 @@ export default function TournamentAdmin() {
                 )}
               </div>
               
-              {/* Footer Actions */}
-              <div className="p-8 border-t-4 border-slate-900 bg-slate-50 flex gap-4">
-                 <button onClick={() => window.print()} className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black uppercase text-xs flex items-center justify-center gap-2">
-                    <Printer size={18} /> Export Participant PDF
+              <div className="p-8 border-t-4 border-slate-900 bg-slate-50">
+                 <button onClick={() => window.print()} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black uppercase text-xs flex items-center justify-center gap-2 transition-all hover:bg-blue-600">
+                    <Printer size={18} /> Export List to PDF
                  </button>
               </div>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
-
-      {isModalOpen && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md">
-          <motion.div 
-            initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-            className="bg-white border-4 border-slate-900 rounded-[40px] w-full max-w-2xl shadow-[15px_15px_0px_#000] overflow-hidden flex flex-col max-h-[90vh]"
-          >
-            <div className="p-8 border-b-4 border-slate-900 flex justify-between items-center bg-slate-50">
-              <h2 className="text-2xl font-[1000] text-slate-900 uppercase tracking-tighter">
-                {editingItem ? "Update Event" : "Setup Event"}
-              </h2>
-              <button onClick={closeModal} className="p-3 bg-white border-4 border-slate-900 text-slate-900 rounded-2xl hover:bg-slate-900 hover:text-white transition-all"><X size={24} /></button>
-            </div>
-            
-            <form action={handleSubmit} className="p-10 space-y-6 overflow-y-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                <div className="md:col-span-2">
-                    <label className="block text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2">Banner Image</label>
-                    <ImageUpload value={bannerUrl} onChange={setBannerUrl} />
-                </div>
-
-                <div className="md:col-span-2">
-                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Event Title</label>
-                    <input name="title" defaultValue={editingItem?.title} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs focus:ring-4 ring-blue-100 outline-none" />
-                </div>
-
-                <div className="md:col-span-2">
-                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Details</label>
-                    <textarea name="description" defaultValue={editingItem?.description} required rows={3} className="w-full p-4 border-4 border-slate-900 rounded-2xl font-bold text-xs focus:ring-4 ring-blue-100 outline-none" />
-                </div>
-
-                <div>
-                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Fee (HKD Cents)</label>
-                    <input type="number" name="entryFee" defaultValue={editingItem?.entryFee} required placeholder="e.g. 50000" className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs" />
-                </div>
-                <div>
-                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Max Players</label>
-                    <input type="number" name="maxPlayers" defaultValue={editingItem?.maxPlayers} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs" />
-                </div>
-
-                <div>
-                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Starts</label>
-                    <input type="datetime-local" name="startDate" defaultValue={editingItem?.startDate ? new Date(editingItem.startDate).toISOString().slice(0, 16) : ""} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-[10px]" />
-                </div>
-                <div>
-                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Ends</label>
-                    <input type="datetime-local" name="endDate" defaultValue={editingItem?.endDate ? new Date(editingItem.endDate).toISOString().slice(0, 16) : ""} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-[10px]" />
-                </div>
-
-                <div>
-                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Location</label>
-                    <input name="location" defaultValue={editingItem?.location} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px]" />
-                </div>
-                <div>
-                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Status</label>
-                    <select name="status" defaultValue={editingItem?.status || "OPEN"} className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px]">
-                        <option value="OPEN">Open</option>
-                        <option value="ONGOING">Ongoing</option>
-                        <option value="COMPLETED">Completed</option>
-                        <option value="CANCELLED">Cancelled</option>
-                    </select>
-                </div>
-              </div>
-
-              <button 
-                type="submit" disabled={isSubmitting}
-                className="w-full py-5 bg-blue-600 hover:bg-slate-900 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-[6px_6px_0px_#1e1b4b] flex items-center justify-center gap-2 disabled:opacity-70"
-              >
-                {isSubmitting ? <Loader2 className="animate-spin" /> : editingItem ? "Apply Changes" : "Create Event"}
-              </button>
-            </form>
-          </motion.div>
-        </div>
-      )}
 
     </div>
   );

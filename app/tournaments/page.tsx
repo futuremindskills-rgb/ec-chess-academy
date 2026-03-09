@@ -6,7 +6,7 @@ import Image from "next/image";
 import { 
   Trophy, Calendar, Clock, MapPin, ChevronRight, Zap, Target, 
   ShieldCheck, Star, Users, Loader2, DollarSign, X, User, 
-  Mail, Phone, Baby, Cake, BarChart, Hash, Globe
+  Mail, Phone, Baby, Cake, BarChart, Hash, Globe, FileText
 } from "lucide-react";
 import TournamentBanner from "@/components/ui/tournamentBanner";
 import { getTournaments } from "@/app/actions/adminActions";
@@ -16,8 +16,9 @@ export default function TournamentsPage() {
   const [tournaments, setTournaments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   
-  // Registration Modal State
+  // Modal States
   const [selectedTournament, setSelectedTournament] = useState<any>(null);
+  const [viewingRegs, setViewingRegs] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -78,8 +79,14 @@ export default function TournamentsPage() {
                     <div className="relative bg-white border-4 border-slate-900 rounded-[32px] md:rounded-[40px] flex flex-col h-full overflow-hidden">
                         <div className="relative w-full h-48 md:h-56 bg-slate-200 overflow-hidden border-b-4 border-slate-900">
                           {t.bannerImage && <Image src={t.bannerImage} alt={t.title} fill className="object-cover" />}
-                          <div className="absolute top-4 right-4">
+                          <div className="absolute top-4 right-4 flex flex-col items-end gap-2">
                             <span className="px-3 py-1 text-[10px] font-black uppercase bg-emerald-400 border-2 border-slate-900 shadow-[2px_2px_0px_#000]">{t.status}</span>
+                            {/* Category Badges */}
+                            <div className="flex gap-1">
+                              {t.categories && JSON.parse(t.categories).map((cat: string) => (
+                                <span key={cat} className="px-2 py-1 text-[8px] font-black uppercase bg-white border-2 border-slate-900 shadow-[2px_2px_0px_#000]">{cat}</span>
+                              ))}
+                            </div>
                           </div>
                         </div>
                         <div className="p-6 md:p-8 pt-6 flex flex-col flex-1">
@@ -88,12 +95,21 @@ export default function TournamentsPage() {
                             <div className="flex items-center gap-3"><Calendar size={16} className="text-orange-500" /> {new Date(t.startDate).toLocaleDateString()}</div>
                             <div className="flex items-center gap-3"><MapPin size={16} className="text-indigo-600" /> {t.location}</div>
                           </div>
-                          <button 
-                            onClick={() => setSelectedTournament(t)}
-                            className="w-full py-4 bg-indigo-600 hover:bg-orange-500 text-white font-black uppercase rounded-2xl transition-all shadow-xl"
-                          >
-                            Register Now
-                          </button>
+                          
+                          <div className="flex flex-col gap-3">
+                            <button 
+                              onClick={() => setViewingRegs(t)}
+                              className="w-full py-3 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px] hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
+                            >
+                              <FileText size={14} /> View Regulations 章程
+                            </button>
+                            <button 
+                              onClick={() => setSelectedTournament(t)}
+                              className="w-full py-4 bg-indigo-600 hover:bg-orange-500 text-white font-black uppercase rounded-2xl transition-all shadow-xl"
+                            >
+                              Register Now
+                            </button>
+                          </div>
                         </div>
                     </div>
                 </motion.div>
@@ -101,6 +117,46 @@ export default function TournamentsPage() {
           </div>
         )}
       </section>
+
+      {/* REGULATIONS MODAL */}
+      <AnimatePresence>
+        {viewingRegs && (
+          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, y: 50 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: 50 }}
+              className="bg-white border-4 border-slate-900 rounded-[32px] w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col shadow-[20px_20px_0px_#4f46e5]"
+            >
+              <div className="p-6 border-b-4 border-slate-900 bg-slate-50 flex justify-between items-center">
+                <h3 className="font-[1000] uppercase text-xl tracking-tighter">比賽章程 Regulations</h3>
+                <button onClick={() => setViewingRegs(null)} className="p-2 bg-white border-2 border-slate-900 rounded-xl hover:bg-red-500 hover:text-white transition-all"><X size={20}/></button>
+              </div>
+              
+              <div className="p-8 overflow-y-auto bg-white">
+                <div className="prose prose-slate max-w-none">
+                  {/* whitespace-pre-wrap ensures typed line breaks from admin are preserved */}
+                  <p className="whitespace-pre-wrap font-medium text-slate-700 leading-relaxed text-sm">
+                    {viewingRegs.regulations || "No regulations provided for this event."}
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-6 bg-slate-50 border-t-4 border-slate-900 text-center">
+                 <button 
+                    onClick={() => {
+                        setSelectedTournament(viewingRegs);
+                        setViewingRegs(null);
+                    }}
+                    className="px-8 py-3 bg-indigo-600 text-white font-black uppercase rounded-xl text-xs"
+                 >
+                    Confirm & Register
+                 </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* REGISTRATION MODAL */}
       <AnimatePresence>
@@ -126,39 +182,41 @@ export default function TournamentsPage() {
                   {/* Basic Info */}
                   <div className="relative md:col-span-2">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required name="playerName" placeholder="STUDENT FULL NAME" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
+                    <input required name="playerName" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600" />
+                    <span className="absolute -top-2 left-4 bg-white px-1 text-[8px] font-black text-slate-400 uppercase">Student Full Name</span>
                   </div>
 
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required name="email" type="email" placeholder="EMAIL ADDRESS" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
+                    <input required name="email" type="email" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600" />
+                    <span className="absolute -top-2 left-4 bg-white px-1 text-[8px] font-black text-slate-400 uppercase">Email Address</span>
                   </div>
 
                   <div className="relative">
                     <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required name="phone" placeholder="PHONE NUMBER" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
+                    <input required name="phone" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600" />
+                    <span className="absolute -top-2 left-4 bg-white px-1 text-[8px] font-black text-slate-400 uppercase">Phone Number</span>
                   </div>
 
                   {/* New Details */}
                   <div className="relative">
                     <Cake className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required name="dob" type="date" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
-                    <span className="absolute -top-2 left-4 bg-white px-1 text-[8px] font-black text-slate-400">DATE OF BIRTH</span>
+                    <input required name="dob" type="date" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600" />
+                    <span className="absolute -top-2 left-4 bg-white px-1 text-[8px] font-black text-slate-400 uppercase">Date of Birth</span>
                   </div>
 
                   <div className="relative">
-                    <select required name="gender" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none appearance-none bg-white">
-                        <option value="">SELECT GENDER</option>
+                    <select required name="gender" className="w-full pl-4 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none appearance-none bg-white focus:border-indigo-600">
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
                     </select>
+                    <span className="absolute -top-2 left-4 bg-white px-1 text-[8px] font-black text-slate-400 uppercase">Gender</span>
                   </div>
 
                   <div className="relative md:col-span-2">
                     <Baby className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <select required name="studentCategory" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none appearance-none bg-white">
-                        <option value="">SELECT STUDENT CATEGORY</option>
+                    <select required name="studentCategory" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none appearance-none bg-white focus:border-indigo-600">
                         <option value="lower_primary">Lower Primary</option>
                         <option value="upper_primary">Upper Primary</option>
                         <option value="secondary">Secondary</option>
@@ -166,21 +224,25 @@ export default function TournamentsPage() {
                         <option value="open">Open</option>
                         <option value="age">Age Based</option>
                     </select>
+                    <span className="absolute -top-2 left-4 bg-white px-1 text-[8px] font-black text-slate-400 uppercase">Student Category</span>
                   </div>
 
                   <div className="relative">
                     <BarChart className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input name="rating" placeholder="RATING / LEVEL" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
+                    <input name="rating" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600" />
+                    <span className="absolute -top-2 left-4 bg-white px-1 text-[8px] font-black text-slate-400 uppercase">Rating / Level</span>
                   </div>
 
                   <div className="relative">
                     <Hash className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input name="fideId" placeholder="FIDE ID (OPTIONAL)" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
+                    <input name="fideId" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600" />
+                    <span className="absolute -top-2 left-4 bg-white px-1 text-[8px] font-black text-slate-400 uppercase">FIDE ID (Optional)</span>
                   </div>
 
                   <div className="relative md:col-span-2">
                     <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required name="onlineUsername" placeholder="USERNAME (LICHESS / CHESS.COM)" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
+                    <input required name="onlineUsername" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600" />
+                    <span className="absolute -top-2 left-4 bg-white px-1 text-[8px] font-black text-slate-400 uppercase">Username (Lichess/Chess.com)</span>
                   </div>
                 </div>
 
@@ -195,7 +257,7 @@ export default function TournamentsPage() {
                 <button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full mt-8 py-5 bg-slate-900 hover:bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all disabled:opacity-50"
+                  className="w-full mt-8 py-5 bg-slate-900 hover:bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all disabled:opacity-50 shadow-[6px_6px_0px_#000]"
                 >
                   {isSubmitting ? <Loader2 className="animate-spin" /> : <>Proceed to Payment <ChevronRight size={18} /></>}
                 </button>
@@ -205,7 +267,7 @@ export default function TournamentsPage() {
         )}
       </AnimatePresence>
 
-      {/* --- 3. TOURNAMENT FORMATS --- */}
+      {/* --- TOURNAMENT FORMATS --- */}
       <section className="py-16 md:py-24 bg-slate-900 relative overflow-hidden">
          <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0h30v30H30V0zM0 30h30v30H0V30z' fill='%23ffffff' /%3E%3C/svg%3E")` }} />
          <div className="container mx-auto px-6 relative z-10 text-center mb-12 md:mb-16">
@@ -227,7 +289,7 @@ export default function TournamentsPage() {
          </div>
       </section>
 
-      {/* --- 4. WHY TOURNAMENTS? --- */}
+      {/* --- WHY TOURNAMENTS? --- */}
       <section className="py-16 md:py-24 container mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 md:gap-20">
          <div className="flex-1 relative w-full max-w-[500px]">
             <div className="relative aspect-square">
