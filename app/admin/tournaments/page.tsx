@@ -12,7 +12,7 @@ import ImageUpload from "@/components/admin/ImageUpload";
 import { 
   Plus, Trash2, X, Loader2, Search, 
   FileText, Gamepad2, ChevronDown, ChevronUp, 
-  Mail, Phone, Cake, Baby, Hash, Globe, BarChart, Printer 
+  Mail, Phone, Cake, Baby, Hash, Globe, BarChart, Printer, ListOrdered 
 } from "lucide-react";
 
 export default function TournamentAdmin() {
@@ -53,10 +53,22 @@ export default function TournamentAdmin() {
 
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true);
+    
+    // 1. Handle Banner
     if (bannerUrl) formData.set("bannerImage", bannerUrl);
     
+    // 2. Handle Multi-select Categories
     const selectedCategories = Array.from(formData.getAll("categories"));
     formData.set("categories", JSON.stringify(selectedCategories));
+
+    // 3. Handle Custom Skill Levels (Convert comma string to JSON array)
+    const levelsRaw = formData.get("levels") as string;
+    if (levelsRaw) {
+        const levelsArray = levelsRaw.split(',').map(s => s.trim()).filter(s => s !== "");
+        formData.set("levels", JSON.stringify(levelsArray));
+    } else {
+        formData.set("levels", ""); // Clear if empty
+    }
 
     try {
       if (editingItem) await editTournament(editingItem.id, formData);
@@ -98,7 +110,7 @@ export default function TournamentAdmin() {
   }) || [];
 
   return (
-    <div className="min-h-screen pb-20 p-4 md:p-8 font-sans bg-slate-50">
+    <div className="min-h-screen pb-20 p-4 md:p-8 font-sans bg-slate-50 text-slate-900">
       
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
@@ -121,6 +133,7 @@ export default function TournamentAdmin() {
         <div className="bg-slate-100 p-3 rounded-xl"><Search className="text-slate-500" size={20} /></div>
         <input 
           type="text" 
+          placeholder="SEARCH TOURNAMENTS..."
           className="flex-1 bg-transparent outline-none font-black uppercase text-xs"
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -211,6 +224,20 @@ export default function TournamentAdmin() {
                     <input name="title" defaultValue={editingItem?.title} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs focus:ring-4 ring-blue-100 outline-none" />
                 </div>
 
+                {/* DYNAMIC LEVELS INPUT */}
+                <div className="md:col-span-2">
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2 flex items-center gap-2">
+                      <ListOrdered size={14} className="text-blue-600"/> Skill Levels (Comma Separated)
+                    </label>
+                    <input 
+                      name="levels" 
+                      placeholder="e.g. Grade 1, Grade 2, Grade 3, Advanced"
+                      defaultValue={editingItem?.levels ? JSON.parse(editingItem.levels).join(", ") : ""} 
+                      className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs focus:ring-4 ring-blue-100 outline-none" 
+                    />
+                    <p className="text-[9px] font-bold text-slate-400 mt-2 uppercase italic">* Users will see a dropdown if provided, otherwise a text input.</p>
+                </div>
+
                 <div>
                     <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Fee (HKD)</label>
                     <input type="number" name="entryFee" defaultValue={editingItem?.entryFee} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none" />
@@ -239,7 +266,7 @@ export default function TournamentAdmin() {
                     <textarea 
                       name="regulations" 
                       defaultValue={editingItem?.regulations} 
-                      rows={10}
+                      rows={6}
                       className="w-full p-4 border-4 border-slate-900 rounded-2xl font-medium text-xs outline-none whitespace-pre-wrap" 
                     />
                 </div>
@@ -311,18 +338,18 @@ export default function TournamentAdmin() {
                                         <div className="p-6 grid grid-cols-2 md:grid-cols-3 gap-6">
                                             <div className="col-span-2 md:col-span-1 space-y-3">
                                                 <p className="text-[10px] font-black text-slate-400 uppercase">Contact</p>
-                                                <div className="flex items-center gap-2 text-xs font-bold"><Mail size={14} className="text-blue-500"/> {reg.email}</div>
-                                                <div className="flex items-center gap-2 text-xs font-bold"><Phone size={14} className="text-blue-500"/> {reg.phone}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold break-all"><Mail size={14} className="text-blue-500 shrink-0"/> {reg.email}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><Phone size={14} className="text-blue-500 shrink-0"/> {reg.phone}</div>
                                             </div>
                                             <div className="space-y-3">
                                                 <p className="text-[10px] font-black text-slate-400 uppercase">Profile</p>
-                                                <div className="flex items-center gap-2 text-xs font-bold"><Cake size={14} className="text-orange-500"/> {new Date(reg.dob).toLocaleDateString()} ({calculateAge(reg.dob)} Yrs)</div>
-                                                <div className="flex items-center gap-2 text-xs font-bold"><Baby size={14} className="text-indigo-500"/> {reg.studentCategory}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><Cake size={14} className="text-orange-500 shrink-0"/> {new Date(reg.dob).toLocaleDateString()} ({calculateAge(reg.dob)} Yrs)</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><Baby size={14} className="text-indigo-500 shrink-0"/> {reg.studentCategory}</div>
                                             </div>
                                             <div className="space-y-3">
                                                 <p className="text-[10px] font-black text-slate-400 uppercase">Chess Data</p>
-                                                <div className="flex items-center gap-2 text-xs font-bold"><BarChart size={14} className="text-emerald-500"/> Rating: {reg.rating || "None"}</div>
-                                                <div className="flex items-center gap-2 text-xs font-bold"><Globe size={14} className="text-cyan-500"/> {reg.onlineUsername || "No Account"}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><BarChart size={14} className="text-emerald-500 shrink-0"/> Skill: {reg.rating || "None"}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><Globe size={14} className="text-cyan-500 shrink-0"/> {reg.onlineUsername || "No Account"}</div>
                                             </div>
                                         </div>
                                     </motion.div>

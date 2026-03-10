@@ -1,41 +1,43 @@
 import { PrismaClient } from "@prisma/client";
 import Stripe from "stripe";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-// Direct initialization
 const prisma = new PrismaClient();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const signature = headers().get("Stripe-Signature") as string;
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
+  const signature = req.headers.get("stripe-signature") as string;
 
-  let event: Stripe.Event;
+  let event;
 
   try {
-    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    event = stripe.webhooks.constructEvent(
+      body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET as string
+    );
   } catch (err: any) {
-    console.error(`Webhook Error: ${err.message}`);
-    return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
+    console.error("Webhook Error:", err.message);
+    return new NextResponse("Webhook Error", { status: 400 });
   }
 
-  // When payment is successful
+  console.log("Stripe Event:", event.type);
+
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
+
     const registrationId = session.metadata?.registrationId;
 
     if (registrationId) {
-      // Update DB to COMPLETED
       await prisma.registration.update({
         where: { id: registrationId },
         data: { status: "COMPLETED" },
       });
-      
-      console.log(`✅ Success: Registration ${registrationId} is now COMPLETED.`);
+
+      console.log("Registration updated:", registrationId);
     }
   }
 
-  return new NextResponse("OK", { status: 200 });
+  return NextResponse.json({ received: true });
 }

@@ -35,7 +35,8 @@ model Tournament {
   location       String
   bannerImage    String?
 
-  categories     String?
+  categories     String?        // Existing field for categories
+  levels         String?        // <-- ADD THIS: Stores JSON array of levels (e.g., '["Level 1", "Level 2"]')
   regulations    String?        @db.Text
 
   status         String         @default("OPEN")
@@ -43,7 +44,8 @@ model Tournament {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @default(now()) @updatedAt
 }
-// --- REGISTRATIONS (UPDATED WITH STUDENT DETAILS) ---
+
+// --- REGISTRATIONS ---
 
 model Registration {
   id              String             @id @default(cuid())
@@ -51,14 +53,18 @@ model Registration {
   email           String
   phone           String
   
-  // --- New Detailed Fields ---
-  dob             DateTime           // Date of Birth
-  gender          String             // Male / Female / Other
-  studentCategory String             // Lower primary / Upper / secondary / college / open
-  rating          String?            // Rating or Level (Optional)
-  fideId          String?            // FIDE ID (Optional)
-  onlineUsername  String?            // Lichess or Chess.com username
-  // ---------------------------
+  dob             DateTime           
+  gender          String             
+  studentCategory String             
+  
+  // This field stays as is; it will store the value selected 
+  // from the dynamic dropdown we built in the UI.
+  rating          String?            
+
+  fideId          String?            
+  
+  // This is already optional because of the '?'
+  onlineUsername  String?            
 
   status          RegistrationStatus @default(PENDING)
   
@@ -69,7 +75,6 @@ model Registration {
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @default(now()) @updatedAt
 }
-
 // --- BLOGS ---
 
 model BlogPost {

@@ -11,7 +11,6 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
    TOURNAMENTS
    ========================================================================== */
 
-
 export async function addTournament(formData: FormData) {
   const data = {
     title: formData.get('title') as string,
@@ -24,7 +23,8 @@ export async function addTournament(formData: FormData) {
     bannerImage: formData.get('bannerImage') as string,
     status: (formData.get('status') as any) || "OPEN",
     categories: formData.get('categories') as string, // Stringified JSON
-    regulations: formData.get('regulations') as string, // Full Text
+    levels: formData.get('levels') as string,        // <--- ADDED THIS (Stringified JSON)
+    regulations: formData.get('regulations') as string, 
   }
 
   await prisma.tournament.create({ data })
@@ -44,6 +44,7 @@ export async function editTournament(id: number, formData: FormData) {
     location: formData.get('location') as string,
     status: formData.get('status') as any,
     categories: formData.get('categories') as string,
+    levels: formData.get('levels') as string,        // <--- ADDED THIS
     regulations: formData.get('regulations') as string,
   }
   
