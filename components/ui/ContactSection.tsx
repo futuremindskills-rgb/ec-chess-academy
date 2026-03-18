@@ -43,7 +43,7 @@ const ContactSection: React.FC = () => {
       icon: <Smartphone className="w-5 h-5 text-slate-900" />,
       cardBg: "bg-[#FFD700]", // YELLOW
       textColor: "text-slate-900",
-      link: "https://wa.me/85246144561"
+      link: "https://form.wa.link/ecchess"
     },
     {
       title: "Yuen Long Support",
@@ -51,7 +51,7 @@ const ContactSection: React.FC = () => {
       icon: <Smartphone className="w-5 h-5 text-white" />,
       cardBg: "bg-[#4F46E5]", // INDIGO
       textColor: "text-white",
-      link: "https://wa.me/85254066800"
+      link: "https://form.wa.link/ecchessylc"
     },
     {
       title: "Official Email",

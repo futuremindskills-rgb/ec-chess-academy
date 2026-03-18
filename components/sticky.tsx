@@ -69,7 +69,7 @@ const StickySidebar: React.FC = () => {
         </Link>
 
         {/* CHAT NOW BUTTON */}
-        <Link href="https://wa.me/85254066800" target="_blank" className="group flex flex-col items-center gap-1 lg:gap-2">
+        <Link href="https://wa.me/85246144561" target="_blank" className="group flex flex-col items-center gap-1 lg:gap-2">
           <motion.div 
             whileHover={{ scale: 1.15, rotate: -12 }}
             whileTap={{ scale: 0.9 }}

@@ -40,7 +40,7 @@ export default function CTASection() {
               <div className="flex gap-2">
                 <div className="px-3 py-1 bg-white rounded-full border-2 border-[#1e1b4b] flex items-center gap-1.5 shadow-[3px_3px_0px_#1e1b4b]">
                   <Sparkles size={12} className="text-orange-500" />
-                  <span className="text-[9px] font-black uppercase tracking-widest text-[#1e1b4b]">Enrolling 2025</span>
+                  <span className="text-[9px] font-black uppercase tracking-widest text-[#1e1b4b]">Enrollment Open</span>
                 </div>
                 <div className="px-3 py-1 bg-yellow-400 rounded-full border-2 border-[#1e1b4b] flex items-center gap-1.5 shadow-[3px_3px_0px_#1e1b4b]">
                   <Crown size={12} className="text-[#1e1b4b]" />
@@ -62,7 +62,7 @@ export default function CTASection() {
 
               {/* ACTION BUTTONS */}
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center pt-2">
-                <Link href="https://wa.me/85254066800" target="_blank">
+                <Link href="https://wa.me/85246144561" target="_blank">
                   <button className="w-full sm:w-auto px-8 py-4 bg-white text-[#1e1b4b] rounded-xl font-[1000] uppercase tracking-widest text-xs border-[3px] border-[#1e1b4b] shadow-[5px_5px_0px_#1e1b4b] transition-all hover:translate-y-0.5 hover:shadow-none flex items-center justify-center gap-2">
                     <MessageCircle size={18} className="fill-current" />
                     Book Free Trial
@@ -80,12 +80,7 @@ export default function CTASection() {
             </div>
 
             {/* DECORATIVE BREAKOUTS - Scaled Down */}
-            <div className="absolute -top-4 -right-4 w-20 h-20 bg-[#FF7A00] rounded-full flex items-center justify-center border-[3px] border-[#1e1b4b] shadow-lg transform rotate-12 z-20">
-               <div className="text-center leading-none">
-                  <div className="text-lg font-black text-white">-$300</div>
-                  <div className="text-[6px] font-bold text-white uppercase">Off</div>
-               </div>
-            </div>
+           
 
             {/* Corner Icon */}
             <div className="absolute bottom-4 left-4 opacity-10">

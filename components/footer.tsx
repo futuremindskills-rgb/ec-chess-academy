@@ -190,7 +190,7 @@ export default function Footer() {
           
           <motion.a 
             whileHover={{ scale: 1.05 }}
-            href="https://wa.me/85254066800" 
+            href="https://wa.me/852546144561" 
             target="_blank"
             className="flex items-center gap-3 bg-[#25D366] px-6 py-3 rounded-2xl shadow-xl border-b-4 border-green-700"
           >

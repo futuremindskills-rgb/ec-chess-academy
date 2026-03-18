@@ -7,7 +7,7 @@ import {
   Trophy, Calendar, Clock, MapPin, ChevronRight, Zap, Target, 
   ShieldCheck, Star, Users, Loader2, DollarSign, X, User, 
   Mail, Phone, Baby, Cake, BarChart, Hash, Globe, FileText,
-  Sword, Filter, LayoutGrid
+  Sword, Filter, LayoutGrid, Medal
 } from "lucide-react";
 import TournamentBanner from "@/components/ui/tournamentBanner";
 import { getTournaments } from "@/app/actions/adminActions";
@@ -318,36 +318,78 @@ export default function TournamentsPage() {
          </div>
       </section>
 
-      <section className="py-16 md:py-24 container mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 md:gap-20">
-         <div className="flex-1 relative w-full max-w-[500px]">
-            <div className="relative aspect-square">
-               <div className="absolute inset-0 bg-orange-500 rounded-[40px] md:rounded-[60px] transform rotate-3" />
-               <div className="absolute inset-0 bg-white border-4 border-slate-900 rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl relative z-10 flex flex-col items-center justify-center p-8 md:p-12 text-center gap-6">
-                  <div className="w-16 h-16 md:w-24 md:h-24 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600"><Star size={32} fill="currentColor" /></div>
-                  <h3 className="text-2xl md:text-3xl font-[1000] text-slate-900 uppercase tracking-tight">Real-World Prep</h3>
-                  <p className="text-slate-500 font-bold uppercase text-[10px] md:text-xs tracking-widest">Global championship conditions for students.</p>
-               </div>
+      <section className="py-16 md:py-24 lg:py-32 container mx-auto px-6">
+  <div className="max-w-7xl mx-auto lg:grid lg:grid-cols-12 lg:gap-16 lg:items-center">
+    
+    {/* LEFT COLUMN: IMAGE COMPOSITION (Takes 5/12 columns) */}
+    <div className="lg:col-span-5 relative w-full max-w-[500px] mx-auto lg:mx-0 mb-12 lg:mb-0">
+      <div className="relative aspect-square">
+        {/* Shadow Background */}
+        <div className="absolute inset-0 bg-orange-500 rounded-[40px] md:rounded-[60px] transform rotate-3" />
+        
+        {/* Image Frame */}
+        <div className="absolute inset-0 bg-white border-4 border-slate-900 rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl z-10 transition-transform hover:rotate-0 duration-500">
+          <img 
+            src="/3.webp" 
+            alt="Chess Tournament Preparation" 
+            className="w-full h-full object-cover"
+          />
+          
+          {/* Badge Overlay */}
+          <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md border-2 border-slate-900 rounded-[24px] p-5 text-center shadow-2xl">
+            <div className="inline-flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full mb-3">
+              <Star size={20} fill="currentColor" />
             </div>
-         </div>
-         <div className="flex-1 space-y-8">
-            <h2 className="text-3xl md:text-5xl font-[1000] text-slate-900 uppercase tracking-tighter text-slate-900">Beyond the <span className="text-indigo-600">Practice Board</span></h2>
-            <div className="space-y-6">
-               {[
-                 "Detailed Post-Game Analysis with GM Coaches",
-                 "Tournament Psychology & Resilience",
-                 "Official National Ranking Opportunities",
-                 "Strategic Time Management Skills"
-               ].map(text => (
-                 <div key={text} className="flex items-center gap-4 group">
-                    <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white shrink-0 group-hover:bg-orange-500 transition-colors">
-                       <ShieldCheck size={18} />
-                    </div>
-                    <span className="font-black text-slate-900 uppercase text-[10px] md:text-xs tracking-tight">{text}</span>
-                 </div>
-               ))}
+            <h3 className="text-xl md:text-2xl font-[1000] text-slate-900 uppercase tracking-tight leading-none">
+              Real-World Prep
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* RIGHT COLUMN: CONTENT (Takes 7/12 columns - Fills the space) */}
+    <div className="lg:col-span-7 space-y-10">
+      <div className="space-y-4">
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          className="bg-indigo-600 text-white text-[10px] font-black uppercase tracking-[0.3em] px-4 py-1.5 rounded-full w-fit shadow-lg"
+        >
+          Competitive Excellence
+        </motion.div>
+        <h2 className="text-3xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 uppercase tracking-tighter leading-none">
+          Beyond the <br />
+          <span className="text-indigo-600 italic">Practice Board</span>
+        </h2>
+        <p className="text-slate-500 font-bold text-sm md:text-base max-w-2xl leading-relaxed">
+          We bridge the gap between classroom theory and the intense pressure of international championships. Our students don't just learn to move pieces; they learn to conquer environments.
+        </p>
+      </div>
+
+      {/* GRID LIST: Now 2 columns on desktop to fill the right side */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        {[
+          { text: "Post-Game Analysis with GMs", icon: <Sword size={18} /> },
+          { text: "Psychology & Resilience", icon: <Zap size={18} /> },
+          { text: "Official Ranking Opportunities", icon: <Trophy size={18} /> },
+          { text: "Strategic Time Management", icon: <Clock size={18} /> },
+          { text: "Championship Environment Simulation", icon: <ShieldCheck size={18} /> },
+          { text: "FIDE Standard Mentorship", icon: <Medal size={18} /> }
+        ].map((item, i) => (
+          <div key={i} className="flex items-center gap-4 group p-2">
+            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white shrink-0 group-hover:bg-orange-500 group-hover:scale-110 transition-all shadow-[4px_4px_0px_#4f46e5]">
+              {item.icon}
             </div>
-         </div>
-      </section>
+            <span className="font-black text-slate-900 uppercase text-[10px] md:text-xs tracking-tight leading-tight">
+              {item.text}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
     </div>
   );
 }

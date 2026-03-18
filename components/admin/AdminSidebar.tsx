@@ -18,6 +18,7 @@ const navItems = [
   { name: "Gallery", href: "/admin/gallery", icon: ImageIcon },
   { name: "Blog", href: "/admin/blog", icon: FileText },
   { name: "Enquiries", href: "/admin/enquiries", icon: MessageSquare },
+  { name: "Banner", href: "/admin/banner", icon: ImageIcon },
 ];
 
 export default function AdminSidebar() {

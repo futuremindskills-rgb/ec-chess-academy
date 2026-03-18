@@ -95,58 +95,105 @@ export default function AchievementsPage() {
       </section>
 
       {/* --- 5. TOURNAMENT HIGHLIGHTS --- */}
-      <section className="py-16 md:py-24 bg-indigo-950 relative overflow-hidden">
-         {/* Adaptive background pattern */}
-         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
-         
-         <div className="container mx-auto px-4 md:px-6 relative z-10 text-center text-white mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-6xl font-[1000] tracking-tighter uppercase mb-6 leading-tight">
-              Competitive <br className="xs:hidden" /> <span className="text-orange-400">Excellence</span>
-            </h2>
-            <div className="flex flex-wrap justify-center gap-2 md:gap-4">
-               {['Standard', 'Rapid', 'Blitz', 'FIDE Rated'].map(tag => (
-                 <span key={tag} className="px-3 py-1.5 md:px-4 md:py-1.5 bg-white/10 rounded-full border border-white/20 text-[8px] md:text-[10px] font-black uppercase tracking-widest">
-                   {tag}
-                 </span>
-               ))}
-            </div>
-         </div>
+     <section className="py-16 md:py-20 bg-indigo-950 relative overflow-hidden">
+  {/* Adaptive background pattern */}
+  <div 
+    className="absolute inset-0 opacity-10 pointer-events-none" 
+    style={{ backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`, backgroundSize: '24px 24px' }} 
+  />
+  
+  {/* --- COMPACT HEADER --- */}
+  <div className="container mx-auto px-6 relative z-10 text-center text-white mb-12 md:mb-16">
+    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500 text-white text-[9px] font-black uppercase tracking-widest mb-4 border border-white/50 shadow-lg">
+      <Trophy size={10} fill="currentColor" />
+      Championship Standards
+    </div>
+    
+    <h2 className="text-3xl md:text-5xl font-[1000] tracking-tighter uppercase mb-6 leading-none">
+      Competitive <span className="text-orange-400 italic">Excellence</span>
+    </h2>
 
-         <div className="max-w-6xl mx-auto px-4 md:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
-            {/* Highlights Card */}
-            <div className="bg-white p-7 md:p-12 rounded-[32px] md:rounded-[48px] border-4 border-slate-900">
-               <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tight mb-8">2025 Highlights</h3>
-               <div className="space-y-5 md:space-y-7">
-                  {[
-                    "15 Academy Tournaments Conducted",
-                    "8 Podium Finishes in HK Local Opens",
-                    "12 Students received first FIDE Rating",
-                    "Weekly Online Rapid Simulations"
-                  ].map((text, i) => (
-                    <div key={i} className="flex items-start gap-4">
-                       <Zap className="text-orange-500 shrink-0 mt-0.5" size={18} fill="currentColor" />
-                       <span className="text-slate-700 font-bold text-xs md:text-base tracking-tight leading-snug">{text}</span>
-                    </div>
-                  ))}
-               </div>
-            </div>
+    <div className="flex flex-wrap justify-center gap-2">
+      {['FIDE Rated', 'Standard', 'Rapid', 'Blitz'].map(tag => (
+        <span key={tag} className="px-3 py-1 bg-white/5 backdrop-blur-sm rounded-full border border-white/20 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em]">
+          {tag}
+        </span>
+      ))}
+    </div>
+  </div>
 
-            {/* Hub Card */}
-            <div className="bg-orange-500 p-7 md:p-12 rounded-[32px] md:rounded-[48px] border-4 border-slate-900 flex flex-col justify-center relative overflow-hidden">
-               <div className="relative z-10">
-                  <Trophy size={48} className="text-white mb-6 md:w-20 md:h-20" />
-                  <h3 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter leading-none mb-4">
-                    Elite Training <br/> Hub
-                  </h3>
-                  <p className="text-white/90 text-sm md:text-base font-bold leading-relaxed max-w-sm">
-                    Exposure to international formats and local ranking systems ensures our students are never intimidated by the clock.
-                  </p>
-               </div>
-               {/* Scaled decoration icon for visual depth */}
-               <Trophy size={180} className="absolute -bottom-10 -right-10 text-white/10 rotate-12 pointer-events-none" />
+  <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+    
+    {/* HIGHLIGHTS CARD: Image + 2-Column List */}
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      className="bg-white p-2 rounded-[40px] border-4 border-slate-900 shadow-[12px_12px_0px_#4f46e5] flex flex-col"
+    >
+      <div className="relative h-48 md:h-52 w-full rounded-[32px] overflow-hidden mb-6">
+        <img 
+          src="/2.webp" 
+          alt="Tournament Highlights" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full border-2 border-slate-900 font-black text-[9px] uppercase shadow-lg">
+          New Season
+        </div>
+      </div>
+
+      <div className="px-6 pb-6 flex-grow">
+        <h3 className="text-xl md:text-2xl font-[1000] text-slate-900 uppercase tracking-tighter mb-6">
+          Academy Highlights
+        </h3>
+        {/* Balanced 2-Column Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            "15+ Annual Tournaments",
+            "8 Podium Finishes",
+            "FIDE Entry Program",
+            "Rapid Simulations"
+          ].map((text, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <div className="w-7 h-7 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100 shrink-0">
+                <Zap size={14} fill="currentColor" />
+              </div>
+              <span className="text-slate-700 font-black uppercase text-[10px] leading-tight">{text}</span>
             </div>
-         </div>
-      </section>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+
+    {/* HUB CARD: Scaled for Balance */}
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      className="bg-orange-500 p-8 md:p-10 rounded-[40px] border-4 border-slate-900 shadow-[12px_12px_0px_#ffffff] flex flex-col justify-center relative overflow-hidden group"
+    >
+      {/* Background Decor */}
+      <Trophy size={200} className="absolute -bottom-10 -right-10 text-white/10 rotate-12 pointer-events-none group-hover:scale-110 transition-transform duration-700" />
+      
+      <div className="relative z-10">
+        <div className="bg-white w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-xl border-2 border-slate-900">
+          <Trophy size={24} className="text-orange-500" fill="currentColor" />
+        </div>
+        
+        <h3 className="text-3xl md:text-4xl lg:text-5xl font-[1000] text-white uppercase tracking-tighter leading-[0.85] mb-4">
+          Elite <br/> Training Hub
+        </h3>
+        
+        <p className="text-white font-bold text-xs md:text-base leading-snug max-w-sm mb-8 opacity-90">
+          We simulate international formats and ranking systems, ensuring students master the clock and conquer high-pressure environments.
+        </p>
+
+        <button className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black uppercase text-[9px] tracking-widest border border-white shadow-lg hover:bg-indigo-600 transition-all active:scale-95">
+          View Tournament Calendar
+        </button>
+      </div>
+    </motion.div>
+
+  </div>
+</section>
 
       {/* --- 6. START YOUR STORY CTA --- */}
       <section className="py-16 md:py-32 px-4 md:px-6">

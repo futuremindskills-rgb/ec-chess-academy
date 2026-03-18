@@ -124,3 +124,13 @@ model Enquiry {
   notes       String?  @db.Text
   createdAt   DateTime @default(now())
 }
+
+// --- SITE SETTINGS / BANNER ---
+
+model SiteBanner {
+  id          Int      @id @default(1)
+  imageUrl    String?  // The uploaded banner image
+  link        String?  // Optional link when clicking the banner
+  isActive    Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+}

@@ -282,3 +282,74 @@ export async function updateEnquiry(id: number, formData: FormData) {
     throw new Error("Could not update enquiry details.");
   }
 }
+
+/* ==========================================================================
+   SITE BANNER (ANNOUNCEMENT)
+   ========================================================================== */
+
+/**
+ * Fetch the current site banner settings
+ */
+export async function getSiteBanner() {
+  try {
+    return await prisma.siteBanner.findUnique({
+      where: { id: 1 }
+    });
+  } catch (error) {
+    console.error("Error fetching site banner:", error);
+    return null;
+  }
+}
+
+/**
+ * Update or create the singleton site banner
+ */
+export async function updateSiteBanner(formData: FormData) {
+  const imageUrl = formData.get('imageUrl') as string;
+  const link = formData.get('link') as string;
+  const isActive = formData.get('isActive') === 'true';
+
+  try {
+    await prisma.siteBanner.upsert({
+      where: { id: 1 },
+      update: {
+        imageUrl,
+        link,
+        isActive,
+      },
+      create: {
+        id: 1,
+        imageUrl,
+        link,
+        isActive,
+      },
+    });
+
+    // Revalidate the homepage where the Hero section lives
+    revalidatePath('/');
+    // Revalidate admin settings page
+    revalidatePath('/admin/settings'); 
+  } catch (error) {
+    console.error("Failed to update site banner:", error);
+    throw new Error("Could not update site banner settings.");
+  }
+}
+
+/**
+ * Delete the site banner record entirely
+ */
+export async function deleteSiteBanner() {
+  try {
+    await prisma.siteBanner.delete({
+      where: { id: 1 },
+    });
+
+    // Revalidate paths to reflect the removal immediately
+    revalidatePath('/');
+    revalidatePath('/admin/settings');
+  } catch (error) {
+    // We catch the error in case the banner was already deleted 
+    // to prevent the admin UI from crashing
+    console.error("Failed to delete site banner:", error);
+  }
+}
