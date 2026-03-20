@@ -1,8 +1,4 @@
-﻿# ec-chess-a
-
-
-
-
+﻿# ec-chess-
 
 
 
