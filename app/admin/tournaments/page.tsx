@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   addTournament, 
@@ -12,7 +12,8 @@ import ImageUpload from "@/components/admin/ImageUpload";
 import { 
   Plus, Trash2, X, Loader2, Search, 
   FileText, Gamepad2, ChevronDown, ChevronUp, 
-  Mail, Phone, Cake, Baby, Hash, Globe, BarChart, Printer, ListOrdered 
+  Mail, Phone, Cake, Baby, Hash, Globe, BarChart, Printer, ListOrdered,
+  CreditCard, ExternalLink, ShieldCheck, Landmark
 } from "lucide-react";
 
 export default function TournamentAdmin() {
@@ -53,21 +54,17 @@ export default function TournamentAdmin() {
 
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true);
-    
-    // 1. Handle Banner
     if (bannerUrl) formData.set("bannerImage", bannerUrl);
     
-    // 2. Handle Multi-select Categories
     const selectedCategories = Array.from(formData.getAll("categories"));
     formData.set("categories", JSON.stringify(selectedCategories));
 
-    // 3. Handle Custom Skill Levels (Convert comma string to JSON array)
     const levelsRaw = formData.get("levels") as string;
     if (levelsRaw) {
         const levelsArray = levelsRaw.split(',').map(s => s.trim()).filter(s => s !== "");
         formData.set("levels", JSON.stringify(levelsArray));
     } else {
-        formData.set("levels", ""); // Clear if empty
+        formData.set("levels", "");
     }
 
     try {
@@ -224,7 +221,6 @@ export default function TournamentAdmin() {
                     <input name="title" defaultValue={editingItem?.title} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs focus:ring-4 ring-blue-100 outline-none" />
                 </div>
 
-                {/* DYNAMIC LEVELS INPUT */}
                 <div className="md:col-span-2">
                     <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2 flex items-center gap-2">
                       <ListOrdered size={14} className="text-blue-600"/> Skill Levels (Comma Separated)
@@ -235,7 +231,6 @@ export default function TournamentAdmin() {
                       defaultValue={editingItem?.levels ? JSON.parse(editingItem.levels).join(", ") : ""} 
                       className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs focus:ring-4 ring-blue-100 outline-none" 
                     />
-                    <p className="text-[9px] font-bold text-slate-400 mt-2 uppercase italic">* Users will see a dropdown if provided, otherwise a text input.</p>
                 </div>
 
                 <div>
@@ -247,28 +242,9 @@ export default function TournamentAdmin() {
                     <input type="number" name="maxPlayers" defaultValue={editingItem?.maxPlayers} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none" />
                 </div>
 
-                <div>
-                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Starts</label>
-                    <input type="datetime-local" name="startDate" defaultValue={editingItem?.startDate ? new Date(editingItem.startDate).toISOString().slice(0, 16) : ""} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-[10px] outline-none" />
-                </div>
-                <div>
-                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Ends</label>
-                    <input type="datetime-local" name="endDate" defaultValue={editingItem?.endDate ? new Date(editingItem.endDate).toISOString().slice(0, 16) : ""} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-[10px] outline-none" />
-                </div>
-
                 <div className="md:col-span-2">
                     <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Location</label>
                     <input name="location" defaultValue={editingItem?.location} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px] outline-none" />
-                </div>
-
-                <div className="md:col-span-2">
-                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2 flex items-center gap-2"><FileText size={14}/> Competition Regulations</label>
-                    <textarea 
-                      name="regulations" 
-                      defaultValue={editingItem?.regulations} 
-                      rows={6}
-                      className="w-full p-4 border-4 border-slate-900 rounded-2xl font-medium text-xs outline-none whitespace-pre-wrap" 
-                    />
                 </div>
               </div>
 
@@ -287,21 +263,21 @@ export default function TournamentAdmin() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setViewingPlayers(null)} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" />
             <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 30 }} className="relative w-full max-w-3xl bg-white border-l-8 border-slate-900 h-full shadow-2xl flex flex-col">
               
-              <div className="p-8 border-b-4 border-slate-900 bg-blue-600 text-white">
+              <div className="p-8 border-b-4 border-slate-900 bg-slate-900 text-white">
                 <div className="flex justify-between items-start mb-6">
                     <div>
                         <h2 className="text-3xl font-[1000] uppercase tracking-tighter leading-none">Participant Hub</h2>
-                        <p className="text-[10px] font-bold text-blue-100 uppercase mt-2 tracking-widest">{viewingPlayers.title}</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase mt-2 tracking-widest">{viewingPlayers.title}</p>
                     </div>
-                    <button onClick={() => setViewingPlayers(null)} className="p-3 bg-slate-900 text-white rounded-2xl hover:bg-white hover:text-slate-900 transition-all"><X size={24} /></button>
+                    <button onClick={() => setViewingPlayers(null)} className="p-3 bg-white text-slate-900 rounded-2xl hover:bg-blue-600 hover:text-white transition-all"><X size={24} /></button>
                 </div>
 
-                <div className="flex gap-2 p-1 bg-blue-700 rounded-2xl w-fit">
+                <div className="flex gap-2 p-1 bg-white/10 rounded-2xl w-fit">
                     {(['ALL', 'PAID', 'PENDING'] as const).map((tab) => (
                         <button 
                             key={tab}
                             onClick={() => setPlayerFilter(tab)}
-                            className={`px-4 py-2 rounded-xl text-[10px] font-black transition-all ${playerFilter === tab ? 'bg-white text-blue-600 shadow-lg' : 'text-white hover:bg-blue-600'}`}
+                            className={`px-4 py-2 rounded-xl text-[10px] font-black transition-all ${playerFilter === tab ? 'bg-white text-slate-900 shadow-lg' : 'text-white hover:bg-white/20'}`}
                         >
                             {tab} ({tab === 'ALL' ? viewingPlayers.registrations.length : viewingPlayers.registrations.filter((r:any) => tab === 'PAID' ? r.status === 'COMPLETED' : r.status === 'PENDING').length})
                         </button>
@@ -322,7 +298,15 @@ export default function TournamentAdmin() {
                                     </div>
                                     <div>
                                         <p className="font-black text-slate-900 uppercase tracking-tight">{reg.playerName}</p>
-                                        <p className="text-[10px] font-bold text-slate-400 uppercase">{reg.studentCategory} • {reg.gender}</p>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[9px] font-black bg-slate-100 px-2 py-0.5 rounded border border-slate-200 uppercase">{reg.studentCategory}</span>
+                                            {reg.paymentGateway && (
+                                              <span className={`text-[8px] font-black px-2 py-0.5 rounded border flex items-center gap-1 uppercase ${reg.paymentGateway === 'stripe' ? 'bg-blue-50 border-blue-200 text-blue-600' : 'bg-emerald-50 border-emerald-200 text-emerald-600'}`}>
+                                                {reg.paymentGateway === 'stripe' ? <ShieldCheck size={10}/> : <Landmark size={10}/>}
+                                                {reg.paymentGateway}
+                                              </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4">
@@ -335,21 +319,36 @@ export default function TournamentAdmin() {
                             <AnimatePresence>
                                 {expandedPlayer === reg.id && (
                                     <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden bg-slate-50 border-t-4 border-slate-900 rounded-b-[20px]">
-                                        <div className="p-6 grid grid-cols-2 md:grid-cols-3 gap-6">
-                                            <div className="col-span-2 md:col-span-1 space-y-3">
-                                                <p className="text-[10px] font-black text-slate-400 uppercase">Contact</p>
+                                        <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+                                            {/* PAYMENT INFO SECTION */}
+                                            <div className="md:col-span-3 bg-white p-4 rounded-2xl border-2 border-slate-200 mb-2">
+                                               <p className="text-[10px] font-black text-slate-400 uppercase mb-3 flex items-center gap-2"><CreditCard size={12}/> Transaction Verification</p>
+                                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                  <div className="flex flex-col">
+                                                     <span className="text-[9px] font-bold text-slate-400 uppercase">Gateway Reference</span>
+                                                     <span className="font-mono text-xs font-black break-all">{reg.transactionId || reg.stripeSessionId || "N/A"}</span>
+                                                  </div>
+                                                  <div className="flex flex-col">
+                                                     <span className="text-[9px] font-bold text-slate-400 uppercase">Internal System ID</span>
+                                                     <span className="font-mono text-xs font-black">{reg.id}</span>
+                                                  </div>
+                                               </div>
+                                            </div>
+
+                                            <div className="space-y-3">
+                                                <p className="text-[10px] font-black text-slate-400 uppercase">Contact Info</p>
                                                 <div className="flex items-center gap-2 text-xs font-bold break-all"><Mail size={14} className="text-blue-500 shrink-0"/> {reg.email}</div>
                                                 <div className="flex items-center gap-2 text-xs font-bold"><Phone size={14} className="text-blue-500 shrink-0"/> {reg.phone}</div>
                                             </div>
                                             <div className="space-y-3">
-                                                <p className="text-[10px] font-black text-slate-400 uppercase">Profile</p>
+                                                <p className="text-[10px] font-black text-slate-400 uppercase">Bio Profile</p>
                                                 <div className="flex items-center gap-2 text-xs font-bold"><Cake size={14} className="text-orange-500 shrink-0"/> {new Date(reg.dob).toLocaleDateString()} ({calculateAge(reg.dob)} Yrs)</div>
-                                                <div className="flex items-center gap-2 text-xs font-bold"><Baby size={14} className="text-indigo-500 shrink-0"/> {reg.studentCategory}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><Baby size={14} className="text-indigo-500 shrink-0"/> {reg.gender}</div>
                                             </div>
                                             <div className="space-y-3">
-                                                <p className="text-[10px] font-black text-slate-400 uppercase">Chess Data</p>
-                                                <div className="flex items-center gap-2 text-xs font-bold"><BarChart size={14} className="text-emerald-500 shrink-0"/> Skill: {reg.rating || "None"}</div>
-                                                <div className="flex items-center gap-2 text-xs font-bold"><Globe size={14} className="text-cyan-500 shrink-0"/> {reg.onlineUsername || "No Account"}</div>
+                                                <p className="text-[10px] font-black text-slate-400 uppercase">Chess Stats</p>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><BarChart size={14} className="text-emerald-500 shrink-0"/> Rating: {reg.rating || "Unrated"}</div>
+                                                <div className="flex items-center gap-2 text-xs font-bold"><Globe size={14} className="text-cyan-500 shrink-0"/> {reg.onlineUsername || "No Online Username"}</div>
                                             </div>
                                         </div>
                                     </motion.div>
@@ -360,9 +359,9 @@ export default function TournamentAdmin() {
                 )}
               </div>
               
-              <div className="p-8 border-t-4 border-slate-900 bg-slate-50">
-                 <button onClick={() => window.print()} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black uppercase text-xs flex items-center justify-center gap-2 transition-all hover:bg-blue-600">
-                    <Printer size={18} /> Export List to PDF
+              <div className="p-8 border-t-4 border-slate-900 bg-slate-50 flex gap-4">
+                 <button onClick={() => window.print()} className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black uppercase text-xs flex items-center justify-center gap-2 hover:bg-blue-600 transition-all">
+                    <Printer size={18} /> Print Attendance
                  </button>
               </div>
             </motion.div>

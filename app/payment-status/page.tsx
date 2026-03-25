@@ -6,56 +6,68 @@ import Stripe from "stripe"
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 const prisma = new PrismaClient()
 
-export default async function PaymentSuccess({
+export default async function PaymentStatusPage({
   searchParams,
 }: {
   searchParams: { 
     session_id?: string; // Stripe specific
     id?: string;         // AsiaPay specific (Registration ID)
     gateway?: string;    // "stripe" or "asiapay"
+    error?: string;
   }
 }) {
-  const { session_id, id, gateway } = searchParams;
+  // Await searchParams in Next.js 15 (if applicable, otherwise standard destructure)
+  const { session_id, id, gateway, error } = searchParams;
+
+  // Handle explicit errors from the URL
+  if (error === "true") {
+    redirect("/tournaments?status=failed");
+  }
 
   let registration: any = null;
 
-  // --- BRANCH 1: STRIPE VERIFICATION ---
-  if (gateway === "stripe" && session_id) {
-    const session = await stripe.checkout.sessions.retrieve(session_id);
+  try {
+    // --- BRANCH 1: STRIPE VERIFICATION ---
+    if (gateway === "stripe" && session_id) {
+      const session = await stripe.checkout.sessions.retrieve(session_id);
 
-    if (session.payment_status !== "paid") {
-      redirect("/tournaments");
+      if (session.payment_status !== "paid") {
+        console.error("Stripe: Session not paid");
+        redirect("/tournaments");
+      }
+
+      const registrationId = session.metadata?.registrationId;
+      if (!registrationId) redirect("/tournaments");
+
+      // Update Database
+      registration = await prisma.registration.update({
+        where: { id: registrationId },
+        data: {
+          status: "COMPLETED",
+          stripeSessionId: session.id,
+        },
+        include: { tournament: true },
+      });
+    } 
+
+    // --- BRANCH 2: ASIAPAY VERIFICATION ---
+    else if (gateway === "asiapay" && id) {
+      // For AsiaPay, we fetch the data. 
+      // Note: The status update for AsiaPay happens in the WEBHOOK (Datafeed)
+      registration = await prisma.registration.findUnique({
+        where: { id: id },
+        include: { tournament: true },
+      });
+
+      if (!registration) redirect("/tournaments");
     }
 
-    const registrationId = session.metadata?.registrationId;
-    if (!registrationId) redirect("/tournaments");
-
-    // Update DB (Backup for Webhook)
-    registration = await prisma.registration.update({
-      where: { id: registrationId },
-      data: {
-        status: "COMPLETED",
-        stripeSessionId: session.id,
-      },
-      include: { tournament: true },
-    });
-  } 
-
-  // --- BRANCH 2: ASIAPAY VERIFICATION ---
-  else if (gateway === "asiapay" && id) {
-    // For AsiaPay, we don't trust the URL to mark as "COMPLETED" 
-    // (That is handled by the Webhook POST back).
-    // We simply fetch the registration to show the success UI.
-    registration = await prisma.registration.findUnique({
-      where: { id: id },
-      include: { tournament: true },
-    });
-
-    if (!registration) redirect("/tournaments");
-  }
-
-  // --- FALLBACK ---
-  else {
+    // --- FALLBACK ---
+    else {
+      redirect("/tournaments");
+    }
+  } catch (err) {
+    console.error("Payment Status Error:", err);
     redirect("/tournaments");
   }
 

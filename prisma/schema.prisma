@@ -25,24 +25,25 @@ enum RegistrationStatus {
 // --- TOURNAMENTS ---
 
 model Tournament {
-  id             Int            @id @default(autoincrement())
+  id             Int              @id @default(autoincrement())
   title          String
-  description    String?
-  entryFee       Int
+  description    String?          @db.Text
+  entryFee       Int              // The amount to be sent to AsiaPay
   maxPlayers     Int
   startDate      DateTime
   endDate        DateTime
   location       String
   bannerImage    String?
 
-  categories     String?        // Existing field for categories
-  levels         String?        // <-- ADD THIS: Stores JSON array of levels (e.g., '["Level 1", "Level 2"]')
-  regulations    String?        @db.Text
+  categories     String?          // Existing field for categories
+  levels         String?          // Stores JSON array of levels (e.g., '["Level 1", "Level 2"]')
+  regulations    String?          @db.Text
 
-  status         String         @default("OPEN")
+  status         TournamentStatus @default(OPEN)
   registrations  Registration[]
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @default(now()) @updatedAt
+  
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 }
 
 // --- REGISTRATIONS ---
@@ -52,29 +53,28 @@ model Registration {
   playerName      String
   email           String
   phone           String
-  
   dob             DateTime           
   gender          String             
   studentCategory String             
-  
-  // This field stays as is; it will store the value selected 
-  // from the dynamic dropdown we built in the UI.
   rating          String?            
-
   fideId          String?            
-  
-  // This is already optional because of the '?'
   onlineUsername  String?            
-
+  
   status          RegistrationStatus @default(PENDING)
   
+  // --- PAYMENT TRACKING FIELDS ---
+  paymentGateway  String?            // "stripe" or "asiapay"
+  transactionId   String?            @unique // Stores AsiaPay "payRef" or Stripe "PaymentIntent ID"
+  stripeSessionId String?            @unique // Specific for Stripe checkout sessions
+  // ------------------------------
+
   tournamentId    Int
   tournament      Tournament         @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
   
-  stripeSessionId String?            @unique
   createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @default(now()) @updatedAt
+  updatedAt       DateTime           @updatedAt
 }
+
 // --- BLOGS ---
 
 model BlogPost {
@@ -88,7 +88,7 @@ model BlogPost {
   slug         String   @unique
   featured     Boolean  @default(false)
   date         DateTime @default(now())
-  updatedAt    DateTime @default(now()) @updatedAt
+  updatedAt    DateTime @updatedAt
 }
 
 // --- ALBUM-BASED GALLERY ---
@@ -100,7 +100,7 @@ model Album {
   category     String       
   images       AlbumImage[] 
   createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @default(now()) @updatedAt
+  updatedAt    DateTime     @updatedAt
 }
 
 model AlbumImage {
@@ -129,8 +129,8 @@ model Enquiry {
 
 model SiteBanner {
   id          Int      @id @default(1)
-  imageUrl    String?  // The uploaded banner image
-  link        String?  // Optional link when clicking the banner
+  imageUrl    String?  
+  link        String?  
   isActive    Boolean  @default(false)
   updatedAt   DateTime @updatedAt
 }
