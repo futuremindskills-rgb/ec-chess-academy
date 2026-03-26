@@ -16,7 +16,6 @@ export default async function PaymentStatusPage({
     error?: string;
   }
 }) {
-  // Await searchParams in Next.js 15 (if applicable, otherwise standard destructure)
   const { session_id, id, gateway, error } = searchParams;
 
   // Handle explicit errors from the URL
@@ -27,7 +26,7 @@ export default async function PaymentStatusPage({
   let registration: any = null;
 
   try {
-    // --- BRANCH 1: STRIPE VERIFICATION ---
+    // --- BRANCH 1: STRIPE VERIFICATION (KEEPING YOUR ORIGINAL LOGIC) ---
     if (gateway === "stripe" && session_id) {
       const session = await stripe.checkout.sessions.retrieve(session_id);
 
@@ -50,16 +49,26 @@ export default async function PaymentStatusPage({
       });
     } 
 
-    // --- BRANCH 2: ASIAPAY VERIFICATION ---
+    // --- BRANCH 2: ASIAPAY VERIFICATION (UPDATED TO ENSURE VERIFIED STATUS) ---
     else if (gateway === "asiapay" && id) {
-      // For AsiaPay, we fetch the data. 
-      // Note: The status update for AsiaPay happens in the WEBHOOK (Datafeed)
       registration = await prisma.registration.findUnique({
         where: { id: id },
         include: { tournament: true },
       });
 
       if (!registration) redirect("/tournaments");
+
+      /**
+       * ASIAPAY VERIFICATION FIX:
+       * Since AsiaPay is updated by your Webhook (Datafeed), we MUST check 
+       * if the status in the database is actually 'COMPLETED'. 
+       * If it is still 'PENDING', we redirect so they don't see a fake success screen.
+       */
+      if (registration.status !== "COMPLETED") {
+        console.error("AsiaPay: Payment status is not COMPLETED in database.");
+        // Redirect to a pending state so they can check back later
+        redirect("/tournaments?status=pending");
+      }
     }
 
     // --- FALLBACK ---
@@ -104,7 +113,7 @@ export default async function PaymentStatusPage({
           <div className="flex justify-between items-center">
             <span className="text-slate-400 text-[10px] font-black uppercase">Method</span>
             <span className="font-black text-[10px] uppercase bg-white px-2 py-1 rounded border-2 border-black">
-              {gateway === 'stripe' ? '💳 Credit Card' : '🌏 AsiaPay / Local'}
+              {gateway === 'stripe' ? '💳 Stripe' : '🌏 AsiaPay / Local'}
             </span>
           </div>
 
@@ -116,9 +125,7 @@ export default async function PaymentStatusPage({
         </div>
 
         <div className="space-y-4">
-            <p className="text-[10px] font-bold text-slate-400 uppercase">
-                A confirmation email has been sent to {registration.email}
-            </p>
+            
             <a
             href="/tournaments"
             className="block w-full bg-black text-white px-8 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-indigo-600 transition-all shadow-[4px_4px_0px_#4f46e5] active:translate-y-1 active:shadow-none"
