@@ -223,7 +223,7 @@ export default function TournamentsPage() {
                 <div className="mt-10 p-6 bg-indigo-50 border-4 border-indigo-100 rounded-[24px] flex justify-between items-center">
                    <div>
                       <p className="font-black text-indigo-900 uppercase text-[10px] tracking-widest">Entry Fee</p>
-                      <p className="font-[1000] text-3xl text-indigo-600">HK${(selectedTournament.entryFee).toLocaleString()}</p>
+                      <p className="font-[1000] text-3xl text-indigo-600">HK${(selectedTournament.entryFee / 100).toFixed(2)}</p>
                    </div>
                    <DollarSign className="text-indigo-200" size={48} strokeWidth={3} />
                 </div>
