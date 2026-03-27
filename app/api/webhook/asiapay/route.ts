@@ -1,67 +1,62 @@
+// api/webhooks/asiapay/route.ts
 import { PrismaClient } from "@prisma/client";
+import crypto from "crypto";
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    // ✅ Read raw body (AsiaPay sends x-www-form-urlencoded)
     const raw = await req.text();
     const params = new URLSearchParams(raw);
 
-    // ✅ Extract fields (CASE-SENSITIVE)
-    const successCode = params.get("successcode"); // "0" = success
-    const ref = params.get("Ref");                 // your order/registration ID
-    const payRef = params.get("PayRef");           // AsiaPay transaction ID
+    // 1. Extract fields
+    const successCode = params.get("successcode");
+    const ref = params.get("Ref") || ""; // e.g., "cluy1234...-88231"
+    const payRef = params.get("PayRef");
     const amt = params.get("Amt");
     const cur = params.get("Cur");
+    const src = params.get("src"); // Source return code
+    const prc = params.get("prc"); // Bank return code
+    const incomingHash = params.get("secureHash");
 
-    console.log("📩 AsiaPay Webhook:", {
-      ref,
-      successCode,
-      payRef,
-      amt,
-      cur,
-    });
+    // 2. Security: Verify Hash (Datafeed Hash sequence is different!)
+    // Standard AsiaPay Datafeed Hash: src|prc|successcode|Ref|PayRef|Cur|Amt|bank|Secret
+    // Note: 'bank' is often empty, check your AsiaPay dashboard for your specific hash sequence.
+    const secret = process.env.ASIAPAY_SECURE_HASH_SECRET?.trim() || "";
+    const bank = params.get("bank") || ""; 
+    
+    const verifyStr = `${src}|${prc}|${successCode}|${ref}|${payRef}|${cur}|${amt}|${bank}|${secret}`;
+    const calculatedHash = crypto.createHash("sha1").update(verifyStr).digest("hex");
 
-    // ❌ NEVER return non-200 to AsiaPay
-    if (!ref) {
-      console.error("❌ Missing Ref");
-      return new Response("OK", { status: 200 });
+    if (incomingHash !== calculatedHash) {
+      console.error("❌ Invalid Hash Signature. Potential fraud attempt.");
+      return new Response("OK", { status: 200 }); // Still return 200
     }
 
-    // ✅ SUCCESS CASE
+    // 3. Logic: Extract the actual Database ID from the Ref
+    // Since you appended "-timestamp", we split by the last hyphen
+    const registrationId = ref.split("-")[0];
+
     if (successCode === "0") {
-      await prisma.registration.updateMany({
-        where: {
-          id: String(ref),
-          status: { not: "COMPLETED" }, // idempotent
-        },
+      await prisma.registration.update({
+        where: { id: registrationId },
         data: {
           status: "COMPLETED",
           transactionId: String(payRef),
         },
       });
-
-      console.log(`✅ Payment SUCCESS for ${ref}`);
-    }
-
-    // ❌ FAILED / CANCELLED
-    else if (successCode === "1" || successCode === "2") {
-      await prisma.registration.updateMany({
-        where: { id: String(ref) },
+      console.log(`✅ Payment SUCCESS for ${registrationId}`);
+    } else {
+      await prisma.registration.update({
+        where: { id: registrationId },
         data: { status: "FAILED" },
       });
-
-      console.log(`❌ Payment FAILED for ${ref}`);
+      console.log(`❌ Payment FAILED for ${registrationId}`);
     }
 
-    // ✅ REQUIRED RESPONSE
     return new Response("OK", { status: 200 });
-
   } catch (err) {
     console.error("❌ Webhook Error:", err);
-
-    // ⚠️ Still return 200 (AsiaPay requirement)
     return new Response("OK", { status: 200 });
   }
 }
