@@ -1,63 +1,67 @@
 import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    // 1. AsiaPay sends data as Form Data, not JSON. 
-    // This is the biggest difference from Stripe.
-    const formData = await req.formData();
-    
-    // Extract AsiaPay fields
-    const successCode = formData.get("successcode"); // "0" = Success, "1" = Fail
-    const ref = formData.get("Ref");                // This is your Registration ID
-    const payRef = formData.get("payRef");          // AsiaPay's Transaction ID
-    const amt = formData.get("amt");
-    const cur = formData.get("cur");
+    // ✅ Read raw body (AsiaPay sends x-www-form-urlencoded)
+    const raw = await req.text();
+    const params = new URLSearchParams(raw);
 
-    console.log(`[AsiaPay Webhook] Ref: ${ref}, Success: ${successCode}, PayRef: ${payRef}`);
+    // ✅ Extract fields (CASE-SENSITIVE)
+    const successCode = params.get("successcode"); // "0" = success
+    const ref = params.get("Ref");                 // your order/registration ID
+    const payRef = params.get("PayRef");           // AsiaPay transaction ID
+    const amt = params.get("Amt");
+    const cur = params.get("Cur");
 
+    console.log("📩 AsiaPay Webhook:", {
+      ref,
+      successCode,
+      payRef,
+      amt,
+      cur,
+    });
+
+    // ❌ NEVER return non-200 to AsiaPay
     if (!ref) {
-      return new NextResponse("Missing Reference ID", { status: 400 });
+      console.error("❌ Missing Ref");
+      return new Response("OK", { status: 200 });
     }
 
-    // --- CASE 1: PAYMENT SUCCESSFUL ---
+    // ✅ SUCCESS CASE
     if (successCode === "0") {
-      try {
-        await prisma.registration.update({
-          where: { id: String(ref) },
-          data: {
-            status: "COMPLETED",
-            // Store AsiaPay's transaction ID for tracking
-            transactionId: String(payRef), 
-          },
-        });
-        console.log(`✅ AsiaPay Registration ${ref} confirmed and paid.`);
-      } catch (dbError) {
-        console.error("Database Update Error (AsiaPay):", dbError);
-        return new NextResponse("Database Error", { status: 500 });
-      }
-    } 
-    
-    // --- CASE 2: PAYMENT FAILED ---
-    else if (successCode === "1" || successCode === "2") {
-      try {
-        await prisma.registration.update({
-          where: { id: String(ref) },
-          data: { status: "FAILED" },
-        });
-        console.log(`❌ AsiaPay Registration ${ref} marked as FAILED.`);
-      } catch (dbError) {
-        console.error("Database Update Error (AsiaPay):", dbError);
-      }
+      await prisma.registration.updateMany({
+        where: {
+          id: String(ref),
+          status: { not: "COMPLETED" }, // idempotent
+        },
+        data: {
+          status: "COMPLETED",
+          transactionId: String(payRef),
+        },
+      });
+
+      console.log(`✅ Payment SUCCESS for ${ref}`);
     }
 
-    // AsiaPay requires an "OK" response to acknowledge the datafeed
+    // ❌ FAILED / CANCELLED
+    else if (successCode === "1" || successCode === "2") {
+      await prisma.registration.updateMany({
+        where: { id: String(ref) },
+        data: { status: "FAILED" },
+      });
+
+      console.log(`❌ Payment FAILED for ${ref}`);
+    }
+
+    // ✅ REQUIRED RESPONSE
     return new Response("OK", { status: 200 });
 
-  } catch (err: any) {
-    console.error("❌ AsiaPay Webhook Handler Error:", err.message);
-    return new NextResponse(`Webhook Error: ${err.message}`, { status: 500 });
+  } catch (err) {
+    console.error("❌ Webhook Error:", err);
+
+    // ⚠️ Still return 200 (AsiaPay requirement)
+    return new Response("OK", { status: 200 });
   }
 }

@@ -5,6 +5,12 @@ import type { NextRequest } from "next/server";
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // ✅ BYPASS ALL WEBHOOKS (IMPORTANT)
+  if (pathname.startsWith("/api/webhook")) {
+    return NextResponse.next();
+  }
+
+  // Public APIs
   if (
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/uploadthing")
@@ -17,10 +23,10 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith("/api") &&
     ["POST", "PUT", "DELETE"].includes(req.method);
 
- const token = await getToken({
-  req,
-  secret: process.env.NEXTAUTH_SECRET,
-});
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
 
   if ((isAdminPath || isApiMutation) && !token) {
     if (pathname.startsWith("/api")) {
