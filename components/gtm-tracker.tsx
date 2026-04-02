@@ -8,18 +8,24 @@ export default function GTMTracker() {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    const url = pathname + "?" + searchParams.toString()
+    const url = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "")
+
+    // ✅ Safe access without TS errors
+    const w = window as typeof window & {
+      dataLayer?: any[]
+      gtag?: (...args: any[]) => void
+    }
 
     // GTM event
-    window.dataLayer = window.dataLayer || []
-    window.dataLayer.push({
+    w.dataLayer = w.dataLayer || []
+    w.dataLayer.push({
       event: "pageview",
       page: url,
     })
 
     // GA direct event
-    if (window.gtag) {
-      window.gtag("event", "page_view", {
+    if (typeof w.gtag === "function") {
+      w.gtag("event", "page_view", {
         page_location: window.location.href,
       })
     }
