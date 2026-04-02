@@ -9,6 +9,7 @@ import Footer from "@/components/footer";
 import StickySidebar from "@/components/sticky";
 import "./globals.css"
 
+
 // ✅ Viewport (correct)
 export const viewport: Viewport = {
   themeColor: "#ffffff",
