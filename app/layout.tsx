@@ -1,70 +1,43 @@
-import type { Metadata, Viewport } from "next";
-import Script from "next/script";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import { Analytics } from "@vercel/analytics/next";
-import { Suspense } from "react";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
-import StickySidebar from "@/components/sticky";
-import GTMTracker from "@/components/gtm-tracker";
+import type { Metadata, Viewport } from "next"
+import Script from "next/script"
+import { GeistSans } from "geist/font/sans"
+import { GeistMono } from "geist/font/mono"
+import { Analytics } from "@vercel/analytics/next"
+import { Suspense } from "react"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import StickySidebar from "@/components/sticky"
+import GTMTracker from "@/components/gtm-tracker"
 
-// 1. Separate Viewport Export (Correct for Next.js 14+)
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-};
+}
 
-// 2. Optimized Metadata Object
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ecchessacademyhk.com"), // CRITICAL FOR BUILD
   title: "EC Chess Academy HK | Elite Chess & Strategy Training",
-  description:
-    "Hong Kong's premier strategy academy. Expert FIDE-certified coaching for International Chess, Chinese Chess, and Go. Shaping young minds since 2010.",
-  metadataBase: new URL("https://ecchessacademyhk.com"),
-  alternates: {
-    canonical: "/",
-  },
-  icons: {
-    icon: [
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-    ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
-  },
+  description: "Hong Kong's premier strategy academy. Expert FIDE-certified coaching.",
   manifest: "/site.webmanifest",
-};
+  icons: {
+    apple: "/apple-touch-icon.png",
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32" },
+      { url: "/favicon-16x16.png", sizes: "16x16" },
+    ],
+  },
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  // Structured Data (JSON-LD)
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    "name": "EC Chess Academy Hong Kong",
-    "description": "Professional chess academy specializing in International Chess, Chinese Chess (Xiangqi), and Go (Weiqi).",
-    "url": "https://ecchessacademyhk.com",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Hong Kong",
-      "addressRegion": "HK",
-    },
-    "sameAs": [
-      "https://www.facebook.com/ecchess",
-      "https://www.instagram.com/ec_chess/",
-    ],
-  };
-
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
-        {/* GA4 Setup */}
+        {/* GA4 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-WVZSVNQNLW"
           strategy="afterInteractive"
@@ -75,13 +48,11 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             window.gtag = gtag;
             gtag('js', new Date());
-            gtag('config', 'G-WVZSVNQNLW', {
-              send_page_view: false
-            });
+            gtag('config', 'G-WVZSVNQNLW', { send_page_view: false });
           `}
         </Script>
 
-        {/* GTM Setup */}
+        {/* GTM */}
         <Script id="gtm-script" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];
@@ -93,16 +64,9 @@ export default function RootLayout({
             })(window,document,'script','dataLayer','GTM-TCNQWKNR');
           `}
         </Script>
-
-        {/* Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
       </head>
 
-      <body className="font-sans antialiased bg-white text-slate-900">
-        {/* GTM Noscript (Must be immediately after opening body tag) */}
+      <body className="font-sans antialiased bg-white">
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-TCNQWKNR"
@@ -115,11 +79,13 @@ export default function RootLayout({
         <Header />
         <StickySidebar />
         
-        {/* GTMTracker usually handles route changes in SPAs */}
-        <GTMTracker />
+        {/* WRAP THIS IN SUSPENSE TO PREVENT BUILD FAILURE */}
+        <Suspense fallback={null}>
+          <GTMTracker />
+        </Suspense>
 
         <main className="relative min-h-screen">
-          <Suspense fallback={<div className="h-screen w-full bg-white animate-pulse" />}>
+          <Suspense fallback={<div className="h-screen w-full bg-white" />}>
             {children}
           </Suspense>
         </main>
@@ -128,5 +94,5 @@ export default function RootLayout({
         <Analytics />
       </body>
     </html>
-  );
+  )
 }
