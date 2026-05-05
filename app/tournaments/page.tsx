@@ -16,6 +16,16 @@ import { registerForTournament } from "@/app/actions/tournamentActions";
 type GameFilter = "ALL" | "Weiqi" | "Xiangqi" | "International Chess";
 type PaymentMethod = "stripe" | "asiapay";
 
+const formatDateTime = (date: string) => {
+  return new Date(date).toLocaleString([], {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
 export default function TournamentsPage() {
   const [tournaments, setTournaments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -149,9 +159,7 @@ export default function TournamentsPage() {
                       <div className="flex items-center gap-3">
   <Calendar size={18} className="text-orange-500" />
   <span>
-    {new Date(t.startDate).toLocaleDateString()} 
-    {" - "} 
-    {new Date(t.endDate).toLocaleDateString()}
+    {formatDateTime(t.startDate)} - {formatDateTime(t.endDate)}
   </span>
 </div>
                       <div className="flex items-center gap-3"><MapPin size={18} className="text-indigo-600" /> {t.location}</div>
@@ -243,35 +251,33 @@ export default function TournamentsPage() {
                 </div>
 
                 {/* --- PAYMENT METHOD SELECTOR --- */}
-                <div className="mt-8 space-y-4">
-                  <p className="font-black uppercase text-[10px] text-slate-400 tracking-[0.2em] text-center">Select Payment Method</p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button 
-                      type="submit"
-                      disabled={isSubmitting}
-                      onClick={() => setSelectedMethod("stripe")}
-                      className={`relative flex flex-col items-center justify-center p-6 border-4 border-slate-900 rounded-[24px] transition-all group
-                        ${selectedMethod === "stripe" ? "bg-indigo-600 text-white -translate-y-1 shadow-[4px_4px_0px_#000]" : "bg-white text-slate-900 hover:bg-slate-50"}`}
-                    >
-                      <CreditCard size={24} className="mb-2" />
-                      <span className="font-black uppercase text-[10px] tracking-tighter">Credit Card</span>
-                      <span className="text-[8px] font-bold opacity-60">Stripe Secure</span>
-                    </button>
+<div className="mt-8 space-y-4">
+  <p className="font-black uppercase text-[10px] text-slate-400 tracking-[0.2em] text-center">
+    Payment Method
+  </p>
+  
+  {/* ASIAPAY ONLY */}
+  <button 
+    type="submit"
+    disabled={isSubmitting}
+    onClick={() => setSelectedMethod("asiapay")}
+    className={`w-full relative flex flex-col items-center justify-center p-6 border-4 border-slate-900 rounded-[24px] transition-all group
+      ${selectedMethod === "asiapay" 
+        ? "bg-emerald-500 text-white -translate-y-1 shadow-[4px_4px_0px_#000]" 
+        : "bg-white text-slate-900 hover:bg-slate-50"}`}
+  >
+    <Globe size={26} className="mb-2" />
+    
+    <span className="font-black uppercase text-[11px] tracking-wider">
+      AsiaPay Secure Checkout
+    </span>
 
-                    <button 
-                      type="submit"
-                      disabled={isSubmitting}
-                      onClick={() => setSelectedMethod("asiapay")}
-                      className={`relative flex flex-col items-center justify-center p-6 border-4 border-slate-900 rounded-[24px] transition-all group
-                        ${selectedMethod === "asiapay" ? "bg-emerald-500 text-white -translate-y-1 shadow-[4px_4px_0px_#000]" : "bg-white text-slate-900 hover:bg-slate-50"}`}
-                    >
-                      <Globe size={24} className="mb-2" />
-                      <span className="font-black uppercase text-[10px] tracking-tighter">AsiaPay / Local</span>
-                      <span className="text-[8px] font-bold opacity-60">Alipay / WeChat</span>
-                    </button>
-                  </div>
-                </div>
+    {/* Supported methods */}
+    <div className="mt-2 text-[9px] font-bold opacity-70 text-center leading-relaxed">
+      AlipayHK • PayMe • WeChat Pay • Apple Pay • Credit Card
+    </div>
+  </button>
+</div>
 
                 {isSubmitting && (
                   <div className="mt-6 flex items-center justify-center gap-2">

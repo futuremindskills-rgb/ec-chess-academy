@@ -112,38 +112,17 @@ export async function deleteBlogPost(id: number) {
 }
 
 /**
- * Upload a single file and return its URL
- */
-async function uploadImage(file: File): Promise<string> {
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-
-  // === OPTION 1: Save to public folder (Simple) ===
-  const uniqueName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-  const path = `./public/uploads/${uniqueName}`;
-  
-  const fs = await import('fs');
-  const pathModule = await import('path');
-  
-  // Ensure directory exists
-  const uploadDir = pathModule.join(process.cwd(), 'public', 'uploads');
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
-
-  fs.writeFileSync(pathModule.join(uploadDir, uniqueName), buffer);
-  
-  return `/uploads/${uniqueName}`;   // Public URL
-}
-
-/**
- * Fetch all albums
+ * Fetch all albums including their nested images
  */
 export async function getAlbums() {
   try {
     return await prisma.album.findMany({
-      include: { images: true },
-      orderBy: { createdAt: 'desc' }
+      include: { 
+        images: true 
+      },
+      orderBy: { 
+        createdAt: 'desc' 
+      }
     });
   } catch (error) {
     console.error("Error fetching albums:", error);
@@ -152,25 +131,18 @@ export async function getAlbums() {
 }
 
 /**
- * Create New Album with Multiple Images
+ * Create a new album with multiple images at once
  */
-export async function createAlbum(formData: FormData) {
+export async function createAlbum(formData: FormData, imageUrls: string[]) {
   const title = formData.get("title") as string;
   const category = formData.get("category") as string;
   const description = formData.get("description") as string;
 
-  const imageFiles = formData.getAll("images") as File[];
-
-  if (imageFiles.length === 0) {
+  if (!imageUrls || imageUrls.length === 0) {
     throw new Error("At least one image is required");
   }
 
   try {
-    // Upload all images and get URLs
-    const imageUrls = await Promise.all(
-      imageFiles.map(file => uploadImage(file))
-    );
-
     await prisma.album.create({
       data: {
         title,
@@ -191,14 +163,12 @@ export async function createAlbum(formData: FormData) {
 }
 
 /**
- * Update Album + Add More Images
+ * Update album details and optionally add more images
  */
-export async function updateAlbum(id: number, formData: FormData) {
+export async function updateAlbum(id: number, formData: FormData, newImageUrls: string[]) {
   const title = formData.get("title") as string;
   const category = formData.get("category") as string;
   const description = formData.get("description") as string;
-
-  const imageFiles = formData.getAll("images") as File[];
 
   try {
     const updateData: any = {
@@ -207,12 +177,8 @@ export async function updateAlbum(id: number, formData: FormData) {
       description,
     };
 
-    // If new images are uploaded, process them
-    if (imageFiles.length > 0) {
-      const newImageUrls = await Promise.all(
-        imageFiles.map(file => uploadImage(file))
-      );
-
+    // Only add images if new ones are provided
+    if (newImageUrls && newImageUrls.length > 0) {
       updateData.images = {
         create: newImageUrls.map((url) => ({ src: url })),
       };
@@ -232,11 +198,13 @@ export async function updateAlbum(id: number, formData: FormData) {
 }
 
 /**
- * Delete Album
+ * Delete an entire album
  */
 export async function deleteAlbum(id: number) {
   try {
-    await prisma.album.delete({ where: { id } });
+    await prisma.album.delete({
+      where: { id },
+    });
     revalidatePath("/gallery");
     revalidatePath("/admin/gallery");
   } catch (error) {
@@ -246,11 +214,13 @@ export async function deleteAlbum(id: number) {
 }
 
 /**
- * Delete Single Image
+ * Delete a single image from an album
  */
 export async function deleteAlbumImage(imageId: number) {
   try {
-    await prisma.albumImage.delete({ where: { id: imageId } });
+    await prisma.albumImage.delete({
+      where: { id: imageId },
+    });
     revalidatePath("/gallery");
     revalidatePath("/admin/gallery");
   } catch (error) {

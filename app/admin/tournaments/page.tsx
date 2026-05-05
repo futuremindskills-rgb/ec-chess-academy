@@ -248,41 +248,41 @@ export default function TournamentAdmin() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
   
-  {/* Start Date */}
-  <div>
-    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
-      Start Date
-    </label>
-    <input
-      type="date"
-      name="startDate"
-      defaultValue={
-        editingItem?.startDate
-          ? new Date(editingItem.startDate).toISOString().split("T")[0]
-          : ""
-      }
-      required
-      className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none"
-    />
-  </div>
+{/* Start Date & Time */}
+<div>
+  <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
+    Start Date & Time
+  </label>
+  <input
+    type="datetime-local"
+    name="startDate"
+    defaultValue={
+      editingItem?.startDate
+        ? new Date(editingItem.startDate).toISOString().slice(0, 16)
+        : ""
+    }
+    required
+    className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none"
+  />
+</div>
 
-  {/* End Date */}
-  <div>
-    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
-      End Date
-    </label>
-    <input
-      type="date"
-      name="endDate"
-      defaultValue={
-        editingItem?.endDate
-          ? new Date(editingItem.endDate).toISOString().split("T")[0]
-          : ""
-      }
-      required
-      className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none"
-    />
-  </div>
+{/* End Date & Time */}
+<div>
+  <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
+    End Date & Time
+  </label>
+  <input
+    type="datetime-local"
+    name="endDate"
+    defaultValue={
+      editingItem?.endDate
+        ? new Date(editingItem.endDate).toISOString().slice(0, 16)
+        : ""
+    }
+    required
+    className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none"
+  />
+</div>
 
 </div>
               </div>
