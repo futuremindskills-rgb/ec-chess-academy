@@ -246,7 +246,63 @@ export default function TournamentAdmin() {
                     <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Location</label>
                     <input name="location" defaultValue={editingItem?.location} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px] outline-none" />
                 </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  
+  {/* Start Date */}
+  <div>
+    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
+      Start Date
+    </label>
+    <input
+      type="date"
+      name="startDate"
+      defaultValue={
+        editingItem?.startDate
+          ? new Date(editingItem.startDate).toISOString().split("T")[0]
+          : ""
+      }
+      required
+      className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none"
+    />
+  </div>
+
+  {/* End Date */}
+  <div>
+    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
+      End Date
+    </label>
+    <input
+      type="date"
+      name="endDate"
+      defaultValue={
+        editingItem?.endDate
+          ? new Date(editingItem.endDate).toISOString().split("T")[0]
+          : ""
+      }
+      required
+      className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none"
+    />
+  </div>
+
+</div>
               </div>
+              <div>
+  <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
+    Tournament Status
+  </label>
+
+  <select
+    name="status"
+    defaultValue={editingItem?.status || "OPEN"}
+    className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none bg-white"
+    required
+  >
+    <option value="OPEN">OPEN</option>
+    <option value="ONGOING">ONGOING</option>
+    <option value="COMPLETED">COMPLETED</option>
+    <option value="CANCELLED">CANCELLED</option>
+  </select>
+</div>
 
               <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-blue-600 hover:bg-slate-900 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-[6px_6px_0px_#1e1b4b] flex items-center justify-center gap-2">
                 {isSubmitting ? <Loader2 className="animate-spin" /> : "Save Tournament"}

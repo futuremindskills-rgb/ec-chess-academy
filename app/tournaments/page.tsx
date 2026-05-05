@@ -130,8 +130,15 @@ export default function TournamentsPage() {
               <motion.div key={t.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} whileHover={{ y: -10 }} className="relative group h-full">
                 <div className="absolute inset-0 bg-slate-900 rounded-[32px] md:rounded-[40px] translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3" />
                 <div className="relative bg-white border-4 border-slate-900 rounded-[32px] md:rounded-[40px] flex flex-col h-full overflow-hidden">
-                  <div className="relative w-full h-48 md:h-56 bg-slate-200 overflow-hidden border-b-4 border-slate-900">
-                    {t.bannerImage && <Image src={t.bannerImage} alt={t.title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />}
+                  <div className="relative w-full aspect-[16/9] bg-slate-200 overflow-hidden border-b-4 border-slate-900">
+                    {t.bannerImage && (
+  <Image
+    src={t.bannerImage}
+    alt={t.title}
+    fill
+    className="object-cover transition-transform duration-500 group-hover:scale-110"
+  />
+)}
                     <div className="absolute top-4 right-4">
                       <span className="px-4 py-1.5 text-[10px] font-black uppercase bg-emerald-400 border-2 border-slate-900 shadow-[3px_3px_0px_#000]">{t.status}</span>
                     </div>
@@ -139,7 +146,14 @@ export default function TournamentsPage() {
                   <div className="p-6 md:p-8 pt-6 flex flex-col flex-1">
                     <h3 className="text-xl md:text-2xl font-[1000] uppercase tracking-tight mb-4 text-slate-900 leading-tight">{t.title}</h3>
                     <div className="space-y-3 mb-8 flex-1 text-slate-500 font-bold text-[11px] uppercase tracking-wide">
-                      <div className="flex items-center gap-3"><Calendar size={18} className="text-orange-500" /> {new Date(t.startDate).toLocaleDateString()}</div>
+                      <div className="flex items-center gap-3">
+  <Calendar size={18} className="text-orange-500" />
+  <span>
+    {new Date(t.startDate).toLocaleDateString()} 
+    {" - "} 
+    {new Date(t.endDate).toLocaleDateString()}
+  </span>
+</div>
                       <div className="flex items-center gap-3"><MapPin size={18} className="text-indigo-600" /> {t.location}</div>
                     </div>
                     <div className="flex flex-col gap-3">
