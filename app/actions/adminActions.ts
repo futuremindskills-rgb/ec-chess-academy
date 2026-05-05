@@ -112,17 +112,38 @@ export async function deleteBlogPost(id: number) {
 }
 
 /**
- * Fetch all albums including their nested images
+ * Upload a single file and return its URL
+ */
+async function uploadImage(file: File): Promise<string> {
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  // === OPTION 1: Save to public folder (Simple) ===
+  const uniqueName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
+  const path = `./public/uploads/${uniqueName}`;
+  
+  const fs = await import('fs');
+  const pathModule = await import('path');
+  
+  // Ensure directory exists
+  const uploadDir = pathModule.join(process.cwd(), 'public', 'uploads');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+
+  fs.writeFileSync(pathModule.join(uploadDir, uniqueName), buffer);
+  
+  return `/uploads/${uniqueName}`;   // Public URL
+}
+
+/**
+ * Fetch all albums
  */
 export async function getAlbums() {
   try {
     return await prisma.album.findMany({
-      include: { 
-        images: true 
-      },
-      orderBy: { 
-        createdAt: 'desc' 
-      }
+      include: { images: true },
+      orderBy: { createdAt: 'desc' }
     });
   } catch (error) {
     console.error("Error fetching albums:", error);
@@ -131,28 +152,38 @@ export async function getAlbums() {
 }
 
 /**
- * Create a new album with multiple images at once
+ * Create New Album with Multiple Images
  */
-export async function createAlbum(formData: FormData, imageUrls: string[]) {
+export async function createAlbum(formData: FormData) {
   const title = formData.get("title") as string;
   const category = formData.get("category") as string;
   const description = formData.get("description") as string;
 
+  const imageFiles = formData.getAll("images") as File[];
+
+  if (imageFiles.length === 0) {
+    throw new Error("At least one image is required");
+  }
+
   try {
+    // Upload all images and get URLs
+    const imageUrls = await Promise.all(
+      imageFiles.map(file => uploadImage(file))
+    );
+
     await prisma.album.create({
       data: {
         title,
         category,
         description,
         images: {
-          // This maps the array of URLs into the AlbumImage records automatically
           create: imageUrls.map((url) => ({ src: url })),
         },
       },
     });
 
     revalidatePath("/gallery");
-    revalidatePath("/admin/gallery"); // Revalidate admin path too
+    revalidatePath("/admin/gallery");
   } catch (error) {
     console.error("Error creating album:", error);
     throw new Error("Failed to create album");
@@ -160,25 +191,36 @@ export async function createAlbum(formData: FormData, imageUrls: string[]) {
 }
 
 /**
- * Update album details and optionally add more images
+ * Update Album + Add More Images
  */
-export async function updateAlbum(id: number, formData: FormData, newImageUrls: string[]) {
+export async function updateAlbum(id: number, formData: FormData) {
   const title = formData.get("title") as string;
   const category = formData.get("category") as string;
   const description = formData.get("description") as string;
 
+  const imageFiles = formData.getAll("images") as File[];
+
   try {
+    const updateData: any = {
+      title,
+      category,
+      description,
+    };
+
+    // If new images are uploaded, process them
+    if (imageFiles.length > 0) {
+      const newImageUrls = await Promise.all(
+        imageFiles.map(file => uploadImage(file))
+      );
+
+      updateData.images = {
+        create: newImageUrls.map((url) => ({ src: url })),
+      };
+    }
+
     await prisma.album.update({
       where: { id },
-      data: {
-        title,
-        category,
-        description,
-        images: {
-          // This appends new images to the existing album
-          create: newImageUrls.map((url) => ({ src: url })),
-        },
-      },
+      data: updateData,
     });
 
     revalidatePath("/gallery");
@@ -190,14 +232,11 @@ export async function updateAlbum(id: number, formData: FormData, newImageUrls: 
 }
 
 /**
- * Delete an entire album
- * Note: Because of 'onDelete: Cascade' in schema, all images are deleted automatically
+ * Delete Album
  */
 export async function deleteAlbum(id: number) {
   try {
-    await prisma.album.delete({
-      where: { id },
-    });
+    await prisma.album.delete({ where: { id } });
     revalidatePath("/gallery");
     revalidatePath("/admin/gallery");
   } catch (error) {
@@ -207,13 +246,11 @@ export async function deleteAlbum(id: number) {
 }
 
 /**
- * Delete a single image from an album without deleting the whole album
+ * Delete Single Image
  */
 export async function deleteAlbumImage(imageId: number) {
   try {
-    await prisma.albumImage.delete({
-      where: { id: imageId },
-    });
+    await prisma.albumImage.delete({ where: { id: imageId } });
     revalidatePath("/gallery");
     revalidatePath("/admin/gallery");
   } catch (error) {
