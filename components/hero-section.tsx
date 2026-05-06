@@ -64,12 +64,7 @@ export function HeroSection({ bannerData }: HeroSectionProps) {
                 priority
               />
             </Link>
-            <button 
-              onClick={() => setIsBannerClosed(true)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-1 rounded-full transition-colors z-[110]"
-            >
-              <X size={18} />
-            </button>
+            
           </motion.div>
         )}
       </AnimatePresence>

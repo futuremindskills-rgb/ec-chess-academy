@@ -21,7 +21,7 @@ const StickySidebar: React.FC = () => {
   };
 
   return (
-    <div className="fixed right-0 lg:right-0 top-[60%] -translate-y-1/2 z-[100] flex flex-col items-center scale-75 md:scale-90 lg:scale-100 origin-right transition-transform duration-300">
+    <div className="fixed right-0 lg:right-0 top-[60%] -translate-y-1/2 z-[300] flex flex-col items-center scale-75 md:scale-90 lg:scale-100 origin-right transition-transform duration-300">
       
       {/* --- MASCOT HEAD --- */}
       <motion.div 
