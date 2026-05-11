@@ -56,6 +56,7 @@ export async function editTournament(id: number, formData: FormData) {
 }
 
 export async function getTournaments() {
+   noStore();
   return await prisma.tournament.findMany({ 
     include: { registrations: { orderBy: { createdAt: 'desc' } } }, 
     orderBy: { startDate: 'desc' } 
