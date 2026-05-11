@@ -18,7 +18,6 @@ type PaymentMethod = "stripe" | "asiapay";
 
 const formatDateTime = (date: string) => {
   return new Date(date).toLocaleString("en-HK", {
-    timeZone: "Asia/Hong_Kong", // 🔥 FIX
     day: "numeric",
     month: "short",
     year: "numeric",
