@@ -17,13 +17,18 @@ type GameFilter = "ALL" | "Weiqi" | "Xiangqi" | "International Chess";
 type PaymentMethod = "stripe" | "asiapay";
 
 const formatDateTime = (date: string) => {
-  return new Date(date).toLocaleString("en-HK", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const [d, t] = date.split("T");
+  const [year, month, day] = d.split("-");
+  let [hour, minute] = t.split(":");
+
+  let h = parseInt(hour);
+  const ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12 || 12;
+
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  return `${day} ${monthNames[parseInt(month) - 1]} ${year}, ${h}:${minute} ${ampm}`;
 };
 
 export default function TournamentsPage() {
