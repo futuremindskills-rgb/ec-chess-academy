@@ -22,7 +22,7 @@ export default function LeadInstructorSection() {
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Mr. Chew Kok Mun",
+    "name": "Herman Wong",
     "jobTitle": "Lead Instructor",
     "description": "Ex-MOE Scholar, NIE-trained educator specializing, Math, and Chess strategy.",
     "affiliation": {
@@ -82,14 +82,14 @@ export default function LeadInstructorSection() {
             <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-[8px] border-white aspect-[4/5] z-10">
               <Image 
                 src="/image.png" 
-                alt="Mr. Chew Kok Mun -  Specialist & MOE Scholar" 
+                alt="Herman Wong -  Specialist & MOE Scholar" 
                 fill
                 className="object-cover transition-transform duration-1000 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, 40vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
               <div className="absolute bottom-8 left-8 text-white">
-                <h3 className="text-2xl font-black tracking-tight">Mr. Chew Kok Mun</h3>
+                <h3 className="text-2xl font-black tracking-tight">Herman Wong</h3>
                 <div className="flex items-center gap-2 mt-1">
                   <ShieldCheck size={16} className="text-teal-400" />
                   <p className="text-xs font-bold text-teal-400 uppercase tracking-widest">PSC Teaching Scholar</p>

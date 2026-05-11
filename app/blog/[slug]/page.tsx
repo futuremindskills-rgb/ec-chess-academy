@@ -87,7 +87,7 @@ const post = posts.find((p: any) => p.slug === decodedSlug);
                   <div className="w-10 h-10 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-400">
                     <User size={18} />
                   </div>
-                  <span>Cornelius Chew</span>
+                  <span>Herman Wong</span>
                </div>
                <div className="flex items-center gap-2">
   <Calendar size={18} className="text-teal-500" />
@@ -169,7 +169,7 @@ const post = posts.find((p: any) => p.slug === decodedSlug);
                 About Author
               </h4>
               <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                Cornelius Chew is the head coach at EC Chess Academy, specializing in differentiated learning and Howard Gardner's theory of Multiple Intelligences.
+                Herman Wong is the head coach at EC Chess Academy, specializing in differentiated learning and Howard Gardner's theory of Multiple Intelligences.
               </p>
               <Link href="/contact" className="text-teal-600 font-bold text-sm hover:underline">
                 Book a Trial Class →
