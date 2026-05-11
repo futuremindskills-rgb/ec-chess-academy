@@ -22,7 +22,9 @@ interface Props {
 // --- Dynamic SEO Optimization ---
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const posts = await getBlogPosts();
-  const post = posts.find((p: any) => p.slug === params.slug);
+  const decodedSlug = decodeURIComponent(params.slug);
+
+const post = posts.find((p: any) => p.slug === decodedSlug);
 
   if (!post) return { title: "Post Not Found" };
 
@@ -37,7 +39,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogDetailPage({ params }: Props) {
   const posts = await getBlogPosts();
-  const post = posts.find((p: any) => p.slug === params.slug);
+  const decodedSlug = decodeURIComponent(params.slug);
+
+const post = posts.find((p: any) => p.slug === decodedSlug);
 
   if (!post) {
     notFound();
@@ -176,7 +180,7 @@ export default async function BlogDetailPage({ params }: Props) {
              <div className="space-y-6">
                 <h4 className="font-bold text-slate-900 px-2">Related Articles</h4>
                 {relatedPosts.map((rp: any) => (
-                  <Link key={rp.slug} href={`/blog/${rp.slug}`} className="group block">
+                  <Link  key={rp.slug} href={`/blog/${encodeURIComponent(rp.slug)}`} className="group block">
                     <div className="flex gap-4 items-center">
                        <img src={rp.image} className="w-20 h-20 rounded-xl object-cover shrink-0" alt="" />
                        <div>
