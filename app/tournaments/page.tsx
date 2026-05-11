@@ -16,19 +16,33 @@ import { registerForTournament } from "@/app/actions/tournamentActions";
 type GameFilter = "ALL" | "Weiqi" | "Xiangqi" | "International Chess";
 type PaymentMethod = "stripe" | "asiapay";
 
-const formatDateTime = (date: string) => {
-  const [d, t] = date.split("T");
-  const [year, month, day] = d.split("-");
-  let [hour, minute] = t.split(":");
+const formatDateTime = (date: any) => {
+  if (!date) return "Invalid date";
 
-  let h = parseInt(hour);
-  const ampm = h >= 12 ? "PM" : "AM";
-  h = h % 12 || 12;
+  try {
+    // Handle both string and Date
+    const iso = typeof date === "string" ? date : date.toISOString();
 
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-                      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    if (!iso.includes("T")) return "Invalid date format";
 
-  return `${day} ${monthNames[parseInt(month) - 1]} ${year}, ${h}:${minute} ${ampm}`;
+    const [d, t] = iso.split("T");
+    const [year, month, day] = d.split("-");
+    let [hour, minute] = t.split(":");
+
+    if (!hour || !minute) return "Invalid time";
+
+    let h = parseInt(hour);
+    const ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+
+    const monthNames = ["Jan","Feb","Mar","Apr","May","Jun",
+                        "Jul","Aug","Sep","Oct","Nov","Dec"];
+
+    return `${day} ${monthNames[parseInt(month) - 1]} ${year}, ${h}:${minute} ${ampm}`;
+  } catch (e) {
+    console.error("Date format error:", date);
+    return "Invalid date";
+  }
 };
 
 export default function TournamentsPage() {
