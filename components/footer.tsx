@@ -198,9 +198,19 @@ export default function Footer() {
             <span className="text-sm font-black uppercase tracking-wider">WhatsApp</span>
           </motion.a>
 
-          <p className="text-[10px] font-bold opacity-40 uppercase tracking-[0.2em] text-center">
-            © 2010 - {new Date().getFullYear()} EC CHESS ACADEMY. ALL RIGHTS RESERVED.
-          </p>
+          <div className="flex flex-col items-center">
+            <p className="text-[10px] font-bold opacity-40 uppercase tracking-[0.2em] text-center">
+              © 2010 - {new Date().getFullYear()} EC CHESS ACADEMY. ALL RIGHTS RESERVED.
+            </p>
+            <a 
+              href="https://wa.me/919772187400" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-[10px] font-bold opacity-40 uppercase tracking-[0.2em] mt-2 hover:opacity-100 transition-opacity underline decoration-indigo-500/30"
+            >
+              Designed by Jinesh Mehta
+            </a>
+          </div>
 
           <button 
             onClick={scrollToTop}
