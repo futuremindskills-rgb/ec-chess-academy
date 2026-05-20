@@ -250,3 +250,37 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
+
+/* Hide Google Translate Top Bar */
+
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+
+iframe.goog-te-banner-frame {
+  display: none !important;
+}
+
+body {
+  top: 0px !important;
+}
+
+/* Hide Google Translate Branding */
+
+.goog-logo-link {
+  display: none !important;
+}
+
+.goog-te-gadget span {
+  display: none !important;
+}
+
+.goog-te-gadget {
+  font-size: 0 !important;
+}
+
+/* Prevent layout shifting */
+
+.skiptranslate {
+  display: none !important;
+}

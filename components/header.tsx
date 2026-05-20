@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -6,15 +7,38 @@ import { usePathname } from "next/navigation";
 /* -------------------------------------------------------------------------- */
 /*                               INTERNAL ICONS                               */
 /* -------------------------------------------------------------------------- */
+
 const MenuIcon = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className={className}>
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4 6h16M4 12h16M4 18h16"
+    />
   </svg>
 );
 
 const XIcon = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className={className}>
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M6 18L18 6M6 6l12 12"
+    />
   </svg>
 );
 
@@ -25,13 +49,38 @@ const XIcon = ({ className }: { className?: string }) => (
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
   const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
+
     window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  /* -------------------------------------------------------------------------- */
+  /*                           GOOGLE TRANSLATE SWITCH                          */
+  /* -------------------------------------------------------------------------- */
+
+  const toggleLanguage = () => {
+    const select = document.querySelector(
+      ".goog-te-combo"
+    ) as HTMLSelectElement;
+
+    if (!select) return;
+
+    const nextLang = select.value === "zh-TW" ? "en" : "zh-TW";
+
+    select.value = nextLang;
+
+    select.dispatchEvent(new Event("change"));
+  };
+
+  /* -------------------------------------------------------------------------- */
+  /*                                  NAV ITEMS                                 */
+  /* -------------------------------------------------------------------------- */
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -45,8 +94,8 @@ const Header: React.FC = () => {
 
   return (
     <div className="w-full relative z-50 font-sans">
-      
       {/* Main Navbar */}
+
       <header
         className={`w-full transition-all duration-300 ${
           scrolled
@@ -55,30 +104,30 @@ const Header: React.FC = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
-
           {/* Logo */}
+
           <Link href="/" className="flex items-center group">
-            <div className="">
+            <div>
               <img
                 src="/eclogo.png"
                 alt="EC Chess"
-                className="w-auto h-14 object-contain "
+                className="w-auto h-14 object-contain"
               />
             </div>
           </Link>
 
           {/* Desktop Nav */}
+
           <nav className="hidden lg:flex items-center gap-1 xl:gap-4">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-[13px] font-extrabold uppercase tracking-widest px-4 py-2 rounded-full transition-all duration-200
-                  ${
-                    pathname === item.href
-                      ? "text-purple-600 bg-purple-50"
-                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-                  }`}
+                className={`text-[13px] font-extrabold uppercase tracking-widest px-4 py-2 rounded-full transition-all duration-200 ${
+                  pathname === item.href
+                    ? "text-purple-600 bg-purple-50"
+                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                }`}
               >
                 {item.name}
               </Link>
@@ -86,13 +135,27 @@ const Header: React.FC = () => {
           </nav>
 
           {/* Right Section */}
+
           <div className="flex items-center gap-4">
+            {/* Language Switch */}
+
+            <button
+              onClick={toggleLanguage}
+              className="hidden md:inline-flex items-center justify-center whitespace-nowrap px-5 py-3 text-[12px] font-black tracking-widest text-slate-700 border border-gray-200 rounded-full hover:bg-slate-100 transition-all duration-300"
+            >
+              中文
+            </button>
+
+            {/* Contact Button */}
+
             <Link
               href="/contact"
-              className="hidden md:inline-flex items-center justify-center px-7 py-3 text-[13px] font-black uppercase tracking-widest text-white transition-all duration-300 bg-slate-900 rounded-full hover:bg-purple-600 hover:shadow-[0_10px_20px_rgba(147,51,234,0.3)] active:scale-95"
+              className="hidden md:inline-flex items-center justify-center whitespace-nowrap px-7 py-3 text-[13px] font-black uppercase tracking-widest text-white transition-all duration-300 bg-slate-900 rounded-full hover:bg-purple-600 hover:shadow-[0_10px_20px_rgba(147,51,234,0.3)] active:scale-95"
             >
               Contact Us
             </Link>
+
+            {/* Mobile Menu Button */}
 
             <button
               onClick={() => setIsMobileMenuOpen(true)}
@@ -105,12 +168,14 @@ const Header: React.FC = () => {
       </header>
 
       {/* Mobile Menu */}
+
       <div
         className={`fixed inset-0 z-[60] lg:hidden transition-all duration-500 ${
           isMobileMenuOpen ? "visible" : "invisible pointer-events-none"
         }`}
       >
         {/* Backdrop */}
+
         <div
           className={`absolute inset-0 bg-slate-900/20 backdrop-blur-sm transition-opacity duration-500 ${
             isMobileMenuOpen ? "opacity-100" : "opacity-0"
@@ -119,12 +184,14 @@ const Header: React.FC = () => {
         />
 
         {/* Drawer */}
+
         <div
           className={`absolute top-0 right-0 h-full w-[80%] bg-white transition-transform duration-500 ease-out shadow-2xl flex flex-col ${
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
           {/* Mobile Header */}
+
           <div className="p-6 flex items-center justify-between border-b border-gray-50">
             <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
               <img
@@ -142,7 +209,19 @@ const Header: React.FC = () => {
             </button>
           </div>
 
+          {/* Mobile Language Button */}
+
+          <div className="px-6 pt-6">
+            <button
+              onClick={toggleLanguage}
+              className="w-full py-4 text-sm font-black tracking-widest text-slate-700 border border-gray-200 rounded-2xl"
+            >
+              中文
+            </button>
+          </div>
+
           {/* Mobile Links */}
+
           <div className="flex-1 overflow-y-auto p-6 space-y-2">
             {navItems.map((item) => (
               <Link
@@ -161,6 +240,7 @@ const Header: React.FC = () => {
           </div>
 
           {/* Mobile CTA */}
+
           <div className="p-6 border-t border-gray-50">
             <Link
               href="/contact"
