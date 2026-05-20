@@ -352,30 +352,78 @@ export default function TournamentsPage() {
                    <DollarSign className="text-indigo-200" size={48} strokeWidth={3} />
                 </div>
 
-                {/* --- PAYMENT METHOD SELECTOR --- */}
-                <div className="mt-8 space-y-4">
-                  <p className="font-black uppercase text-[10px] text-slate-400 tracking-[0.2em] text-center">
-                    Payment Method
-                  </p>
-                  
-                  <button 
-                    type="submit"
-                    disabled={isSubmitting}
-                    onClick={() => setSelectedMethod("asiapay")}
-                    className={`w-full relative flex flex-col items-center justify-center p-6 border-4 border-slate-900 rounded-[24px] transition-all group
-                      ${selectedMethod === "asiapay" 
-                        ? "bg-emerald-500 text-white -translate-y-1 shadow-[4px_4px_0px_#000]" 
-                        : "bg-white text-slate-900 hover:bg-slate-50"}`}
-                  >
-                    <Globe size={26} className="mb-2" />
-                    <span className="font-black uppercase text-[11px] tracking-wider">
-                      AsiaPay Secure Checkout
-                    </span>
-                    <div className="mt-2 text-[9px] font-bold opacity-70 text-center leading-relaxed">
-                      AlipayHK • PayMe • WeChat Pay • Apple Pay • Credit Card
-                    </div>
-                  </button>
-                </div>
+{/* --- PAYMENT METHOD SELECTOR --- */}
+<div className="mt-8 space-y-4">
+  <div className="flex items-center justify-between px-2">
+    <p className="font-black uppercase text-[10px] text-slate-400 tracking-[0.2em]">
+      Secure Checkout
+    </p>
+    <div className="flex items-center gap-1 bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-md border border-emerald-200">
+      <ShieldCheck size={10} />
+      <span className="text-[8px] font-black uppercase">Encrypted</span>
+    </div>
+  </div>
+  
+  <button 
+    type="submit"
+    disabled={isSubmitting}
+    onClick={() => setSelectedMethod("asiapay")}
+    className={`w-full relative flex flex-col items-center justify-center p-6 border-4 border-slate-900 rounded-[32px] transition-all group overflow-hidden
+      ${selectedMethod === "asiapay" 
+        ? "bg-indigo-600 text-white -translate-y-1 shadow-[8px_8px_0px_#000]" 
+        // CHANGED: bg-slate-100 instead of bg-white to make it pop
+        : "bg-slate-100 text-slate-900 hover:bg-slate-200 shadow-[4px_4px_0px_#000] active:shadow-none active:translate-y-1"}`}
+  >
+    {/* Decorative Background Pattern */}
+    <div className="absolute inset-0 opacity-[0.03] pointer-events-none group-hover:opacity-[0.05]" 
+         style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0V0z' fill='%23000' /%3E%3C/svg%3E")` }} 
+    />
+
+    <div className="relative z-10 flex flex-col items-center">
+      <div className={`p-3 rounded-2xl mb-3 transition-colors ${selectedMethod === 'asiapay' ? 'bg-white/20' : 'bg-white border-2 border-slate-900'}`}>
+        <CreditCard size={28} className={selectedMethod === 'asiapay' ? 'text-white' : 'text-indigo-600'} />
+      </div>
+      
+      <span className="font-[1000] uppercase text-sm tracking-tighter mb-1">
+        Pay via AsiaPay (PayDollar)
+      </span>
+      
+      <p className={`text-[9px] font-bold uppercase tracking-widest mb-4 ${selectedMethod === 'asiapay' ? 'text-indigo-100' : 'text-slate-500'}`}>
+        Official HK Payment Gateway
+      </p>
+
+      {/* Visual Payment Badges */}
+      <div className="flex flex-wrap justify-center gap-2">
+        {[
+          { name: "AlipayHK", color: "bg-[#00A3EE]" },
+          { name: "PayMe", color: "bg-[#FF0000]" },
+          { name: "WeChat Pay", color: "bg-[#07C160]" },
+          { name: "Octopus", color: "bg-[#F58220]" },
+          { name: "Visa/MC", color: "bg-[#1A1F71]" },
+        ].map((tag) => (
+          <span 
+            key={tag.name} 
+            className={`text-[8px] font-black px-2 py-1 rounded-lg border-2 border-slate-900 shadow-[2px_2px_0px_#000] text-white ${tag.color}`}
+          >
+            {tag.name}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    {/* Selection Indicator Dot */}
+    {selectedMethod === "asiapay" && (
+      <motion.div 
+        layoutId="activeMethod"
+        className="absolute top-4 right-6 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-900 animate-pulse" 
+      />
+    )}
+  </button>
+  
+  <p className="text-center text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+    Your data is processed by AsiaPay Limited (HK)
+  </p>
+</div>
 
                 {isSubmitting && (
                   <div className="mt-6 flex items-center justify-center gap-2">
