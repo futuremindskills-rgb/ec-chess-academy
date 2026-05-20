@@ -7,10 +7,10 @@ import {
   Trophy, Calendar, Clock, MapPin, ChevronRight, Zap, Target, 
   ShieldCheck, Star, Users, Loader2, DollarSign, X, User, 
   Mail, Phone, Baby, Cake, BarChart, Hash, Globe, FileText,
-  Sword, Filter, LayoutGrid, Medal, CreditCard
+  Sword, Filter, LayoutGrid, Medal, CreditCard, Ticket
 } from "lucide-react";
 import TournamentBanner from "@/components/ui/tournamentBanner";
-import { getTournaments } from "@/app/actions/adminActions";
+import { getTournaments, validateCouponAction } from "@/app/actions/adminActions";
 import { registerForTournament } from "@/app/actions/tournamentActions";
 
 type GameFilter = "ALL" | "Weiqi" | "Xiangqi" | "International Chess";
@@ -20,9 +20,7 @@ const formatDateTime = (date: any) => {
   if (!date) return "Invalid date";
 
   try {
-    // Handle both string and Date
     const iso = typeof date === "string" ? date : date.toISOString();
-
     if (!iso.includes("T")) return "Invalid date format";
 
     const [d, t] = iso.split("T");
@@ -56,6 +54,12 @@ export default function TournamentsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
 
+  // Coupon States
+  const [couponInput, setCouponInput] = useState("");
+  const [appliedDiscount, setAppliedDiscount] = useState<{type: string, value: number} | null>(null);
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [couponMsg, setCouponMsg] = useState({ text: "", isError: false });
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -70,6 +74,28 @@ export default function TournamentsPage() {
     fetchData();
   }, []);
 
+  const handleApplyCoupon = async () => {
+    if (!couponInput || !selectedTournament) return;
+    
+    setCouponLoading(true);
+    setCouponMsg({ text: "", isError: false });
+
+    try {
+      const res = await validateCouponAction(couponInput, selectedTournament.id);
+      if (res.valid) {
+        setAppliedDiscount({ type: res.discountType!, value: res.discountValue! });
+        setCouponMsg({ text: "Coupon applied successfully!", isError: false });
+      } else {
+        setAppliedDiscount(null);
+        setCouponMsg({ text: res.message || "Invalid coupon", isError: true });
+      }
+    } catch (error) {
+      setCouponMsg({ text: "Error validating coupon", isError: true });
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedMethod) {
@@ -80,8 +106,11 @@ export default function TournamentsPage() {
     setIsSubmitting(true);
     const formData = new FormData(e.currentTarget);
     
-    // Append the selected payment method to the form data
+    // Append the selected payment method and coupon code to the form data
     formData.append("method", selectedMethod);
+    if (appliedDiscount) {
+      formData.append("couponCode", couponInput);
+    }
 
     try {
       const result = await registerForTournament(formData);
@@ -97,6 +126,17 @@ export default function TournamentsPage() {
       setIsSubmitting(false);
     }
   };
+
+  // --- PRICE CALCULATION ---
+  const originalPrice = selectedTournament ? selectedTournament.entryFee / 100 : 0;
+  let finalPrice = originalPrice;
+  if (appliedDiscount) {
+    if (appliedDiscount.type === "PERCENT") {
+      finalPrice = originalPrice * (1 - appliedDiscount.value / 100);
+    } else {
+      finalPrice = Math.max(0, originalPrice - appliedDiscount.value);
+    }
+  }
 
   // --- FILTERING LOGIC ---
   const filteredTournaments = tournaments.filter(t => {
@@ -161,13 +201,13 @@ export default function TournamentsPage() {
                 <div className="relative bg-white border-4 border-slate-900 rounded-[32px] md:rounded-[40px] flex flex-col h-full overflow-hidden">
                   <div className="relative w-full aspect-[16/9] bg-slate-200 overflow-hidden border-b-4 border-slate-900">
                     {t.bannerImage && (
-  <Image
-    src={t.bannerImage}
-    alt={t.title}
-    fill
-    className="object-cover transition-transform duration-500 group-hover:scale-110"
-  />
-)}
+                      <Image
+                        src={t.bannerImage}
+                        alt={t.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    )}
                     <div className="absolute top-4 right-4">
                       <span className="px-4 py-1.5 text-[10px] font-black uppercase bg-emerald-400 border-2 border-slate-900 shadow-[3px_3px_0px_#000]">{t.status}</span>
                     </div>
@@ -176,11 +216,9 @@ export default function TournamentsPage() {
                     <h3 className="text-xl md:text-2xl font-[1000] uppercase tracking-tight mb-4 text-slate-900 leading-tight">{t.title}</h3>
                     <div className="space-y-3 mb-8 flex-1 text-slate-500 font-bold text-[11px] uppercase tracking-wide">
                       <div className="flex items-center gap-3">
-  <Calendar size={18} className="text-orange-500" />
-  <span>
-    {formatDateTime(t.startDate)} - {formatDateTime(t.endDate)}
-  </span>
-</div>
+                        <Calendar size={18} className="text-orange-500" />
+                        <span>{formatDateTime(t.startDate)} - {formatDateTime(t.endDate)}</span>
+                      </div>
                       <div className="flex items-center gap-3"><MapPin size={18} className="text-indigo-600" /> {t.location}</div>
                     </div>
                     <div className="flex flex-col gap-3">
@@ -206,7 +244,13 @@ export default function TournamentsPage() {
             <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
               className="bg-white border-4 border-slate-900 rounded-[40px] w-full max-w-2xl my-auto relative shadow-[20px_20px_0px_#000]"
             >
-              <button onClick={() => { setSelectedTournament(null); setSelectedMethod(null); }} className="absolute top-6 right-6 p-2 hover:bg-slate-100 rounded-full z-10 text-slate-900"><X size={24} /></button>
+              <button onClick={() => { 
+                setSelectedTournament(null); 
+                setSelectedMethod(null); 
+                setAppliedDiscount(null);
+                setCouponInput("");
+                setCouponMsg({ text: "", isError: false });
+              }} className="absolute top-6 right-6 p-2 hover:bg-slate-100 rounded-full z-10 text-slate-900"><X size={24} /></button>
 
               <form onSubmit={handleFormSubmit} className="p-6 md:p-10 max-h-[85vh] overflow-y-auto no-scrollbar text-slate-900">
                 <div className="mb-8">
@@ -254,49 +298,84 @@ export default function TournamentsPage() {
                     </select>
                   </div>
                   
-                  {/* Rating Field */}
                   <div className="relative md:col-span-2">
                     <BarChart className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input name="rating" placeholder="Current Level / Rating" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600 text-slate-900" />
                   </div>
                 </div>
 
-                <div className="mt-10 p-6 bg-indigo-50 border-4 border-indigo-100 rounded-[24px] flex justify-between items-center">
+                {/* --- COUPON SECTION --- */}
+                <div className="mt-8">
+                  <p className="font-black uppercase text-[10px] text-slate-400 tracking-widest mb-2 flex items-center gap-2">
+                    <Ticket size={14} className="text-amber-500" /> Coupon Code
+                  </p>
+                  <div className="flex gap-3">
+                    <input 
+                      value={couponInput}
+                      onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                      placeholder="ENTER CODE" 
+                      className="flex-1 px-4 py-3 border-4 border-slate-900 rounded-xl font-black uppercase text-xs outline-none focus:border-indigo-600 text-slate-900" 
+                    />
+                    <button 
+                      type="button"
+                      onClick={handleApplyCoupon}
+                      disabled={couponLoading || !couponInput}
+                      className="px-6 py-3 bg-slate-900 text-white font-black rounded-xl text-[10px] uppercase hover:bg-indigo-600 transition-all flex items-center justify-center min-w-[80px]"
+                    >
+                      {couponLoading ? <Loader2 size={16} className="animate-spin" /> : "Apply"}
+                    </button>
+                  </div>
+                  {couponMsg.text && (
+                    <p className={`text-[9px] font-black uppercase mt-2 ${couponMsg.isError ? "text-red-500" : "text-emerald-500"}`}>
+                      {couponMsg.text}
+                    </p>
+                  )}
+                </div>
+
+                {/* --- PRICE DISPLAY --- */}
+                <div className="mt-6 p-6 bg-indigo-50 border-4 border-indigo-100 rounded-[24px] flex justify-between items-center">
                    <div>
-                      <p className="font-black text-indigo-900 uppercase text-[10px] tracking-widest">Entry Fee</p>
-                      <p className="font-[1000] text-3xl text-indigo-600">HK${(selectedTournament.entryFee / 100).toFixed(2)}</p>
+                      <p className="font-black text-indigo-900 uppercase text-[10px] tracking-widest">
+                        {appliedDiscount ? "Discounted Total" : "Entry Fee"}
+                      </p>
+                      <div className="flex items-baseline gap-3">
+                        <p className="font-[1000] text-3xl text-indigo-600">
+                          HK${finalPrice.toFixed(2)}
+                        </p>
+                        {appliedDiscount && (
+                          <p className="text-sm text-slate-400 line-through font-bold">
+                            HK${originalPrice.toFixed(2)}
+                          </p>
+                        )}
+                      </div>
                    </div>
                    <DollarSign className="text-indigo-200" size={48} strokeWidth={3} />
                 </div>
 
                 {/* --- PAYMENT METHOD SELECTOR --- */}
-<div className="mt-8 space-y-4">
-  <p className="font-black uppercase text-[10px] text-slate-400 tracking-[0.2em] text-center">
-    Payment Method
-  </p>
-  
-  {/* ASIAPAY ONLY */}
-  <button 
-    type="submit"
-    disabled={isSubmitting}
-    onClick={() => setSelectedMethod("asiapay")}
-    className={`w-full relative flex flex-col items-center justify-center p-6 border-4 border-slate-900 rounded-[24px] transition-all group
-      ${selectedMethod === "asiapay" 
-        ? "bg-emerald-500 text-white -translate-y-1 shadow-[4px_4px_0px_#000]" 
-        : "bg-white text-slate-900 hover:bg-slate-50"}`}
-  >
-    <Globe size={26} className="mb-2" />
-    
-    <span className="font-black uppercase text-[11px] tracking-wider">
-      AsiaPay Secure Checkout
-    </span>
-
-    {/* Supported methods */}
-    <div className="mt-2 text-[9px] font-bold opacity-70 text-center leading-relaxed">
-      AlipayHK • PayMe • WeChat Pay • Apple Pay • Credit Card
-    </div>
-  </button>
-</div>
+                <div className="mt-8 space-y-4">
+                  <p className="font-black uppercase text-[10px] text-slate-400 tracking-[0.2em] text-center">
+                    Payment Method
+                  </p>
+                  
+                  <button 
+                    type="submit"
+                    disabled={isSubmitting}
+                    onClick={() => setSelectedMethod("asiapay")}
+                    className={`w-full relative flex flex-col items-center justify-center p-6 border-4 border-slate-900 rounded-[24px] transition-all group
+                      ${selectedMethod === "asiapay" 
+                        ? "bg-emerald-500 text-white -translate-y-1 shadow-[4px_4px_0px_#000]" 
+                        : "bg-white text-slate-900 hover:bg-slate-50"}`}
+                  >
+                    <Globe size={26} className="mb-2" />
+                    <span className="font-black uppercase text-[11px] tracking-wider">
+                      AsiaPay Secure Checkout
+                    </span>
+                    <div className="mt-2 text-[9px] font-bold opacity-70 text-center leading-relaxed">
+                      AlipayHK • PayMe • WeChat Pay • Apple Pay • Credit Card
+                    </div>
+                  </button>
+                </div>
 
                 {isSubmitting && (
                   <div className="mt-6 flex items-center justify-center gap-2">

@@ -40,10 +40,26 @@ model Tournament {
   regulations    String?          @db.Text
 
   status         TournamentStatus @default(OPEN)
+  
+  // RELATION FIELDS
   registrations  Registration[]
+  coupons        Coupon[]         // <--- THIS WAS THE MISSING LINE
   
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+}
+
+model Coupon {
+  id             Int      @id @default(autoincrement())
+  code           String   @unique // e.g., "EARLYBIRD50"
+  discountType   String   // "PERCENT" or "FIXED"
+  discountValue  Int      // 50 for 50% or 50 for HK$50
+  expiryDate     DateTime?
+  usageLimit     Int?     // Maximum number of times this can be used
+  usedCount      Int      @default(0)
+  tournamentId   Int?     // If null, it's valid for ALL tournaments
+  tournament     Tournament? @relation(fields: [tournamentId], references: [id])
+  createdAt      DateTime @default(now())
 }
 
 // --- REGISTRATIONS ---

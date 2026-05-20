@@ -6,23 +6,28 @@ import {
   addTournament, 
   editTournament, 
   deleteTournament, 
-  getTournaments 
+  getTournaments,
+  addCoupon,
+  getCoupons,
+  deleteCoupon
 } from "@/app/actions/adminActions";
 import ImageUpload from "@/components/admin/ImageUpload";
 import { 
   Plus, Trash2, X, Loader2, Search, 
   FileText, Gamepad2, ChevronDown, ChevronUp, 
   Mail, Phone, Cake, Baby, Hash, Globe, BarChart, Printer, ListOrdered,
-  CreditCard, ExternalLink, ShieldCheck, Landmark
+  CreditCard, ExternalLink, ShieldCheck, Landmark, Ticket, Percent, CalendarDays, UserCheck
 } from "lucide-react";
 
 export default function TournamentAdmin() {
   const [tournaments, setTournaments] = useState<any[]>([]);
+  const [coupons, setCoupons] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Modals / UI States
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
   const [viewingPlayers, setViewingPlayers] = useState<any>(null); 
   const [playerFilter, setPlayerFilter] = useState<'ALL' | 'PAID' | 'PENDING'>('ALL');
   const [expandedPlayer, setExpandedPlayer] = useState<string | null>(null);
@@ -37,10 +42,14 @@ export default function TournamentAdmin() {
   async function loadData() {
     setIsLoading(true);
     try {
-      const data = await getTournaments();
-      setTournaments(data);
+      const [tData, cData] = await Promise.all([
+        getTournaments(),
+        getCoupons()
+      ]);
+      setTournaments(tData);
+      setCoupons(cData);
     } catch (error) {
-      console.error("Failed to load tournaments", error);
+      console.error("Failed to load admin data", error);
     } finally {
       setIsLoading(false);
     }
@@ -77,9 +86,29 @@ export default function TournamentAdmin() {
     } finally { setIsSubmitting(false); }
   }
 
+  async function handleCouponSubmit(formData: FormData) {
+    setIsSubmitting(true);
+    try {
+      await addCoupon(formData);
+      await loadData();
+      (document.getElementById("coupon-form") as HTMLFormElement).reset();
+    } catch (error) {
+      alert("Failed to create coupon.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   async function handleDelete(id: number) {
     if (confirm("Delete this tournament and all its records?")) {
       await deleteTournament(id);
+      loadData();
+    }
+  }
+
+  async function handleDeleteCoupon(id: number) {
+    if (confirm("Delete this coupon?")) {
+      await deleteCoupon(id);
       loadData();
     }
   }
@@ -117,12 +146,20 @@ export default function TournamentAdmin() {
           </h1>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest mt-1">Management & Full Player Analytics</p>
         </div>
-        <button 
-          onClick={() => { setEditingItem(null); setBannerUrl(""); setIsModalOpen(true); }}
-          className="bg-blue-600 hover:bg-slate-900 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-[6px_6px_0px_#1e1b4b] active:translate-y-1 active:shadow-none"
-        >
-          <Plus size={18} className="inline mr-2" /> New Tournament
-        </button>
+        <div className="flex gap-4">
+          <button 
+            onClick={() => setIsCouponModalOpen(true)}
+            className="bg-amber-400 hover:bg-slate-900 text-slate-900 hover:text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-[6px_6px_0px_#92400e] active:translate-y-1 active:shadow-none flex items-center gap-2"
+          >
+            <Ticket size={18} /> Manage Coupons
+          </button>
+          <button 
+            onClick={() => { setEditingItem(null); setBannerUrl(""); setIsModalOpen(true); }}
+            className="bg-blue-600 hover:bg-slate-900 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-[6px_6px_0px_#1e1b4b] active:translate-y-1 active:shadow-none"
+          >
+            <Plus size={18} className="inline mr-2" /> New Tournament
+          </button>
+        </div>
       </div>
 
       {/* SEARCH BAR */}
@@ -311,6 +348,106 @@ export default function TournamentAdmin() {
           </motion.div>
         </div>
       )}
+
+      {/* --- COUPON HUB MODAL --- */}
+      <AnimatePresence>
+        {isCouponModalOpen && (
+          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md">
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white border-4 border-slate-900 rounded-[40px] w-full max-w-4xl shadow-[15px_15px_0px_#000] overflow-hidden flex flex-col max-h-[90vh]"
+            >
+              <div className="p-8 border-b-4 border-slate-900 flex justify-between items-center bg-amber-50">
+                <h2 className="text-2xl font-[1000] text-slate-900 uppercase tracking-tighter flex items-center gap-3">
+                  <Ticket size={28} className="text-amber-600" /> Coupon Central
+                </h2>
+                <button onClick={() => setIsCouponModalOpen(false)} className="p-3 bg-white border-4 border-slate-900 text-slate-900 rounded-2xl hover:bg-slate-900 hover:text-white transition-all"><X size={24} /></button>
+              </div>
+
+              <div className="flex flex-col md:flex-row h-full overflow-hidden">
+                {/* Coupon Creator */}
+                <div className="w-full md:w-1/2 p-8 border-r-0 md:border-r-4 border-slate-900 overflow-y-auto">
+                  <h3 className="text-sm font-black uppercase text-slate-400 tracking-widest mb-6">Create New Coupon</h3>
+                  <form id="coupon-form" action={handleCouponSubmit} className="space-y-5">
+                    <div>
+                      <label className="block text-[10px] font-black uppercase text-slate-900 mb-2">Coupon Code</label>
+                      <input name="code" placeholder="E.G. CHESS50" required className="w-full p-4 border-4 border-slate-900 rounded-xl font-black uppercase text-xs outline-none" />
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-[10px] font-black uppercase text-slate-900 mb-2">Type</label>
+                        <select name="discountType" className="w-full p-4 border-4 border-slate-900 rounded-xl font-black uppercase text-[10px] outline-none bg-white">
+                          <option value="PERCENT">Percent (%)</option>
+                          <option value="FIXED">Fixed (HK$)</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-black uppercase text-slate-900 mb-2">Value</label>
+                        <input type="number" name="discountValue" placeholder="20" required className="w-full p-4 border-4 border-slate-900 rounded-xl font-black text-xs outline-none" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-black uppercase text-slate-900 mb-2">Valid For Tournament (Optional)</label>
+                      <select name="tournamentId" className="w-full p-4 border-4 border-slate-900 rounded-xl font-black uppercase text-[10px] outline-none bg-white">
+                        <option value="">All Tournaments</option>
+                        {tournaments.map(t => (
+                          <option key={t.id} value={t.id}>{t.title}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-[10px] font-black uppercase text-slate-900 mb-2">Usage Limit</label>
+                        <input type="number" name="usageLimit" placeholder="100" className="w-full p-4 border-4 border-slate-900 rounded-xl font-black text-xs outline-none" />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-black uppercase text-slate-900 mb-2">Expiry Date</label>
+                        <input type="date" name="expiryDate" className="w-full p-4 border-4 border-slate-900 rounded-xl font-black text-xs outline-none" />
+                      </div>
+                    </div>
+
+                    <button type="submit" disabled={isSubmitting} className="w-full py-4 bg-amber-500 hover:bg-slate-900 text-white font-black uppercase tracking-widest rounded-xl transition-all shadow-[5px_5px_0px_#92400e] flex items-center justify-center gap-2">
+                      {isSubmitting ? <Loader2 className="animate-spin" /> : "Mint Coupon"}
+                    </button>
+                  </form>
+                </div>
+
+                {/* Coupon List */}
+                <div className="w-full md:w-1/2 p-8 bg-slate-50 overflow-y-auto">
+                  <h3 className="text-sm font-black uppercase text-slate-400 tracking-widest mb-6">Existing Inventory</h3>
+                  <div className="space-y-4">
+                    {coupons.length === 0 ? (
+                      <div className="text-center py-20 text-slate-300 font-black uppercase text-[10px]">No Coupons Minted</div>
+                    ) : (
+                      coupons.map((c) => (
+                        <div key={c.id} className="bg-white border-4 border-slate-900 p-4 rounded-2xl shadow-[4px_4px_0px_#000] flex justify-between items-center">
+                          <div>
+                            <p className="font-black text-slate-900 uppercase text-xs">{c.code}</p>
+                            <div className="flex gap-2 mt-1">
+                              <span className="text-[8px] font-black px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded border border-emerald-200 uppercase">
+                                {c.discountType === 'PERCENT' ? `${c.discountValue}% OFF` : `HK$${c.discountValue} OFF`}
+                              </span>
+                              <span className="text-[8px] font-black px-2 py-0.5 bg-blue-100 text-blue-700 rounded border border-blue-200 uppercase flex items-center gap-1">
+                                <UserCheck size={8}/> {c.usedCount} / {c.usageLimit || '∞'}
+                              </span>
+                            </div>
+                          </div>
+                          <button onClick={() => handleDeleteCoupon(c.id)} className="p-2 text-red-400 hover:text-red-600 transition-colors">
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* --- PARTICIPANT DRAWER --- */}
       <AnimatePresence>

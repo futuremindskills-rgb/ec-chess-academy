@@ -3,6 +3,7 @@
 import { PrismaClient } from "@prisma/client";
 import Stripe from "stripe";
 import crypto from "crypto";
+import { revalidatePath } from "next/cache";
 
 // Use a global prisma instance to prevent connection exhaustion
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
@@ -13,9 +14,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 /**
  * GENERATE ASIAPAY HASH
- * Most AsiaPay/PayDollar accounts default to SHA1. 
- * If this still fails, check your Merchant Admin Dashboard 
- * under Profile > Payment Information to see if it's set to SHA256.
  */
 function generateAsiaPayHash(orderRef: string, amount: string, currCode: string) {
   const merchantId = process.env.ASIAPAY_MERCHANT_ID?.trim();
@@ -24,14 +22,13 @@ function generateAsiaPayHash(orderRef: string, amount: string, currCode: string)
 
   // The order MUST be: MerchantId|OrderRef|CurrCode|Amount|PayType|Secret
   const rawStr = `${merchantId}|${orderRef}|${currCode}|${amount}|${payType}|${secret}`;
-  
-  // Changed to sha1 as it is the standard default for PayDollar/AsiaPay
   return crypto.createHash("sha1").update(rawStr).digest("hex");
 }
 
 export async function registerForTournament(formData: FormData) {
   const tournamentId = parseInt(formData.get("tournamentId") as string);
   const method = formData.get("method") as string;
+  const couponCode = (formData.get("couponCode") as string | null)?.toUpperCase().trim();
   
   // Data extraction
   const playerName = formData.get("playerName") as string;
@@ -45,10 +42,40 @@ export async function registerForTournament(formData: FormData) {
   const onlineUsername = (formData.get("onlineUsername") as string) || null;
 
   try {
+    // 1. Get official tournament data
     const tournament = await prisma.tournament.findUnique({ where: { id: tournamentId } });
     if (!tournament) throw new Error("Tournament not found");
 
-    // 1. Create the Pending Registration in the Database
+    let finalEntryFee = tournament.entryFee; // Value in cents (e.g. 50000 for HK$500)
+    let appliedCouponId = null;
+
+    // 2. Server-side Coupon Validation
+    if (couponCode) {
+      const coupon = await prisma.coupon.findUnique({
+        where: { code: couponCode }
+      });
+
+      if (coupon) {
+        const isExpired = coupon.expiryDate && new Date() > coupon.expiryDate;
+        const isLimitReached = coupon.usageLimit && coupon.usedCount >= coupon.usageLimit;
+        const isWrongTournament = coupon.tournamentId && coupon.tournamentId !== tournamentId;
+
+        if (!isExpired && !isLimitReached && !isWrongTournament) {
+          appliedCouponId = coupon.id;
+          if (coupon.discountType === "PERCENT") {
+            finalEntryFee = Math.round(finalEntryFee * (1 - coupon.discountValue / 100));
+          } else {
+            // Convert fixed discount HK$ to cents
+            finalEntryFee = Math.max(0, finalEntryFee - (coupon.discountValue * 100));
+          }
+        }
+      }
+    }
+
+    // 3. Create the Registration Record
+    // If fee is 0, we set status to COMPLETED immediately
+    const isFree = finalEntryFee === 0;
+
     const registration = await prisma.registration.create({
       data: {
         playerName,
@@ -61,12 +88,26 @@ export async function registerForTournament(formData: FormData) {
         fideId,
         onlineUsername,
         tournamentId,
-        status: "PENDING",
-        paymentGateway: method, 
+        status: isFree ? "COMPLETED" : "PENDING",
+        paymentGateway: isFree ? "FREE_COUPON" : method,
       },
     });
 
-    // --- STRIPE FLOW ---
+    // 4. If a coupon was used, increment its usage count
+    if (appliedCouponId) {
+      await prisma.coupon.update({
+        where: { id: appliedCouponId },
+        data: { usedCount: { increment: 1 } }
+      });
+    }
+
+    // --- CASE: 100% DISCOUNT (FREE) ---
+    if (isFree) {
+      revalidatePath("/admin/tournaments");
+      return { url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-status?id=${registration.id}&gateway=free` };
+    }
+
+    // --- CASE: STRIPE FLOW ---
     if (method === "stripe") {
       const session = await stripe.checkout.sessions.create({
         customer_email: email,
@@ -74,8 +115,11 @@ export async function registerForTournament(formData: FormData) {
         line_items: [{
           price_data: {
             currency: "hkd",
-            product_data: { name: tournament.title, description: `Participant: ${playerName}` },
-            unit_amount: tournament.entryFee, // In cents (e.g., 500 = $5.00)
+            product_data: { 
+              name: tournament.title, 
+              description: `Participant: ${playerName}${couponCode ? ' (Coupon Applied)' : ''}` 
+            },
+            unit_amount: finalEntryFee,
           },
           quantity: 1,
         }],
@@ -93,20 +137,14 @@ export async function registerForTournament(formData: FormData) {
       return { url: session.url };
     }
 
-    // --- ASIAPAY FLOW ---
+    // --- CASE: ASIAPAY FLOW ---
     if (method === "asiapay") {
-      const amountStr = (tournament.entryFee / 100).toFixed(2); // Convert 500 to "5.00"
+      const amountStr = (finalEntryFee / 100).toFixed(2); // Convert cents to "XX.XX"
       const currCode = "344"; // HKD
 
-      /**
-       * ASIAPAY ORDER REF LIMIT: 35 Characters
-       * Registration ID (CUID) is ~25 chars.
-       * We append a 5-digit timestamp suffix for uniqueness on retries.
-       */
       const timestampSuffix = Date.now().toString().slice(-5);
       const gatewayOrderRef = `${registration.id.slice(0, 29)}-${timestampSuffix}`.slice(0, 35);
 
-      // Generate the Secure Hash (SHA1)
       const secureHash = generateAsiaPayHash(gatewayOrderRef, amountStr, currCode);
 
       const params = new URLSearchParams({
@@ -123,9 +161,7 @@ export async function registerForTournament(formData: FormData) {
         secureHash: secureHash,
       });
 
-      // Construct the final Redirect URL
       const redirectUrl = `${process.env.ASIAPAY_PAYMENT_URL}?${params.toString()}`;
-
       return { url: redirectUrl };
     }
 

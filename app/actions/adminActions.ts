@@ -24,7 +24,7 @@ export async function addTournament(formData: FormData) {
     bannerImage: formData.get('bannerImage') as string,
     status: (formData.get('status') as any) || "OPEN",
     categories: formData.get('categories') as string, // Stringified JSON
-    levels: formData.get('levels') as string,        // <--- ADDED THIS (Stringified JSON)
+    levels: formData.get('levels') as string,        // Stringified JSON
     regulations: formData.get('regulations') as string, 
   }
 
@@ -45,7 +45,7 @@ export async function editTournament(id: number, formData: FormData) {
     location: formData.get('location') as string,
     status: formData.get('status') as any,
     categories: formData.get('categories') as string,
-    levels: formData.get('levels') as string,        // <--- ADDED THIS
+    levels: formData.get('levels') as string,        
     regulations: formData.get('regulations') as string,
   }
   
@@ -57,7 +57,7 @@ export async function editTournament(id: number, formData: FormData) {
 }
 
 export async function getTournaments() {
-   noStore();
+  noStore();
   return await prisma.tournament.findMany({ 
     include: { registrations: { orderBy: { createdAt: 'desc' } } }, 
     orderBy: { startDate: 'desc' } 
@@ -69,6 +69,7 @@ export async function deleteTournament(id: number) {
   revalidatePath('/tournaments')
   revalidatePath('/admin/tournaments')
 }
+
 /* ==========================================================================
    BLOGS
    ========================================================================== */
@@ -361,4 +362,65 @@ export async function deleteSiteBanner() {
     // to prevent the admin UI from crashing
     console.error("Failed to delete site banner:", error);
   }
+}
+
+
+/* ==========================================================================
+   COUPONS (NEW)
+   ========================================================================== */
+
+export async function addCoupon(formData: FormData) {
+  const code = (formData.get('code') as string).toUpperCase();
+  const data = {
+    code,
+    discountType: formData.get('discountType') as string,
+    discountValue: parseInt(formData.get('discountValue') as string),
+    expiryDate: formData.get('expiryDate') ? new Date(formData.get('expiryDate') as string) : null,
+    usageLimit: formData.get('usageLimit') ? parseInt(formData.get('usageLimit') as string) : null,
+    tournamentId: formData.get('tournamentId') ? parseInt(formData.get('tournamentId') as string) : null,
+  };
+
+  await prisma.coupon.create({ data });
+  revalidatePath('/admin/tournaments');
+}
+
+export async function getCoupons() {
+  noStore();
+  return await prisma.coupon.findMany({
+    include: { tournament: true },
+    orderBy: { createdAt: 'desc' }
+  });
+}
+
+export async function deleteCoupon(id: number) {
+  await prisma.coupon.delete({ where: { id } });
+  revalidatePath('/admin/tournaments');
+}
+
+// Validation logic used by both Frontend (for UI) and Backend (for Payment)
+export async function validateCouponAction(code: string, tournamentId: number) {
+  const coupon = await prisma.coupon.findUnique({
+    where: { code: code.toUpperCase() }
+  });
+
+  if (!coupon) return { valid: false, message: "Invalid code" };
+
+  if (coupon.expiryDate && new Date() > coupon.expiryDate) {
+    return { valid: false, message: "Coupon expired" };
+  }
+
+  if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) {
+    return { valid: false, message: "Usage limit reached" };
+  }
+
+  if (coupon.tournamentId && coupon.tournamentId !== tournamentId) {
+    return { valid: false, message: "Not valid for this tournament" };
+  }
+
+  return { 
+    valid: true, 
+    discountType: coupon.discountType, 
+    discountValue: coupon.discountValue,
+    couponId: coupon.id
+  };
 }
