@@ -16,7 +16,7 @@ import {
   Plus, Trash2, X, Loader2, Search, 
   FileText, Gamepad2, ChevronDown, ChevronUp, 
   Mail, Phone, Cake, Baby, Hash, Globe, BarChart, Printer, ListOrdered,
-  CreditCard, ExternalLink, ShieldCheck, Landmark, Ticket, Percent, CalendarDays, UserCheck
+  CreditCard, ExternalLink, ShieldCheck, Landmark, Ticket, Percent, CalendarDays, UserCheck, BookOpen
 } from "lucide-react";
 
 export default function TournamentAdmin() {
@@ -227,7 +227,7 @@ export default function TournamentAdmin() {
               <button onClick={closeModal} className="p-3 bg-white border-4 border-slate-900 text-slate-900 rounded-2xl hover:bg-slate-900 hover:text-white transition-all"><X size={24} /></button>
             </div>
             
-            <form action={handleSubmit} className="p-10 space-y-6 overflow-y-auto">
+            <form action={handleSubmit} className="p-10 space-y-6 overflow-y-auto no-scrollbar">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 <div className="md:col-span-2">
@@ -270,6 +270,20 @@ export default function TournamentAdmin() {
                     />
                 </div>
 
+                {/* REGULATIONS FIELD (NEW) */}
+                <div className="md:col-span-2">
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2 flex items-center gap-2">
+                      <BookOpen size={14} className="text-indigo-600"/> Regulations 章程
+                    </label>
+                    <textarea 
+                      name="regulations" 
+                      rows={5}
+                      defaultValue={editingItem?.regulations}
+                      placeholder="Enter detailed tournament rules and regulations..."
+                      className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs focus:ring-4 ring-blue-100 outline-none resize-none"
+                    />
+                </div>
+
                 <div>
                     <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Fee (HKD)</label>
                     <input type="number" name="entryFee" defaultValue={editingItem?.entryFee} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none" />
@@ -283,63 +297,62 @@ export default function TournamentAdmin() {
                     <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">Location</label>
                     <input name="location" defaultValue={editingItem?.location} required className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px] outline-none" />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-  
-{/* Start Date & Time */}
-<div>
-  <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
-    Start Date & Time
-  </label>
-  <input
-    type="datetime-local"
-    name="startDate"
-    defaultValue={
-      editingItem?.startDate
-        ? new Date(editingItem.startDate).toISOString().slice(0, 16)
-        : ""
-    }
-    required
-    className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none"
-  />
-</div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:col-span-2">
+                  {/* Start Date & Time */}
+                  <div>
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
+                      Start Date & Time
+                    </label>
+                    <input
+                      type="datetime-local"
+                      name="startDate"
+                      defaultValue={
+                        editingItem?.startDate
+                          ? new Date(editingItem.startDate).toISOString().slice(0, 16)
+                          : ""
+                      }
+                      required
+                      className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none"
+                    />
+                  </div>
 
-{/* End Date & Time */}
-<div>
-  <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
-    End Date & Time
-  </label>
-  <input
-    type="datetime-local"
-    name="endDate"
-    defaultValue={
-      editingItem?.endDate
-        ? new Date(editingItem.endDate).toISOString().slice(0, 16)
-        : ""
-    }
-    required
-    className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none"
-  />
-</div>
-
-</div>
+                  {/* End Date & Time */}
+                  <div>
+                    <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
+                      End Date & Time
+                    </label>
+                    <input
+                      type="datetime-local"
+                      name="endDate"
+                      defaultValue={
+                        editingItem?.endDate
+                          ? new Date(editingItem.endDate).toISOString().slice(0, 16)
+                          : ""
+                      }
+                      required
+                      className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none"
+                    />
+                  </div>
+                </div>
               </div>
-              <div>
-  <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
-    Tournament Status
-  </label>
 
-  <select
-    name="status"
-    defaultValue={editingItem?.status || "OPEN"}
-    className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none bg-white"
-    required
-  >
-    <option value="OPEN">OPEN</option>
-    <option value="ONGOING">ONGOING</option>
-    <option value="COMPLETED">COMPLETED</option>
-    <option value="CANCELLED">CANCELLED</option>
-  </select>
-</div>
+              <div>
+                <label className="block text-[10px] font-black uppercase text-slate-900 tracking-widest mb-2">
+                  Tournament Status
+                </label>
+                <select
+                  name="status"
+                  defaultValue={editingItem?.status || "OPEN"}
+                  className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none bg-white"
+                  required
+                >
+                  <option value="OPEN">OPEN</option>
+                  <option value="ONGOING">ONGOING</option>
+                  <option value="COMPLETED">COMPLETED</option>
+                  <option value="CANCELLED">CANCELLED</option>
+                </select>
+              </div>
 
               <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-blue-600 hover:bg-slate-900 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-[6px_6px_0px_#1e1b4b] flex items-center justify-center gap-2">
                 {isSubmitting ? <Loader2 className="animate-spin" /> : "Save Tournament"}
@@ -366,7 +379,7 @@ export default function TournamentAdmin() {
 
               <div className="flex flex-col md:flex-row h-full overflow-hidden">
                 {/* Coupon Creator */}
-                <div className="w-full md:w-1/2 p-8 border-r-0 md:border-r-4 border-slate-900 overflow-y-auto">
+                <div className="w-full md:w-1/2 p-8 border-r-0 md:border-r-4 border-slate-900 overflow-y-auto no-scrollbar">
                   <h3 className="text-sm font-black uppercase text-slate-400 tracking-widest mb-6">Create New Coupon</h3>
                   <form id="coupon-form" action={handleCouponSubmit} className="space-y-5">
                     <div>
@@ -416,7 +429,7 @@ export default function TournamentAdmin() {
                 </div>
 
                 {/* Coupon List */}
-                <div className="w-full md:w-1/2 p-8 bg-slate-50 overflow-y-auto">
+                <div className="w-full md:w-1/2 p-8 bg-slate-50 overflow-y-auto no-scrollbar">
                   <h3 className="text-sm font-black uppercase text-slate-400 tracking-widest mb-6">Existing Inventory</h3>
                   <div className="space-y-4">
                     {coupons.length === 0 ? (
@@ -478,7 +491,7 @@ export default function TournamentAdmin() {
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-6 space-y-4">
+              <div className="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar">
                 {filteredRegistrations.length === 0 ? (
                     <div className="text-center py-20 text-slate-300 font-black uppercase text-xs tracking-widest">No matching records found.</div>
                 ) : (
