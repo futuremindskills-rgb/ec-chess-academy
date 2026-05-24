@@ -12,39 +12,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 const prisma = new PrismaClient();
 
-/* -------------------------------------------------------------------------- */
-/*                         ASIAPAY VERIFY FUNCTION                             */
-/* -------------------------------------------------------------------------- */
-
-async function verifyAsiaPayPayment(registration: any) {
-  try {
-    /**
-     * Replace this with REAL AsiaPay verification API
-     *
-     * Example:
-     * const response = await fetch("ASIAPAY_VERIFY_URL", {...})
-     */
-
-    // TEMP MOCK:
-    // If webhook already updated -> success
-    if (registration.status === "COMPLETED") {
-      return {
-        success: true,
-      };
-    }
-
-    return {
-      success: false,
-    };
-  } catch (error) {
-    console.error("AsiaPay Verify Error:", error);
-
-    return {
-      success: false,
-    };
-  }
-}
-
 export default async function PaymentStatusPage({
   searchParams,
 }: {
@@ -53,9 +20,18 @@ export default async function PaymentStatusPage({
     id?: string;
     gateway?: string;
     error?: string;
+    successcode?: string;
+    PayRef?: string;
   };
 }) {
-  const { session_id, id, gateway, error } = searchParams;
+  const {
+    session_id,
+    id,
+    gateway,
+    error,
+    successcode,
+    PayRef,
+  } = searchParams;
 
   /* -------------------------------------------------------------------------- */
   /*                                  ERROR                                     */
@@ -117,18 +93,32 @@ export default async function PaymentStatusPage({
         redirect("/tournaments");
       }
 
+      console.log("ASIAPAY RETURN PARAMS:", {
+        successcode,
+        PayRef,
+      });
+
       /* ---------------------------------------------------------------------- */
-      /*                    VERIFY DIRECTLY WITH ASIAPAY                         */
+      /*                 PAYMENT SUCCESS FROM RETURN URL                         */
       /* ---------------------------------------------------------------------- */
 
-      const verification = await verifyAsiaPayPayment(registration);
-
-      /* ---------------------------------------------------------------------- */
-      /*                    IF VERIFIED -> UPDATE DATABASE                       */
-      /* ---------------------------------------------------------------------- */
+      /**
+       * IMPORTANT:
+       *
+       * If AsiaPay redirects user back with:
+       * successcode=0
+       *
+       * then immediately mark payment as completed.
+       *
+       * This solves:
+       * - webhook failures
+       * - delayed webhook
+       * - missed callbacks
+       * - old stuck PENDING payments
+       */
 
       if (
-        verification.success &&
+        successcode === "0" &&
         registration.status !== "COMPLETED"
       ) {
         registration = await prisma.registration.update({
@@ -137,34 +127,56 @@ export default async function PaymentStatusPage({
           },
           data: {
             status: "COMPLETED",
+            transactionId: PayRef || registration.transactionId,
+            paymentGateway: "asiapay",
           },
           include: {
             tournament: true,
           },
         });
+
+        console.log(
+          `✅ ASIAPAY PAYMENT COMPLETED VIA RETURN URL: ${id}`
+        );
       }
 
       /* ---------------------------------------------------------------------- */
-      /*                              FAILED                                     */
+      /*                           REFETCH UPDATED DATA                          */
       /* ---------------------------------------------------------------------- */
 
-      if (registration.status === "FAILED") {
+      registration = await prisma.registration.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          tournament: true,
+        },
+      });
+
+      /* ---------------------------------------------------------------------- */
+      /*                                FAILED                                   */
+      /* ---------------------------------------------------------------------- */
+
+      if (registration?.status === "FAILED") {
         redirect("/tournaments?status=failed");
       }
 
       /* ---------------------------------------------------------------------- */
-      /*                         STILL PENDING                                   */
+      /*                           STILL PENDING                                 */
       /* ---------------------------------------------------------------------- */
 
-      if (registration.status === "PENDING") {
-        const createdAt = new Date(registration.createdAt).getTime();
+      if (registration?.status === "PENDING") {
+        const createdAt = new Date(
+          registration.createdAt
+        ).getTime();
 
         const now = Date.now();
 
-        const diffMinutes = (now - createdAt) / 1000 / 60;
+        const diffMinutes =
+          (now - createdAt) / 1000 / 60;
 
         /* ------------------------------------------------------------------ */
-        /*                  STUCK PENDING FOR TOO LONG                         */
+        /*                    STUCK PENDING FOR TOO LONG                      */
         /* ------------------------------------------------------------------ */
 
         if (diffMinutes > 10) {
@@ -181,9 +193,9 @@ export default async function PaymentStatusPage({
                 </h1>
 
                 <p className="text-slate-500 font-bold text-sm uppercase mb-8">
-                  Your payment may still be successful.
+                  We have not received confirmation yet.
                   <br />
-                  Please contact support with your reference ID.
+                  If payment was deducted please contact support.
                 </p>
 
                 <div className="p-4 bg-slate-100 rounded-2xl border-2 border-dashed border-slate-300 font-mono text-[10px] text-slate-400 break-all">
@@ -202,12 +214,12 @@ export default async function PaymentStatusPage({
         }
 
         /* ------------------------------------------------------------------ */
-        /*                       NORMAL PENDING STATE                           */
+        /*                          NORMAL PENDING                            */
         /* ------------------------------------------------------------------ */
 
         return (
           <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6 font-sans">
-            
+
             <meta httpEquiv="refresh" content="5" />
 
             <div className="bg-white p-8 md:p-12 rounded-[40px] border-4 border-black text-center shadow-[12px_12px_0px_#000] max-w-lg w-full">
@@ -221,9 +233,9 @@ export default async function PaymentStatusPage({
               </h1>
 
               <p className="text-slate-500 font-bold text-sm uppercase mb-8">
-                Waiting for confirmation from AsiaPay...
+                Waiting for AsiaPay confirmation...
                 <br />
-                This page will refresh automatically.
+                This page refreshes automatically.
               </p>
 
               <div className="p-4 bg-slate-100 rounded-2xl border-2 border-dashed border-slate-300 font-mono text-[10px] text-slate-400 break-all">
@@ -276,7 +288,7 @@ export default async function PaymentStatusPage({
         </div>
 
         <div className="bg-slate-50 p-6 rounded-[24px] border-4 border-black text-left mb-8 space-y-3">
-          
+
           <div className="flex justify-between items-center">
             <span className="text-slate-400 text-[10px] font-black uppercase">
               Player
@@ -308,6 +320,28 @@ export default async function PaymentStatusPage({
                 : "🌏 AsiaPay / Local"}
             </span>
           </div>
+
+          <div className="flex justify-between items-center">
+            <span className="text-slate-400 text-[10px] font-black uppercase">
+              Status
+            </span>
+
+            <span className="font-black text-[10px] uppercase bg-emerald-100 text-emerald-700 px-2 py-1 rounded border-2 border-emerald-300">
+              COMPLETED
+            </span>
+          </div>
+
+          {registration.transactionId && (
+            <div className="flex justify-between items-center">
+              <span className="text-slate-400 text-[10px] font-black uppercase">
+                Transaction
+              </span>
+
+              <span className="font-black text-[10px] uppercase text-black">
+                {registration.transactionId}
+              </span>
+            </div>
+          )}
 
           <div className="mt-4 pt-4 border-t-2 border-slate-200">
             <p className="text-[9px] text-slate-400 font-mono break-all text-center uppercase tracking-tighter">
