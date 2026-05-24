@@ -395,7 +395,6 @@ export default function TournamentsPage() {
       {/* Visual Payment Badges */}
       <div className="flex flex-wrap justify-center gap-2">
         {[
-          { name: "AlipayHK", color: "bg-[#00A3EE]" },
           { name: "PayMe", color: "bg-[#FF0000]" },
           { name: "WeChat Pay", color: "bg-[#07C160]" },
           { name: "Octopus", color: "bg-[#F58220]" },
