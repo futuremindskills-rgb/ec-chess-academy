@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import StickySidebar from "@/components/sticky";
+import "@/lib/payment-reconciliation";
 
 import "./globals.css";
 
