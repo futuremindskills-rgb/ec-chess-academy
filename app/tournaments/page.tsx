@@ -281,7 +281,7 @@ export default function TournamentsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="relative md:col-span-2">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required name="playerName" placeholder="Student Full Name" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600 text-slate-900" />
+                    <input required name="playerName" placeholder=" 學生中文姓名 / Student Full Name (Chinese)" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600 text-slate-900" />
                   </div>
 
                   <div className="relative">
