@@ -8,6 +8,40 @@ const globalForPrisma = global as unknown as { prisma: PrismaClient }
 const prisma = globalForPrisma.prisma || new PrismaClient()
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
+
+/* ==========================================================================
+   REGISTRATIONS (NEW - EDIT & MOVE)
+   ========================================================================== */
+
+export async function updateRegistration(id: string, formData: FormData) {
+  const data = {
+    playerName: formData.get('playerName') as string,
+    email: formData.get('email') as string,
+    phone: formData.get('phone') as string,
+    dob: new Date(formData.get('dob') as string),
+    gender: formData.get('gender') as string,
+    studentCategory: formData.get('studentCategory') as string,
+    rating: formData.get('rating') as string,
+    fideId: formData.get('fideId') as string,
+    onlineUsername: formData.get('onlineUsername') as string,
+    status: formData.get('status') as any, // Expecting PENDING, COMPLETED, or CANCELLED
+    tournamentId: parseInt(formData.get('tournamentId') as string),
+  }
+
+  try {
+    await prisma.registration.update({
+      where: { id },
+      data
+    })
+
+    revalidatePath('/admin/tournaments')
+    return { success: true }
+  } catch (error) {
+    console.error("Failed to update registration:", error)
+    throw new Error("Could not update player registration")
+  }
+}
+
 /* ==========================================================================
    TOURNAMENTs
    ========================================================================== */

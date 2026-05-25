@@ -13,32 +13,22 @@ import TournamentBanner from "@/components/ui/tournamentBanner";
 import { getTournaments, validateCouponAction } from "@/app/actions/adminActions";
 import { registerForTournament } from "@/app/actions/tournamentActions";
 
-type GameFilter = "ALL" | "Weiqi" | "Xiangqi" | "International Chess";
-type PaymentMethod = "stripe" | "asiapay";
+type GameType = "Weiqi" | "Xiangqi" | "International Chess";
 
 const formatDateTime = (date: any) => {
   if (!date) return "Invalid date";
-
   try {
     const iso = typeof date === "string" ? date : date.toISOString();
-    if (!iso.includes("T")) return "Invalid date format";
-
     const [d, t] = iso.split("T");
     const [year, month, day] = d.split("-");
     let [hour, minute] = t.split(":");
-
-    if (!hour || !minute) return "Invalid time";
-
     let h = parseInt(hour);
     const ampm = h >= 12 ? "PM" : "AM";
     h = h % 12 || 12;
 
-    const monthNames = ["Jan","Feb","Mar","Apr","May","Jun",
-                        "Jul","Aug","Sep","Oct","Nov","Dec"];
-
+    const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     return `${day} ${monthNames[parseInt(month) - 1]} ${year}, ${h}:${minute} ${ampm}`;
   } catch (e) {
-    console.error("Date format error:", date);
     return "Invalid date";
   }
 };
@@ -46,13 +36,16 @@ const formatDateTime = (date: any) => {
 export default function TournamentsPage() {
   const [tournaments, setTournaments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeFilter, setActiveFilter] = useState<GameFilter>("ALL");
   
+  // New Two-Step Flow
+  const [selectedGame, setSelectedGame] = useState<GameType | null>(null);
+  const [activeFilter, setActiveFilter] = useState<"ALL" | GameType>("ALL");
+
   // Modal States
   const [selectedTournament, setSelectedTournament] = useState<any>(null);
   const [viewingRegs, setViewingRegs] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
+  const [selectedMethod, setSelectedMethod] = useState<"stripe" | "asiapay" | null>(null);
 
   // Coupon States
   const [couponInput, setCouponInput] = useState("");
@@ -74,9 +67,21 @@ export default function TournamentsPage() {
     fetchData();
   }, []);
 
+  // Filter tournaments based on selected game
+  const filteredTournaments = tournaments.filter(t => {
+    if (t.status === "CANCELLED") return false;
+    if (!selectedGame) return false;
+
+    try {
+      const cats = t.categories ? JSON.parse(t.categories) : [];
+      return cats.includes(selectedGame);
+    } catch (e) {
+      return false;
+    }
+  });
+
   const handleApplyCoupon = async () => {
     if (!couponInput || !selectedTournament) return;
-    
     setCouponLoading(true);
     setCouponMsg({ text: "", isError: false });
 
@@ -105,12 +110,8 @@ export default function TournamentsPage() {
 
     setIsSubmitting(true);
     const formData = new FormData(e.currentTarget);
-    
-    // Append the selected payment method and coupon code to the form data
     formData.append("method", selectedMethod);
-    if (appliedDiscount) {
-      formData.append("couponCode", couponInput);
-    }
+    if (appliedDiscount) formData.append("couponCode", couponInput);
 
     try {
       const result = await registerForTournament(formData);
@@ -118,16 +119,14 @@ export default function TournamentsPage() {
         window.location.href = result.url;
       } else if (result?.error) {
         alert(result.error);
-        setIsSubmitting(false);
       }
     } catch (error) {
-      console.error("Registration error:", error);
       alert("Something went wrong. Please try again.");
+    } finally {
       setIsSubmitting(false);
     }
   };
 
-  // --- PRICE CALCULATION ---
   const originalPrice = selectedTournament ? selectedTournament.entryFee / 100 : 0;
   let finalPrice = originalPrice;
   if (appliedDiscount) {
@@ -138,104 +137,123 @@ export default function TournamentsPage() {
     }
   }
 
-  // --- FILTERING LOGIC ---
-  const filteredTournaments = tournaments.filter(t => {
-    const isNotCancelled = t.status !== "CANCELLED";
-    if (activeFilter === "ALL") return isNotCancelled;
-
-    try {
-      const cats = t.categories ? JSON.parse(t.categories) : [];
-      return isNotCancelled && cats.includes(activeFilter);
-    } catch (e) {
-      return false;
-    }
-  });
-
   return (
     <div className="bg-white font-sans overflow-x-hidden text-slate-900 pb-20">
-      <TournamentBanner/>
+      <TournamentBanner />
 
-      {/* --- DYNAMIC FILTER BAR --- */}
-      <div className="container mx-auto px-4 mt-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-white p-6 border-4 border-slate-900 rounded-[32px] shadow-[8px_8px_0px_#000]">
-          <div className="flex items-center gap-3">
-            <div className="bg-indigo-600 p-2 rounded-xl text-white border-2 border-slate-900">
-              <Filter size={20} />
+      {/* ==================== GAME SELECTION STEP ==================== */}
+      {!selectedGame && (
+        <div className="container mx-auto px-4 py-20">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-5xl font-[1000] uppercase tracking-tighter mb-6">
+              Choose Your Game
+            </h1>
+            <p className="text-slate-500 font-bold text-lg mb-12">
+              Select the discipline you want to compete in
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { name: "Weiqi", icon: "⚫", color: "from-black to-slate-800" },
+                { name: "Xiangqi", icon: "♞", color: "from-red-600 to-orange-600" },
+                { name: "International Chess", icon: "♟️", color: "from-amber-600 to-yellow-600" },
+              ].map((game) => (
+                <motion.button
+                  key={game.name}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSelectedGame(game.name as GameType)}
+                  className={`group h-80 rounded-[32px] border-4 border-slate-900 overflow-hidden relative flex flex-col items-center justify-center shadow-[8px_8px_0px_#000] hover:shadow-[12px_12px_0px_#000] transition-all bg-gradient-to-br ${game.color}`}
+                >
+                  <div className="text-8xl mb-6 transition-transform group-hover:scale-110">{game.icon}</div>
+                  <h3 className="text-white text-3xl font-black uppercase tracking-tighter">{game.name}</h3>
+                  <div className="absolute bottom-6 text-white/70 text-sm font-bold tracking-widest uppercase">Click to explore tournaments</div>
+                </motion.button>
+              ))}
             </div>
-            <div>
-                <h2 className="font-black uppercase tracking-tighter text-lg leading-none">Tournament Filter</h2>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Select your discipline</p>
-            </div>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-3">
-            {(["ALL", "Weiqi", "Xiangqi", "International Chess"] as GameFilter[]).map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all border-4 border-slate-900 
-                  ${activeFilter === filter 
-                    ? "bg-indigo-600 text-white shadow-[4px_4px_0px_#000] -translate-y-1" 
-                    : "bg-white text-slate-900 hover:bg-slate-50 shadow-[2px_2px_0px_#000] active:shadow-none active:translate-y-0.5"
-                  }`}
-              >
-                {filter === "International Chess" ? "Intl. Chess" : filter}
-              </button>
-            ))}
+
+            <button
+              onClick={() => setSelectedGame(null)}
+              className="mt-10 text-slate-400 hover:text-slate-600 font-bold text-sm flex items-center gap-2 mx-auto"
+            >
+              ← Back
+            </button>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* --- TOURNAMENT GRID --- */}
-      <section className="py-12 md:py-20 container mx-auto px-4 md:px-6">
-        {loading ? (
-          <div className="flex flex-col justify-center items-center py-20 gap-4">
-            <Loader2 className="w-12 h-12 text-indigo-600 animate-spin" />
-            <p className="font-bold text-slate-400 uppercase tracking-widest text-xs">Loading Championship Data...</p>
+      {/* ==================== TOURNAMENT LIST (After Game Selection) ==================== */}
+      {selectedGame && (
+        <>
+          <div className="container mx-auto px-4 mt-12">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h2 className="text-4xl font-[1000] uppercase tracking-tighter">
+                  {selectedGame} Tournaments
+                </h2>
+                <p className="text-slate-500 font-bold">Select a tournament to register</p>
+              </div>
+              <button 
+                onClick={() => setSelectedGame(null)}
+                className="px-6 py-3 border-4 border-slate-900 rounded-2xl font-black text-sm hover:bg-slate-100 transition-all"
+              >
+                ← Change Game
+              </button>
+            </div>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-12">
-            {filteredTournaments.map((t) => (
-              <motion.div key={t.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} whileHover={{ y: -10 }} className="relative group h-full">
-                <div className="absolute inset-0 bg-slate-900 rounded-[32px] md:rounded-[40px] translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3" />
-                <div className="relative bg-white border-4 border-slate-900 rounded-[32px] md:rounded-[40px] flex flex-col h-full overflow-hidden">
-                  <div className="relative w-full aspect-[16/9] bg-slate-200 overflow-hidden border-b-4 border-slate-900">
-                    {t.bannerImage && (
-                      <Image
-                        src={t.bannerImage}
-                        alt={t.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                    )}
-                    <div className="absolute top-4 right-4">
-                      <span className="px-4 py-1.5 text-[10px] font-black uppercase bg-emerald-400 border-2 border-slate-900 shadow-[3px_3px_0px_#000]">{t.status}</span>
-                    </div>
-                  </div>
-                  <div className="p-6 md:p-8 pt-6 flex flex-col flex-1">
-                    <h3 className="text-xl md:text-2xl font-[1000] uppercase tracking-tight mb-4 text-slate-900 leading-tight">{t.title}</h3>
-                    <div className="space-y-3 mb-8 flex-1 text-slate-500 font-bold text-[11px] uppercase tracking-wide">
-                      <div className="flex items-center gap-3">
-                        <Calendar size={18} className="text-orange-500" />
-                        <span>{formatDateTime(t.startDate)} - {formatDateTime(t.endDate)}</span>
+
+          {/* Tournament Grid */}
+          <section className="py-12 container mx-auto px-4 md:px-6">
+            {loading ? (
+              <div className="flex flex-col justify-center items-center py-20 gap-4">
+                <Loader2 className="w-12 h-12 text-indigo-600 animate-spin" />
+                <p className="font-bold text-slate-400 uppercase tracking-widest text-xs">Loading Tournaments...</p>
+              </div>
+            ) : filteredTournaments.length === 0 ? (
+              <div className="text-center py-20">
+                <p className="text-2xl font-black">No tournaments available for {selectedGame}</p>
+                <p className="text-slate-500 mt-2">Please check back later or choose another game.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-12">
+                {filteredTournaments.map((t) => (
+                  <motion.div key={t.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} whileHover={{ y: -10 }} className="relative group h-full">
+                    <div className="absolute inset-0 bg-slate-900 rounded-[32px] md:rounded-[40px] translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3" />
+                    <div className="relative bg-white border-4 border-slate-900 rounded-[32px] md:rounded-[40px] flex flex-col h-full overflow-hidden">
+                      <div className="relative w-full aspect-[16/9] bg-slate-200 overflow-hidden border-b-4 border-slate-900">
+                        {t.bannerImage && (
+                          <Image src={t.bannerImage} alt={t.title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                        )}
+                        <div className="absolute top-4 right-4">
+                          <span className="px-4 py-1.5 text-[10px] font-black uppercase bg-emerald-400 border-2 border-slate-900 shadow-[3px_3px_0px_#000]">{t.status}</span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-3"><MapPin size={18} className="text-indigo-600" /> {t.location}</div>
+                      <div className="p-6 md:p-8 pt-6 flex flex-col flex-1">
+                        <h3 className="text-xl md:text-2xl font-[1000] uppercase tracking-tight mb-4 text-slate-900 leading-tight">{t.title}</h3>
+                        <div className="space-y-3 mb-8 flex-1 text-slate-500 font-bold text-[11px] uppercase tracking-wide">
+                          <div className="flex items-center gap-3">
+                            <Calendar size={18} className="text-orange-500" />
+                            <span>{formatDateTime(t.startDate)} - {formatDateTime(t.endDate)}</span>
+                          </div>
+                          <div className="flex items-center gap-3"><MapPin size={18} className="text-indigo-600" /> {t.location}</div>
+                        </div>
+                        <div className="flex flex-col gap-3">
+                          <button onClick={() => setViewingRegs(t)} className="w-full py-3 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px] hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-slate-900">
+                            <FileText size={16} /> Regulations 章程
+                          </button>
+                          <button onClick={() => setSelectedTournament(t)} className="w-full py-4 bg-indigo-600 hover:bg-slate-900 text-white font-black uppercase rounded-2xl transition-all shadow-xl text-xs tracking-widest">
+                            Register Now
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-3">
-                      <button onClick={() => setViewingRegs(t)} className="w-full py-3 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px] hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-slate-900">
-                        <FileText size={16} /> Regulations 章程
-                      </button>
-                      <button onClick={() => setSelectedTournament(t)} className="w-full py-4 bg-indigo-600 hover:bg-slate-900 text-white font-black uppercase rounded-2xl transition-all shadow-xl text-xs tracking-widest">
-                        Register Now
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </section>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </section>
+        </>
+      )}
 
       {/* --- REGISTRATION MODAL --- */}
       <AnimatePresence>
