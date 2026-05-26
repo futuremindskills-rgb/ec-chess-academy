@@ -2,13 +2,13 @@ import { PrismaClient } from "@prisma/client";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
 import {
-  Loader2,
   CheckCircle2,
   ArrowRight,
-  AlertTriangle,
 } from "lucide-react";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+const stripe = new Stripe(
+  process.env.STRIPE_SECRET_KEY as string
+);
 
 const prisma = new PrismaClient();
 
@@ -49,13 +49,17 @@ export default async function PaymentStatusPage({
     /* -------------------------------------------------------------------------- */
 
     if (gateway === "stripe" && session_id) {
-      const session = await stripe.checkout.sessions.retrieve(session_id);
+      const session =
+        await stripe.checkout.sessions.retrieve(
+          session_id
+        );
 
       if (session.payment_status !== "paid") {
         redirect("/tournaments?status=failed");
       }
 
-      const registrationId = session.metadata?.registrationId;
+      const registrationId =
+        session.metadata?.registrationId;
 
       if (!registrationId) {
         redirect("/tournaments");
@@ -68,6 +72,7 @@ export default async function PaymentStatusPage({
         data: {
           status: "COMPLETED",
           stripeSessionId: session.id,
+          paymentGateway: "stripe",
         },
         include: {
           tournament: true,
@@ -80,170 +85,67 @@ export default async function PaymentStatusPage({
     /* -------------------------------------------------------------------------- */
 
     else if (gateway === "asiapay" && id) {
-      registration = await prisma.registration.findUnique({
-        where: {
-          id,
-        },
-        include: {
-          tournament: true,
-        },
-      });
-
-      if (!registration) {
-        redirect("/tournaments");
-      }
-
-      console.log("ASIAPAY RETURN PARAMS:", {
-        successcode,
-        PayRef,
-      });
-
-      /* ---------------------------------------------------------------------- */
-      /*                 PAYMENT SUCCESS FROM RETURN URL                         */
-      /* ---------------------------------------------------------------------- */
-
-      /**
-       * IMPORTANT:
-       *
-       * If AsiaPay redirects user back with:
-       * successcode=0
-       *
-       * then immediately mark payment as completed.
-       *
-       * This solves:
-       * - webhook failures
-       * - delayed webhook
-       * - missed callbacks
-       * - old stuck PENDING payments
-       */
-
-      if (
-        successcode === "0" &&
-        registration.status !== "COMPLETED"
-      ) {
-        registration = await prisma.registration.update({
+      registration =
+        await prisma.registration.findUnique({
           where: {
             id,
-          },
-          data: {
-            status: "COMPLETED",
-            transactionId: PayRef || registration.transactionId,
-            paymentGateway: "asiapay",
           },
           include: {
             tournament: true,
           },
         });
 
-        console.log(
-          `✅ ASIAPAY PAYMENT COMPLETED VIA RETURN URL: ${id}`
-        );
+      if (!registration) {
+        redirect("/tournaments");
       }
 
-      /* ---------------------------------------------------------------------- */
-      /*                           REFETCH UPDATED DATA                          */
-      /* ---------------------------------------------------------------------- */
-
-      registration = await prisma.registration.findUnique({
-        where: {
-          id,
-        },
-        include: {
-          tournament: true,
-        },
+      console.log("ASIAPAY RETURN:", {
+        successcode,
+        PayRef,
       });
 
       /* ---------------------------------------------------------------------- */
-      /*                                FAILED                                   */
+      /*                            PAYMENT SUCCESS                              */
       /* ---------------------------------------------------------------------- */
 
-      if (registration?.status === "FAILED") {
-        redirect("/tournaments?status=failed");
+      if (successcode === "0") {
+        registration =
+          await prisma.registration.update({
+            where: {
+              id,
+            },
+            data: {
+              status: "COMPLETED",
+              paymentGateway: "asiapay",
+              transactionId:
+                PayRef ||
+                registration.transactionId,
+            },
+            include: {
+              tournament: true,
+            },
+          });
+
+        console.log(
+          `✅ ASIAPAY PAYMENT COMPLETED: ${id}`
+        );
       }
 
       /* ---------------------------------------------------------------------- */
-      /*                           STILL PENDING                                 */
+      /*                             PAYMENT FAILED                              */
       /* ---------------------------------------------------------------------- */
 
-      if (registration?.status === "PENDING") {
-        const createdAt = new Date(
-          registration.createdAt
-        ).getTime();
+      else {
+        await prisma.registration.update({
+          where: {
+            id,
+          },
+          data: {
+            status: "FAILED",
+          },
+        });
 
-        const now = Date.now();
-
-        const diffMinutes =
-          (now - createdAt) / 1000 / 60;
-
-        /* ------------------------------------------------------------------ */
-        /*                    STUCK PENDING FOR TOO LONG                      */
-        /* ------------------------------------------------------------------ */
-
-        if (diffMinutes > 10) {
-          return (
-            <div className="min-h-screen flex items-center justify-center bg-red-50 p-6 font-sans">
-              <div className="bg-white p-8 md:p-12 rounded-[40px] border-4 border-black text-center shadow-[12px_12px_0px_#000] max-w-lg w-full">
-                
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-red-100 text-red-600 rounded-3xl mb-6 border-4 border-red-200">
-                  <AlertTriangle className="w-10 h-10" />
-                </div>
-
-                <h1 className="text-3xl font-[1000] mb-4 text-black uppercase tracking-tighter">
-                  Payment Verification Delayed
-                </h1>
-
-                <p className="text-slate-500 font-bold text-sm uppercase mb-8">
-                  We have not received confirmation yet.
-                  <br />
-                  If payment was deducted please contact support.
-                </p>
-
-                <div className="p-4 bg-slate-100 rounded-2xl border-2 border-dashed border-slate-300 font-mono text-[10px] text-slate-400 break-all">
-                  REF: {id}
-                </div>
-
-                <a
-                  href="/tournaments"
-                  className="mt-8 flex items-center justify-center gap-2 w-full bg-black text-white px-8 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-red-600 transition-all shadow-[4px_4px_0px_#dc2626] active:translate-y-1 active:shadow-none"
-                >
-                  Back to Events
-                </a>
-              </div>
-            </div>
-          );
-        }
-
-        /* ------------------------------------------------------------------ */
-        /*                          NORMAL PENDING                            */
-        /* ------------------------------------------------------------------ */
-
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6 font-sans">
-
-            <meta httpEquiv="refresh" content="5" />
-
-            <div className="bg-white p-8 md:p-12 rounded-[40px] border-4 border-black text-center shadow-[12px_12px_0px_#000] max-w-lg w-full">
-              
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-100 text-indigo-600 rounded-3xl mb-6 border-4 border-indigo-200">
-                <Loader2 className="w-10 h-10 animate-spin" />
-              </div>
-
-              <h1 className="text-3xl font-[1000] mb-2 text-black uppercase tracking-tighter">
-                Verifying Payment
-              </h1>
-
-              <p className="text-slate-500 font-bold text-sm uppercase mb-8">
-                Waiting for AsiaPay confirmation...
-                <br />
-                This page refreshes automatically.
-              </p>
-
-              <div className="p-4 bg-slate-100 rounded-2xl border-2 border-dashed border-slate-300 font-mono text-[10px] text-slate-400 break-all">
-                REF: {id}
-              </div>
-            </div>
-          </div>
-        );
+        redirect("/tournaments?status=failed");
       }
     }
 
@@ -255,7 +157,10 @@ export default async function PaymentStatusPage({
       redirect("/tournaments");
     }
   } catch (error) {
-    console.error("Payment Status Error:", error);
+    console.error(
+      "Payment Status Error:",
+      error
+    );
 
     redirect("/tournaments?status=failed");
   }
@@ -267,7 +172,7 @@ export default async function PaymentStatusPage({
   return (
     <div className="min-h-screen flex items-center justify-center bg-indigo-600 p-6 font-sans">
       <div className="bg-white p-8 md:p-12 rounded-[40px] border-4 border-black text-center shadow-[12px_12px_0px_#000] max-w-lg w-full">
-        
+
         <div className="inline-flex items-center justify-center w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl mb-6 border-4 border-emerald-200">
           <CheckCircle2 className="w-10 h-10" />
         </div>
