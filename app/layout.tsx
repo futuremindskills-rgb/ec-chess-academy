@@ -1,6 +1,8 @@
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import Script from "next/script";
+import { NextIntlClientProvider } from "next-intl";
+import enMessages from "@/messages/en.json";
 import "./globals.css";
 
 export default function RootLayout({
@@ -75,7 +77,9 @@ export default function RootLayout({
           />
         </noscript>
 
-        {children}
+        <NextIntlClientProvider locale="en" messages={enMessages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
