@@ -9,6 +9,11 @@ const intlMiddleware = createMiddleware(routing);
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // Keep auth/admin pages outside locale prefixing
+  if (pathname === "/login" || pathname.startsWith("/admin")) {
+    return NextResponse.next();
+  }
+
   // Keep webhook handlers untouched
   if (pathname.startsWith("/api/webhook")) {
     return NextResponse.next();
