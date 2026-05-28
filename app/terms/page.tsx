@@ -6,46 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useLocale } from "next-intl"
  
-  // {
-  //   id: "conduct",
-  //   title: "Code of Conduct",
-  //   icon: Users,
-  //   color: "from-amber-500 to-orange-500",
-  //   bgColor: "bg-gradient-to-br from-amber-50 to-orange-50",
-  //   content: [
-  //     "Students must maintain respectful behavior towards coaches and peers.",
-  //     "Any form of cheating during tournaments will result in immediate disqualification.",
-  //     "Regular practice and homework completion are mandatory for optimal progress.",
-  //     "Damaging academy property will result in liability for replacement costs.",
-  //   ],
-  // },
-  // {
-  //   id: "attendance",
-  //   title: "Attendance & Scheduling",
-  //   icon: Calendar,
-  //   color: "from-red-500 to-rose-500",
-  //   bgColor: "bg-gradient-to-br from-red-50 to-rose-50",
-  //   content: [
-  //     "Regular attendance is crucial for consistent learning progress.",
-  //     "Make-up classes may be provided with prior notice of absence.",
-  //     "Schedule changes require 24 hours advance notice for consideration.",
-  //     "Long breaks in training may require assessment before rejoining classes.",
-  //   ],
-  // },
-  // {
-  //   id: "media",
-  //   title: "Media & Promotional Policy",
-  //   icon: Camera,
-  //   color: "from-indigo-500 to-purple-500",
-  //   bgColor: "bg-gradient-to-br from-indigo-50 to-purple-50",
-  //   content: [
-  //     "By default, we may use student photos/videos for promotional materials.",
-  //     "Parents can opt-out of media usage by submitting a written request.",
-  //     "Media content may be used across website, social media, and brochures.",
-  //     "Student achievements may be featured with name and photo unless opted out.",
-  //   ],
-  // }
-]
+  
 
 export default function TermsPage() {
   const locale = useLocale();
