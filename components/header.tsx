@@ -9,7 +9,6 @@ import { useParams } from "next/navigation";
 /*                               INTERNAL ICONS                               */
 /* -------------------------------------------------------------------------- */
 
-
 const MenuIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
