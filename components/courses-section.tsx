@@ -8,15 +8,17 @@ import {
   CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const GameCurriculumSection: React.FC = () => {
+  const t = useTranslations("home.courses");
   const games = [
     {
-      level: "PROGRAM 01",
-      name: "Go / Weiqi",
-      desc: "Master the art of surrounding territory and spatial reasoning in the world's oldest strategy game.",
-      willLearn: ["Territory & Influence", "Joseki (Opening) Patterns", "Life & Death Problems", "Endgame Calculation"],
-      stats: { focus: "Spatial", difficulty: "85%" },
+      level: t("cards.0.level"),
+      name: t("cards.0.name"),
+      desc: t("cards.0.desc"),
+      willLearn: [t("cards.0.learn0"), t("cards.0.learn1"), t("cards.0.learn2"), t("cards.0.learn3")],
+      stats: { focus: t("cards.0.focus"), difficulty: "85%" },
       color: "from-blue-500 to-indigo-600",
       accent: "text-blue-600",
       bgAccent: "bg-blue-600",
@@ -24,11 +26,11 @@ const GameCurriculumSection: React.FC = () => {
       href: "/go-wieqi",
     },
     {
-      level: "PROGRAM 02",
-      name: "Intl. Chess",
-      desc: "Build logical thinking, tactical calculation, and resilience with global tournament standards.",
-      willLearn: ["Tactical Motifs (Forks/Pins)", "Positional Strategy", "Endgame Fundamentals", "Tournament Psychology"],
-      stats: { focus: "Logic", difficulty: "75%" },
+      level: t("cards.1.level"),
+      name: t("cards.1.name"),
+      desc: t("cards.1.desc"),
+      willLearn: [t("cards.1.learn0"), t("cards.1.learn1"), t("cards.1.learn2"), t("cards.1.learn3")],
+      stats: { focus: t("cards.1.focus"), difficulty: "75%" },
       color: "from-purple-500 to-indigo-600",
       accent: "text-purple-600",
       bgAccent: "bg-purple-600",
@@ -36,11 +38,11 @@ const GameCurriculumSection: React.FC = () => {
       href: "/international-chess",
     },
     {
-      level: "PROGRAM 03",
-      name: "Chinese Chess",
-      desc: "Explore the rich heritage of Xiangqi. Master the Cannon and Chariot in this traditional classic.",
-      willLearn: ["Chariot & Cannon Coordination", "River-Crossing Tactics", "Palace Defense", "Historical Kill-Patterns"],
-      stats: { focus: "Tactics", difficulty: "70%" },
+      level: t("cards.2.level"),
+      name: t("cards.2.name"),
+      desc: t("cards.2.desc"),
+      willLearn: [t("cards.2.learn0"), t("cards.2.learn1"), t("cards.2.learn2"), t("cards.2.learn3")],
+      stats: { focus: t("cards.2.focus"), difficulty: "70%" },
       color: "from-orange-500 to-red-600",
       accent: "text-orange-600",
       bgAccent: "bg-orange-600",
@@ -69,12 +71,12 @@ const GameCurriculumSection: React.FC = () => {
             className="inline-flex items-center gap-2 px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-slate-900 text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] mb-4 md:mb-6 shadow-xl"
           >
             <ShieldCheck size={14} className="text-orange-400" />
-            Strategic Roadmap
+            {t("badge")}
           </motion.div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 leading-[1.1] md:leading-[0.9] tracking-tighter uppercase">
-            CHOOSE YOUR {" "}
+            {t("titlePrefix")} {" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-950">
-              PROGRAM
+              {t("titleHighlight")}
             </span>
           </h2>
         </div>
@@ -124,7 +126,7 @@ const GameCurriculumSection: React.FC = () => {
 
                   {/* BULLET POINTS - SYLLABUS */}
                   <div className="space-y-3 pt-1">
-                    <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest">Learning Outcomes</p>
+                    <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest">{t("learningOutcomes")}</p>
                     <div className="space-y-2">
                       {game.willLearn.map((item, i) => (
                         <div key={i} className="flex items-start gap-3">
@@ -138,11 +140,11 @@ const GameCurriculumSection: React.FC = () => {
                   {/* Mini Stats Bar */}
                   <div className="bg-white p-3 md:p-4 rounded-2xl md:rounded-3xl border border-slate-100 flex items-center justify-between">
                     <div className="flex flex-col">
-                      <span className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Cognitive Focus</span>
+                      <span className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">{t("cognitiveFocus")}</span>
                       <span className="text-[10px] md:text-xs font-bold text-slate-800">{game.stats.focus}</span>
                     </div>
                     <div className="flex flex-col items-end">
-                      <span className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1 text-right">Mastery Curve</span>
+                      <span className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1 text-right">{t("masteryCurve")}</span>
                       <div className="flex items-center gap-2">
                         <div className="h-1 w-8 md:h-1.5 md:w-12 bg-slate-100 rounded-full overflow-hidden">
                           <motion.div 
@@ -162,7 +164,7 @@ const GameCurriculumSection: React.FC = () => {
                     href={game.href}
                     className={`flex items-center justify-between w-full p-4 md:p-5 rounded-2xl md:rounded-3xl transition-all duration-300 ${game.bgAccent} group-hover:scale-[1.02] shadow-xl shadow-current/20 text-white`}
                   >
-                    <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">View Full Page</span>
+                    <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">{t("viewFullPage")}</span>
                     <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
                   </Link>
                 </div>
@@ -175,7 +177,7 @@ const GameCurriculumSection: React.FC = () => {
         <div className="mt-12 md:mt-16 flex justify-center">
           <div className="px-4 py-3 md:px-6 bg-slate-50 border border-slate-100 rounded-full text-[10px] md:text-[11px] font-bold text-slate-400 flex items-center gap-2 md:gap-3 text-center sm:text-left">
             <TrendingUp size={14} className="text-indigo-600 shrink-0" />
-            Specialized coaching for competitive standards & character building
+            {t("footerNote")}
           </div>
         </div>
 

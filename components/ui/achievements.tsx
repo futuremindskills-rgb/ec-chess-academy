@@ -13,49 +13,60 @@ import {
   Medal,
   Users
 } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 export default function AchievementsSection() {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   const stats = [
-    { label: "FIDE Rating Gained", value: "3000+", icon: <TrendingUp /> },
-    { label: "Tournament Wins", value: "50+", icon: <Trophy /> },
-    { label: "Active Students", value: "500+", icon: <Users /> },
-    { label: "Elite Coaches", value: "12", icon: <Crown /> },
+    { label: isZh ? "FIDE 分数提升" : "FIDE Rating Gained", value: "3000+", icon: <TrendingUp /> },
+    { label: isZh ? "赛事获胜" : "Tournament Wins", value: "50+", icon: <Trophy /> },
+    { label: isZh ? "在读学员" : "Active Students", value: "500+", icon: <Users /> },
+    { label: isZh ? "精英教练" : "Elite Coaches", value: "12", icon: <Crown /> },
   ];
 
-  const milestones = [
-    {
-      year: '2024',
-      title: 'Digital Mastery',
-      subtitle: 'AI Analysis',
-      description: 'Integrated advanced engine analysis into our curriculum for pro-level training.',
-      icon: <Zap className="w-5 h-5 md:w-6 md:h-6 text-white" />,
-      bg: "bg-indigo-600",
-    },
-    {
-      year: '2020',
-      title: 'HK Championship',
-      subtitle: 'Podium Success',
-      description: 'Our students achieved multiple Top 3 finishes in the HK Junior Open championships.',
-      icon: <Star className="w-5 h-5 md:w-6 md:h-6 text-white" />,
-      bg: "bg-orange-500",
-    },
-    {
-      year: '2015',
-      title: 'FIDE Hub',
-      subtitle: 'Global Standards',
-      description: 'Officially recognized as a FIDE Training Hub with international certified instructors.',
-      icon: <ShieldCheck className="w-5 h-5 md:w-6 md:h-6 text-white" />,
-      bg: "bg-purple-600",
-    },
-    {
-      year: '2010',
-      title: 'The Foundation',
-      subtitle: 'HK Origins',
-      description: 'Established EC Chess in Hong Kong with a mission to develop strategic young minds.',
-      icon: <Medal className="w-5 h-5 md:w-6 md:h-6 text-slate-900" />,
-      bg: "bg-slate-100",
-    },
-  ];
+const milestones = [
+  {
+    year: '2024',
+    title: isZh ? '数字化精通' : 'Digital Mastery',
+    subtitle: isZh ? 'AI 分析' : 'AI Analysis',
+    description: isZh
+      ? '将先进引擎分析整合进课程体系，为专业级训练提供支持。'
+      : 'Integrated advanced engine analysis into our curriculum for pro-level training.',
+    icon: <Zap className="w-5 h-5 md:w-6 md:h-6 text-white" />,
+    bg: "bg-indigo-600",
+  },
+  {
+    year: '2020',
+    title: isZh ? '香港冠军赛' : 'HK Championship',
+    subtitle: isZh ? '领奖台荣耀' : 'Podium Success',
+    description: isZh
+      ? '学员在香港青少年公开赛中获得多个前三名成绩。'
+      : 'Our students achieved multiple Top 3 finishes in the HK Junior Open championships.',
+    icon: <Star className="w-5 h-5 md:w-6 md:h-6 text-white" />,
+    bg: "bg-orange-500",
+  },
+  {
+    year: '2015',
+    title: isZh ? 'FIDE 中心' : 'FIDE Hub',
+    subtitle: isZh ? '国际标准' : 'Global Standards',
+    description: isZh
+      ? '正式获认可为 FIDE 培训中心，并拥有国际认证导师。'
+      : 'Officially recognized as a FIDE Training Hub with international certified instructors.',
+    icon: <ShieldCheck className="w-5 h-5 md:w-6 md:h-6 text-white" />,
+    bg: "bg-purple-600",
+  },
+  {
+    year: '2010',
+    title: isZh ? '学院起源' : 'The Foundation',
+    subtitle: isZh ? '香港创立' : 'HK Origins',
+    description: isZh
+      ? 'EC Chess 于香港成立，致力于培养具战略思维的年轻人才。'
+      : 'Established EC Chess in Hong Kong with a mission to develop strategic young minds.',
+    icon: <Medal className="w-5 h-5 md:w-6 md:h-6 text-slate-900" />,
+    bg: "bg-slate-100",
+  },
+];
 
   return (
     <section className="relative py-16 md:py-24 lg:py-32 bg-white font-sans overflow-hidden">
@@ -71,16 +82,16 @@ export default function AchievementsSection() {
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] shadow-xl"
             >
               <Star size={12} className="text-orange-400 fill-orange-400" />
-              <span>Proven Excellence</span>
+              <span>{isZh ? "成果验证" : "Proven Excellence"}</span>
             </motion.div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 leading-[1.1] md:leading-[0.9] tracking-tighter uppercase">
-              Where Strategy <br className="hidden sm:block" />
+              {isZh ? "让策略" : "Where Strategy"} <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-600 italic">
-                Becomes Success.
+                {isZh ? "转化为成功" : "Becomes Success."}
               </span>
             </h2>
             <p className="text-slate-500 text-base md:text-xl font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
-              We don&apos;t just teach moves; we produce champions. Our record reflects a commitment to elite training and long-term cognitive growth.
+              {isZh ? "我们不只教步骤，更培养冠军。成绩背后是对精英训练与长期认知成长的坚持。" : "We don&apos;t just teach moves; we produce champions. Our record reflects a commitment to elite training and long-term cognitive growth."}
             </p>
           </div>
 
@@ -150,15 +161,15 @@ export default function AchievementsSection() {
 
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
             <div className="text-center lg:text-left">
-              <h3 className="text-2xl md:text-4xl font-[1000] text-white uppercase tracking-tighter mb-2 leading-none">Academy Credentials</h3>
-              <p className="text-slate-400 font-bold uppercase text-[8px] md:text-[10px] tracking-[0.3em]">Recognized by HK & International Strategic bodies</p>
+              <h3 className="text-2xl md:text-4xl font-[1000] text-white uppercase tracking-tighter mb-2 leading-none">{isZh ? "学院资质" : "Academy Credentials"}</h3>
+              <p className="text-slate-400 font-bold uppercase text-[8px] md:text-[10px] tracking-[0.3em]">{isZh ? "获香港与国际机构认可" : "Recognized by HK & International Strategic bodies"}</p>
             </div>
 
             <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 w-full lg:w-auto">
               {[
-                "FIDE Certified Academy",
-                "HK Representative Training Hub",
-                "Grandmaster Level Pedagogy",
+                isZh ? "FIDE 认证学院" : "FIDE Certified Academy",
+                isZh ? "香港代表训练中心" : "HK Representative Training Hub",
+                isZh ? "大师级教学体系" : "Grandmaster Level Pedagogy",
               ].map((cert, i) => (
                 <div key={i} className="flex items-center gap-3 bg-white/5 backdrop-blur-xl px-5 py-4 rounded-2xl md:rounded-3xl border border-white/10 hover:bg-white/10 transition-colors">
                   <CheckCircle2 className="w-5 h-5 text-orange-500 shrink-0" />

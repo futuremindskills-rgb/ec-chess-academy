@@ -11,8 +11,11 @@ import {
   Crown, 
   MessageCircle 
 } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 const CoachCtaSection: React.FC = () => {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   return (
     <section className="relative py-16 md:py-24 px-4 sm:px-6 bg-white font-sans overflow-hidden">
       
@@ -35,29 +38,29 @@ const CoachCtaSection: React.FC = () => {
               {/* Sticker Label */}
               <div className="inline-flex items-center gap-2 self-start px-3 py-1.5 md:px-4 md:py-1.5 rounded-full bg-slate-900 text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] mb-6 md:mb-8 shadow-xl">
                 <ShieldCheck size={14} className="text-orange-400" />
-                <span>Professional FIDE Mentorship</span>
+                <span>{isZh ? "FIDE 专业导师" : "Professional FIDE Mentorship"}</span>
               </div>
 
               {/* Headline - Responsive Sizes */}
               <h2 className="text-3xl sm:text-5xl md:text-6xl font-[1000] text-slate-900 mb-6 md:mb-8 leading-[1.1] md:leading-[0.9] tracking-tighter uppercase">
-                Master the Board <br className="hidden sm:block" />
+                {isZh ? "掌控棋盘" : "Master the Board"} <br className="hidden sm:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-950 italic">
-                  With the Best.
+                  {isZh ? "师从顶尖导师" : "With the Best."}
                 </span>
               </h2>
 
               {/* Subtext */}
               <p className="text-slate-500 text-base md:text-xl font-medium mb-8 md:mb-10 leading-relaxed max-w-lg">
-                Training accelerates when you have the right guide. Our <strong className="text-slate-900 font-black">FIDE-Certified</strong> mentors combine international theory with tactical precision.
+                {isZh ? "有正确指导，进步会更快。我们的 " : "Training accelerates when you have the right guide. Our "}<strong className="text-slate-900 font-black">FIDE-{isZh ? "认证" : "Certified"}</strong>{isZh ? " 导师将国际理论与战术精度结合。" : " mentors combine international theory with tactical precision."}
               </p>
 
               {/* Catchy Benefits Grid - Stays 1 col on tiny, 2 col on sm+ */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 md:mb-12">
                 {[
-                  "FIDE Certified Instructors",
-                  "Personalized Roadmaps",
-                  "Tournament Mindset",
-                  "Deep Engine Analysis"
+                  isZh ? "FIDE认证导师" : "FIDE Certified Instructors",
+                  isZh ? "个性化成长路径" : "Personalized Roadmaps",
+                  isZh ? "赛事思维训练" : "Tournament Mindset",
+                  isZh ? "深度引擎复盘" : "Deep Engine Analysis"
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-center gap-3">
                     <div className="w-5 h-5 md:w-6 md:h-6 rounded-lg bg-orange-100 flex items-center justify-center shrink-0 border border-orange-200">
@@ -73,12 +76,12 @@ const CoachCtaSection: React.FC = () => {
                 <Link href="/contact" className="w-full sm:w-auto">
                   <button className="w-full group bg-slate-900 text-white font-black uppercase tracking-widest text-[10px] md:text-xs py-4 md:py-5 px-8 md:px-10 rounded-2xl flex items-center justify-center gap-3 transition-all hover:bg-orange-500 hover:-translate-y-1 shadow-xl active:scale-95">
                     <MessageCircle size={18} className="fill-current" />
-                    Free Assessment
+                    {isZh ? "免费评估" : "Free Assessment"}
                   </button>
                 </Link>
                 <Link href="/about" className="w-full sm:w-auto">
                   <button className="w-full bg-white border-2 border-slate-900 text-slate-900 font-black uppercase tracking-widest text-[10px] md:text-xs py-4 md:py-5 px-8 md:px-10 rounded-2xl hover:bg-slate-50 transition-all flex items-center justify-center gap-2 active:scale-95">
-                    Our Mentors
+                    {isZh ? "导师团队" : "Our Mentors"}
                     <ArrowRight size={18} className="text-orange-500" />
                   </button>
                 </Link>
@@ -120,7 +123,7 @@ const CoachCtaSection: React.FC = () => {
                  </div>
                  <div>
                     <p className="text-xs md:text-sm font-[1000] text-slate-900 uppercase leading-none">FIDE Certified</p>
-                    <p className="text-[8px] md:text-[9px] text-slate-700 font-black uppercase tracking-widest mt-1">Elite Standard</p>
+                 <p className="text-[8px] md:text-[9px] text-slate-700 font-black uppercase tracking-widest mt-1">{isZh ? "精英标准" : "Elite Standard"}</p>
                  </div>
               </motion.div>
 

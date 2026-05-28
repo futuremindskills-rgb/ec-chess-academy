@@ -1,0 +1,146 @@
+{
+  "metadata": {
+    "title": "EC 卓思棋院香港 | 精英棋艺与策略训练",
+    "description": "香港领先的策略学院，提供国际象棋、中国象棋与围棋的专业 FIDE 认证训练。",
+    "ogDescription": "在香港提供国际象棋、中国象棋与围棋的专业培训。",
+    "twitterDescription": "香港精英棋艺与策略训练学院。",
+    "siteName": "EC 卓思棋院香港"
+  },
+  "header": {
+    "nav": {
+      "home": "主页",
+      "about": "关于我们",
+      "courses": "课程",
+      "tournaments": "比赛",
+      "achievements": "成就",
+      "gallery": "图库",
+      "blog": "博客"
+    },
+    "contactUs": "联系我们",
+    "bookFreeDemo": "预约免费体验",
+    "switchLanguage": "EN"
+  },
+  "footer": {
+    "home": "主页",
+    "gallery": "图库",
+    "blog": "博客",
+    "tagline": "学无止境，突破无限",
+    "usefulLinks": "常用链接",
+    "ourCompany": "关于学院",
+    "hkBranches": "香港分校",
+    "contactUs": "联系我们",
+    "aboutUs": "关于我们",
+    "registration": "报名",
+    "policies": "政策",
+    "curriculum": "课程体系",
+    "achievements": "成就",
+    "enquireNow": "立即查询",
+    "kowloonCity": "九龙城",
+    "yuenLong": "元朗",
+    "clickForWhatsApp": "点击填写 WhatsApp 表单",
+    "whatsapp": "WhatsApp",
+    "designedBy": "网站设计：Jinesh Mehta",
+    "copyright": "EC 卓思棋院 版权所有"
+  },
+  "home": {
+    "hero": {
+      "badge": "香港精英策略学院",
+      "titleLine1": "通过棋艺",
+      "titleLine2": "培养卓越思维",
+      "titleLine3": "成就孩子未来。",
+      "description": "通过符合 FIDE 标准的精英训练，帮助孩子提升专注力、自信心与策略思维，深受香港家庭信赖。",
+      "feature1": "FIDE 教练团队",
+      "feature2": "3岁以上成长课程",
+      "feature3": "香港赛事历练",
+      "bookDemo": "预约体验",
+      "exploreCourses": "查看课程"
+    },
+    "programs": {
+      "titlePrefix": "我们的",
+      "titleHighlight": "学习",
+      "titleSuffix": "世界",
+      "subtitle": "为香港年轻策略家打造的专业课程。",
+      "enrollCourse": "立即报名",
+      "footerNote": "针对不同水平定制课程",
+      "cards": {
+        "0": {"title": "围棋", "description": "掌握围地与空间推理的核心思维。", "age": "年龄 4–18"},
+        "1": {"title": "国际象棋", "description": "以国际标准建立逻辑思维与抗压能力。", "age": "年龄 5–18"},
+        "2": {"title": "中国象棋", "description": "在传统象棋文化中提升战术素养。", "age": "年龄 5–18"}
+      }
+    },
+    "whyChoose": {
+      "badge": "策略教学体系",
+      "titlePrefix": "我们的教学",
+      "titleHighlight": "理念",
+      "floatingLabelTop": "巅峰",
+      "floatingLabelBottom": "逻辑",
+      "academyStandard": "学院标准",
+      "pillars": {
+        "0": {"title": "认知理论", "description": "通过棋盘对弈构建空间与逻辑思维结构。"},
+        "1": {"title": "战术韧性", "description": "训练学生在压力下专注应对并从挫折中恢复。"},
+        "2": {"title": "精英教学法", "description": "结合 AI 分析工具进行深入战术教学。"},
+        "3": {"title": "前瞻策略", "description": "培养前瞻思考能力，助力学业与人生发展。"}
+      }
+    },
+    "about": {
+      "badge": "学院传承",
+      "titlePrefix": "每一步都在",
+      "titleHighlight": "提升",
+      "titleSuffix": "思维高度。",
+      "description1": "在 EC 卓思棋院，我们将 15 年专业棋艺教学经验转化为面向香港孩子的成长型学习体验。",
+      "description2": "通过融合国际竞技标准与认知发展理论，我们帮助学生建立前瞻力与抗挫力。",
+      "stat1a": "精英 FIDE",
+      "stat1b": "认证教学",
+      "stat2a": "香港代表队",
+      "stat2b": "训练基地",
+      "yearsOf": "年",
+      "excellence": "卓越积淀"
+    },
+    "courses": {
+      "badge": "策略进阶路径",
+      "titlePrefix": "选择你的",
+      "titleHighlight": "课程",
+      "learningOutcomes": "学习成果",
+      "cognitiveFocus": "认知重点",
+      "masteryCurve": "掌握曲线",
+      "viewFullPage": "查看详情",
+      "footerNote": "面向竞赛标准与品格成长的专项训练",
+      "cards": {
+        "0": {"level": "课程 01", "name": "围棋", "desc": "掌握围地与空间推理，学习世界最古老策略游戏。", "learn0": "地盘与势力", "learn1": "定式布局", "learn2": "死活题训练", "learn3": "官子计算", "focus": "空间"},
+        "1": {"level": "课程 02", "name": "国际象棋", "desc": "以国际赛事标准训练逻辑、计算与抗压能力。", "learn0": "战术主题（叉、牵制）", "learn1": "位置战略", "learn2": "残局基础", "learn3": "比赛心理", "focus": "逻辑"},
+        "2": {"level": "课程 03", "name": "中国象棋", "desc": "深入象棋文化精髓，掌握炮车配合等经典战术。", "learn0": "车炮协同", "learn1": "过河战术", "learn2": "宫防体系", "learn3": "经典杀法", "focus": "战术"}
+      }
+    },
+    "testimonials": {
+      "badge": "成功故事",
+      "titlePrefix": "来自我们",
+      "titleHighlight": "冠军学员的声音",
+      "impactResult": "成长成果"
+    },
+    "faq": {
+      "badge": "支援中心",
+      "titlePrefix": "策略",
+      "titleHighlight": "问答",
+      "masteryProcess": "EC 成长路径",
+      "q1": "几岁开始学习最好？",
+      "a1": "建议 3-4 岁开始。这个阶段我们通过认知游戏帮助孩子建立空间感与基础逻辑。",
+      "q2": "你们提供 FIDE 认证教学吗？",
+      "a2": "是的，我们的主教练具备 FIDE 认证并拥有超过 15 年国际教学经验，遵循香港及国际标准。",
+      "q3": "是否提供线上或混合课程？",
+      "a3": "提供。我们使用先进棋类软件与互动平台，让学生在家也能保持高质量训练。",
+      "q4": "如何追踪学生进度？",
+      "a4": "每学期会提供数字化成长报告，包含等级变化、战术准确度与策略重点。"
+    },
+    "cta": {
+      "enrollmentOpen": "报名开放中",
+      "masterClass": "大师班",
+      "titleLine1": "准备好",
+      "titleLine2": "落下关键一步了吗？",
+      "description": "开启专注力与策略思维，加入香港领先棋艺学院。",
+      "bookFreeTrial": "预约免费试课",
+      "viewCourses": "查看课程",
+      "fideCertified": "FIDE 认证",
+      "hkRepresentative": "香港代表训练"
+    }
+  }
+}

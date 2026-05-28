@@ -16,10 +16,13 @@ import {
 } from "lucide-react";
 import BlogBanner from "@/components/ui/blogBanner";
 import { getBlogPosts } from "@/app/actions/adminActions";
+import { useLocale } from "next-intl";
 
 const categories = ["All", "Chess & Logic", "Skills"];
 
 export default function BlogPage() {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   const [activeCategory, setActiveCategory] = useState("All");
   const [posts, setPosts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -64,7 +67,7 @@ export default function BlogPage() {
           <div className="flex flex-col justify-center items-center py-40 gap-4">
             <Loader2 className="w-12 h-12 text-teal-600 animate-spin" />
             <p className="text-slate-500 font-bold animate-pulse">
-              Fetching latest articles...
+              {isZh ? "正在加载最新文章..." : "Fetching latest articles..."}
             </p>
           </div>
         ) : (
@@ -112,7 +115,7 @@ export default function BlogPage() {
                       )}`}
                       className="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl font-bold"
                     >
-                      Read Full Article <ArrowRight size={18} />
+                      {isZh ? "阅读全文" : "Read Full Article"} <ArrowRight size={18} />
                     </Link>
                   </div>
                 </motion.div>
@@ -140,7 +143,7 @@ export default function BlogPage() {
               <div className="relative w-full lg:w-80">
                 <input
                   type="text"
-                  placeholder="Search articles..."
+                  placeholder={isZh ? "搜索文章..." : "Search articles..."}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border rounded-xl"
@@ -198,7 +201,7 @@ export default function BlogPage() {
                           href={`/blog/${encodeURIComponent(post.slug)}`}
                           className="mt-auto font-bold flex items-center gap-1"
                         >
-                          Keep Reading <ChevronRight size={16} />
+                          {isZh ? "继续阅读" : "Keep Reading"} <ChevronRight size={16} />
                         </Link>
                       </div>
                     </motion.article>
@@ -206,7 +209,7 @@ export default function BlogPage() {
                 ) : (
                   <div className="col-span-full text-center py-20">
                     <BookOpen className="mx-auto mb-4 text-slate-300" />
-                    <p>No articles found</p>
+                    <p>{isZh ? "未找到相关文章" : "No articles found"}</p>
                   </div>
                 )}
               </AnimatePresence>

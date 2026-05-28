@@ -3,31 +3,33 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const ProgramsSection: React.FC = () => {
+  const t = useTranslations("home.programs");
   const programs = [
     {
-      title: "Go / Weiqi",
-      description: "Master the art of surrounding territory and spatial reasoning.",
-      age: "Age 4–18",
+      title: t("cards.0.title"),
+      description: t("cards.0.description"),
+      age: t("cards.0.age"),
       image: "/go.png",
       gradient: "from-blue-500 to-indigo-600",
       shadow: "shadow-blue-200/50",
       href: "/go-wieqi",
     },
     {
-      title: "Intl. Chess",
-      description: "Build logical thinking and resilience with global standards.",
-      age: "Age 5–18",
+      title: t("cards.1.title"),
+      description: t("cards.1.description"),
+      age: t("cards.1.age"),
       image: "/chess.png",
       gradient: "from-purple-600 to-indigo-700",
       shadow: "shadow-purple-200/50",
       href: "/international-chess",
     },
     {
-      title: "Chinese Chess",
-      description: "Explore tactics through traditional Xiangqi heritage.",
-      age: "Age 5–18",
+      title: t("cards.2.title"),
+      description: t("cards.2.description"),
+      age: t("cards.2.age"),
       image: "/c-chess.png",
       gradient: "from-orange-500 to-red-600",
       shadow: "shadow-orange-200/50",
@@ -53,10 +55,10 @@ const ProgramsSection: React.FC = () => {
             viewport={{ once: true }}
             className="text-3xl sm:text-4xl md:text-5xl font-[1000] text-slate-900 mb-4 tracking-tighter uppercase leading-none"
           >
-            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-600">Learning</span> World
+            {t("titlePrefix")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-600">{t("titleHighlight")}</span> {t("titleSuffix")}
           </motion.h2>
           <p className="text-slate-500 text-sm md:text-base font-medium px-4">
-            Professional programs for Hong Kong&apos;s young strategists.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -105,7 +107,7 @@ const ProgramsSection: React.FC = () => {
                 href={program.href}
                 className={`absolute bottom-0 w-full bg-gradient-to-r ${program.gradient} py-5 px-8 flex items-center justify-between transition-all duration-300 group-hover:px-10 ${program.shadow}`}
               >
-                <span className="font-black text-white uppercase tracking-[0.2em] text-[10px] md:text-[11px]">Enroll Course</span>
+                <span className="font-black text-white uppercase tracking-[0.2em] text-[10px] md:text-[11px]">{t("enrollCourse")}</span>
                 <div className="bg-white/20 p-2 rounded-full backdrop-blur-md border border-white/20 transition-transform group-hover:rotate-[-45deg]">
                   <ArrowRight className="w-4 h-4 text-white" />
                 </div>
@@ -118,7 +120,7 @@ const ProgramsSection: React.FC = () => {
         <div className="mt-12 flex justify-center">
           <div className="bg-slate-50 border border-slate-100 rounded-full px-6 py-2.5 text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-3">
              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-             Customized curriculum for all skill levels
+             {t("footerNote")}
           </div>
         </div>
       </div>

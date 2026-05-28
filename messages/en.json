@@ -1,0 +1,146 @@
+{
+  "metadata": {
+    "title": "EC Chess Academy HK | Elite Chess & Strategy Training",
+    "description": "Hong Kong's premier strategy academy. Expert FIDE-certified coaching for International Chess, Chinese Chess, and Go.",
+    "ogDescription": "Professional chess coaching for International Chess, Chinese Chess, and Go in Hong Kong.",
+    "twitterDescription": "Elite chess and strategy training academy in Hong Kong.",
+    "siteName": "EC Chess Academy HK"
+  },
+  "header": {
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "courses": "Courses",
+      "tournaments": "Tournaments",
+      "achievements": "Achievements",
+      "gallery": "Gallery",
+      "blog": "Blog"
+    },
+    "contactUs": "Contact Us",
+    "bookFreeDemo": "Book a Free Demo",
+    "switchLanguage": "中文"
+  },
+  "footer": {
+    "home": "Home",
+    "gallery": "Gallery",
+    "blog": "Blog",
+    "tagline": "Learn to be limitless",
+    "usefulLinks": "Useful Links",
+    "ourCompany": "Our Company",
+    "hkBranches": "HK Branches",
+    "contactUs": "Contact Us",
+    "aboutUs": "About Us",
+    "registration": "Registration",
+    "policies": "Policies",
+    "curriculum": "Curriculum",
+    "achievements": "Achievements",
+    "enquireNow": "ENQUIRE NOW",
+    "kowloonCity": "Kowloon City",
+    "yuenLong": "Yuen Long",
+    "clickForWhatsApp": "Click for WhatsApp Form",
+    "whatsapp": "WhatsApp",
+    "designedBy": "Designed by Jinesh Mehta",
+    "copyright": "EC CHESS ACADEMY. ALL RIGHTS RESERVED."
+  },
+  "home": {
+    "hero": {
+      "badge": "Hong Kong's Elite Strategy Academy",
+      "titleLine1": "Building",
+      "titleLine2": "Brilliant Minds",
+      "titleLine3": "Through Chess.",
+      "description": "Empower your child with focus, confidence, and strategic thinking through elite FIDE-standard training trusted by families across Hong Kong.",
+      "feature1": "FIDE Coaches",
+      "feature2": "Ages 3+ Growth",
+      "feature3": "HK Competitions",
+      "bookDemo": "Book a Demo",
+      "exploreCourses": "Explore Courses"
+    },
+    "programs": {
+      "titlePrefix": "Our",
+      "titleHighlight": "Learning",
+      "titleSuffix": "World",
+      "subtitle": "Professional programs for Hong Kong's young strategists.",
+      "enrollCourse": "Enroll Course",
+      "footerNote": "Customized curriculum for all skill levels",
+      "cards": {
+        "0": {"title": "Go / Weiqi", "description": "Master the art of surrounding territory and spatial reasoning.", "age": "Age 4–18"},
+        "1": {"title": "Intl. Chess", "description": "Build logical thinking and resilience with global standards.", "age": "Age 5–18"},
+        "2": {"title": "Chinese Chess", "description": "Explore tactics through traditional Xiangqi heritage.", "age": "Age 5–18"}
+      }
+    },
+    "whyChoose": {
+      "badge": "Strategic Pedagogy",
+      "titlePrefix": "Our Teaching",
+      "titleHighlight": "Philosophy",
+      "floatingLabelTop": "Peak",
+      "floatingLabelBottom": "Logic",
+      "academyStandard": "Academy Standard",
+      "pillars": {
+        "0": {"title": "Cognitive Theory", "description": "Developing spatial and logical thinking architecture through board play."},
+        "1": {"title": "Tactical Grit", "description": "Teaching students to handle pressure and recover from setbacks with focus."},
+        "2": {"title": "Elite Pedagogy", "description": "Expert coaching using AI-driven software for deep tactical game analysis."},
+        "3": {"title": "Strategic Foresight", "description": "Fostering the ability to think 10 steps ahead for academic and life success."}
+      }
+    },
+    "about": {
+      "badge": "Academy Heritage",
+      "titlePrefix": "Elevating",
+      "titleHighlight": "Minds",
+      "titleSuffix": "Through Every Move.",
+      "description1": "At EC Chess Academy, we turn 15 years of professional chess pedagogy into a transformative learning experience for Hong Kong's bright young minds.",
+      "description2": "By blending international competitive standards with cognitive development theory, we help students build the foresight and resilience needed for life.",
+      "stat1a": "Elite FIDE",
+      "stat1b": "Certified Coaching",
+      "stat2a": "HK Representative",
+      "stat2b": "Training Hub",
+      "yearsOf": "Years of",
+      "excellence": "Excellence"
+    },
+    "courses": {
+      "badge": "Strategic Roadmap",
+      "titlePrefix": "CHOOSE YOUR",
+      "titleHighlight": "PROGRAM",
+      "learningOutcomes": "Learning Outcomes",
+      "cognitiveFocus": "Cognitive Focus",
+      "masteryCurve": "Mastery Curve",
+      "viewFullPage": "View Full Page",
+      "footerNote": "Specialized coaching for competitive standards & character building",
+      "cards": {
+        "0": {"level": "PROGRAM 01", "name": "Go / Weiqi", "desc": "Master the art of surrounding territory and spatial reasoning in the world's oldest strategy game.", "learn0": "Territory & Influence", "learn1": "Joseki (Opening) Patterns", "learn2": "Life & Death Problems", "learn3": "Endgame Calculation", "focus": "Spatial"},
+        "1": {"level": "PROGRAM 02", "name": "Intl. Chess", "desc": "Build logical thinking, tactical calculation, and resilience with global tournament standards.", "learn0": "Tactical Motifs (Forks/Pins)", "learn1": "Positional Strategy", "learn2": "Endgame Fundamentals", "learn3": "Tournament Psychology", "focus": "Logic"},
+        "2": {"level": "PROGRAM 03", "name": "Chinese Chess", "desc": "Explore the rich heritage of Xiangqi. Master the Cannon and Chariot in this traditional classic.", "learn0": "Chariot & Cannon Coordination", "learn1": "River-Crossing Tactics", "learn2": "Palace Defense", "learn3": "Historical Kill-Patterns", "focus": "Tactics"}
+      }
+    },
+    "testimonials": {
+      "badge": "Success Stories",
+      "titlePrefix": "Voices of Our",
+      "titleHighlight": "Grandmasters",
+      "impactResult": "Impact Result"
+    },
+    "faq": {
+      "badge": "Support Center",
+      "titlePrefix": "Strategic",
+      "titleHighlight": "Q&A",
+      "masteryProcess": "EC Mastery Process",
+      "q1": "What is the best age to start learning?",
+      "a1": "We recommend starting as early as 3-4 years old. At this stage, we focus on cognitive play to build spatial awareness and basic logic through fun chess-themed games.",
+      "q2": "Do you provide FIDE certified coaching?",
+      "a2": "Yes, our lead coaches are FIDE-certified and have over 15 years of international coaching experience. We follow official Hong Kong and global standards.",
+      "q3": "Do you offer online or hybrid classes?",
+      "a3": "Absolutely. We use advanced chess software and interactive platforms so students across Hong Kong can learn from home without losing tactical quality.",
+      "q4": "How do you track student progress?",
+      "a4": "Every student receives a digital progress report every term detailing rating growth, tactical accuracy, and strategic focus areas."
+    },
+    "cta": {
+      "enrollmentOpen": "Enrollment Open",
+      "masterClass": "Master Class",
+      "titleLine1": "Ready to make",
+      "titleLine2": "YOUR MOVE?",
+      "description": "Unlock focus and strategic thinking. Join HK's premier Academy today.",
+      "bookFreeTrial": "Book Free Trial",
+      "viewCourses": "View Courses",
+      "fideCertified": "FIDE Certified",
+      "hkRepresentative": "Hong Kong Representative"
+    }
+  }
+}

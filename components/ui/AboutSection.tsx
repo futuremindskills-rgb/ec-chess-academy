@@ -9,8 +9,11 @@ import {
   ShieldCheck,
   Zap
 } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 const AboutSection: React.FC = () => {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   return (
     <section className="py-12 md:py-20 lg:py-32 bg-white overflow-hidden font-sans">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
@@ -51,30 +54,30 @@ const AboutSection: React.FC = () => {
             <div className="flex justify-center lg:justify-start">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest">
                 <Sparkles size={12} className="text-orange-400" />
-                Elite Academy HK
+                {isZh ? "香港精英学院" : "Elite Academy HK"}
               </div>
             </div>
 
             <div className="text-center lg:text-left space-y-4">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-[1000] text-slate-900 leading-[1.1] tracking-tighter uppercase">
-                Elite Strategy. <br />
+                {isZh ? "精英策略" : "Elite Strategy."} <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-600 italic">
-                  Local Champions.
+                  {isZh ? "本地冠军。" : "Local Champions."}
                 </span>
               </h2>
 
               <p className="text-base md:text-lg lg:text-xl text-slate-500 font-bold leading-tight max-w-lg mx-auto lg:mx-0">
-                We turn potential into strategy. EC Chess provides Hong Kong’s youth with FIDE-standard training and cognitive growth.
+                {isZh ? "我们把潜力转化为战略能力，为香港学员提供 FIDE 标准训练与认知成长支持。" : "We turn potential into strategy. EC Chess provides Hong Kong’s youth with FIDE-standard training and cognitive growth."}
               </p>
             </div>
 
             {/* Scannable Grid - 2 columns on most screens */}
             <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-2">
                {[
-                 { text: "FIDE Certified", icon: <ShieldCheck size={18} /> }, 
-                 { text: "HK Training Hub", icon: <Crown size={18} /> }, 
-                 { text: "Logic Focused", icon: <Target size={18} /> }, 
-                 { text: "Proven Results", icon: <Zap size={18} /> }
+                 { text: isZh ? "FIDE认证" : "FIDE Certified", icon: <ShieldCheck size={18} /> }, 
+                 { text: isZh ? "香港训练中心" : "HK Training Hub", icon: <Crown size={18} /> }, 
+                 { text: isZh ? "逻辑导向" : "Logic Focused", icon: <Target size={18} /> }, 
+                 { text: isZh ? "成果验证" : "Proven Results", icon: <Zap size={18} /> }
                ].map((item, idx) => (
                  <div key={idx} className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100">
                     <div className="text-indigo-600 shrink-0">{item.icon}</div>
@@ -90,7 +93,7 @@ const AboutSection: React.FC = () => {
                 </div>
                 <div className="text-left">
                   <h4 className="text-base sm:text-lg font-black text-slate-900 uppercase leading-none">EC Academy HK</h4>
-                  <p className="text-[8px] sm:text-[10px] font-black text-orange-500 uppercase tracking-widest mt-1 italic leading-none">Building The Grandmasters of Life</p>
+                  <p className="text-[8px] sm:text-[10px] font-black text-orange-500 uppercase tracking-widest mt-1 italic leading-none">{isZh ? "培养人生棋局的大师思维" : "Building The Grandmasters of Life"}</p>
                 </div>
             </div>
 

@@ -4,8 +4,11 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Home, ChevronRight, Camera, Sparkles } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 const GalleryBanner: React.FC = () => {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   // Array of images for the Netflix-style background grid
   const bgThumbnails = [
     "/1.webp", "/2.webp", "/3.webp", "/1.webp",
@@ -53,7 +56,7 @@ const GalleryBanner: React.FC = () => {
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 text-white text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] mb-4 sm:mb-6 shadow-xl"
         >
           <Camera size={12} className="text-[#f59e0b]" />
-          Visual Journey
+          {isZh ? "视觉之旅" : "Visual Journey"}
         </motion.div>
 
         {/* Title: Fluid font size from mobile to desktop */}
@@ -62,9 +65,9 @@ const GalleryBanner: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl sm:text-4xl lg:text-7xl font-[1000] text-slate-900 mb-4 sm:mb-6 tracking-tighter leading-[0.85] uppercase"
         >
-          OUR <br />
+          {isZh ? "我们的" : "OUR"} <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] to-[#f59e0b]">
-            GALLERY
+            {isZh ? "图库" : "GALLERY"}
           </span>
         </motion.h1>
         
@@ -75,7 +78,7 @@ const GalleryBanner: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-xs sm:text-base md:text-lg text-slate-600 max-w-[280px] sm:max-w-md md:max-w-xl mb-8 sm:mb-10 font-medium leading-relaxed"
         >
-          Capturing the moments of discovery, critical thinking, and joy in our classrooms.
+          {isZh ? "记录课堂中的探索、思辨与成长瞬间。" : "Capturing the moments of discovery, critical thinking, and joy in our classrooms."}
         </motion.p>
 
         {/* Breadcrumb Navigation: Touch-friendly padding for mobile */}
@@ -87,13 +90,13 @@ const GalleryBanner: React.FC = () => {
         >
           <Link href="/" className="text-slate-400 hover:text-[#1a5f5f] transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
             <Home size={14} />
-            <span className="hidden xs:inline">Home</span>
+            <span className="hidden xs:inline">{isZh ? "主页" : "Home"}</span>
           </Link>
           
           <ChevronRight className="w-3 h-3 text-slate-300" strokeWidth={3} />
           
           <span className="text-slate-900 font-black text-[10px] uppercase tracking-widest">
-            Gallery
+            {isZh ? "图库" : "Gallery"}
           </span>
         </motion.nav>
 

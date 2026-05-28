@@ -13,6 +13,7 @@ import {
   MessageCircle
 } from "lucide-react";
 import { Metadata } from "next";
+import { getLocale } from "next-intl/server";
 
 interface Props {
   params: {
@@ -34,6 +35,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogDetailPage({ params }: Props) {
+  const locale = await getLocale();
+  const isZh = locale === "zh";
   const posts = await getBlogPosts();
   const decodedSlug = decodeURIComponent(params.slug);
   const post = posts.find((p: any) => p.slug === decodedSlug);
@@ -60,7 +63,7 @@ export default async function BlogDetailPage({ params }: Props) {
         <div className="container mx-auto px-6 relative z-10">
           <nav className="flex items-center gap-2 text-slate-400 text-sm mb-10 animate-fade-in">
             <Link href="/blog" className="hover:text-teal-400 transition-colors flex items-center gap-1">
-              <ArrowLeft size={14} /> Blog
+              <ArrowLeft size={14} /> {isZh ? "博客" : "Blog"}
             </Link>
             <ChevronRight size={14} />
             <span className="text-teal-400 font-medium truncate max-w-[200px] md:max-w-none">{post.title}</span>
@@ -68,7 +71,7 @@ export default async function BlogDetailPage({ params }: Props) {
 
           <div className="max-w-4xl">
             <span className="inline-block px-4 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-xs font-bold uppercase tracking-widest mb-6">
-               {post.category || "Chess Education"}
+               {post.category || (isZh ? "棋艺教育" : "Chess Education")}
             </span>
 
             <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-8 tracking-tight leading-[1.2] lg:leading-[1.1]">
@@ -78,18 +81,18 @@ export default async function BlogDetailPage({ params }: Props) {
             <div className="flex flex-wrap items-center gap-8 text-slate-300">
                <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full border-2 border-teal-500/30 p-0.5">
-                    <img src="/api/placeholder/100/100" className="w-full h-full rounded-full object-cover" alt="Author" />
+                    <img src="/api/placeholder/100/100" className="w-full h-full rounded-full object-cover" alt={isZh ? "作者" : "Author"} />
                   </div>
                   <div>
                     <p className="text-sm font-bold text-white">Herman Wong</p>
-                    <p className="text-xs text-slate-400">Head Coach</p>
+                    <p className="text-xs text-slate-400">{isZh ? "总教练" : "Head Coach"}</p>
                   </div>
                </div>
                
                <div className="h-8 w-px bg-slate-700 hidden sm:block"></div>
 
                <div className="flex flex-col gap-1">
-                 <span className="text-xs uppercase text-slate-500 font-bold tracking-wider">Published</span>
+                 <span className="text-xs uppercase text-slate-500 font-bold tracking-wider">{isZh ? "发布时间" : "Published"}</span>
                  <div className="flex items-center gap-2 text-sm font-medium">
                     <Calendar size={16} className="text-teal-500" />
                     {new Date(post.date).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -97,7 +100,7 @@ export default async function BlogDetailPage({ params }: Props) {
                </div>
 
                <div className="flex flex-col gap-1">
-                 <span className="text-xs uppercase text-slate-500 font-bold tracking-wider">Read Time</span>
+                 <span className="text-xs uppercase text-slate-500 font-bold tracking-wider">{isZh ? "阅读时长" : "Read Time"}</span>
                  <div className="flex items-center gap-2 text-sm font-medium">
                     <Clock size={16} className="text-teal-500" />
                     <span>{post.readTime}</span>
@@ -148,7 +151,7 @@ export default async function BlogDetailPage({ params }: Props) {
                   </div>
                   <div className="flex gap-3">
                     <button className="flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-teal-600 transition-all shadow-lg shadow-slate-200">
-                      <Share2 size={16} /> Share Article
+                      <Share2 size={16} /> {isZh ? "分享文章" : "Share Article"}
                     </button>
                   </div>
                 </div>
@@ -162,19 +165,21 @@ export default async function BlogDetailPage({ params }: Props) {
             <div className="bg-slate-900 rounded-[2rem] p-8 text-white relative overflow-hidden group">
               <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-teal-500/20 rounded-full blur-3xl group-hover:bg-teal-500/30 transition-all duration-700"></div>
               <h4 className="text-xl font-bold mb-4 flex items-center gap-2 relative z-10">
-                <BookOpen size={20} className="text-teal-400" /> About Author
+                <BookOpen size={20} className="text-teal-400" /> {isZh ? "关于作者" : "About Author"}
               </h4>
               <p className="text-slate-300 leading-relaxed mb-8 relative z-10 text-sm">
-                Herman Wong is the head coach at EC Chess Academy, specializing in differentiated learning and Howard Gardner's theory of Multiple Intelligences.
+                {isZh
+                  ? "Herman Wong 为 EC Chess Academy 总教练，专注于差异化教学与多元智能理论实践。"
+                  : "Herman Wong is the head coach at EC Chess Academy, specializing in differentiated learning and Howard Gardner's theory of Multiple Intelligences."}
               </p>
               <Link href="/contact" className="inline-flex items-center gap-2 bg-teal-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-white hover:text-teal-600 transition-all relative z-10">
-                Book a Trial Class <ChevronRight size={16} />
+                {isZh ? "预约体验课" : "Book a Trial Class"} <ChevronRight size={16} />
               </Link>
             </div>
 
             {/* Related Articles */}
             <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm">
-              <h4 className="text-xl font-bold text-slate-900 mb-8">Related Reads</h4>
+              <h4 className="text-xl font-bold text-slate-900 mb-8">{isZh ? "相关文章" : "Related Reads"}</h4>
               <div className="space-y-8">
                 {relatedPosts.map((rp: any) => (
                   <Link key={rp.slug} href={`/blog/${encodeURIComponent(rp.slug)}`} className="group flex gap-4">
@@ -195,10 +200,10 @@ export default async function BlogDetailPage({ params }: Props) {
             {/* CTA Sidebar Card */}
             <div className="bg-teal-50 rounded-[2rem] p-8 border border-teal-100">
                <MessageCircle className="text-teal-600 mb-4" size={32} />
-               <h4 className="text-lg font-extrabold text-slate-900 mb-2">Have questions?</h4>
-               <p className="text-slate-600 text-sm mb-6 leading-relaxed">Our experts are ready to help your child master the game of kings.</p>
+               <h4 className="text-lg font-extrabold text-slate-900 mb-2">{isZh ? "有疑问？" : "Have questions?"}</h4>
+               <p className="text-slate-600 text-sm mb-6 leading-relaxed">{isZh ? "我们的导师团队随时准备帮助你的孩子精进棋艺。" : "Our experts are ready to help your child master the game of kings."}</p>
                <Link href="/contact" className="block text-center bg-white border-2 border-teal-600 text-teal-600 py-3 rounded-xl font-bold hover:bg-teal-600 hover:text-white transition-all">
-                 Message Us
+                 {isZh ? "联系我们" : "Message Us"}
                </Link>
             </div>
           </aside>

@@ -4,46 +4,8 @@ import { motion } from "framer-motion"
 import { FileText, Shield, Users, CreditCard, AlertTriangle, CheckCircle, BookOpen, Scale, Lock, Eye, Camera, Calendar } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-
-const termsSection = [
-  {
-    id: "general",
-    title: "General Terms & Conditions",
-    icon: Scale,
-    color: "from-blue-500 to-cyan-500",
-    bgColor: "bg-gradient-to-br from-blue-50 to-cyan-50",
-    content: [
-      "Bharat chess academy reserves all right to change, deny or reschedule any class, both online and offline.",
-      "Governing law (jurisdiction): This Agreement shall be governed by and construed in accordance with the laws and the company is based in Telangana (Hyderabad).",
-      "Termination: Classes may be terminated mutually once service agreement has ended.",
-      "Intellectual Property: Bharat chess academy defends its coaches and employees from intellectual property infringement liabilities.",
-    ],
-  },
-  {
-    id: "refunds",
-    title: "Refunds & Cancellation Policy",
-    icon: CreditCard,
-    color: "from-emerald-500 to-green-500",
-    bgColor: "bg-gradient-to-br from-emerald-50 to-green-50",
-    content: [
-      "No refunds or cancellations once fees are paid and classes/tournaments booked.",
-      "Attendance is mandatory for booked sessions.",
-    ],
-  },
-  {
-    id: "privacy",
-    title: "Privacy Policy",
-    icon: Shield,
-    color: "from-purple-500 to-pink-500",
-    bgColor: "bg-gradient-to-br from-purple-50 to-pink-50",
-    content: [
-      "We collect and use personal data per applicable laws and our Privacy Policy.",
-      "Data is used to provide/improve service and communications.",
-      "Student data is confidential and can be accessed or modified by users.",
-      "We may use photos/videos for promotional purposes unless opted out.",
-      "We ensure data security but cannot guarantee absolute security.",
-    ],
-  },
+import { useLocale } from "next-intl"
+ 
   // {
   //   id: "conduct",
   //   title: "Code of Conduct",
@@ -86,6 +48,68 @@ const termsSection = [
 ]
 
 export default function TermsPage() {
+  const locale = useLocale();
+  const isZh = locale === "zh";
+  const termsSection = [
+    {
+      id: "general",
+      title: isZh ? "一般条款与条件" : "General Terms & Conditions",
+      icon: Scale,
+      color: "from-blue-500 to-cyan-500",
+      bgColor: "bg-gradient-to-br from-blue-50 to-cyan-50",
+      content: isZh
+        ? [
+            "本院保留调整、拒绝或改期线上/线下课程的权利。",
+            "本协议受香港特别行政区法律管辖并据其解释。",
+            "在服务协议结束后，课程可经双方同意终止。",
+            "本院重视并保护教练及员工的知识产权权益。"
+          ]
+        : [
+            "Bharat chess academy reserves all right to change, deny or reschedule any class, both online and offline.",
+            "Governing law (jurisdiction): This Agreement shall be governed by and construed in accordance with the laws and the company is based in Telangana (Hyderabad).",
+            "Termination: Classes may be terminated mutually once service agreement has ended.",
+            "Intellectual Property: Bharat chess academy defends its coaches and employees from intellectual property infringement liabilities."
+          ],
+    },
+    {
+      id: "refunds",
+      title: isZh ? "退款与取消政策" : "Refunds & Cancellation Policy",
+      icon: CreditCard,
+      color: "from-emerald-500 to-green-500",
+      bgColor: "bg-gradient-to-br from-emerald-50 to-green-50",
+      content: isZh
+        ? [
+            "费用支付并完成课程/赛事预约后，不设退款或取消。",
+            "已预约课程须按时出席。"
+          ]
+        : [
+            "No refunds or cancellations once fees are paid and classes/tournaments booked.",
+            "Attendance is mandatory for booked sessions."
+          ],
+    },
+    {
+      id: "privacy",
+      title: isZh ? "私隐政策" : "Privacy Policy",
+      icon: Shield,
+      color: "from-purple-500 to-pink-500",
+      bgColor: "bg-gradient-to-br from-purple-50 to-pink-50",
+      content: isZh
+        ? [
+            "我们将根据适用法律及私隐政策收集并使用个人资料。",
+            "资料仅用于提供及优化服务与沟通。",
+            "学员资料将被保密，用户可申请查阅或更正。",
+            "除非明确拒绝，本院可将照片/影片用于宣传。",
+            "我们采取安全措施保护资料，但无法保证绝对安全。"
+          ]
+        : [
+            "We collect and use personal data per applicable laws and our Privacy Policy.",
+            "Data is used to provide/improve service and communications.",
+            "Student data is confidential and can be accessed or modified by users.",
+            "We may use photos/videos for promotional purposes unless opted out.",
+            "We ensure data security but cannot guarantee absolute security."
+          ],
+    }
+  ];
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50">
       {/* Animated Background */}
@@ -99,13 +123,13 @@ export default function TermsPage() {
         <div className="max-w-6xl mx-auto text-center">
           <Badge className="mb-6 bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-700 px-6 py-2 text-lg shadow-lg">
             <BookOpen className="w-4 h-4 mr-2" />
-            Legal Policies
+            {isZh ? "法律政策" : "Legal Policies"}
           </Badge>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
-            Terms & Policies
+            {isZh ? "条款与政策" : "Terms & Policies"}
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Understanding our policies ensures the best learning experience for everyone at Bharat Chess Academy
+            {isZh ? "了解相关政策有助于为每位学员提供更优质、透明的学习体验。" : "Understanding our policies ensures the best learning experience for everyone at Bharat Chess Academy"}
           </p>
         </div>
       </section>
@@ -207,11 +231,10 @@ export default function TermsPage() {
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border-2 border-gray-200/50 shadow-lg">
               <Lock className="w-12 h-12 text-gray-600 mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                Questions About Our Policies?
+                {isZh ? "对我们的政策有疑问？" : "Questions About Our Policies?"}
               </h3>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                Our support team is here to help clarify any aspect of our terms and policies. 
-                We believe in transparent communication.
+                {isZh ? "我们的支持团队可协助解释任何条款与政策细节，我们坚持透明沟通。" : "Our support team is here to help clarify any aspect of our terms and policies. We believe in transparent communication."}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Badge className="bg-blue-500/10 text-blue-700 border border-blue-500/20 px-4 py-2">

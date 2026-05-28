@@ -4,8 +4,11 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Home, ChevronRight, Award, Sparkles, Medal } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 const AchievementsBanner: React.FC = () => {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   // Array of images for the Netflix-style background grid
   const bgThumbnails = [
     "/1.webp", "/2.webp", "/3.webp", "/1.webp",
@@ -51,7 +54,7 @@ const AchievementsBanner: React.FC = () => {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest mb-4 shadow-lg"
         >
           <Award size={10} className="text-[#f59e0b]" />
-          Hall of Fame
+          {isZh ? "荣耀殿堂" : "Hall of Fame"}
         </motion.div>
 
         {/* Title */}
@@ -60,9 +63,9 @@ const AchievementsBanner: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl md:text-7xl font-[1000] text-slate-900 mb-4 tracking-tighter leading-[0.95] uppercase"
         >
-          OUR <br />
+          {isZh ? "我们的" : "OUR"} <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] to-[#f59e0b]">
-            ACHIEVEMENTS
+            {isZh ? "成就" : "ACHIEVEMENTS"}
           </span>
         </motion.h1>
         
@@ -73,7 +76,7 @@ const AchievementsBanner: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-sm md:text-lg text-slate-600 max-w-xl mb-8 font-medium leading-snug"
         >
-          Celebrating the dedication and success of our students across local, national, and international chess championships.
+          {isZh ? "见证学员在本地、全国及国际赛事中的努力与荣誉。" : "Celebrating the dedication and success of our students across local, national, and international chess championships."}
         </motion.p>
 
         {/* Breadcrumb Navigation */}
@@ -85,13 +88,13 @@ const AchievementsBanner: React.FC = () => {
         >
           <Link href="/" className="text-slate-400 hover:text-[#1a5f5f] transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
             <Home size={12} />
-            <span>Home</span>
+            <span>{isZh ? "主页" : "Home"}</span>
           </Link>
           
           <ChevronRight className="w-3 h-3 text-slate-200" strokeWidth={3} />
           
           <span className="text-slate-900 font-black text-[10px] uppercase tracking-widest">
-            Achievements
+            {isZh ? "成就" : "Achievements"}
           </span>
         </motion.nav>
 

@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { useParams } from "next/navigation";
 
 /* -------------------------------------------------------------------------- */
 /*                               INTERNAL ICONS                               */
@@ -50,7 +51,11 @@ const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const t = useTranslations("header");
+  const locale = useLocale();
+  const router = useRouter();
   const pathname = usePathname();
+  const params = useParams();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -60,22 +65,14 @@ const Header: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* -------------------------------------------------------------------------- */
-  /*                           GOOGLE TRANSLATE SWITCH                          */
-  /* -------------------------------------------------------------------------- */
-
   const toggleLanguage = () => {
-    const select = document.querySelector(
-      ".goog-te-combo"
-    ) as HTMLSelectElement;
-
-    if (!select) return;
-
-    const nextLang = select.value === "zh-TW" ? "en" : "zh-TW";
-
-    select.value = nextLang;
-
-    select.dispatchEvent(new Event("change"));
+    const nextLocale = locale === "en" ? "zh" : "en";
+    router.replace(
+      // Required for dynamic routes to preserve the current slug/params
+      { pathname, params },
+      { locale: nextLocale }
+    );
+    setIsMobileMenuOpen(false);
   };
 
   /* -------------------------------------------------------------------------- */
@@ -83,13 +80,13 @@ const Header: React.FC = () => {
   /* -------------------------------------------------------------------------- */
 
   const navItems = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Courses", href: "/courses" },
-    { name: "Tournaments", href: "/tournaments" },
-    { name: "Achievements", href: "/achievements" },
-    { name: "Gallery", href: "/gallery" },
-    { name: "Blog", href: "/blog" },
+    { name: t("nav.home"), href: "/" },
+    { name: t("nav.about"), href: "/about" },
+    { name: t("nav.courses"), href: "/courses" },
+    { name: t("nav.tournaments"), href: "/tournaments" },
+    { name: t("nav.achievements"), href: "/achievements" },
+    { name: t("nav.gallery"), href: "/gallery" },
+    { name: t("nav.blog"), href: "/blog" },
   ];
 
   return (
@@ -143,7 +140,7 @@ const Header: React.FC = () => {
               onClick={toggleLanguage}
               className="hidden md:inline-flex items-center justify-center whitespace-nowrap px-5 py-3 text-[12px] font-black tracking-widest text-slate-700 border border-gray-200 rounded-full hover:bg-slate-100 transition-all duration-300"
             >
-              中文
+              {t("switchLanguage")}
             </button>
 
             {/* Contact Button */}
@@ -152,7 +149,7 @@ const Header: React.FC = () => {
               href="/contact"
               className="hidden md:inline-flex items-center justify-center whitespace-nowrap px-7 py-3 text-[13px] font-black uppercase tracking-widest text-white transition-all duration-300 bg-slate-900 rounded-full hover:bg-purple-600 hover:shadow-[0_10px_20px_rgba(147,51,234,0.3)] active:scale-95"
             >
-              Contact Us
+              {t("contactUs")}
             </Link>
 
             {/* Mobile Menu Button */}
@@ -216,7 +213,7 @@ const Header: React.FC = () => {
               onClick={toggleLanguage}
               className="w-full py-4 text-sm font-black tracking-widest text-slate-700 border border-gray-200 rounded-2xl"
             >
-              中文
+              {t("switchLanguage")}
             </button>
           </div>
 
@@ -247,7 +244,7 @@ const Header: React.FC = () => {
               className="flex items-center justify-center w-full py-4 text-white bg-slate-900 font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-slate-200"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Book a Free Demo
+              {t("bookFreeDemo")}
             </Link>
           </div>
         </div>

@@ -3,8 +3,11 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Home, ChevronRight, Sparkles, Trophy, Users } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 const AboutBanner: React.FC = () => {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   const bgThumbnails = [
     "/1.webp", "/2.webp", "/3.webp", "/1.webp",
     "/2.webp", "/3.webp", "/1.webp", "/2.webp",
@@ -42,7 +45,7 @@ const AboutBanner: React.FC = () => {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest mb-4 shadow-lg"
         >
           <Sparkles size={10} className="text-orange-400" />
-          Established 2010
+          {isZh ? "创立于 2010" : "Established 2010"}
         </motion.div>
 
         {/* Scaled Down Title */}
@@ -51,9 +54,9 @@ const AboutBanner: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl md:text-7xl font-[1000] text-slate-900 mb-4 tracking-tighter leading-[0.95]"
         >
-          MASTERS <br />
+          {isZh ? "棋艺" : "MASTERS"} <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-indigo-900">
-            OF THE BOARD
+            {isZh ? "大师团队" : "OF THE BOARD"}
           </span>
         </motion.h1>
         
@@ -64,7 +67,7 @@ const AboutBanner: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-sm md:text-lg text-slate-600 max-w-xl mb-8 font-medium leading-snug"
         >
-          Dubai&apos;s premier strategy academy. We turn potential into excellence through elite chess mentorship.
+          {isZh ? "以精英棋艺导师体系，把潜力转化为真正实力。" : "Dubai&apos;s premier strategy academy. We turn potential into excellence through elite chess mentorship."}
         </motion.p>
 
         {/* Smaller Breadcrumb */}
@@ -72,25 +75,25 @@ const AboutBanner: React.FC = () => {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white shadow-xl border border-slate-100 mb-12"
         >
           <Link href="/" className="text-slate-400 hover:text-orange-500 transition-colors flex items-center gap-2 text-[10px] font-black uppercase">
-            <Home size={12} /> Home
+            <Home size={12} /> {isZh ? "主页" : "Home"}
           </Link>
           <ChevronRight className="w-3 h-3 text-slate-200" strokeWidth={3} />
-          <span className="text-slate-900 font-black text-[10px] uppercase">About Academy</span>
+          <span className="text-slate-900 font-black text-[10px] uppercase">{isZh ? "关于学院" : "About Academy"}</span>
         </motion.nav>
 
         {/* Tightened Stats Grid */}
         <div className="grid grid-cols-3 gap-8 md:gap-16 border-t border-slate-100 pt-8 w-full max-w-2xl">
             <div className="flex flex-col items-center">
                 <span className="text-2xl md:text-3xl font-black text-slate-900">15+</span>
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Years</span>
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{isZh ? "年经验" : "Years"}</span>
             </div>
             <div className="flex flex-col items-center">
                 <span className="text-2xl md:text-3xl font-black text-slate-900">500+</span>
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Students</span>
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{isZh ? "学员" : "Students"}</span>
             </div>
             <div className="flex flex-col items-center">
                 <span className="text-2xl md:text-3xl font-black text-slate-900 uppercase">FIDE</span>
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Certified</span>
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{isZh ? "认证" : "Certified"}</span>
             </div>
         </div>
       </div>

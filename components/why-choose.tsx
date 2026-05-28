@@ -3,6 +3,7 @@
 import React from "react";
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { 
   Trophy, 
   BrainCircuit, 
@@ -14,35 +15,36 @@ import {
 } from "lucide-react";
 
 export default function TeachingPhilosophy() {
+  const t = useTranslations("home.whyChoose");
   
   const pillars = [
     {
-      title: "Cognitive Theory",
-      description: "Developing spatial and logical thinking architecture through board play.",
+      title: t("pillars.0.title"),
+      description: t("pillars.0.description"),
       icon: <BrainCircuit className="w-5 h-5 text-indigo-900" />,
       cardBg: "bg-[#FFD700]", // YELLOW
       textColor: "text-slate-900",
       descColor: "text-slate-800",
     },
     {
-      title: "Tactical Grit",
-      description: "Teaching students to handle pressure and recover from setbacks with focus.",
+      title: t("pillars.1.title"),
+      description: t("pillars.1.description"),
       icon: <Target className="w-5 h-5 text-white" />,
       cardBg: "bg-[#8A2BE2]", // PURPLE
       textColor: "text-white",
       descColor: "text-purple-100",
     },
     {
-      title: "Elite Pedagogy",
-      description: "Expert coaching using AI-driven software for deep tactical game analysis.",
+      title: t("pillars.2.title"),
+      description: t("pillars.2.description"),
       icon: <Lightbulb className="w-5 h-5 text-white" />,
       cardBg: "bg-[#4F46E5]", // INDIGO
       textColor: "text-white",
       descColor: "text-indigo-100",
     },
     {
-      title: "Strategic Foresight",
-      description: "Fostering the ability to think 10 steps ahead for academic and life success.",
+      title: t("pillars.3.title"),
+      description: t("pillars.3.description"),
       icon: <Trophy className="w-5 h-5 text-white" />,
       cardBg: "bg-[#00CEC9]", // TEAL
       textColor: "text-white",
@@ -80,11 +82,11 @@ export default function TeachingPhilosophy() {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest mb-4 shadow-xl"
           >
             <ShieldCheck size={14} className="text-yellow-400" />
-            Strategic Pedagogy
+            {t("badge")}
           </motion.div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 tracking-tighter leading-none uppercase">
-            Our Teaching <br className="md:hidden" /> 
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500">Philosophy</span>
+            {t("titlePrefix")} <br className="md:hidden" /> 
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500">{t("titleHighlight")}</span>
           </h2>
         </div>
 
@@ -125,8 +127,8 @@ export default function TeachingPhilosophy() {
                    <Zap className="text-white w-3 h-3 sm:w-4 sm:h-4 fill-current" />
                 </div>
                 <div className="flex flex-col">
-                   <span className="text-[8px] font-black text-slate-400 uppercase leading-none">Peak</span>
-                   <span className="text-[10px] sm:text-[11px] font-bold text-slate-900 leading-none">Logic</span>
+                   <span className="text-[8px] font-black text-slate-400 uppercase leading-none">{t("floatingLabelTop")}</span>
+                   <span className="text-[10px] sm:text-[11px] font-bold text-slate-900 leading-none">{t("floatingLabelBottom")}</span>
                 </div>
               </motion.div>
             </div>
@@ -145,6 +147,7 @@ export default function TeachingPhilosophy() {
 }
 
 function PhilosophyCard({ pillar, cardVariants }: { pillar: any, cardVariants: any }) {
+  const t = useTranslations("home.whyChoose");
   return (
     <motion.div
       initial="hidden"
@@ -174,7 +177,7 @@ function PhilosophyCard({ pillar, cardVariants }: { pillar: any, cardVariants: a
       
       <div className="relative z-10">
         <span className="text-[9px] font-black uppercase tracking-widest bg-white/30 px-3 py-1 rounded-full text-inherit border border-white/20">
-          Academy Standard
+          {t("academyStandard")}
         </span>
       </div>
     </motion.div>

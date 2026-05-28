@@ -9,8 +9,10 @@ import {
   Zap,
   Crown
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function CTASection() {
+  const t = useTranslations("home.cta");
   return (
     <section className="relative py-16 bg-white overflow-hidden font-sans">
       
@@ -40,24 +42,24 @@ export default function CTASection() {
               <div className="flex gap-2">
                 <div className="px-3 py-1 bg-white rounded-full border-2 border-[#1e1b4b] flex items-center gap-1.5 shadow-[3px_3px_0px_#1e1b4b]">
                   <Sparkles size={12} className="text-orange-500" />
-                  <span className="text-[9px] font-black uppercase tracking-widest text-[#1e1b4b]">Enrollment Open</span>
+                  <span className="text-[9px] font-black uppercase tracking-widest text-[#1e1b4b]">{t("enrollmentOpen")}</span>
                 </div>
                 <div className="px-3 py-1 bg-yellow-400 rounded-full border-2 border-[#1e1b4b] flex items-center gap-1.5 shadow-[3px_3px_0px_#1e1b4b]">
                   <Crown size={12} className="text-[#1e1b4b]" />
-                  <span className="text-[9px] font-black uppercase tracking-widest text-[#1e1b4b]">Master Class</span>
+                  <span className="text-[9px] font-black uppercase tracking-widest text-[#1e1b4b]">{t("masterClass")}</span>
                 </div>
               </div>
 
               {/* Headline */}
               <h2 className="text-3xl md:text-5xl font-[1000] text-white leading-none tracking-tighter uppercase italic">
-                Ready to make <br />
+                {t("titleLine1")} <br />
                 <span className="bg-white text-[#4F46E5] px-3 py-1 inline-block transform -rotate-1 mt-2 border-[3px] border-[#1e1b4b] shadow-[6px_6px_0px_#1e1b4b]">
-                   YOUR MOVE?
+                   {t("titleLine2")}
                 </span>
               </h2>
 
               <p className="text-white/90 text-sm md:text-lg font-bold max-w-lg">
-                Unlock focus and strategic thinking. Join HK&apos;s premier Academy today.
+                {t("description")}
               </p>
 
               {/* ACTION BUTTONS */}
@@ -65,13 +67,13 @@ export default function CTASection() {
                 <Link href="https://wa.me/85246144561" target="_blank">
                   <button className="w-full sm:w-auto px-8 py-4 bg-white text-[#1e1b4b] rounded-xl font-[1000] uppercase tracking-widest text-xs border-[3px] border-[#1e1b4b] shadow-[5px_5px_0px_#1e1b4b] transition-all hover:translate-y-0.5 hover:shadow-none flex items-center justify-center gap-2">
                     <MessageCircle size={18} className="fill-current" />
-                    Book Free Trial
+                    {t("bookFreeTrial")}
                   </button>
                 </Link>
 
                 <Link href="/courses">
                   <button className="w-full sm:w-auto px-8 py-4 bg-[#1e1b4b] text-white rounded-xl font-[1000] uppercase tracking-widest text-xs border-[3px] border-white/10 transition-all hover:bg-white hover:text-[#1e1b4b] flex items-center justify-center gap-2">
-                    View Courses
+                    {t("viewCourses")}
                     <ArrowRight size={18} />
                   </button>
                 </Link>
@@ -92,9 +94,9 @@ export default function CTASection() {
 
         {/* CATCHY FOOTER NOTE */}
         <div className="mt-10 flex items-center justify-center gap-6 opacity-30">
-            <span className="text-[9px] font-black uppercase tracking-[0.2em]">FIDE Certified</span>
+            <span className="text-[9px] font-black uppercase tracking-[0.2em]">{t("fideCertified")}</span>
             <div className="w-1 h-1 rounded-full bg-slate-900" />
-            <span className="text-[9px] font-black uppercase tracking-[0.2em]">Hong Kong Representative</span>
+            <span className="text-[9px] font-black uppercase tracking-[0.2em]">{t("hkRepresentative")}</span>
         </div>
 
       </div>

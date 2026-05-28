@@ -2,8 +2,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Trophy, ShieldCheck, Sparkles } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const AboutSection: React.FC = () => {
+  const t = useTranslations("home.about");
   return (
     <section className="relative w-full py-16 md:py-24 lg:py-32 bg-white overflow-hidden">
       
@@ -42,24 +44,22 @@ const AboutSection: React.FC = () => {
             <div className="space-y-4 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-100 text-orange-600 text-[10px] md:text-xs font-black uppercase tracking-widest shadow-sm">
                 <Sparkles size={14} />
-                Academy Heritage
+                {t("badge")}
               </div>
               
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-[1000] text-slate-900 leading-[1.1] tracking-tighter uppercase">
-                Elevating <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">Minds</span> <br className="hidden sm:block" />
-                Through Every Move.
+                {t("titlePrefix")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">{t("titleHighlight")}</span> <br className="hidden sm:block" />
+                {t("titleSuffix")}
               </h2>
             </div>
 
             <div className="space-y-6 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
               <p className="text-slate-500 text-base md:text-lg lg:text-xl leading-relaxed font-medium">
-                At EC Chess Academy, we turn 15 years of professional chess pedagogy 
-                into a transformative learning experience for Hong Kong&apos;s bright young minds.
+                {t("description1")}
               </p>
               
               <p className="text-slate-500 text-base md:text-lg lg:text-xl leading-relaxed font-medium">
-                By blending international competitive standards with cognitive development theory, 
-                we help students build the foresight and resilience needed for life.
+                {t("description2")}
               </p>
             </div>
 
@@ -70,7 +70,7 @@ const AboutSection: React.FC = () => {
                   <ShieldCheck size={22} />
                 </div>
                 <span className="text-xs md:text-sm font-black text-slate-700 uppercase tracking-tight leading-tight">
-                  Elite FIDE <br/> Certified Coaching
+                  {t("stat1a")} <br/> {t("stat1b")}
                 </span>
               </div>
               <div className="flex items-center justify-center lg:justify-start gap-4">
@@ -78,7 +78,7 @@ const AboutSection: React.FC = () => {
                   <Trophy size={22} />
                 </div>
                 <span className="text-xs md:text-sm font-black text-slate-700 uppercase tracking-tight leading-tight">
-                  HK Representative <br/> Training Hub
+                  {t("stat2a")} <br/> {t("stat2b")}
                 </span>
               </div>
             </div>
@@ -134,7 +134,7 @@ const AboutSection: React.FC = () => {
                 </div>
                 <span className="text-2xl md:text-3xl font-black text-slate-900 leading-none">+15</span>
                 <span className="text-[8px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">
-                  Years of <br/> Excellence
+                  {t("yearsOf")} <br/> {t("excellence")}
                 </span>
               </motion.div>
 

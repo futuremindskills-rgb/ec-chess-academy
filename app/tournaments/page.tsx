@@ -12,6 +12,7 @@ import {
 import TournamentBanner from "@/components/ui/tournamentBanner";
 import { getTournaments, validateCouponAction } from "@/app/actions/adminActions";
 import { registerForTournament } from "@/app/actions/tournamentActions";
+import { useLocale } from "next-intl";
 
 type GameType = "Weiqi" | "Xiangqi" | "International Chess";
 
@@ -34,6 +35,8 @@ const formatDateTime = (date: any) => {
 };
 
 export default function TournamentsPage() {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   const [tournaments, setTournaments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   
@@ -89,13 +92,13 @@ export default function TournamentsPage() {
       const res = await validateCouponAction(couponInput, selectedTournament.id);
       if (res.valid) {
         setAppliedDiscount({ type: res.discountType!, value: res.discountValue! });
-        setCouponMsg({ text: "Coupon applied successfully!", isError: false });
+        setCouponMsg({ text: isZh ? "优惠码已成功使用！" : "Coupon applied successfully!", isError: false });
       } else {
         setAppliedDiscount(null);
-        setCouponMsg({ text: res.message || "Invalid coupon", isError: true });
+        setCouponMsg({ text: res.message || (isZh ? "优惠码无效" : "Invalid coupon"), isError: true });
       }
     } catch (error) {
-      setCouponMsg({ text: "Error validating coupon", isError: true });
+      setCouponMsg({ text: isZh ? "优惠码验证失败" : "Error validating coupon", isError: true });
     } finally {
       setCouponLoading(false);
     }
@@ -104,7 +107,7 @@ export default function TournamentsPage() {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedMethod) {
-      alert("Please select a payment method");
+      alert(isZh ? "请选择支付方式" : "Please select a payment method");
       return;
     }
 
@@ -121,7 +124,7 @@ export default function TournamentsPage() {
         alert(result.error);
       }
     } catch (error) {
-      alert("Something went wrong. Please try again.");
+        alert(isZh ? "发生错误，请重试。" : "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -146,10 +149,10 @@ export default function TournamentsPage() {
         <div className="container mx-auto px-4 py-20">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-5xl font-[1000] uppercase tracking-tighter mb-6">
-              Choose Your Game
+              {isZh ? "选择比赛项目" : "Choose Your Game"}
             </h1>
             <p className="text-slate-500 font-bold text-lg mb-12">
-              Select the discipline you want to compete in
+              {isZh ? "请选择你要参加的项目" : "Select the discipline you want to compete in"}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -167,7 +170,7 @@ export default function TournamentsPage() {
                 >
                   <div className="text-8xl mb-6 transition-transform group-hover:scale-110">{game.icon}</div>
                   <h3 className="text-white text-3xl font-black uppercase tracking-tighter">{game.name}</h3>
-                  <div className="absolute bottom-6 text-white/70 text-sm font-bold tracking-widest uppercase">Click to explore tournaments</div>
+                  <div className="absolute bottom-6 text-white/70 text-sm font-bold tracking-widest uppercase">{isZh ? "点击查看赛事" : "Click to explore tournaments"}</div>
                 </motion.button>
               ))}
             </div>
@@ -176,7 +179,7 @@ export default function TournamentsPage() {
               onClick={() => setSelectedGame(null)}
               className="mt-10 text-slate-400 hover:text-slate-600 font-bold text-sm flex items-center gap-2 mx-auto"
             >
-              ← Back
+              {isZh ? "← 返回" : "← Back"}
             </button>
           </div>
         </div>
@@ -189,15 +192,15 @@ export default function TournamentsPage() {
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h2 className="text-4xl font-[1000] uppercase tracking-tighter">
-                  {selectedGame} Tournaments
+                  {selectedGame} {isZh ? "赛事" : "Tournaments"}
                 </h2>
-                <p className="text-slate-500 font-bold">Select a tournament to register</p>
+                <p className="text-slate-500 font-bold">{isZh ? "选择赛事并报名" : "Select a tournament to register"}</p>
               </div>
               <button 
                 onClick={() => setSelectedGame(null)}
                 className="px-6 py-3 border-4 border-slate-900 rounded-2xl font-black text-sm hover:bg-slate-100 transition-all"
               >
-                ← Change Game
+                {isZh ? "← 更换项目" : "← Change Game"}
               </button>
             </div>
           </div>
@@ -207,12 +210,12 @@ export default function TournamentsPage() {
             {loading ? (
               <div className="flex flex-col justify-center items-center py-20 gap-4">
                 <Loader2 className="w-12 h-12 text-indigo-600 animate-spin" />
-                <p className="font-bold text-slate-400 uppercase tracking-widest text-xs">Loading Tournaments...</p>
+                <p className="font-bold text-slate-400 uppercase tracking-widest text-xs">{isZh ? "加载赛事中..." : "Loading Tournaments..."}</p>
               </div>
             ) : filteredTournaments.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-2xl font-black">No tournaments available for {selectedGame}</p>
-                <p className="text-slate-500 mt-2">Please check back later or choose another game.</p>
+                <p className="text-2xl font-black">{isZh ? `当前暂无 ${selectedGame} 赛事` : `No tournaments available for ${selectedGame}`}</p>
+                <p className="text-slate-500 mt-2">{isZh ? "请稍后再试或选择其他项目。" : "Please check back later or choose another game."}</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-12">
@@ -239,10 +242,10 @@ export default function TournamentsPage() {
                         </div>
                         <div className="flex flex-col gap-3">
                           <button onClick={() => setViewingRegs(t)} className="w-full py-3 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px] hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-slate-900">
-                            <FileText size={16} /> Regulations 章程
+                            <FileText size={16} /> {isZh ? "赛事章程" : "Regulations 章程"}
                           </button>
                           <button onClick={() => setSelectedTournament(t)} className="w-full py-4 bg-indigo-600 hover:bg-slate-900 text-white font-black uppercase rounded-2xl transition-all shadow-xl text-xs tracking-widest">
-                            Register Now
+                            {isZh ? "立即报名" : "Register Now"}
                           </button>
                         </div>
                       </div>
@@ -272,8 +275,8 @@ export default function TournamentsPage() {
 
               <form onSubmit={handleFormSubmit} className="p-6 md:p-10 max-h-[85vh] overflow-y-auto no-scrollbar text-slate-900">
                 <div className="mb-8">
-                  <h3 className="text-3xl font-[1000] uppercase tracking-tighter">Tournament Entry</h3>
-                  <p className="text-slate-500 font-bold text-[10px] uppercase tracking-widest mt-1">Event: {selectedTournament.title}</p>
+                  <h3 className="text-3xl font-[1000] uppercase tracking-tighter">{isZh ? "赛事报名" : "Tournament Entry"}</h3>
+                  <p className="text-slate-500 font-bold text-[10px] uppercase tracking-widest mt-1">{isZh ? "赛事：" : "Event:"} {selectedTournament.title}</p>
                 </div>
 
                 <input type="hidden" name="tournamentId" value={selectedTournament.id} />
@@ -286,12 +289,12 @@ export default function TournamentsPage() {
 
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required name="email" type="email" placeholder="Guardian Email" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600 text-slate-900" />
+                    <input required name="email" type="email" placeholder={isZh ? "监护人邮箱" : "Guardian Email"} className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600 text-slate-900" />
                   </div>
 
                   <div className="relative">
                     <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required name="phone" placeholder="Phone Number" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600 text-slate-900" />
+                    <input required name="phone" placeholder={isZh ? "联系电话" : "Phone Number"} className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600 text-slate-900" />
                   </div>
 
                   <div className="relative">
@@ -301,15 +304,15 @@ export default function TournamentsPage() {
 
                   <div className="relative">
                     <select required name="gender" className="w-full px-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none appearance-none bg-white focus:border-indigo-600 text-slate-900">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value="male">{isZh ? "男" : "Male"}</option>
+                        <option value="female">{isZh ? "女" : "Female"}</option>
                     </select>
                   </div>
 
                   <div className="relative md:col-span-2">
                     <Baby className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <select required name="studentCategory" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none appearance-none bg-white focus:border-indigo-600 text-slate-900">
-                      <option value="">-- Choose Category --</option>
+                      <option value="">{isZh ? "-- 选择组别 --" : "-- Choose Category --"}</option>
                       {selectedTournament.levels && JSON.parse(selectedTournament.levels).map((lvl: string) => (
                         <option key={lvl} value={lvl}>{lvl}</option>
                       ))}
@@ -318,20 +321,20 @@ export default function TournamentsPage() {
                   
                   <div className="relative md:col-span-2">
                     <BarChart className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input name="rating" placeholder="Current Level / Rating" className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600 text-slate-900" />
+                    <input name="rating" placeholder={isZh ? "当前级别 / 等级分" : "Current Level / Rating"} className="w-full pl-12 pr-4 py-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none focus:border-indigo-600 text-slate-900" />
                   </div>
                 </div>
 
                 {/* --- COUPON SECTION --- */}
                 <div className="mt-8">
                   <p className="font-black uppercase text-[10px] text-slate-400 tracking-widest mb-2 flex items-center gap-2">
-                    <Ticket size={14} className="text-amber-500" /> Coupon Code
+                    <Ticket size={14} className="text-amber-500" /> {isZh ? "优惠码" : "Coupon Code"}
                   </p>
                   <div className="flex gap-3">
                     <input 
                       value={couponInput}
                       onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
-                      placeholder="ENTER CODE" 
+                      placeholder={isZh ? "输入优惠码" : "ENTER CODE"} 
                       className="flex-1 px-4 py-3 border-4 border-slate-900 rounded-xl font-black uppercase text-xs outline-none focus:border-indigo-600 text-slate-900" 
                     />
                     <button 
@@ -340,7 +343,7 @@ export default function TournamentsPage() {
                       disabled={couponLoading || !couponInput}
                       className="px-6 py-3 bg-slate-900 text-white font-black rounded-xl text-[10px] uppercase hover:bg-indigo-600 transition-all flex items-center justify-center min-w-[80px]"
                     >
-                      {couponLoading ? <Loader2 size={16} className="animate-spin" /> : "Apply"}
+                      {couponLoading ? <Loader2 size={16} className="animate-spin" /> : (isZh ? "使用" : "Apply")}
                     </button>
                   </div>
                   {couponMsg.text && (
@@ -354,7 +357,7 @@ export default function TournamentsPage() {
                 <div className="mt-6 p-6 bg-indigo-50 border-4 border-indigo-100 rounded-[24px] flex justify-between items-center">
                    <div>
                       <p className="font-black text-indigo-900 uppercase text-[10px] tracking-widest">
-                        {appliedDiscount ? "Discounted Total" : "Entry Fee"}
+                        {appliedDiscount ? (isZh ? "优惠后总额" : "Discounted Total") : (isZh ? "报名费" : "Entry Fee")}
                       </p>
                       <div className="flex items-baseline gap-3">
                         <p className="font-[1000] text-3xl text-indigo-600">
@@ -374,11 +377,11 @@ export default function TournamentsPage() {
 <div className="mt-8 space-y-4">
   <div className="flex items-center justify-between px-2">
     <p className="font-black uppercase text-[10px] text-slate-400 tracking-[0.2em]">
-      Secure Checkout
+      {isZh ? "安全支付" : "Secure Checkout"}
     </p>
     <div className="flex items-center gap-1 bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-md border border-emerald-200">
       <ShieldCheck size={10} />
-      <span className="text-[8px] font-black uppercase">Encrypted</span>
+      <span className="text-[8px] font-black uppercase">{isZh ? "已加密" : "Encrypted"}</span>
     </div>
   </div>
   
@@ -403,11 +406,11 @@ export default function TournamentsPage() {
       </div>
       
       <span className="font-[1000] uppercase text-sm tracking-tighter mb-1">
-        Pay via AsiaPay (PayDollar)
+        {isZh ? "通过 AsiaPay（PayDollar）支付" : "Pay via AsiaPay (PayDollar)"}
       </span>
       
       <p className={`text-[9px] font-bold uppercase tracking-widest mb-4 ${selectedMethod === 'asiapay' ? 'text-indigo-100' : 'text-slate-500'}`}>
-        Official HK Payment Gateway
+        {isZh ? "香港官方支付网关" : "Official HK Payment Gateway"}
       </p>
 
       {/* Visual Payment Badges */}
@@ -438,14 +441,14 @@ export default function TournamentsPage() {
   </button>
   
   <p className="text-center text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-    Your data is processed by AsiaPay Limited (HK)
+    {isZh ? "你的数据将由 AsiaPay Limited（香港）处理" : "Your data is processed by AsiaPay Limited (HK)"}
   </p>
 </div>
 
                 {isSubmitting && (
                   <div className="mt-6 flex items-center justify-center gap-2">
                     <Loader2 className="animate-spin text-indigo-600" size={20} />
-                    <span className="font-black uppercase text-[10px] tracking-widest text-slate-400">Processing Secure Payment...</span>
+                    <span className="font-black uppercase text-[10px] tracking-widest text-slate-400">{isZh ? "正在处理安全支付..." : "Processing Secure Payment..."}</span>
                   </div>
                 )}
               </form>
@@ -462,14 +465,14 @@ export default function TournamentsPage() {
               className="bg-white border-4 border-slate-900 rounded-[32px] w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col shadow-[20px_20px_0px_#4f46e5]"
             >
               <div className="p-6 border-b-4 border-slate-900 bg-slate-50 flex justify-between items-center">
-                <h3 className="font-[1000] uppercase text-xl tracking-tighter">Regulations</h3>
+                <h3 className="font-[1000] uppercase text-xl tracking-tighter">{isZh ? "赛事章程" : "Regulations"}</h3>
                 <button onClick={() => setViewingRegs(null)} className="p-2 border-2 border-slate-900 rounded-xl hover:bg-red-500 hover:text-white transition-all"><X size={20}/></button>
               </div>
               <div className="p-8 overflow-y-auto bg-white whitespace-pre-wrap font-medium text-slate-700 leading-relaxed text-sm">
-                {viewingRegs.regulations || "Detailed regulations for this event are not yet uploaded."}
+                {viewingRegs.regulations || (isZh ? "该赛事详细章程暂未上传。" : "Detailed regulations for this event are not yet uploaded.")}
               </div>
               <div className="p-6 bg-slate-50 border-t-4 border-slate-900 text-center">
-                 <button onClick={() => { setSelectedTournament(viewingRegs); setViewingRegs(null); }} className="px-12 py-4 bg-indigo-600 text-white font-black uppercase rounded-2xl text-xs hover:bg-slate-900 transition-colors shadow-lg">Start Registration</button>
+                 <button onClick={() => { setSelectedTournament(viewingRegs); setViewingRegs(null); }} className="px-12 py-4 bg-indigo-600 text-white font-black uppercase rounded-2xl text-xs hover:bg-slate-900 transition-colors shadow-lg">{isZh ? "开始报名" : "Start Registration"}</button>
               </div>
             </motion.div>
           </div>
@@ -480,7 +483,7 @@ export default function TournamentsPage() {
       <section className="py-16 md:py-24 bg-slate-900 relative overflow-hidden">
          <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0h30v30H30V0zM0 30h30v30H0V30z' fill='%23ffffff' /%3E%3C/svg%3E")` }} />
          <div className="container mx-auto px-6 relative z-10 text-center mb-12 text-white">
-            <h2 className="text-3xl md:text-6xl font-[1000] uppercase tracking-tighter mb-4 leading-none">Competition <span className="text-orange-400 italic">Formats</span></h2>
+            <h2 className="text-3xl md:text-6xl font-[1000] uppercase tracking-tighter mb-4 leading-none">{isZh ? "比赛" : "Competition"} <span className="text-orange-400 italic">{isZh ? "赛制" : "Formats"}</span></h2>
          </div>
          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[

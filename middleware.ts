@@ -1,11 +1,15 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import createMiddleware from "next-intl/middleware";
+import { routing } from "./i18n/routing";
 
-export async function middleware(req: NextRequest) {
+const intlMiddleware = createMiddleware(routing);
+
+export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // ✅ BYPASS ALL WEBHOOKS (IMPORTANT)
+  // Keep webhook handlers untouched
   if (pathname.startsWith("/api/webhook")) {
     return NextResponse.next();
   }
@@ -38,9 +42,13 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  return NextResponse.next();
+  if (pathname.startsWith("/api")) {
+    return NextResponse.next();
+  }
+
+  return intlMiddleware(req);
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/:path*"],
+  matcher: ["/((?!_next|_vercel|.*\\..*).*)"],
 };

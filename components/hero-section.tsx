@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, CheckCircle2, Trophy, Zap, Crown, X } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { useTranslations } from "next-intl"
 
 // --- TYPES FOR ADMIN DATA ---
 interface BannerData {
@@ -20,6 +21,7 @@ interface HeroSectionProps {
 
 export function HeroSection({ bannerData }: HeroSectionProps) {
   const [isBannerClosed, setIsBannerClosed] = useState(false)
+  const t = useTranslations("home.hero")
 
   // Logic to determine if banner actually renders
   const showBanner = bannerData?.isActive && bannerData?.imageUrl && !isBannerClosed
@@ -96,7 +98,7 @@ export function HeroSection({ bannerData }: HeroSectionProps) {
                 <div className="flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
                   <Crown className="w-3.5 h-3.5 text-orange-400" />
                   <span className="text-white font-bold text-[10px] md:text-xs tracking-[0.2em] uppercase">
-                    Hong Kong&apos;s Elite Strategy Academy
+                    {t("badge")}
                   </span>
                 </div>
               </motion.div>
@@ -107,9 +109,9 @@ export function HeroSection({ bannerData }: HeroSectionProps) {
                 transition={{ delay: 0.2, duration: 0.8 }}
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl font-[1000] leading-[1] tracking-tighter uppercase"
               >
-                Building <br />
-                <span className="text-orange-500 italic">Brilliant Minds</span> <br className="hidden sm:block" />
-                Through Chess.
+                {t("titleLine1")} <br />
+                <span className="text-orange-500 italic">{t("titleLine2")}</span> <br className="hidden sm:block" />
+                {t("titleLine3")}
               </motion.h1>
 
               <motion.p 
@@ -118,22 +120,22 @@ export function HeroSection({ bannerData }: HeroSectionProps) {
                 transition={{ delay: 0.4 }}
                 className="text-indigo-100/80 text-base md:text-lg lg:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium"
               >
-                Empower your child with focus, confidence, and strategic thinking through elite FIDE-standard training trusted by families across Hong Kong.
+                {t("description")}
               </motion.p>
 
               {/* Checkmark Features */}
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-x-8 gap-y-3">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-5 h-5 text-orange-500" />
-                  <span className="font-bold text-sm md:text-base text-white">FIDE Coaches</span>
+                  <span className="font-bold text-sm md:text-base text-white">{t("feature1")}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-5 h-5 text-orange-500" />
-                  <span className="font-bold text-sm md:text-base text-white">Ages 3+ Growth</span>
+                  <span className="font-bold text-sm md:text-base text-white">{t("feature2")}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-5 h-5 text-orange-500" />
-                  <span className="font-bold text-sm md:text-base text-white">HK Competitions</span>
+                  <span className="font-bold text-sm md:text-base text-white">{t("feature3")}</span>
                 </div>
               </motion.div>
 
@@ -141,14 +143,14 @@ export function HeroSection({ bannerData }: HeroSectionProps) {
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                 <Link href="/contact">
                   <Button size="lg" className="w-full sm:w-auto h-14 md:h-16 px-8 md:px-12 bg-orange-500 hover:bg-white hover:text-[#1e1b4b] text-white rounded-2xl md:rounded-[2rem] text-lg md:text-xl font-black uppercase tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95">
-                    Book a Demo
+                    {t("bookDemo")}
                     <ArrowRight className="ml-2 w-5 h-5 md:w-6 md:h-6" />
                   </Button>
                 </Link>
 
                 <Link href="/courses">
                   <Button variant="ghost" size="lg" className="w-full sm:w-auto h-14 md:h-16 px-8 md:px-10 text-white hover:bg-white/10 rounded-2xl md:rounded-[2rem] text-base md:text-lg font-bold border-2 border-white/20 backdrop-blur-sm uppercase tracking-widest">
-                    Explore Courses
+                    {t("exploreCourses")}
                   </Button>
                 </Link>
               </motion.div>

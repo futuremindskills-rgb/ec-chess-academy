@@ -8,44 +8,43 @@ import {
   Users, 
   Award, 
   Globe, 
-  LineChart,
-  MessageCircle,
-  Phone
+  LineChart
 } from "lucide-react";
-
-const faqData = [
-  {
-    question: "What is the best age to start learning?",
-    answer: "We recommend starting as early as 3-4 years old. At this stage, we focus on 'Cognitive Play' to build spatial awareness and basic logic through fun chess-themed games.",
-    icon: <Users className="w-5 h-5 md:w-6 md:h-6" />,
-    color: "bg-[#FFD8B1]", 
-    iconBg: "bg-[#FF7A00]"
-  },
-  {
-    question: "Do you provide FIDE certified coaching?",
-    answer: "Yes, our lead coaches are FIDE-certified and have over 15 years of international coaching experience. We follow the official HK and Global standards.",
-    icon: <Award className="w-5 h-5 md:w-6 md:h-6" />,
-    color: "bg-[#E9D5FF]", 
-    iconBg: "bg-[#8A2BE2]"
-  },
-  {
-    question: "Do you offer online or hybrid classes?",
-    answer: "Absolutely. We use advanced chess software and interactive platforms to ensure students across Hong Kong can learn from home without losing tactical quality.",
-    icon: <Globe className="w-5 h-5 md:w-6 md:h-6" />,
-    color: "bg-[#B2F5F5]", 
-    iconBg: "bg-[#00B5AD]"
-  },
-  {
-    question: "How do you track student progress?",
-    answer: "Every student receives a digital 'Grandmaster Progress Report' every term, detailing their rating growth, tactical accuracy, and strategic focus areas.",
-    icon: <LineChart className="w-5 h-5 md:w-6 md:h-6" />,
-    color: "bg-[#C7D2FE]", 
-    iconBg: "bg-[#4F46E5]"
-  }
-];
+import { useTranslations } from "next-intl";
 
 const FAQSection: React.FC = () => {
+  const t = useTranslations("home.faq");
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
+  const faqData = [
+    {
+      question: t("q1"),
+      answer: t("a1"),
+      icon: <Users className="w-5 h-5 md:w-6 md:h-6" />,
+      color: "bg-[#FFD8B1]",
+      iconBg: "bg-[#FF7A00]"
+    },
+    {
+      question: t("q2"),
+      answer: t("a2"),
+      icon: <Award className="w-5 h-5 md:w-6 md:h-6" />,
+      color: "bg-[#E9D5FF]",
+      iconBg: "bg-[#8A2BE2]"
+    },
+    {
+      question: t("q3"),
+      answer: t("a3"),
+      icon: <Globe className="w-5 h-5 md:w-6 md:h-6" />,
+      color: "bg-[#B2F5F5]",
+      iconBg: "bg-[#00B5AD]"
+    },
+    {
+      question: t("q4"),
+      answer: t("a4"),
+      icon: <LineChart className="w-5 h-5 md:w-6 md:h-6" />,
+      color: "bg-[#C7D2FE]",
+      iconBg: "bg-[#4F46E5]"
+    }
+  ];
 
   return (
     <section className="py-12 md:py-20 lg:py-24 bg-white relative overflow-hidden font-sans">
@@ -61,10 +60,10 @@ const FAQSection: React.FC = () => {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] mb-4"
           >
             <HelpCircle size={14} className="text-orange-400" />
-            Support Center
+            {t("badge")}
           </motion.div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 tracking-tighter uppercase leading-[1.1] md:leading-none">
-            Strategic <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-600">Q&A</span>
+            {t("titlePrefix")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-600">{t("titleHighlight")}</span>
           </h2>
         </div>
 
@@ -101,7 +100,7 @@ const FAQSection: React.FC = () => {
                   <div className="p-3 md:p-4 bg-white/80 backdrop-blur-md border border-slate-100 rounded-xl md:rounded-2xl shadow-lg flex items-center gap-3">
                     <Sparkles size={16} className="text-orange-500 shrink-0" />
                     <p className="text-slate-900 font-black text-[9px] md:text-[10px] uppercase tracking-widest leading-tight">
-                      EC Mastery Process
+                      {t("masteryProcess")}
                     </p>
                   </div>
                 </div>

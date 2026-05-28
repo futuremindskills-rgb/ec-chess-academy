@@ -2,6 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useLocale } from 'next-intl';
 import { 
   Home, 
   ChevronRight, 
@@ -52,6 +53,8 @@ const learningLevels = [
 ];
 
 export default function InternationalChessPage() {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   return (
     <div className="bg-[#FAF9F6] font-sans overflow-x-hidden pr-0 lg:pr-24">
       
@@ -63,32 +66,32 @@ export default function InternationalChessPage() {
         <div className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center">
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} 
             className="mb-6 bg-indigo-600 text-white px-6 py-2 rounded-2xl border-4 border-slate-900 font-black uppercase tracking-widest rotate-2 shadow-[4px_4px_0px_#0f172a]">
-             FIDE Certified Academy
+             {isZh ? "FIDE 认证学院" : "FIDE Certified Academy"}
           </motion.div>
 
           <h1 className="text-3xl md:text-5xl font-[1000] text-slate-900 tracking-tighter leading-[0.9] uppercase mb-8">
-            INTERNATIONAL <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 italic">CHESS ELITE.</span>
+            {isZh ? "国际象棋" : "INTERNATIONAL"} <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 italic">{isZh ? "精英课程" : "CHESS ELITE."}</span>
           </h1>
 
           <p className="max-w-2xl text-lg md:text-xl text-slate-500 font-bold mb-10 leading-tight">
-            From the first move to Grandmaster strategy. We provide Hong Kong’s elite youth with international-standard chess mentorship.
+            {isZh ? "从第一步到大师级战略，我们为香港青少年提供国际标准的象棋训练与指导。" : "From the first move to Grandmaster strategy. We provide Hong Kong’s elite youth with international-standard chess mentorship."}
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
             <div className="bg-white px-5 py-3 rounded-2xl border-4 border-slate-900 font-black text-xs uppercase flex items-center gap-2 shadow-[4px_4px_0px_#4f46e5]">
-              <Users size={16} className="text-indigo-600" /> Age 5 - 18
+              <Users size={16} className="text-indigo-600" /> {isZh ? "年龄 5 - 18" : "Age 5 - 18"}
             </div>
             <div className="bg-white px-5 py-3 rounded-2xl border-4 border-slate-900 font-black text-xs uppercase flex items-center gap-2 shadow-[4px_4px_0px_#4f46e5]">
-              <Clock size={16} className="text-indigo-600" /> FIDE Standards
+              <Clock size={16} className="text-indigo-600" /> {isZh ? "FIDE 标准" : "FIDE Standards"}
             </div>
           </div>
 
           <nav className="mt-12 inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-white border-2 border-slate-200">
             <Link href="/" className="text-slate-400 hover:text-indigo-600 text-[10px] font-black uppercase flex items-center gap-2 transition-colors">
-              <Home size={12} /> Home
+              <Home size={12} /> {isZh ? "主页" : "Home"}
             </Link>
             <ChevronRight className="w-3 h-3 text-slate-300" />
-            <span className="text-slate-900 font-black text-[10px] uppercase tracking-tight">International Chess</span>
+            <span className="text-slate-900 font-black text-[10px] uppercase tracking-tight">{isZh ? "国际象棋" : "International Chess"}</span>
           </nav>
         </div>
       </section>
@@ -97,9 +100,9 @@ export default function InternationalChessPage() {
       <section className="py-24 lg:py-32 container mx-auto px-6">
         <div className="text-center mb-20">
             <h2 className="text-3xl md:text-5xl font-[1000] text-slate-900 tracking-tighter uppercase leading-none mb-4">
-                CHOOSE YOUR <br /><span className="text-indigo-600 italic">RANKING PATH.</span>
+                {isZh ? "选择你的" : "CHOOSE YOUR"} <br /><span className="text-indigo-600 italic">{isZh ? "进阶路径" : "RANKING PATH."}</span>
             </h2>
-            <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em]">Structured FIDE Curriculum</p>
+            <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em]">{isZh ? "结构化 FIDE 课程体系" : "Structured FIDE Curriculum"}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -163,19 +166,26 @@ export default function InternationalChessPage() {
 
           <div className="space-y-10">
             <h2 className="text-3xl md:text-5xl font-[1000] tracking-tighter uppercase leading-[0.9]">
-              Cognitive <br /> <span className="text-indigo-400 italic">Superiority.</span>
+              {isZh ? "认知" : "Cognitive"} <br /> <span className="text-indigo-400 italic">{isZh ? "优势" : "Superiority."}</span>
             </h2>
             <p className="text-xl text-slate-400 font-bold leading-tight">
-              Our program follows the official FIDE curriculum to ensure every student masters calculation, prophylaxis, and tactical planning.
+              {isZh ? "课程遵循 FIDE 官方体系，确保学员掌握计算、预防性思维与战术规划能力。" : "Our program follows the official FIDE curriculum to ensure every student masters calculation, prophylaxis, and tactical planning."}
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                { title: 'Logic Patterns', icon: <Zap /> },
-                { title: 'Mental Stamina', icon: <Target /> },
-                { title: 'Calculated Risk', icon: <ShieldCheck /> },
-                { title: 'Global Elo', icon: <Trophy /> }
-              ].map((item, i) => (
+              {(isZh
+                ? [
+                    { title: '逻辑模式', icon: <Zap /> },
+                    { title: '心理韧性', icon: <Target /> },
+                    { title: '风险评估', icon: <ShieldCheck /> },
+                    { title: '全球等级分', icon: <Trophy /> }
+                  ]
+                : [
+                    { title: 'Logic Patterns', icon: <Zap /> },
+                    { title: 'Mental Stamina', icon: <Target /> },
+                    { title: 'Calculated Risk', icon: <ShieldCheck /> },
+                    { title: 'Global Elo', icon: <Trophy /> }
+                  ]).map((item, i) => (
                 <div key={i} className="flex items-center gap-4 p-4 bg-slate-800 rounded-2xl border-2 border-white/10 hover:border-indigo-400 transition-colors">
                   <div className="text-indigo-400">{item.icon}</div>
                   <span className="font-black uppercase text-[10px] tracking-widest">{item.title}</span>
@@ -190,10 +200,10 @@ export default function InternationalChessPage() {
       <section className="py-24 container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 border-b-4 border-slate-900 pb-8">
             <h2 className="text-3xl md:text-5xl font-[1000] uppercase tracking-tighter leading-none">
-              ACADEMY <br /><span className="text-indigo-600 italic">TIMELINE</span>
+              {isZh ? "学院成长" : "ACADEMY"} <br /><span className="text-indigo-600 italic">{isZh ? "时间轴" : "TIMELINE"}</span>
             </h2>
             <div className="flex items-center gap-4 text-slate-400 font-bold uppercase text-[10px] tracking-widest">
-                <BookOpen size={16} /> Certified Syllabus
+                <BookOpen size={16} /> {isZh ? "认证课程体系" : "Certified Syllabus"}
             </div>
         </div>
 
@@ -222,11 +232,11 @@ export default function InternationalChessPage() {
 
           <div className="relative z-10 max-w-3xl mx-auto space-y-10">
             <h2 className="text-3xl md:text-5xl font-[1000] uppercase tracking-tighter leading-[0.85]">
-              Ready to win <br /> the board?
+              {isZh ? "准备好掌控棋局了吗？" : "Ready to win"} <br /> {isZh ? "" : "the board?"}
             </h2>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
                 <Link href="/contact" className="inline-flex items-center justify-center gap-4 bg-slate-900 text-white px-12 py-6 rounded-3xl font-black uppercase tracking-widest hover:scale-105 transition-transform border-4 border-white shadow-2xl">
-                Book Assessment <ArrowRight />
+                {isZh ? "预约评估课" : "Book Assessment"} <ArrowRight />
                 </Link>
             </div>
           </div>

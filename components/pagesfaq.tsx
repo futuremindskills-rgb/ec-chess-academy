@@ -9,6 +9,7 @@ import {
   Zap, 
   MessageCircle
 } from "lucide-react";
+import { useLocale } from "next-intl";
 
 const faqData = [
   {
@@ -42,6 +43,16 @@ const faqData = [
 ];
 
 const FAQSection: React.FC = () => {
+  const locale = useLocale();
+  const isZh = locale === "zh";
+  const localizedFaq = isZh
+    ? [
+        { ...faqData[0], question: "几岁开始学习最好？", answer: "建议从4岁开始，通过认知游戏建立空间感与基础逻辑。", category: "入门" },
+        { ...faqData[1], question: "有 FIDE 认证教练吗？", answer: "有，我们的主教练团队具备FIDE认证，并拥有超过15年国际教学经验。", category: "专业训练" },
+        { ...faqData[2], question: "提供线上或混合课程吗？", answer: "提供。我们使用先进平台确保学生在家也能保持高质量训练。", category: "课程安排" },
+        { ...faqData[3], question: "如何追踪学习进度？", answer: "每学期提供数字化成长报告，涵盖等级提升、战术准确率与策略重点。", category: "学院体系" }
+      ]
+    : faqData;
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   return (
@@ -63,19 +74,19 @@ const FAQSection: React.FC = () => {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest mb-4 shadow-lg"
           >
             <ShieldCheck size={12} className="text-yellow-400" />
-            Strategic Support
+            {isZh ? "策略支持" : "Strategic Support"}
           </motion.div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 tracking-tighter leading-none uppercase mb-6">
-            Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500">Inquiries</span>
+            {isZh ? "常见" : "Frequently Asked"} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500">{isZh ? "问题" : "Inquiries"}</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto">
-            Everything you need to know about starting your child's chess journey with Dubai's premier academy.
+            {isZh ? "了解开启孩子棋艺学习之旅所需的一切信息。" : "Everything you need to know about starting your child's chess journey with Dubai's premier academy."}
           </p>
         </div>
 
         {/* FAQ ACCORDIONS STACK */}
         <div className="space-y-5">
-          {faqData.map((faq, idx) => (
+          {localizedFaq.map((faq, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 20 }}

@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useLocale } from 'next-intl';
 import { 
   Home, 
   ChevronRight, 
@@ -59,6 +60,8 @@ const learningLevels = [
 ];
 
 export default function ChineseChessPage() {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   return (
     <div className="bg-[#FAF9F6] font-sans overflow-x-hidden">
       
@@ -71,32 +74,32 @@ export default function ChineseChessPage() {
             initial={{ y: -20, opacity: 0 }} 
             animate={{ y: 0, opacity: 1 }}
             className="mb-6 bg-orange-500 text-white px-6 py-2 rounded-2xl border-4 border-white font-black uppercase tracking-widest rotate-2 shadow-[6px_6px_0px_#000]">
-             Traditional Xiangqi Excellence
+             {isZh ? "传统象棋精英训练" : "Traditional Xiangqi Excellence"}
           </motion.div>
 
           <h1 className="text-5xl md:text-8xl font-[1000] text-white tracking-tighter leading-[0.85] uppercase mb-8">
-            CHINESE <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 italic">ELITE CHESS.</span>
+            {isZh ? "中国象棋" : "CHINESE"} <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 italic">{isZh ? "精英课程" : "ELITE CHESS."}</span>
           </h1>
 
           <p className="max-w-2xl text-lg md:text-xl text-slate-400 font-bold mb-10 leading-tight">
-            Master the art of the Cannon and the Chariot. From basic river-crossing to Grandmaster-level military strategy.
+            {isZh ? "掌握炮与车的战术艺术，从基础过河攻防到大师级全盘战略。" : "Master the art of the Cannon and the Chariot. From basic river-crossing to Grandmaster-level military strategy."}
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
              <div className="bg-white text-slate-900 px-5 py-3 rounded-2xl border-4 border-slate-900 font-black text-xs uppercase flex items-center gap-2 shadow-[4px_4px_0px_#f97316]">
-                <Users size={16} className="text-orange-600" /> Age 5 - 18
+                <Users size={16} className="text-orange-600" /> {isZh ? "年龄 5 - 18" : "Age 5 - 18"}
              </div>
              <div className="bg-white text-slate-900 px-5 py-3 rounded-2xl border-4 border-slate-900 font-black text-xs uppercase flex items-center gap-2 shadow-[4px_4px_0px_#f97316]">
-                <Clock size={16} className="text-orange-600" /> Weekend & Weekday
+                <Clock size={16} className="text-orange-600" /> {isZh ? "平日与周末班" : "Weekend & Weekday"}
              </div>
           </div>
 
           <nav className="mt-12 inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-slate-800 border-2 border-white/10">
             <Link href="/" className="text-slate-400 hover:text-orange-400 text-[10px] font-black uppercase flex items-center gap-2">
-              <Home size={12} /> Home
+              <Home size={12} /> {isZh ? "主页" : "Home"}
             </Link>
             <ChevronRight className="w-3 h-3 text-slate-600" />
-            <span className="text-white font-black text-[10px] uppercase tracking-tight">Chinese Chess</span>
+            <span className="text-white font-black text-[10px] uppercase tracking-tight">{isZh ? "中国象棋" : "Chinese Chess"}</span>
           </nav>
         </div>
       </section>
@@ -105,10 +108,10 @@ export default function ChineseChessPage() {
       <section className="py-24 lg:py-32 container mx-auto px-6">
         <div className="text-center mb-20">
             <h2 className="text-3xl md:text-5xl font-[1000] text-slate-900 tracking-tighter uppercase leading-none mb-4">
-                CHOOSE YOUR <br /><span className="text-orange-600 italic">BATTLE RANK.</span>
+                {isZh ? "选择你的" : "CHOOSE YOUR"} <br /><span className="text-orange-600 italic">{isZh ? "竞技等级" : "BATTLE RANK."}</span>
             </h2>
             <div className="inline-block bg-slate-900 text-white px-4 py-1 font-black text-[10px] uppercase tracking-[0.3em]">
-                Structured Mastery Levels
+                {isZh ? "结构化进阶等级" : "Structured Mastery Levels"}
             </div>
         </div>
 
@@ -177,19 +180,26 @@ export default function ChineseChessPage() {
 
           <div className="space-y-10">
             <h2 className="text-3xl md:text-5xl font-[1000] tracking-tighter uppercase leading-[0.9]">
-              Master the <br /> <span className="text-orange-500 italic">Old World</span> Ways.
+              {isZh ? "掌握" : "Master the"} <br /> <span className="text-orange-500 italic">{isZh ? "古法智慧" : "Old World"}</span> {isZh ? "" : "Ways."}
             </h2>
             <p className="text-xl text-slate-400 font-bold leading-tight">
-              We teach students how to coordinate "The Big Three"—Chariots, Horses, and Cannons—to dismantle opponent defenses with surgical precision.
+              {isZh ? "我们训练学生协调“车马炮”三大核心子力，以高精度拆解对手防线。" : "We teach students how to coordinate \"The Big Three\"—Chariots, Horses, and Cannons—to dismantle opponent defenses with surgical precision."}
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                { title: 'Cannon Tactics', icon: <Zap /> },
-                { title: 'River Crossing', icon: <Target /> },
-                { title: 'Palace Defense', icon: <ShieldCheck /> },
-                { title: 'Cultural Heritage', icon: <Medal /> }
-              ].map((item, i) => (
+              {(isZh
+                ? [
+                    { title: '炮法战术', icon: <Zap /> },
+                    { title: '过河进攻', icon: <Target /> },
+                    { title: '宫防体系', icon: <ShieldCheck /> },
+                    { title: '文化传承', icon: <Medal /> }
+                  ]
+                : [
+                    { title: 'Cannon Tactics', icon: <Zap /> },
+                    { title: 'River Crossing', icon: <Target /> },
+                    { title: 'Palace Defense', icon: <ShieldCheck /> },
+                    { title: 'Cultural Heritage', icon: <Medal /> }
+                  ]).map((item, i) => (
                 <div key={i} className="flex items-center gap-4 p-4 bg-slate-800 rounded-2xl border-2 border-white/10 hover:border-orange-500 transition-colors">
                   <div className="text-orange-500">{item.icon}</div>
                   <span className="font-black uppercase text-[10px] tracking-widest">{item.title}</span>
@@ -204,10 +214,10 @@ export default function ChineseChessPage() {
       <section className="py-24 container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 border-b-4 border-slate-900 pb-8">
             <h2 className="text-3xl md:text-5xl font-[1000] uppercase tracking-tighter leading-none">
-              STUDENT <br /><span className="text-orange-600 italic">TIMELINE</span>
+              {isZh ? "学员成长" : "STUDENT"} <br /><span className="text-orange-600 italic">{isZh ? "时间轴" : "TIMELINE"}</span>
             </h2>
             <div className="flex items-center gap-4 text-slate-400 font-bold uppercase text-[10px] tracking-widest">
-                <BookOpen size={16} /> Certified Syllabus
+                <BookOpen size={16} /> {isZh ? "认证课程体系" : "Certified Syllabus"}
             </div>
         </div>
 
@@ -236,11 +246,11 @@ export default function ChineseChessPage() {
 
           <div className="relative z-10 max-w-3xl mx-auto space-y-10">
             <h2 className="text-2xl md:text-5xl font-[1000] uppercase tracking-tighter leading-[0.85]">
-              Ready to claim <br /> the throne?
+              {isZh ? "准备好称王棋盘了吗？" : "Ready to claim"} <br /> {isZh ? "" : "the throne?"}
             </h2>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
                 <Link href="/contact" className="inline-flex items-center justify-center gap-4 bg-slate-900 text-white px-12 py-6 rounded-3xl font-black uppercase tracking-widest hover:scale-105 transition-transform border-4 border-white shadow-2xl">
-                Book Trial Lesson <ArrowRight />
+                {isZh ? "预约试课" : "Book Trial Lesson"} <ArrowRight />
                 </Link>
             </div>
           </div>

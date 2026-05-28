@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { 
   Phone, 
   Mail, 
@@ -14,25 +15,25 @@ import {
   ExternalLink
 } from "lucide-react";
 
-const footerLinks = [
-  { name: "Home", href: "/" },
-  { name: "Curriculum", href: "/courses" },
-  { name: "Gallery", href: "/gallery" },
-  { name: "Blog", href: "/blog" },
-];
-
-const links = [
-  { name: "Contact Us", href: "/contact" },
-  { name: "Achievements", href: "/achievements" },
-  { name: "About Us", href: "/about" },
-  { name: "Registration", href: "/tournaments" },
-  { name: "Policies", href: "/policies" }
-];
-
 export default function Footer() {
+  const t = useTranslations("footer");
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const footerLinks = [
+    { name: t("home"), href: "/" },
+    { name: t("curriculum"), href: "/courses" },
+    { name: t("gallery"), href: "/gallery" },
+    { name: t("blog"), href: "/blog" },
+  ];
+
+  const links = [
+    { name: t("contactUs"), href: "/contact" },
+    { name: t("achievements"), href: "/achievements" },
+    { name: t("aboutUs"), href: "/about" },
+    { name: t("registration"), href: "/tournaments" },
+    { name: t("policies"), href: "/policies" }
+  ];
 
   return (
     <footer className="relative bg-[#1a1652] text-white pt-32 pb-10 font-sans overflow-hidden">
@@ -77,7 +78,7 @@ export default function Footer() {
                 <span className="font-black text-3xl tracking-tighter uppercase leading-none">
                   EC <span className="text-orange-500">CHESS</span>
                 </span>
-                <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-60 mt-1">Learn to be limitless</span>
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-60 mt-1">{t("tagline")}</span>
               </div>
             </Link>
             
@@ -101,7 +102,7 @@ export default function Footer() {
 
           {/* LINKS COLUMN */}
           <div className="lg:col-span-2">
-            <h4 className="text-lg font-black uppercase tracking-widest mb-4">Useful Links</h4>
+            <h4 className="text-lg font-black uppercase tracking-widest mb-4">{t("usefulLinks")}</h4>
             <div className="w-10 h-1.5 bg-indigo-500 rounded-full mb-6" />
             <ul className="space-y-4 text-slate-300">
               {footerLinks.map((link) => (
@@ -119,7 +120,7 @@ export default function Footer() {
 
           {/* COMPANY COLUMN */}
           <div className="lg:col-span-2">
-            <h4 className="text-lg font-black uppercase tracking-widest mb-4">Our Company</h4>
+            <h4 className="text-lg font-black uppercase tracking-widest mb-4">{t("ourCompany")}</h4>
             <div className="w-10 h-1.5 bg-purple-500 rounded-full mb-6" />
             <ul className="space-y-4 text-slate-300">
               {links.map((link) => (
@@ -137,7 +138,7 @@ export default function Footer() {
 
           {/* BRANCHES COLUMN */}
           <div className="lg:col-span-4 space-y-6">
-            <h4 className="text-lg font-black uppercase tracking-widest mb-4">HK Branches</h4>
+            <h4 className="text-lg font-black uppercase tracking-widest mb-4">{t("hkBranches")}</h4>
             <div className="w-10 h-1.5 bg-orange-500 rounded-full mb-6" />
             
             <div className="space-y-8">
@@ -146,9 +147,9 @@ export default function Footer() {
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-2 text-orange-400">
                     <MapPin size={14} />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Kowloon City</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest">{t("kowloonCity")}</span>
                   </div>
-                  <span className="text-[8px] font-black bg-orange-500 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">ENQUIRE NOW</span>
+                    <span className="text-[8px] font-black bg-orange-500 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">{t("enquireNow")}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-white/10 group-hover:bg-orange-500 group-hover:scale-110 transition-all">
@@ -156,7 +157,7 @@ export default function Footer() {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-sm font-bold tracking-widest">4614 4561</span>
-                    <span className="text-[9px] text-slate-400 font-bold group-hover:text-white">Click for WhatsApp Form</span>
+                    <span className="text-[9px] text-slate-400 font-bold group-hover:text-white">{t("clickForWhatsApp")}</span>
                   </div>
                 </div>
               </Link>
@@ -166,9 +167,9 @@ export default function Footer() {
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-2 text-indigo-400">
                     <MapPin size={14} />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Yuen Long</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest">{t("yuenLong")}</span>
                   </div>
-                  <span className="text-[8px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">ENQUIRE NOW</span>
+                    <span className="text-[8px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">{t("enquireNow")}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-white/10 group-hover:bg-indigo-500 group-hover:scale-110 transition-all">
@@ -176,7 +177,7 @@ export default function Footer() {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-sm font-bold tracking-widest">5406 6800</span>
-                    <span className="text-[9px] text-slate-400 font-bold group-hover:text-white">Click for WhatsApp Form</span>
+                    <span className="text-[9px] text-slate-400 font-bold group-hover:text-white">{t("clickForWhatsApp")}</span>
                   </div>
                 </div>
               </Link>
@@ -195,12 +196,12 @@ export default function Footer() {
             className="flex items-center gap-3 bg-[#25D366] px-6 py-3 rounded-2xl shadow-xl border-b-4 border-green-700"
           >
             <MessageCircle size={20} fill="white" />
-            <span className="text-sm font-black uppercase tracking-wider">WhatsApp</span>
+            <span className="text-sm font-black uppercase tracking-wider">{t("whatsapp")}</span>
           </motion.a>
 
           <div className="flex flex-col items-center">
             <p className="text-[10px] font-bold opacity-40 uppercase tracking-[0.2em] text-center">
-              © 2010 - {new Date().getFullYear()} EC CHESS ACADEMY. ALL RIGHTS RESERVED.
+              © 2010 - {new Date().getFullYear()} {t("copyright")}
             </p>
             <a 
               href="https://wa.me/919772187400" 
@@ -208,7 +209,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-[10px] font-bold opacity-40 uppercase tracking-[0.2em] mt-2 hover:opacity-100 transition-opacity underline decoration-indigo-500/30"
             >
-              Designed by Jinesh Mehta
+              {t("designedBy")}
             </a>
           </div>
 

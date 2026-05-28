@@ -10,6 +10,7 @@ import {
   ChevronRight,
   ShieldCheck,
 } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 const branchData = {
   kowloon: {
@@ -37,6 +38,8 @@ const branchData = {
 };
 
 const VisitCampusCTA: React.FC = () => {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   const [selected, setSelected] = useState<'kowloon' | 'yuenlong' | null>(null);
 
   return (
@@ -51,10 +54,10 @@ const VisitCampusCTA: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] mb-4 shadow-lg"
           >
-            <ShieldCheck size={12} className="text-amber-400" /> Academy Locations
+            <ShieldCheck size={12} className="text-amber-400" /> {isZh ? "学院校区" : "Academy Locations"}
           </motion.div>
           <h2 className="text-3xl md:text-5xl font-[1000] text-slate-900 tracking-tighter uppercase">
-            Visit Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 italic font-serif">HK Centers</span>
+            {isZh ? "参观我们的" : "Visit Our"} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 italic font-serif">{isZh ? "香港校区" : "HK Centers"}</span>
           </h2>
         </div>
 
@@ -123,7 +126,7 @@ const VisitCampusCTA: React.FC = () => {
                 <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-indigo-50">
                   <ArrowLeft size={16} />
                 </div>
-                <span className="text-[11px] font-black uppercase tracking-widest">Return to branches</span>
+                <span className="text-[11px] font-black uppercase tracking-widest">{isZh ? "返回校区列表" : "Return to branches"}</span>
               </button>
 
               <div className="grid lg:grid-cols-12 gap-6 items-stretch">
@@ -164,7 +167,7 @@ const VisitCampusCTA: React.FC = () => {
                          rel="noopener noreferrer"
                          className="flex items-center justify-between bg-white text-slate-900 p-6 rounded-[2rem] font-black transition-all hover:bg-slate-100 group/btn"
                       >
-                         <span className="text-[11px] font-black uppercase tracking-[0.2em]">Get Directions</span>
+                         <span className="text-[11px] font-black uppercase tracking-[0.2em]">{isZh ? "导航前往" : "Get Directions"}</span>
                          <Navigation size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                       </a>
                    </div>

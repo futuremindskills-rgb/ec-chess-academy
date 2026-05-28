@@ -15,15 +15,18 @@ import {
   ShieldCheck,
   Star
 } from "lucide-react";
+import { useLocale } from "next-intl";
 
 export default function LeadInstructorSection() {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   
   // JSON-LD for SEO: Directs search engines to treat this as a verified Person profile
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Herman Wong",
-    "jobTitle": "Lead Instructor",
+    "jobTitle": isZh ? "首席导师" : "Lead Instructor",
     "description": "Ex-MOE Scholar, NIE-trained educator specializing, Math, and Chess strategy.",
     "affiliation": {
       "@type": "Organization",
@@ -128,16 +131,16 @@ export default function LeadInstructorSection() {
             <motion.div variants={itemVariants} className="space-y-4 mb-8 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-widest border border-slate-200">
                 <Star size={12} className="text-amber-500 fill-amber-500" />
-                Trusted by 1000+ Students
+                {isZh ? "1000+ 学员信赖" : "Trusted by 1000+ Students"}
               </div>
               <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-[1.1] tracking-tight">
-                Academic Rigor Meets <br className="hidden md:block" />
+                {isZh ? "学术严谨 ×" : "Academic Rigor Meets"} <br className="hidden md:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-indigo-600 to-purple-600">
-                  Strategic Clarity.
+                  {isZh ? "策略清晰。" : "Strategic Clarity."}
                 </span>
               </h2>
               <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl">
-                Master the <strong>Chess syllabus</strong> and <strong>Chess strategy</strong> with a mentor who bridges the gap between scientific logic and creative expression.
+                {isZh ? "在导师带领下掌握 " : "Master the "}<strong>{isZh ? "棋艺课程体系" : "Chess syllabus"}</strong> {isZh ? "与" : " and "}<strong>{isZh ? "策略思维" : "Chess strategy"}</strong>{isZh ? "，连接科学逻辑与创造表达。" : " with a mentor who bridges the gap between scientific logic and creative expression."}
               </p>
             </motion.div>
 
@@ -147,9 +150,9 @@ export default function LeadInstructorSection() {
                 <div className="w-12 h-12 bg-teal-100 text-teal-700 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <MessageSquare size={24} />
                 </div>
-                <h4 className="font-bold text-slate-900 text-lg mb-2">Communication Edge</h4>
+                <h4 className="font-bold text-slate-900 text-lg mb-2">{isZh ? "沟通优势" : "Communication Edge"}</h4>
                 <p className="text-sm text-slate-500 leading-relaxed">
-                  Minors in <span className="text-slate-900 font-semibold">Math & English (NUS)</span> allow for precise explanation of the most abstract concepts.
+                  {isZh ? "NUS 数学与英语辅修背景，帮助将抽象概念讲清讲透。" : <>Minors in <span className="text-slate-900 font-semibold">Math & English (NUS)</span> allow for precise explanation of the most abstract concepts.</>}
                 </p>
               </div>
 
@@ -157,9 +160,9 @@ export default function LeadInstructorSection() {
                 <div className="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Calculator size={24} />
                 </div>
-                <h4 className="font-bold text-slate-900 text-lg mb-2">Practical Logic</h4>
+                <h4 className="font-bold text-slate-900 text-lg mb-2">{isZh ? "实战逻辑" : "Practical Logic"}</h4>
                 <p className="text-sm text-slate-500 leading-relaxed">
-                  Post-Graduate certifications from <span className="text-slate-900 font-semibold">Edinburgh</span> ensure students develop real-world problem-solving skills.
+                  {isZh ? "爱丁堡相关研究生证书背景，帮助学生形成真实情境下的问题解决能力。" : <>Post-Graduate certifications from <span className="text-slate-900 font-semibold">Edinburgh</span> ensure students develop real-world problem-solving skills.</>}
                 </p>
               </div>
             </motion.div>
@@ -178,13 +181,13 @@ export default function LeadInstructorSection() {
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-8 justify-center lg:justify-start">
               <Link href="/about" className="w-full sm:w-auto">
                 <button className="w-full group bg-slate-900 text-white px-10 py-5 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-teal-600 transition-all shadow-xl shadow-slate-200 active:scale-95">
-                  View Full Profile 
+                  {isZh ? "查看完整简介" : "View Full Profile"} 
                   <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </Link>
               <div className="flex items-center gap-3 text-slate-400 text-xs font-black uppercase tracking-[0.2em]">
                 <Globe size={18} className="text-teal-500" />
-                <span>Global Teaching Standard</span>
+                <span>{isZh ? "国际教学标准" : "Global Teaching Standard"}</span>
                 <ChevronRight size={14} />
               </div>
             </motion.div>

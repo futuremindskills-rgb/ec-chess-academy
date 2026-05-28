@@ -4,8 +4,11 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Home, ChevronRight, Trophy, Sparkles, Swords } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 const TournamentBanner: React.FC = () => {
+  const locale = useLocale();
+  const isZh = locale === "zh";
   // Array of images for the Netflix-style background grid
   const bgThumbnails = [
     "/1.webp", "/2.webp", "/3.webp", "/1.webp",
@@ -51,7 +54,7 @@ const TournamentBanner: React.FC = () => {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest mb-4 shadow-lg"
         >
           <Trophy size={10} className="text-[#f59e0b]" />
-          Competitive Arena
+          {isZh ? "竞技舞台" : "Competitive Arena"}
         </motion.div>
 
         {/* Title */}
@@ -60,9 +63,9 @@ const TournamentBanner: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl md:text-7xl font-[1000] text-slate-900 mb-4 tracking-tighter leading-[0.95] uppercase"
         >
-          ELITE <br />
+          {isZh ? "精英" : "ELITE"} <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] to-[#f59e0b]">
-            TOURNAMENTS
+            {isZh ? "赛事" : "TOURNAMENTS"}
           </span>
         </motion.h1>
         
@@ -73,7 +76,7 @@ const TournamentBanner: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-sm md:text-lg text-slate-600 max-w-xl mb-8 font-medium leading-snug"
         >
-          Testing skills, building resilience, and fostering sportsmanship through regular internal events and FIDE-rated championships.
+          {isZh ? "通过常规院内赛事与 FIDE 评级比赛检验实力，培养韧性与体育精神。" : "Testing skills, building resilience, and fostering sportsmanship through regular internal events and FIDE-rated championships."}
         </motion.p>
 
         {/* Breadcrumb Navigation */}
@@ -85,13 +88,13 @@ const TournamentBanner: React.FC = () => {
         >
           <Link href="/" className="text-slate-400 hover:text-[#1a5f5f] transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
             <Home size={12} />
-            <span>Home</span>
+            <span>{isZh ? "主页" : "Home"}</span>
           </Link>
           
           <ChevronRight className="w-3 h-3 text-slate-200" strokeWidth={3} />
           
           <span className="text-slate-900 font-black text-[10px] uppercase tracking-widest">
-            Tournaments
+            {isZh ? "赛事" : "Tournaments"}
           </span>
         </motion.nav>
 
