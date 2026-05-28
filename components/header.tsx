@@ -67,11 +67,7 @@ const Header: React.FC = () => {
 
   const toggleLanguage = () => {
     const nextLocale = locale === "en" ? "zh" : "en";
-    router.replace(
-      // Required for dynamic routes to preserve the current slug/params
-      { pathname, params },
-      { locale: nextLocale }
-    );
+   router.replace(pathname, { locale: nextLocale });
     setIsMobileMenuOpen(false);
   };
 
