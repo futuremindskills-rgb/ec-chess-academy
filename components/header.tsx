@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 
+
 /* -------------------------------------------------------------------------- */
 /*                               INTERNAL ICONS                               */
 /* -------------------------------------------------------------------------- */
