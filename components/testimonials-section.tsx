@@ -25,9 +25,9 @@ const testimonials: Testimonial[] = [
     nameEn: "Zhuo Huan",
     nameZh: "卓桓",
     roleEn: "Young Champ",
-    roleZh: "小小冠軍學員",
+    roleZh: "精英學員",
     quoteEn: "Developing a child's focus can be achieved by constantly paying attention to the situation on the board. This also helps in logical thinking.",
-    quoteZh: "透過下棋時不斷關注棋盤上的局勢，可以有效培養孩子的專注力，這對邏輯思維的發展也有很大幫助。",
+    quoteZh: "透過下棋時時刻留意棋局變化，可以有效訓練小朋友嘅專注力，對建立邏輯思維非常有幫助。",
     resultEn: "1st Place, HK Open",
     resultZh: "全港公開賽冠軍",
     image: "/rev1.webp",
@@ -36,12 +36,12 @@ const testimonials: Testimonial[] = [
     icon: <Trophy className="w-4 h-4 text-yellow-300" />
   },
   {
-    nameEn: "Zhuo Qian",
+    nameEn: "Zhuo Qian's Parent",
     nameZh: "卓芊家長",
     roleEn: "Executive @ Central HK",
     roleZh: "中環高級行政人員",
     quoteEn: "A child's brain is in a phase of rapid growth. Each game requires thinking about the course of each move, developing vital logical skills.",
-    quoteZh: "孩子的腦部正處於快速發育階段。每盤棋都需要思考每一步的走法與後果，這對鍛煉邏輯思考能力至關重要。",
+    quoteZh: "小朋友大腦正處於高速發育期，每盤棋都要深思熟慮，考慮每步棋嘅變數同影響，對鍛煉邏輯思維極之重要。",
     resultEn: "Elite School Admission",
     resultZh: "成功升讀名校",
     image: "/rev2.webp",
@@ -55,7 +55,7 @@ const testimonials: Testimonial[] = [
     roleEn: "Student",
     roleZh: "棋院學員",
     quoteEn: "Developing mathematical skills is important. In Go, a game requires more than 100 moves. My calculation abilities improved significantly.",
-    quoteZh: "發展數學能力非常重要。以圍棋為例，一局棋往往需要思考超過一百步，這讓我的計算能力得到了顯著提升。",
+    quoteZh: "數理能力對成長非常重要。以圍棋為例，一局棋往往要計算超過一百步，令我嘅計算能力有顯著提升。",
     resultEn: "Top 10 Junior",
     resultZh: "青少年組前十名",
     image: "/rev3.webp",
@@ -82,15 +82,15 @@ const TestimonialsGrid: React.FC = () => {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] mb-6 shadow-xl"
           >
             <Star size={12} className="fill-current text-yellow-400" />
-            {isZh ? "學員與家長心聲" : "VOICES OF SUCCESS"}
+            {isZh ? "學員及家長心聲" : "VOICES OF SUCCESS"}
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl sm:text-5xl md:text-7xl font-[1000] text-slate-900 tracking-tighter uppercase leading-[0.9]"
+            className="text-3xl sm:text-5xl md:text-5xl font-[1000] text-slate-900 tracking-tighter uppercase leading-[0.9]"
           >
-            {isZh ? "成就" : "THE"} <span className="text-indigo-600 italic">{isZh ? "卓越實力" : "MASTERS"}</span> <br />
+            {isZh ? "卓越" : "THE"} <span className="text-indigo-600 italic">{isZh ? "實力" : "MASTERS"}</span> <br />
             <span className="text-slate-400">{isZh ? "見證成長" : "IN THEIR WORDS"}</span>
           </motion.h2>
         </div>
@@ -151,7 +151,7 @@ const TestimonialsGrid: React.FC = () => {
                   {/* QUOTE */}
                   <div className="flex-1 mb-8">
                     <Quote className="text-white/40 mb-4 w-8 h-8" strokeWidth={3} />
-                    <h3 className={`text-xl md:text-2xl font-[900] leading-tight tracking-tight text-white italic ${isZh ? 'not-italic font-bold' : ''}`}>
+                    <h3 className={`text-xl md:text-2xl font-[900] leading-tight tracking-tight text-white ${isZh ? 'font-bold' : 'italic'}`}>
                       &quot;{isZh ? item.quoteZh : item.quoteEn}&quot;
                     </h3>
                   </div>

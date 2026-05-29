@@ -20,19 +20,19 @@ const successStories = [
     chineseName: "吳冠宏",
     age: 14,
     location: "Yew Chung Int. School",
-    locationZh: "耀中国际学校",
+    locationZh: "耀中國際學校",
     duration: "Advanced Track",
     beforeRating: "Competitive",
-    beforeRatingZh: "竞争组",
+    beforeRatingZh: "競賽組",
     afterRating: "U14 Champion",
-    afterRatingZh: "U14 冠军",
+    afterRatingZh: "U14 冠軍",
     beforeResult: "Regional Participant",
-    beforeResultZh: "地区赛事参赛者",
+    beforeResultZh: "分區賽事參賽者",
     afterResult: "DCD Charity Tournament 1st",
-    afterResultZh: "DCD慈善赛冠军",
+    afterResultZh: "DCD 慈善賽冠軍",
     insight:
       "Guanhong's calm judgement and steady mindset allowed him to stand out in a highly competitive open field.",
-    insightZh: "冠宏凭借冷静判断与稳定心态，在高强度公开赛中脱颖而出。",
+    insightZh: "冠宏憑藉冷靜的判斷力及穩定的心理素質，在高強度的公開賽中脫穎而出。",
     images: ["/ng1.jpeg", "/ng2.jpeg", "/ng3.jpeg"],
     cardBg: "bg-[#F5F3FF]",
     accent: "text-purple-600",
@@ -45,19 +45,19 @@ const successStories = [
     chineseName: "駱栩南",
     age: 9,
     location: "Kowloon",
-    locationZh: "九龙",
+    locationZh: "九龍",
     duration: "Intensive Course",
     beforeRating: "Intermediate",
-    beforeRatingZh: "中级",
+    beforeRatingZh: "中級",
     afterRating: "2nd Place (Silver)",
-    afterRatingZh: "第2名（银牌）",
+    afterRatingZh: "亞軍（銀牌）",
     beforeResult: "Club Level Player",
-    beforeResultZh: "俱乐部级选手",
+    beforeResultZh: "棋會級棋手",
     afterResult: "HK Inter-School Runner-up",
-    afterResultZh: "香港校际赛亚军",
+    afterResultZh: "香港校際賽亞軍",
     insight:
       "Xu Nan's focus and stability during high-pressure matches led him through numerous rounds to a well-deserved silver medal.",
-    insightZh: "栩南在高压对局中保持专注稳定，历经多轮比赛最终斩获银牌。",
+    insightZh: "栩南在高壓對局中保持專注穩定，歷經多輪賽事，最終奪得銀牌，實至名歸。",
     images: ["/luo1.jpeg", "/luo2.jpeg"],
     cardBg: "bg-[#FFF7ED]",
     accent: "text-orange-600",
@@ -70,19 +70,19 @@ const successStories = [
     chineseName: "黃秉禧",
     age: 7,
     location: "Kowloon City",
-    locationZh: "九龙城",
+    locationZh: "九龍城",
     duration: "Foundation Plus",
     beforeRating: "Novice",
-    beforeRatingZh: "入门",
+    beforeRatingZh: "入門程度",
     afterRating: "3rd Place (Bronze)",
-    afterRatingZh: "第3名（铜牌）",
+    afterRatingZh: "季軍（銅牌）",
     beforeResult: "Learning Fundamentals",
-    beforeResultZh: "基础学习阶段",
+    beforeResultZh: "基礎學習階段",
     afterResult: "TCA Novice U7 Individual",
-    afterResultZh: "TCA U7新手组个人奖",
+    afterResultZh: "TCA U7 新手組個人獎",
     insight:
       "Ping Hei's disciplined attitude and consistent effort resulted in a fantastic podium finish in the U7 division.",
-    insightZh: "秉禧以自律态度与持续努力，在U7组别取得优异领奖台成绩。",
+    insightZh: "秉禧以自律的態度及持續的努力，在 U7 組別成功登上頒獎台，成績優異。",
     images: ["/wong1.jpeg", "/wong2.jpeg", "/wong3.jpeg"],
     cardBg: "bg-[#EEF2FF]",
     accent: "text-indigo-600",
@@ -98,36 +98,21 @@ const successStories = [
     locationZh: "香港",
     duration: "Elite Training",
     beforeRating: "Top Tier",
-    beforeRatingZh: "高阶组",
+    beforeRatingZh: "高階組",
     afterRating: "Multi-Year Medalist",
-    afterRatingZh: "连续多年获奖",
+    afterRatingZh: "連續多年獲獎",
     beforeResult: "Junior Competitor",
-    beforeResultZh: "青少年组选手",
+    beforeResultZh: "青少年組選手",
     afterResult: "Runner-up (2021 & 2022)",
-    afterResultZh: "亚军（2021与2022）",
+    afterResultZh: "亞軍（2021 及 2022）",
     insight:
       "Tsz Chun has maintained consistent excellence over several years, securing silver in both U12 and High Primary categories.",
-    insightZh: "梓进多年保持稳定高水平，在U12与高小组别连续获得银牌。",
+    insightZh: "梓進多年來保持穩定的高水平發揮，於 U12 及高小組賽事中連續奪得銀牌。",
     images: [
-      "/jim1.jpeg",
-      "/jim2.jpeg",
-      "/jim3.jpeg",
-      "/jim4.jpeg",
-      "/jim5.jpeg",
-      "/jim6.jpeg",
-      "/jim7.jpeg",
-      "/jim8.jpeg",
-      "/jim9.jpeg",
-      "/jim10.jpeg",
-      "/jim11.jpeg",
-      "/jim12.jpeg",
-      "/jim13.jpeg",
-      "/jim14.jpeg",
-      "/jim15.jpeg",
-      "/jim16.jpeg",
-      "/jim17.jpeg",
-      "/jim18.jpeg",
-      "/jim19.jpeg",
+      "/jim1.jpeg", "/jim2.jpeg", "/jim3.jpeg", "/jim4.jpeg", "/jim5.jpeg",
+      "/jim6.jpeg", "/jim7.jpeg", "/jim8.jpeg", "/jim9.jpeg", "/jim10.jpeg",
+      "/jim11.jpeg", "/jim12.jpeg", "/jim13.jpeg", "/jim14.jpeg", "/jim15.jpeg",
+      "/jim16.jpeg", "/jim17.jpeg", "/jim18.jpeg", "/jim19.jpeg",
     ],
     cardBg: "bg-[#F0FDF4]",
     accent: "text-emerald-600",
@@ -152,11 +137,9 @@ const InnerImageSlider = ({ images }: { images: string[] }) => {
 
   useEffect(() => {
     if (images.length <= 1) return;
-
     const timer = setInterval(() => {
       setImgIdx((prev) => (prev + 1) % images.length);
     }, 3500);
-
     return () => clearInterval(timer);
   }, [images.length]);
 
@@ -174,9 +157,7 @@ const InnerImageSlider = ({ images }: { images: string[] }) => {
           className="w-full h-full object-cover"
         />
       </AnimatePresence>
-
       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-
       {images.length > 1 && (
         <>
           <button
@@ -185,14 +166,12 @@ const InnerImageSlider = ({ images }: { images: string[] }) => {
           >
             <ChevronLeft size={16} />
           </button>
-
           <button
             onClick={nextImg}
             className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-900 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-md"
           >
             <ChevronRight size={16} />
           </button>
-
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
             {images.map((_, i) => (
               <motion.div
@@ -231,11 +210,9 @@ const SuccessStoriesSlider: React.FC = () => {
 
   useEffect(() => {
     if (isPaused) return;
-
     const interval = setInterval(() => {
       next();
     }, 6000);
-
     return () => clearInterval(interval);
   }, [next, isPaused, index]);
 
@@ -258,7 +235,7 @@ const SuccessStoriesSlider: React.FC = () => {
               size={10}
               className="text-yellow-400 fill-current md:w-3 md:h-3"
             />
-            {isZh ? "学院荣誉榜" : "Academy Hall of Fame"}
+            {isZh ? "學院榮譽榜" : "Academy Hall of Fame"}
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-[1000] text-slate-900 tracking-[-0.06em] uppercase leading-[0.95]">
@@ -286,27 +263,21 @@ const SuccessStoriesSlider: React.FC = () => {
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="relative"
             >
-              {/* DEPTH SHADOW */}
               <div className="absolute inset-0 bg-slate-900 rounded-[36px] md:rounded-[52px] translate-x-3 translate-y-3 md:translate-x-5 md:translate-y-5 -z-10" />
 
-              {/* MAIN CARD */}
               <div
                 className={`relative ${current.cardBg} rounded-[36px] md:rounded-[52px] border-[3px] md:border-4 border-slate-900 overflow-hidden`}
               >
-                {/* Pattern */}
                 <div
                   className="absolute inset-0 opacity-100 pointer-events-none"
-                  style={{
-                    backgroundImage: `url("${current.pattern}")`,
-                  }}
+                  style={{ backgroundImage: `url("${current.pattern}")` }}
                 />
 
-                {/* TOP BAR */}
                 <div className="flex items-center justify-between px-6 md:px-10 pt-6 md:pt-8 relative z-10">
                   <div className="flex items-center gap-2 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white shadow-sm">
                     <Medal size={14} className={current.accent} />
                     <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.18em] text-slate-700">
-                      {isZh ? "学员风采" : "Featured Student"}
+                      {isZh ? "學員風采" : "Featured Student"}
                     </span>
                   </div>
 
@@ -318,120 +289,80 @@ const SuccessStoriesSlider: React.FC = () => {
                 </div>
 
                 <div className="p-6 sm:p-10 md:p-14 flex flex-col lg:flex-row items-center gap-10 md:gap-14 lg:gap-16 relative z-10">
-                  {/* IMAGE */}
+                  {/* IMAGE SECTION */}
                   <div className="relative flex-shrink-0">
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 26,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
+                      transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
                       className="absolute -inset-5 border-[3px] border-dashed border-white/80 rounded-full opacity-60"
                     />
-
-                    <div
-                      className={`absolute inset-0 rounded-full blur-3xl opacity-30 ${current.glow}`}
-                    />
-
+                    <div className={`absolute inset-0 rounded-full blur-3xl opacity-30 ${current.glow}`} />
                     <div className="w-52 h-52 sm:w-72 sm:h-72 md:w-[340px] md:h-[340px] rounded-full overflow-hidden border-[8px] md:border-[12px] border-white shadow-2xl relative z-10 bg-slate-200">
                       <InnerImageSlider images={current.images} />
                     </div>
-
                     <motion.div
                       initial={{ rotate: -15 }}
                       animate={{ rotate: 12 }}
-                      transition={{
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        duration: 3,
-                      }}
+                      transition={{ repeat: Infinity, repeatType: "reverse", duration: 3 }}
                       className="absolute bottom-2 right-0 md:-bottom-2 md:-right-2 w-16 h-16 md:w-20 md:h-20 bg-yellow-400 rounded-full flex items-center justify-center border-[3px] md:border-4 border-slate-900 shadow-xl z-20"
                     >
                       <Trophy className="text-slate-900" size={28} />
                     </motion.div>
-
                     <p className="text-center mt-5 text-[10px] font-black uppercase text-slate-400 tracking-[0.25em]">
-                      {isZh ? "滑动查看成果" : "Swipe Through Achievements"}
+                      {isZh ? "滑動查看成果" : "Swipe Through Achievements"}
                     </p>
                   </div>
 
-                  {/* CONTENT */}
+                  {/* CONTENT SECTION */}
                   <div className="flex-1 w-full text-center lg:text-left">
-                    {/* NAME */}
                     <div className="mb-8">
-                      <span
-                        className={`font-black italic uppercase tracking-[0.25em] text-[10px] md:text-[11px] ${current.accent}`}
-                      >
-                        {isZh ? "学员成就" : "Student Achievement"}
+                      <span className={`font-black italic uppercase tracking-[0.25em] text-[10px] md:text-[11px] ${current.accent}`}>
+                        {isZh ? "學員成就" : "Student Achievement"}
                       </span>
-
                       <h3 className="mt-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[1000] tracking-[-0.06em] uppercase text-slate-900 leading-none">
                         {current.name}
                       </h3>
-
                       <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-4">
                         <div className="inline-flex px-3 py-1 rounded-xl bg-white border border-slate-200 text-slate-600 text-[10px] md:text-[11px] font-black uppercase tracking-[0.18em]">
                           {current.chineseName}
                         </div>
-
                         <div className="inline-flex px-3 py-1 rounded-xl bg-white/70 border border-white text-slate-500 text-[10px] md:text-[11px] font-black uppercase tracking-[0.18em]">
-                          {isZh ? "年龄" : "Age"} {current.age}
+                          {isZh ? "年齡" : "Age"} {current.age}
                         </div>
-
                         <div className="inline-flex px-3 py-1 rounded-xl bg-white/70 border border-white text-slate-500 text-[10px] md:text-[11px] font-black uppercase tracking-[0.18em]">
                           {isZh ? current.locationZh : current.location}
                         </div>
                       </div>
                     </div>
 
-                    {/* STATS */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-7">
                       {/* BEFORE */}
-                      <motion.div
-                        whileHover={{ y: -4 }}
-                        className="p-5 md:p-6 bg-white/60 backdrop-blur-md rounded-[28px] border-2 border-white shadow-lg"
-                      >
+                      <motion.div whileHover={{ y: -4 }} className="p-5 md:p-6 bg-white/60 backdrop-blur-md rounded-[28px] border-2 border-white shadow-lg">
                         <div className="flex items-center justify-center lg:justify-start gap-2 mb-3">
                           <Target size={15} className="text-slate-400" />
                           <span className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.22em]">
-                            {isZh ? "过往记录" : "Previous Record"}
+                            {isZh ? "過往記錄" : "Previous Record"}
                           </span>
                         </div>
-
                         <div className="text-2xl md:text-3xl font-[1000] tracking-tight text-slate-500">
                           {isZh ? current.beforeRatingZh : current.beforeRating}
                         </div>
-
                         <p className="text-[11px] md:text-xs font-bold text-slate-500 mt-3 uppercase tracking-wide">
                           {isZh ? current.beforeResultZh : current.beforeResult}
                         </p>
                       </motion.div>
 
                       {/* AFTER */}
-                      <motion.div
-                        whileHover={{ y: -4 }}
-                        className="p-5 md:p-6 bg-white rounded-[28px] border-2 border-slate-900 shadow-2xl"
-                      >
+                      <motion.div whileHover={{ y: -4 }} className="p-5 md:p-6 bg-white rounded-[28px] border-2 border-slate-900 shadow-2xl">
                         <div className="flex items-center justify-center lg:justify-start gap-2 mb-3">
-                          <Trophy
-                            size={15}
-                            className={current.accent}
-                          />
-
-                          <span
-                            className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.22em] ${current.accent}`}
-                          >
-                            {isZh ? "赛事成绩" : "Tournament Result"}
+                          <Trophy size={15} className={current.accent} />
+                          <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.22em] ${current.accent}`}>
+                            {isZh ? "賽事成績" : "Tournament Result"}
                           </span>
                         </div>
-
-                        <div
-                          className={`text-2xl md:text-3xl font-[1000] tracking-tight ${current.accent}`}
-                        >
+                        <div className={`text-2xl md:text-3xl font-[1000] tracking-tight ${current.accent}`}>
                           {isZh ? current.afterRatingZh : current.afterRating}
                         </div>
-
                         <p className="text-[11px] md:text-xs font-black text-slate-900 mt-3 uppercase tracking-wide">
                           {isZh ? current.afterResultZh : current.afterResult}
                         </p>
@@ -439,23 +370,14 @@ const SuccessStoriesSlider: React.FC = () => {
                     </div>
 
                     {/* QUOTE */}
-                    <motion.div
-                      whileHover={{ y: -2 }}
-                      className="relative p-6 md:p-7 bg-white border-2 border-slate-900 rounded-[30px] shadow-xl overflow-hidden"
-                    >
+                    <motion.div whileHover={{ y: -2 }} className="relative p-6 md:p-7 bg-white border-2 border-slate-900 rounded-[30px] shadow-xl overflow-hidden">
                       <Quote className="absolute top-4 right-5 text-slate-100 w-14 h-14" />
-
                       <div className="flex items-center gap-2 mb-3">
-                        <ShieldCheck
-                          className={current.accent}
-                          size={16}
-                        />
-
+                        <ShieldCheck className={current.accent} size={16} />
                         <h4 className="text-[9px] md:text-[10px] font-black uppercase text-slate-400 tracking-[0.22em]">
-                          {isZh ? "导师点评" : "Instructor Remark"}
+                          {isZh ? "導師評語" : "Instructor Remark"}
                         </h4>
                       </div>
-
                       <p className="relative z-10 text-slate-700 font-bold italic text-sm md:text-base leading-relaxed">
                         &quot;{isZh ? current.insightZh : current.insight}&quot;
                       </p>
@@ -473,23 +395,16 @@ const SuccessStoriesSlider: React.FC = () => {
               className="group relative w-14 h-14 md:w-16 md:h-16 bg-white rounded-full border-2 border-slate-900 flex items-center justify-center active:translate-y-0.5 shadow-xl"
             >
               <div className="absolute inset-0 bg-slate-900 rounded-full translate-x-1.5 translate-y-1.5 -z-10 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
-
-              <ChevronLeft
-                className="text-slate-900 group-hover:-translate-x-1 transition-transform"
-                size={24}
-              />
+              <ChevronLeft className="text-slate-900 group-hover:-translate-x-1 transition-transform" size={24} />
             </button>
 
-            {/* INDICATORS */}
             <div className="flex items-center gap-2">
               {successStories.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setIndex(i)}
                   className={`transition-all duration-300 rounded-full ${
-                    i === index
-                      ? "w-10 h-3 bg-slate-900"
-                      : "w-3 h-3 bg-slate-300 hover:bg-slate-400"
+                    i === index ? "w-10 h-3 bg-slate-900" : "w-3 h-3 bg-slate-300 hover:bg-slate-400"
                   }`}
                 />
               ))}
@@ -500,11 +415,7 @@ const SuccessStoriesSlider: React.FC = () => {
               className="group relative w-14 h-14 md:w-16 md:h-16 bg-white rounded-full border-2 border-slate-900 flex items-center justify-center active:translate-y-0.5 shadow-xl"
             >
               <div className="absolute inset-0 bg-slate-900 rounded-full translate-x-1.5 translate-y-1.5 -z-10 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
-
-              <ChevronRight
-                className="text-slate-900 group-hover:translate-x-1 transition-transform"
-                size={24}
-              />
+              <ChevronRight className="text-slate-900 group-hover:translate-x-1 transition-transform" size={24} />
             </button>
           </div>
         </div>
