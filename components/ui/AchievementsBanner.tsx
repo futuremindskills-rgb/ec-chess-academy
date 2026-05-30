@@ -54,7 +54,7 @@ const AchievementsBanner: React.FC = () => {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest mb-4 shadow-lg"
         >
           <Award size={10} className="text-[#f59e0b]" />
-          {isZh ? "荣耀殿堂" : "Hall of Fame"}
+          {isZh ? "榮譽榜" : "Hall of Fame"}
         </motion.div>
 
         {/* Title */}
@@ -63,9 +63,9 @@ const AchievementsBanner: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl md:text-7xl font-[1000] text-slate-900 mb-4 tracking-tighter leading-[0.95] uppercase"
         >
-          {isZh ? "我们的" : "OUR"} <br />
+          {isZh ? "我們的" : "OUR"} <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] to-[#f59e0b]">
-            {isZh ? "成就" : "ACHIEVEMENTS"}
+            {isZh ? "成就與榮譽" : "ACHIEVEMENTS"}
           </span>
         </motion.h1>
         
@@ -76,7 +76,7 @@ const AchievementsBanner: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-sm md:text-lg text-slate-600 max-w-xl mb-8 font-medium leading-snug"
         >
-          {isZh ? "见证学员在本地、全国及国际赛事中的努力与荣誉。" : "Celebrating the dedication and success of our students across local, national, and international chess championships."}
+          {isZh ? "見證學員於本地、全港及國際賽事中的不懈努力與輝煌成就。" : "Celebrating the dedication and success of our students across local, national, and international chess championships."}
         </motion.p>
 
         {/* Breadcrumb Navigation */}
@@ -88,13 +88,13 @@ const AchievementsBanner: React.FC = () => {
         >
           <Link href="/" className="text-slate-400 hover:text-[#1a5f5f] transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
             <Home size={12} />
-            <span>{isZh ? "主页" : "Home"}</span>
+            <span>{isZh ? "主頁" : "Home"}</span>
           </Link>
           
           <ChevronRight className="w-3 h-3 text-slate-200" strokeWidth={3} />
           
           <span className="text-slate-900 font-black text-[10px] uppercase tracking-widest">
-            {isZh ? "成就" : "Achievements"}
+            {isZh ? "成就榮譽" : "Achievements"}
           </span>
         </motion.nav>
 

@@ -20,11 +20,11 @@ const OutreachSection = () => {
   const locale = useLocale();
   const isZh = locale === "zh";
 
-  // CATEGORIZED SERVICES
+  // CATEGORIZED SERVICES - Localized for HK
   const serviceCategories = [
     {
       titleEn: "School & Academic Programs",
-      titleZh: "學校與學術課程",
+      titleZh: "學校及學術項目",
       icon: <School className="w-6 h-6" />,
       itemsEn: [
         "After-School Interest Classes",
@@ -35,9 +35,9 @@ const OutreachSection = () => {
         "Strategic Life Planning"
       ],
       itemsZh: [
-        "校後興趣班 / 課外活動",
-        "校際與校內棋藝比賽",
-        "校隊選拔與專項訓練",
+        "校內課外活動 / 興趣班",
+        "校際及校內棋藝比賽",
+        "校隊選拔及專項訓練",
         "全方位學習日 (LWLD)",
         "中華文化日工作坊",
         "策略性生涯規劃訓練"
@@ -45,7 +45,7 @@ const OutreachSection = () => {
     },
     {
       titleEn: "Professional & Corporate",
-      titleZh: "專業與企業培訓",
+      titleZh: "專業及企業培訓",
       icon: <Building2 className="w-6 h-6" />,
       itemsEn: [
         "Corporate Team Building",
@@ -64,7 +64,7 @@ const OutreachSection = () => {
     },
     {
       titleEn: "Events & Community",
-      titleZh: "活動與社區參與",
+      titleZh: "活動及社區參與",
       icon: <Sparkles className="w-6 h-6" />,
       itemsEn: [
         "Event & Experience Days",
@@ -73,46 +73,46 @@ const OutreachSection = () => {
         "Bespoke Collaborations"
       ],
       itemsZh: [
-        "品牌活動與棋藝體驗日",
-        "專業棋具供應與銷售",
+        "品牌活動及棋藝體驗日",
+        "專業棋具供應及銷售",
         "親子棋藝工作坊",
-        "客製化跨界合作方案"
+        "度身訂造跨界合作方案"
       ]
     }
   ];
 
-  // PARTNERSHIP DATA
+  // PARTNERSHIP DATA - Standard HK names
   const partnerGroups = [
     {
       categoryEn: "Primary Education",
       categoryZh: "小學合作夥伴",
       schools: [
-        "Wing Kwong Primary School (Tai Po)",
-        "CNEC Ta Tung School",
-        "Yuen Yuen Institute Shek Wai Kok Primary",
-        "S.K.H. Yautong Kei Hin Primary School",
-        "L.S.T. Yeung Chung Ming School",
-        "Bloom KKCA Academy"
+        "榮光小學 (大埔)",
+        "中華傳道會大同學校",
+        "圓玄學院陳國超小學",
+        "聖公會油塘基顯小學",
+        "樂善堂楊仲明學校",
+        "百卉九江書院"
       ]
     },
     {
       categoryEn: "Secondary Education",
       categoryZh: "中學合作夥伴",
       schools: [
-        "Newman Catholic College",
-        "S.K.H. Lam Woo Memorial Secondary",
-        "Fanling Government Secondary School"
+        "天主教普照中學",
+        "聖公會林護紀念中學",
+        "粉嶺官立中學"
       ]
     },
     {
       categoryEn: "NGOs & Community",
-      categoryZh: "非牟利機構與社群",
+      categoryZh: "非牟利機構及社群",
       schools: [
-        "St. James' Settlement",
-        "AKA Welfare Association",
-        "YWCA Ho Man Tin",
-        "Club Bel-Air",
-        "Hok Sik Education Center"
+        "聖雅各福群會",
+        "香港仔坊會",
+        "女青年會 (何文田)",
+        "貝沙灣住客會所",
+        "學識教育中心"
       ]
     }
   ];
@@ -137,18 +137,18 @@ const OutreachSection = () => {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-600 text-white text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] mb-6 shadow-lg">
               <Handshake size={14} /> {isZh ? "外展服務" : "Outreach Services"}
             </div>
-            <h2 className="text-4xl md:text-6xl font-[1000] text-slate-900 tracking-tighter uppercase leading-[0.9] mb-8">
+            <h2 className="text-3xl md:text-5xl font-[1000] text-slate-900 tracking-tighter uppercase leading-[0.9] mb-8">
               {isZh ? "策略思維" : "Strategic Minds"} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 italic">
-                {isZh ? "走出學院" : "Beyond The Academy"}
+                {isZh ? "走進社區" : "Beyond The Academy"}
               </span>
             </h2>
             <p className="text-base md:text-xl text-slate-600 font-medium leading-relaxed mb-10">
               {isZh 
-                ? "除常規課程外，EC Chess 致力將棋藝教育帶給更廣泛社群。我們已為學校、大學與企業合作夥伴舉辦超過 " 
+                ? "除常規課程外，EC 卓思棋院致力將棋藝教育推廣至社會各界。我們已為學校、大學及企業夥伴舉辦超過 " 
                 : "Beyond our standard curriculum, EC Chess Education is dedicated to bringing the benefits of chess to the wider community. We have organized over "}
               <span className="text-indigo-600 font-black">1,000+ {isZh ? "場專項項目" : "specialized programs"}</span>
-              {isZh ? "，覆蓋不同層面的教育需求。" : " to date for schools, universities, and corporate partners."}
+              {isZh ? "，涵蓋不同層面的教育需求。" : " to date for schools, universities, and corporate partners."}
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 py-10 border-t border-slate-100">
@@ -157,7 +157,7 @@ const OutreachSection = () => {
                     <Target className="text-indigo-600" size={18} /> {isZh ? "全人發展" : "Holistic Dev"}
                   </h4>
                   <p className="text-sm text-slate-500 font-bold leading-relaxed">
-                    {isZh ? "通過邏輯訓練建立耐心、專注力與抗壓能力。" : "Building patience, focus, and resilience through strategic logic."}
+                    {isZh ? "透過邏輯訓練建立耐性、專注力及抗壓能力。" : "Building patience, focus, and resilience through strategic logic."}
                   </p>
                </div>
                <div>
@@ -165,7 +165,7 @@ const OutreachSection = () => {
                     <Trophy className="text-amber-500" size={18} /> {isZh ? "精英訓練" : "Elite Training"}
                   </h4>
                   <p className="text-sm text-slate-500 font-bold leading-relaxed">
-                    {isZh ? "幫助學生以自信應對學業與生活中的各種挑戰。" : "Preparing students to navigate life’s challenges with elite confidence."}
+                    {isZh ? "助學員以自信應對學業及生活中的各種挑戰。" : "Preparing students to navigate life’s challenges with elite confidence."}
                   </p>
                </div>
             </div>
@@ -205,7 +205,7 @@ const OutreachSection = () => {
         <div className="mb-28 md:mb-40">
           <div className="text-center mb-20">
              <h3 className="text-3xl md:text-5xl font-[1000] text-slate-900 uppercase tracking-tighter">
-               {isZh ? "可提供之服務" : "Available Services"}
+               {isZh ? "可提供的服務" : "Available Services"}
              </h3>
              <div className="w-24 h-1.5 bg-indigo-600 mx-auto mt-6 rounded-full" />
           </div>
@@ -240,7 +240,7 @@ const OutreachSection = () => {
 
           <p className="mt-14 text-center text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 max-w-3xl mx-auto leading-relaxed">
             {isZh 
-              ? "*服務費用將根據地點、日期、時段與規模調整。歡迎聯繫我們的外展負責人獲取定制建議方案。" 
+              ? "*服務費用將根據地點、日期、時段及規模調整。歡迎聯絡本院外展主任，獲取度身訂造的建議方案。" 
               : "*Service fees are adjusted based on location, date, time, and scale. Contact our Outreach Officer for a customized proposal."}
           </p>
         </div>
@@ -260,11 +260,11 @@ const OutreachSection = () => {
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
                  <div className="max-w-2xl">
                     <h3 className="text-3xl md:text-6xl font-[1000] text-white uppercase tracking-tighter mb-6">
-                      {isZh ? "過往與目前" : "Past & Current"} <br />
+                      {isZh ? "過往及目前" : "Past & Current"} <br />
                       <span className="text-indigo-400 italic">{isZh ? "合作夥伴" : "Partnerships"}</span>
                     </h3>
                     <p className="text-slate-400 font-bold uppercase text-[11px] tracking-[0.3em]">
-                      {isZh ? "加入領先的教育機構與社群網絡" : "Join the leading network of academic institutions"}
+                      {isZh ? "加入頂尖教育機構及社群網絡" : "Join the leading network of academic institutions"}
                     </p>
                  </div>
               </div>

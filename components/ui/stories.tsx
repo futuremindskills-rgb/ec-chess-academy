@@ -27,9 +27,9 @@ const successStories = [
     afterRating: "U14 Champion",
     afterRatingZh: "U14 冠軍",
     beforeResult: "Regional Participant",
-    beforeResultZh: "分區賽事參賽者",
+    beforeResultZh: "分區賽事代表",
     afterResult: "DCD Charity Tournament 1st",
-    afterResultZh: "DCD 慈善賽冠軍",
+    afterResultZh: "DCD 慈善賽全場冠軍",
     insight:
       "Guanhong's calm judgement and steady mindset allowed him to stand out in a highly competitive open field.",
     insightZh: "冠宏憑藉冷靜的判斷力及穩定的心理素質，在高強度的公開賽中脫穎而出。",
@@ -45,16 +45,16 @@ const successStories = [
     chineseName: "駱栩南",
     age: 9,
     location: "Kowloon",
-    locationZh: "九龍",
+    locationZh: "九龍區",
     duration: "Intensive Course",
     beforeRating: "Intermediate",
-    beforeRatingZh: "中級",
+    beforeRatingZh: "中級程度",
     afterRating: "2nd Place (Silver)",
     afterRatingZh: "亞軍（銀牌）",
     beforeResult: "Club Level Player",
     beforeResultZh: "棋會級棋手",
     afterResult: "HK Inter-School Runner-up",
-    afterResultZh: "香港校際賽亞軍",
+    afterResultZh: "全港校際賽亞軍",
     insight:
       "Xu Nan's focus and stability during high-pressure matches led him through numerous rounds to a well-deserved silver medal.",
     insightZh: "栩南在高壓對局中保持專注穩定，歷經多輪賽事，最終奪得銀牌，實至名歸。",
@@ -70,10 +70,10 @@ const successStories = [
     chineseName: "黃秉禧",
     age: 7,
     location: "Kowloon City",
-    locationZh: "九龍城",
+    locationZh: "九龍城區",
     duration: "Foundation Plus",
     beforeRating: "Novice",
-    beforeRatingZh: "入門程度",
+    beforeRatingZh: "初學者",
     afterRating: "3rd Place (Bronze)",
     afterRatingZh: "季軍（銅牌）",
     beforeResult: "Learning Fundamentals",
@@ -102,7 +102,7 @@ const successStories = [
     afterRating: "Multi-Year Medalist",
     afterRatingZh: "連續多年獲獎",
     beforeResult: "Junior Competitor",
-    beforeResultZh: "青少年組選手",
+    beforeResultZh: "青少年組棋手",
     afterResult: "Runner-up (2021 & 2022)",
     afterResultZh: "亞軍（2021 及 2022）",
     insight:
@@ -149,7 +149,7 @@ const InnerImageSlider = ({ images }: { images: string[] }) => {
         <motion.img
           key={imgIdx}
           src={images[imgIdx]}
-          alt="Student achievement"
+          alt="學員成果展示"
           initial={{ opacity: 0, scale: 1.08 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.96 }}
@@ -238,7 +238,7 @@ const SuccessStoriesSlider: React.FC = () => {
             {isZh ? "學院榮譽榜" : "Academy Hall of Fame"}
           </motion.div>
 
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-[1000] text-slate-900 tracking-[-0.06em] uppercase leading-[0.95]">
+          <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-[1000] text-slate-900 tracking-[-0.06em] uppercase leading-[0.95]">
             {isZh ? "近期" : "Recent Wins"}
             <br />
             <span className="text-indigo-600 relative inline-block">

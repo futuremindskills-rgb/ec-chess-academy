@@ -41,7 +41,7 @@ const GalleryBanner: React.FC = () => {
           ))}
         </motion.div>
 
-        {/* --- 2. THE OVERLAY (Enhanced Gradients for better readability) --- */}
+        {/* --- 2. THE OVERLAY --- */}
         <div className="absolute inset-0 bg-gradient-to-b from-white via-white/10 to-white z-10" />
         <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10" />
       </div>
@@ -56,32 +56,32 @@ const GalleryBanner: React.FC = () => {
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 text-white text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] mb-4 sm:mb-6 shadow-xl"
         >
           <Camera size={12} className="text-[#f59e0b]" />
-          {isZh ? "视觉之旅" : "Visual Journey"}
+          {isZh ? "視覺之旅" : "Visual Journey"}
         </motion.div>
 
-        {/* Title: Fluid font size from mobile to desktop */}
+        {/* Title */}
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl sm:text-4xl lg:text-7xl font-[1000] text-slate-900 mb-4 sm:mb-6 tracking-tighter leading-[0.85] uppercase"
         >
-          {isZh ? "我们的" : "OUR"} <br />
+          {isZh ? "我們的" : "OUR"} <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] to-[#f59e0b]">
-            {isZh ? "图库" : "GALLERY"}
+            {isZh ? "活動花絮" : "GALLERY"}
           </span>
         </motion.h1>
         
-        {/* Compact Description: Responsive width and size */}
+        {/* Compact Description */}
         <motion.p 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="text-xs sm:text-base md:text-lg text-slate-600 max-w-[280px] sm:max-w-md md:max-w-xl mb-8 sm:mb-10 font-medium leading-relaxed"
         >
-          {isZh ? "记录课堂中的探索、思辨与成长瞬间。" : "Capturing the moments of discovery, critical thinking, and joy in our classrooms."}
+          {isZh ? "紀錄課堂中的探索、思辨及成長瞬間。" : "Capturing the moments of discovery, critical thinking, and joy in our classrooms."}
         </motion.p>
 
-        {/* Breadcrumb Navigation: Touch-friendly padding for mobile */}
+        {/* Breadcrumb Navigation */}
         <motion.nav 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -90,19 +90,19 @@ const GalleryBanner: React.FC = () => {
         >
           <Link href="/" className="text-slate-400 hover:text-[#1a5f5f] transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
             <Home size={14} />
-            <span className="hidden xs:inline">{isZh ? "主页" : "Home"}</span>
+            <span className="hidden xs:inline">{isZh ? "主頁" : "Home"}</span>
           </Link>
           
           <ChevronRight className="w-3 h-3 text-slate-300" strokeWidth={3} />
           
           <span className="text-slate-900 font-black text-[10px] uppercase tracking-widest">
-            {isZh ? "图库" : "Gallery"}
+            {isZh ? "活動花絮" : "Gallery"}
           </span>
         </motion.nav>
 
       </div>
 
-      {/* Floating Sparkles: Multiple icons with varying positions for visual depth */}
+      {/* Floating Sparkles */}
       <motion.div 
         animate={{ y: [0, -15, 0], opacity: [0.3, 0.6, 0.3] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}

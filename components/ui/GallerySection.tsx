@@ -24,7 +24,7 @@ export default function FullGalleryPage() {
   const isZh = locale === "zh";
   const [albums, setAlbums] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("全部");
   
   // Navigation State
   const [selectedAlbum, setSelectedAlbum] = useState<any | null>(null);
@@ -47,13 +47,13 @@ export default function FullGalleryPage() {
   }, []);
 
   // Filter Albums by Category
-  const filteredAlbums = activeCategory === "All"
+  const filteredAlbums = activeCategory === "全部" || activeCategory === "All"
     ? albums
     : albums.filter(album => album.category === activeCategory);
 
   // Dynamic Categories extracted from all albums
   const dynamicCategories = [
-    "All",
+    isZh ? "全部" : "All",
     ...Array.from(new Set(albums.map((album) => album.category)))
   ];
 
@@ -101,11 +101,11 @@ export default function FullGalleryPage() {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest mb-4 shadow-lg"
           >
             <FolderOpen size={12} className="text-teal-400" />
-            {selectedAlbum ? (isZh ? "查看相册" : "Viewing Album") : (isZh ? "学院档案" : "Academy Archive")}
+            {selectedAlbum ? (isZh ? "正在查看相簿" : "Viewing Album") : (isZh ? "棋院檔案" : "Academy Archive")}
           </motion.div>
           
           <h1 className="text-4xl md:text-5xl font-[1000] text-slate-900 tracking-tighter leading-[1.1] uppercase mb-4">
-            {selectedAlbum ? selectedAlbum.title : (isZh ? "冠军殿堂" : "Hall of Champions")}
+            {selectedAlbum ? selectedAlbum.title : (isZh ? "榮譽殿堂" : "Hall of Champions")}
           </h1>
           
           {selectedAlbum && (
@@ -126,7 +126,7 @@ export default function FullGalleryPage() {
                         onClick={() => setSelectedAlbum(null)}
                         className="flex items-center gap-2 px-6 py-3 bg-slate-100 text-slate-900 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all shadow-sm mx-auto md:mx-0"
                     >
-                        <ArrowLeft size={16} /> {isZh ? "返回相册" : "Back to Albums"}
+                        <ArrowLeft size={16} /> {isZh ? "返回相簿列表" : "Back to Albums"}
                     </motion.button>
                 ) : (
                     // CATEGORY FILTERS
@@ -163,6 +163,7 @@ export default function FullGalleryPage() {
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <Loader2 size={40} className="animate-spin text-indigo-600" />
+            <p className="text-slate-400 font-black uppercase text-[10px] tracking-widest">{isZh ? "載入中..." : "Loading..."}</p>
           </div>
         ) : (
           <AnimatePresence mode="wait">
@@ -206,7 +207,7 @@ export default function FullGalleryPage() {
                         <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight mb-2 group-hover:text-indigo-600 transition-colors">
                             {album.title}
                         </h3>
-                        <p className="text-slate-500 text-sm font-medium line-clamp-2">{album.description || (isZh ? "查看该活动的照片。" : "View photos from this event.")}</p>
+                        <p className="text-slate-500 text-sm font-medium line-clamp-2">{album.description || (isZh ? "查看此活動的花絮照片。" : "View photos from this event.")}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -244,7 +245,7 @@ export default function FullGalleryPage() {
         {/* Empty States */}
         {!isLoading && !selectedAlbum && filteredAlbums.length === 0 && (
           <div className="text-center py-20 text-slate-400 font-bold uppercase tracking-widest text-xs">
-            {isZh ? "该分类暂无相册。" : "No albums found in this category."}
+            {isZh ? "此類別暫無相簿。" : "No albums found in this category."}
           </div>
         )}
       </div>

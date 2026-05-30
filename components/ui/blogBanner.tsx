@@ -39,7 +39,7 @@ const BlogBanner: React.FC = () => {
           ))}
         </motion.div>
 
-        {/* --- 2. THE OVERLAY (Fading into white background) --- */}
+        {/* --- 2. THE OVERLAY --- */}
         <div className="absolute inset-0 bg-gradient-to-b from-white via-white/10 to-white z-10" />
         <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10" />
       </div>
@@ -54,7 +54,7 @@ const BlogBanner: React.FC = () => {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest mb-4 shadow-lg"
         >
           <Newspaper size={10} className="text-[#f59e0b]" />
-          {isZh ? "大师洞见" : "Masters Insights"}
+          {isZh ? "大師心得" : "Masters Insights"}
         </motion.div>
 
         {/* Title */}
@@ -63,9 +63,9 @@ const BlogBanner: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl md:text-7xl font-[1000] text-slate-900 mb-4 tracking-tighter leading-[0.95] uppercase"
         >
-          {isZh ? "策略与" : "STRATEGY &"} <br />
+          {isZh ? "策略及" : "STRATEGY &"} <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] to-[#f59e0b]">
-            {isZh ? "洞察" : "INSIGHTS"}
+            {isZh ? "心得分享" : "INSIGHTS"}
           </span>
         </motion.h1>
         
@@ -76,7 +76,7 @@ const BlogBanner: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-sm md:text-lg text-slate-600 max-w-xl mb-8 font-medium leading-snug"
         >
-          {isZh ? "深入解析棋理、赛事复盘与家长指导，支持孩子的认知成长之路。" : "Deep dives into chess theory, tournament recaps, and parent guides to supporting your child&apos;s cognitive journey."}
+          {isZh ? "深入剖析棋理、賽事複盤及家長指南，全方位支援學員的認知成長。" : "Deep dives into chess theory, tournament recaps, and parent guides to supporting your child's cognitive journey."}
         </motion.p>
 
         {/* Breadcrumb Navigation */}
@@ -88,13 +88,13 @@ const BlogBanner: React.FC = () => {
         >
           <Link href="/" className="text-slate-400 hover:text-[#1a5f5f] transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
             <Home size={12} />
-            <span>{isZh ? "主页" : "Home"}</span>
+            <span>{isZh ? "主頁" : "Home"}</span>
           </Link>
           
           <ChevronRight className="w-3 h-3 text-slate-200" strokeWidth={3} />
           
           <span className="text-slate-900 font-black text-[10px] uppercase tracking-widest">
-            {isZh ? "博客" : "Blog"}
+            {isZh ? "網誌" : "Blog"}
           </span>
         </motion.nav>
 
@@ -128,4 +128,4 @@ const BlogBanner: React.FC = () => {
   );
 };
 
-export default BlogBanner; 
+export default BlogBanner;

@@ -27,15 +27,15 @@ const coaches: Coach[] = [
     titleZh: "課程總監 / 主教練",
     image: "/herman.jpg",
     mainRankEn: "Chinese Chess: 2280",
-    mainRankZh: "中國象棋: 2280",
+    mainRankZh: "中國象棋等級分: 2280",
     detailsZh: [
-      "卓思棋院課程總監",
+      "EC 卓思棋院課程總監",
       "超過十年棋藝教學經驗",
       "國際棋聯國家級訓練員 (FIDE NI)",
       "國際棋聯國家級裁判 (NA)",
-      "中國象棋前甲組棋手 (2280)",
+      "中國象棋前甲組棋手 (等級分 2280)",
       "圍棋 1 級棋士",
-      "任教科：國際象棋、中國象棋、圍棋"
+      "任教科目：國際象棋、中國象棋、圍棋"
     ],
     detailsEn: [
       "Course Director of Masters Academy",
@@ -55,11 +55,11 @@ const coaches: Coach[] = [
     titleZh: "棋藝顧問",
     image: "/gary.jpg",
     mainRankEn: "Chinese Chess: 2102",
-    mainRankZh: "中國象棋: 2102",
+    mainRankZh: "中國象棋等級分: 2102",
     detailsZh: [
-      "卓思棋院課程顧問",
+      "EC 卓思棋院課程顧問",
       "超過十五年棋藝比賽經驗",
-      "中國象棋前甲組棋手 (2102)",
+      "中國象棋前甲組棋手 (等級分 2102)",
       "圍棋 10 級棋士"
     ],
     detailsEn: [
@@ -79,10 +79,10 @@ const coaches: Coach[] = [
     mainRankEn: "Go 5-Dan",
     mainRankZh: "圍棋 5 段",
     detailsZh: [
-      "中國圍棋協會頒授 5 段",
+      "中國圍棋協會頒授 5 段資歷",
       "5 年以上教學經驗",
       "2019 香港圍棋協會晉段組 冠軍",
-      "深圳市第11屆體彩杯甲級組 第10名"
+      "深圳市第 11 屆「體彩杯」甲級組 第 10 名"
     ],
     detailsEn: [
       "CWA Certified 5-Dan Master",
@@ -101,9 +101,9 @@ const coaches: Coach[] = [
     mainRankEn: "Expert Coach",
     mainRankZh: "專家級教練",
     detailsZh: [
-      "擁有多年豐富經驗的專業國象教練",
-      "專注於開發學生戰略思維",
-      "提升解決問題與邏輯分析能力",
+      "擁有多年豐富經驗的專業國際象棋教練",
+      "專注於開發學生策略思維及全局觀",
+      "提升解難能力與邏輯分析能力",
       "實戰技巧與深度理論相結合"
     ],
     detailsEn: [
@@ -123,10 +123,10 @@ const coaches: Coach[] = [
     mainRankEn: "Go 3-Dan",
     mainRankZh: "圍棋 3 段",
     detailsZh: [
-      "3 年以上教學經驗 / 幼兒教育經驗",
-      "第十屆香港兒童棋院杯 冠軍",
+      "3 年以上教學及幼兒教育經驗",
+      "第十屆香港兒童棋院盃 冠軍",
       "弘德圍棋春季升級賽 高級組 冠軍",
-      "逾十年棋藝賽經驗"
+      "累積逾十年棋藝賽事經驗"
     ],
     detailsEn: [
       "3+ years experience in Early Childhood Education",
@@ -145,7 +145,7 @@ const coaches: Coach[] = [
     mainRankEn: "Go 4-Dan",
     mainRankZh: "圍棋 4 段",
     detailsZh: [
-      "中國圍棋協會頒授 4 段",
+      "中國圍棋協會頒授 4 段資歷",
       "2 年以上教學經驗 / 逾十年比賽經驗",
       "2018 第一屆全院圍棋尖子爭霸戰 亞軍",
       "2021 第四屆弘德圍棋讀秒賽 季軍"
@@ -165,7 +165,7 @@ const coaches: Coach[] = [
     titleZh: "棋藝導師",
     image: "/kie.jpg",
     mainRankEn: "Chess.com: 1500",
-    mainRankZh: "國象評分: 1500",
+    mainRankZh: "國際象棋等級分: 1500",
     detailsZh: [
       "精通中國象棋及國際象棋",
       "Chess.com 水平達 1500 (全球前 30%)",
@@ -184,15 +184,15 @@ const coaches: Coach[] = [
     nameEn: "Luke Lau",
     nameZh: "劉律言",
     titleEn: "Int. Chess Consultant",
-    titleZh: "國象顧問",
+    titleZh: "國際象棋顧問",
     image: "/lau.png",
     mainRankEn: "Chinese Chess: 2102",
-    mainRankZh: "中國象棋: 2102",
+    mainRankZh: "中國象棋等級分: 2102",
     detailsZh: [
-      "卓思棋院棋藝顧問",
+      "EC 卓思棋院棋藝顧問",
       "超過十五年棋藝比賽經驗",
-      "中國象棋前甲組棋手 (2102)",
-      "專長：國際象棋策略諮詢"
+      "中國象棋前甲組棋手 (等級分 2102)",
+      "專長：國際象棋策略諮詢及指導"
     ],
     detailsEn: [
       "Academy Chess Strategy Consultant",
@@ -211,10 +211,10 @@ const coaches: Coach[] = [
     mainRankEn: "Go 4-Dan",
     mainRankZh: "圍棋 4 段",
     detailsZh: [
-      "中國圍棋協會頒授 4 段",
+      "中國圍棋協會頒授 4 段資歷",
       "2 年以上教學經驗",
-      "超過十年棋藝比賽經驗",
-      "擅長青少年圍棋實戰指導"
+      "累積超過十年棋藝比賽經驗",
+      "擅長青少年圍棋實戰技術指導"
     ],
     detailsEn: [
       "CWA Certified 4-Dan Master",
@@ -234,9 +234,9 @@ const coaches: Coach[] = [
     mainRankZh: "圍棋 1 段",
     detailsZh: [
       "精通中國象棋、國際象棋及圍棋",
-      "3 年以上教學經驗 / 幼兒教育經驗豐富",
-      "圍棋一段資歷",
-      "教學理念：致力推廣國際象棋傳承"
+      "3 年以上教學及幼兒教育經驗",
+      "圍棋一段專業資歷",
+      "教學理念：致力推廣及傳承國際象棋文化"
     ],
     detailsEn: [
       "Proficient in Chinese Chess, Int. Chess & Go",
@@ -255,10 +255,10 @@ const coaches: Coach[] = [
     mainRankEn: "Go 1-Dan",
     mainRankZh: "圍棋 1 段",
     detailsZh: [
-      "幼兒教育經驗豐富",
-      "大埔多間小學圍棋隊教練",
-      "圍棋一段資歷",
-      "精通中國象棋及國際象棋"
+      "具備豐富幼兒教育教學經驗",
+      "現任大埔多間小學圍棋隊教練",
+      "圍棋一段專業資歷",
+      "同時精通中國象棋及國際象棋"
     ],
     detailsEn: [
       "Expert in Early Childhood Education",
@@ -275,11 +275,11 @@ const coaches: Coach[] = [
     titleZh: "國際象棋教練",
     image: "/chewng.png",
     mainRankEn: "Chess.com: 1500",
-    mainRankZh: "國象評分: 1500",
+    mainRankZh: "國際象棋等級分: 1500",
     detailsZh: [
       "專注國際象棋教學，擁有多年的培訓經驗",
-      "擅長透過遊戲培養戰略思維",
-      "因材施教，幫助學生提升解難能力"
+      "擅長透過棋盤遊戲開發學生策略思維",
+      "因材施教，重點提升學生解難能力"
     ],
     detailsEn: [
       "Focused on Int. Chess for many years",
@@ -298,8 +298,8 @@ const coaches: Coach[] = [
     mainRankZh: "圍棋 1 段",
     detailsZh: [
       "精通中國象棋、國際象棋及圍棋",
-      "3 年以上教學經驗 / 幼兒教育經驗豐富",
-      "圍棋一段資歷"
+      "3 年以上教學及幼兒教育經驗",
+      "圍棋一段專業資歷"
     ],
     detailsEn: [
       "Proficient in all three chess disciplines",
@@ -318,8 +318,8 @@ const coaches: Coach[] = [
     mainRankZh: "圍棋 1 段",
     detailsZh: [
       "精通中國象棋、國際象棋及圍棋",
-      "3 年以上教學經驗 / 幼兒教育經驗豐富",
-      "圍棋一段資歷"
+      "3 年以上教學及幼兒教育經驗",
+      "圍棋一段專業資歷"
     ],
     detailsEn: [
       "Expert in Chinese, Int. Chess & Go",
@@ -335,11 +335,11 @@ const coaches: Coach[] = [
     titleZh: "國際象棋教練",
     image: "/coaches/zhang-jin.jpg",
     mainRankEn: "Chess.com: 1500",
-    mainRankZh: "國象評分: 1500",
+    mainRankZh: "國際象棋等級分: 1500",
     detailsZh: [
-      "自小學習國際象棋，參加過多場錦標賽",
-      "曾獲 U18 組別 第八名",
-      "致力推廣冷靜、堅持的良好品格"
+      "自幼學習國際象棋，曾參加多場大型錦標賽",
+      "曾獲全港 U18 組別 第八名",
+      "致力推廣冷靜思考、堅持不懈的良好品格"
     ],
     detailsEn: [
       "Lifelong chess player and tournament veteran",
@@ -355,11 +355,11 @@ const coaches: Coach[] = [
     titleZh: "國際象棋教練",
     image: "/coaches/lin.jpg",
     mainRankEn: "FIDE Rating: 1515",
-    mainRankZh: "FIDE 評分: 1515",
+    mainRankZh: "FIDE 等級分: 1515",
     detailsZh: [
-      "自 10 歲開始學習國際象棋",
-      "2024 HK Chess Master U18 亞軍",
-      "2022 HK Charity Chess Autumn Open U18 第四名"
+      "10 歲起接受專業國際象棋訓練",
+      "2024 全港國際象棋大師賽 U18 亞軍",
+      "2022 香港慈善象棋秋季公開賽 U18 第四名"
     ],
     detailsEn: [
       "Started international chess at age 10",
@@ -375,11 +375,11 @@ const coaches: Coach[] = [
     titleZh: "中國象棋教練",
     image: "/coaches/zhuang.jpg",
     mainRankEn: "Chinese Chess: 2124",
-    mainRankZh: "中國象棋: 2124",
+    mainRankZh: "中國象棋等級分: 2124",
     detailsZh: [
-      "豐富棋藝大賽經驗 (等級分 2124)",
+      "具備豐富大賽經驗 (等級分達 2124)",
       "2014 全港小學中國象棋個人賽 冠軍",
-      "2018 第二屆「港。象棋」盃 公開組冠軍"
+      "2018 第二屆「港。象棋」盃 公開組 冠軍"
     ],
     detailsEn: [
       "High-level competition experience (Rating 2124)",
@@ -395,7 +395,7 @@ const coaches: Coach[] = [
     titleZh: "精英甲組教練",
     image: "/coaches/an-wing.jpg",
     mainRankEn: "Chinese Chess: 2361",
-    mainRankZh: "中國象棋: 2361",
+    mainRankZh: "中國象棋等級分: 2361",
     detailsZh: [
       "現役香港頂尖甲組棋手 (等級分 2361)",
       "2022 卓思盃全港中國象棋公開賽 冠軍",
@@ -419,7 +419,7 @@ const coaches: Coach[] = [
     detailsZh: [
       "2018 第一屆全院圍棋尖子爭霸戰 亞軍",
       "2021 第四屆弘德圍棋讀秒賽 季軍",
-      "第21屆香港業餘圍棋公開賽 1段組 第四名"
+      "第 21 屆香港業餘圍棋公開賽 一段組 第四名"
     ],
     detailsEn: [
       "2018 1st Academy Go Elite Runner-up",
@@ -437,9 +437,9 @@ const coaches: Coach[] = [
     mainRankEn: "Go 1-Dan",
     mainRankZh: "圍棋 1 段",
     detailsZh: [
-      "圍棋一段資歷",
-      "任大埔小學圍棋隊教練",
-      "3 年以上教學經驗 / 幼兒教育經驗豐富"
+      "圍棋一段專業資歷",
+      "現任大埔區小學圍棋隊教練",
+      "3 年以上教學及幼兒教育經驗"
     ],
     detailsEn: [
       "Certified Go 1-Dan",
@@ -507,7 +507,7 @@ export default function CompactCoachSlider() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter leading-none mb-6"
+            className="text-3xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none mb-6"
           >
             {isZh ? "棋壇" : "The"} <span className="text-orange-500 italic">{isZh ? "大師" : "Masters"}</span>
           </motion.h2>

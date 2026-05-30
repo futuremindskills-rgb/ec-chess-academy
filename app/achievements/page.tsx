@@ -20,17 +20,18 @@ import { useLocale } from "next-intl";
 export default function AchievementsPage() {
   const locale = useLocale();
   const isZh = locale === "zh";
+  
   const stats = [
-    { label: isZh ? "FIDE 分数提升" : "FIDE Rating Gained", value: "30+", icon: <TrendingUp className="text-orange-500" /> },
-    { label: isZh ? "精英表现" : "Elite Performance", value: "2000+", icon: <Trophy className="text-purple-600" /> },
-    { label: isZh ? "训练学员" : "Students Trained", value: "100+", icon: <Users className="text-indigo-600" /> },
-    { label: isZh ? "本地赛事" : "Local Tournaments", value: "15", icon: <Globe className="text-cyan-500" /> },
+    { label: isZh ? "FIDE 等級分提升" : "FIDE Rating Gained", value: "30+", icon: <TrendingUp className="text-orange-500" /> },
+    { label: isZh ? "精英表現" : "Elite Performance", value: "2000+", icon: <Trophy className="text-purple-600" /> },
+    { label: isZh ? "培訓學員" : "Students Trained", value: "500+", icon: <Users className="text-indigo-600" /> },
+    { label: isZh ? "本地賽事" : "Local Tournaments", value: "15", icon: <Globe className="text-cyan-500" /> },
   ];
 
   const journeys = [
-    { name: "1500 → 1750", time: isZh ? "10 个月" : "10 Months", note: isZh ? "结构化开局训练" : "Structured opening prep" },
-    { name: "1650 → 1900", time: isZh ? "12 个月" : "12 Months", note: isZh ? "战术纪律强化" : "Tactical discipline" },
-    { name: isZh ? "初学者 → 队长" : "Beginner → Captain", time: isZh ? "校队" : "School Team", note: isZh ? "领导力训练" : "Leadership training" },
+    { name: "1500 → 1750", time: isZh ? "10 個月" : "10 Months", note: isZh ? "系統化開局訓練" : "Structured opening prep" },
+    { name: "1650 → 1900", time: isZh ? "12 個月" : "12 Months", note: isZh ? "戰術紀律強化" : "Tactical discipline" },
+    { name: isZh ? "入門 → 隊長" : "Beginner → Captain", time: isZh ? "校隊" : "School Team", note: isZh ? "領導力訓練" : "Leadership training" },
   ];
 
   return (
@@ -63,6 +64,7 @@ export default function AchievementsPage() {
           ))}
         </div>
       </section>
+      
       <ChampionGallery/>
       <SuccessStoriesSlider/>
       
@@ -71,10 +73,10 @@ export default function AchievementsPage() {
       <section className="py-16 md:py-24 container mx-auto px-4 md:px-6">
         <div className="text-center mb-10 md:mb-16">
           <h2 className="text-3xl md:text-5xl font-[1000] text-slate-900 tracking-tighter uppercase leading-none">
-            {isZh ? "成长" : "The"} <span className="text-indigo-600 italic">{isZh ? "进步" : "Progress"}</span> {isZh ? "图谱" : "Grid"}
+            {isZh ? "進步" : "The"} <span className="text-indigo-600 italic">{isZh ? "圖譜" : "Progress"}</span> {isZh ? "紀錄" : "Grid"}
           </h2>
           <p className="text-slate-400 font-bold uppercase text-[9px] md:text-[10px] tracking-widest mt-3">
-            {isZh ? "可量化的进步证明" : "Concrete Proof of Improvement"}
+            {isZh ? "實質進步證明" : "Concrete Proof of Improvement"}
           </p>
         </div>
         
@@ -88,9 +90,9 @@ export default function AchievementsPage() {
                   <TrendingUp size={20} />
                </div>
                <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter mb-1">{j.name}</h3>
-               <p className="text-indigo-600 font-black uppercase text-[10px] tracking-widest mb-6">{j.time} {isZh ? "计划" : "Program"}</p>
+               <p className="text-indigo-600 font-black uppercase text-[10px] tracking-widest mb-6">{j.time} {isZh ? "計劃" : "Program"}</p>
                <p className="text-slate-500 text-sm font-medium leading-relaxed">
-                  {isZh ? "通过" : "Achieved through"} <span className="text-slate-900 font-bold">{j.note}</span> {isZh ? "与每周稳定赛事复盘达成。" : "and consistent weekly tournament analysis."}
+                  {isZh ? "透過" : "Achieved through"} <span className="text-slate-900 font-bold">{j.note}</span> {isZh ? "及每週穩定的賽事複盤達成。" : "and consistent weekly tournament analysis."}
                </p>
             </div>
           ))}
@@ -99,25 +101,23 @@ export default function AchievementsPage() {
 
       {/* --- 5. TOURNAMENT HIGHLIGHTS --- */}
      <section className="py-16 md:py-20 bg-indigo-950 relative overflow-hidden">
-  {/* Adaptive background pattern */}
   <div 
     className="absolute inset-0 opacity-10 pointer-events-none" 
     style={{ backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`, backgroundSize: '24px 24px' }} 
   />
   
-  {/* --- COMPACT HEADER --- */}
   <div className="container mx-auto px-6 relative z-10 text-center text-white mb-12 md:mb-16">
     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500 text-white text-[9px] font-black uppercase tracking-widest mb-4 border border-white/50 shadow-lg">
       <Trophy size={10} fill="currentColor" />
-      {isZh ? "冠军赛事标准" : "Championship Standards"}
+      {isZh ? "冠軍賽事標準" : "Championship Standards"}
     </div>
     
     <h2 className="text-3xl md:text-5xl font-[1000] tracking-tighter uppercase mb-6 leading-none">
-      {isZh ? "竞技" : "Competitive"} <span className="text-orange-400 italic">{isZh ? "卓越" : "Excellence"}</span>
+      {isZh ? "競技" : "Competitive"} <span className="text-orange-400 italic">{isZh ? "卓越" : "Excellence"}</span>
     </h2>
 
     <div className="flex flex-wrap justify-center gap-2">
-      {(isZh ? ['FIDE评级', '标准赛', '快棋', '超快棋'] : ['FIDE Rated', 'Standard', 'Rapid', 'Blitz']).map(tag => (
+      {(isZh ? ['FIDE 評級賽', '標準賽', '快棋', '超快棋'] : ['FIDE Rated', 'Standard', 'Rapid', 'Blitz']).map(tag => (
         <span key={tag} className="px-3 py-1 bg-white/5 backdrop-blur-sm rounded-full border border-white/20 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em]">
           {tag}
         </span>
@@ -127,7 +127,6 @@ export default function AchievementsPage() {
 
   <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
     
-    {/* HIGHLIGHTS CARD: Image + 2-Column List */}
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -140,18 +139,17 @@ export default function AchievementsPage() {
           className="w-full h-full object-cover"
         />
         <div className="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full border-2 border-slate-900 font-black text-[9px] uppercase shadow-lg">
-          {isZh ? "新赛季" : "New Season"}
+          {isZh ? "新賽季" : "New Season"}
         </div>
       </div>
 
       <div className="px-6 pb-6 flex-grow">
         <h3 className="text-xl md:text-2xl font-[1000] text-slate-900 uppercase tracking-tighter mb-6">
-          {isZh ? "学院亮点" : "Academy Highlights"}
+          {isZh ? "棋院亮點" : "Academy Highlights"}
         </h3>
-        {/* Balanced 2-Column Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {(isZh
-            ? ["每年15+场赛事", "8次领奖台成绩", "FIDE 晋级计划", "快棋模拟训练"]
+            ? ["每年 15+ 場賽事", "8 次登上頒獎台", "FIDE 晉級計劃", "快棋模擬訓練"]
             : ["15+ Annual Tournaments", "8 Podium Finishes", "FIDE Entry Program", "Rapid Simulations"]
           ).map((text, i) => (
             <div key={i} className="flex items-center gap-3">
@@ -165,13 +163,11 @@ export default function AchievementsPage() {
       </div>
     </motion.div>
 
-    {/* HUB CARD: Scaled for Balance */}
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       className="bg-orange-500 p-8 md:p-10 rounded-[40px] border-4 border-slate-900 shadow-[12px_12px_0px_#ffffff] flex flex-col justify-center relative overflow-hidden group"
     >
-      {/* Background Decor */}
       <Trophy size={200} className="absolute -bottom-10 -right-10 text-white/10 rotate-12 pointer-events-none group-hover:scale-110 transition-transform duration-700" />
       
       <div className="relative z-10">
@@ -180,15 +176,15 @@ export default function AchievementsPage() {
         </div>
         
         <h3 className="text-3xl md:text-4xl lg:text-5xl font-[1000] text-white uppercase tracking-tighter leading-[0.85] mb-4">
-          {isZh ? "精英" : "Elite"} <br/> {isZh ? "训练中心" : "Training Hub"}
+          {isZh ? "精英" : "Elite"} <br/> {isZh ? "訓練基地" : "Training Hub"}
         </h3>
         
         <p className="text-white font-bold text-xs md:text-base leading-snug max-w-sm mb-8 opacity-90">
-          {isZh ? "我们模拟国际赛制与评级体系，帮助学生掌握时间管理并在高压环境中稳定发挥。" : "We simulate international formats and ranking systems, ensuring students master the clock and conquer high-pressure environments."}
+          {isZh ? "我們模擬國際賽制及評級體系，幫助學員掌握時間管理，並在高壓環境中保持穩定發揮。" : "We simulate international formats and ranking systems, ensuring students master the clock and conquer high-pressure environments."}
         </p>
 
         <button className="bg-slate-900 text-white px-6 py-3 rounded-xl font-black uppercase text-[9px] tracking-widest border border-white shadow-lg hover:bg-indigo-600 transition-all active:scale-95">
-          {isZh ? "查看赛事日历" : "View Tournament Calendar"}
+          {isZh ? "查看賽事日曆" : "View Tournament Calendar"}
         </button>
       </div>
     </motion.div>
@@ -200,7 +196,6 @@ export default function AchievementsPage() {
       <section className="py-16 md:py-32 px-4 md:px-6">
          <div className="max-w-4xl mx-auto bg-white border-4 border-slate-900 rounded-[32px] md:rounded-[60px] p-8 md:p-16 lg:p-20 text-center relative shadow-[10px_10px_0px_#f97316] md:shadow-[24px_24px_0px_#f97316]">
             
-            {/* Desktop Decoration */}
             <motion.div 
               animate={{ rotate: 360 }} 
               transition={{ duration: 25, repeat: Infinity, ease: "linear" }} 
@@ -212,16 +207,16 @@ export default function AchievementsPage() {
             <div className="space-y-6 md:space-y-8 relative z-10">
                <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 bg-orange-100 text-orange-600 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-widest">
                   <Sparkles size={14} className="animate-pulse" />
-                  {isZh ? "你的旅程从这里开始" : "Your Journey Starts Here"}
+                  {isZh ? "由此開啟你的棋藝旅程" : "Your Journey Starts Here"}
                </div>
                <h2 className="text-3xl md:text-6xl font-[1000] text-slate-900 uppercase tracking-tighter leading-[0.9] md:leading-none">
-                  {isZh ? "开启你的" : "Start Your"} <br/> 
+                  {isZh ? "寫下你的" : "Start Your"} <br/> 
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 italic">
                     {isZh ? "成功故事" : "Success Story"}
                   </span>
                </h2>
                <p className="text-slate-500 font-medium max-w-xl mx-auto text-sm md:text-lg leading-relaxed">
-                  {isZh ? "每一项成就都始于有纪律的训练与专业指导。今天就开始你的关键一步。" : "Every achievement starts with disciplined training and the right guidance. Make your move today."}
+                  {isZh ? "每一項成就都始於有紀律的訓練及專業指導。今天就踏出關鍵一步。" : "Every achievement starts with disciplined training and the right guidance. Make your move today."}
                </p>
                
                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-5 pt-4 md:pt-6">
@@ -229,13 +224,13 @@ export default function AchievementsPage() {
                     href="/contact" 
                     className="w-full sm:w-auto px-8 md:px-12 py-4 md:py-5 bg-slate-900 text-white rounded-xl md:rounded-2xl font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-orange-600 transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-orange-200 active:scale-95"
                   >
-                    {isZh ? "预约免费体验" : "Book Free Demo"} <ChevronRight size={18} />
+                    {isZh ? "預約免費試堂" : "Book Free Demo"} <ChevronRight size={18} />
                   </Link>
                   <Link 
                     href="/courses" 
                     className="w-full sm:w-auto px-8 md:px-12 py-4 md:py-5 bg-white border-2 border-slate-900 text-slate-900 rounded-xl md:rounded-2xl font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-slate-50 transition-all active:scale-95"
                   >
-                    {isZh ? "查看课程" : "View Programs"}
+                    {isZh ? "查看課程" : "View Programs"}
                   </Link>
                </div>
             </div>

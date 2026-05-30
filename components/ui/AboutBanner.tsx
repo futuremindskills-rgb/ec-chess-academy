@@ -14,7 +14,6 @@ const AboutBanner: React.FC = () => {
   ];
 
   return (
-    // Reduced padding from pt-40/pb-32 to pt-28/pb-16
     <div className="relative w-full bg-white overflow-hidden pt-28 pb-16 lg:pt-16 lg:pb-20 font-sans">
       
       {/* --- 1. IMAGE GRID BACKGROUND --- */}
@@ -45,7 +44,7 @@ const AboutBanner: React.FC = () => {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest mb-4 shadow-lg"
         >
           <Sparkles size={10} className="text-orange-400" />
-          {isZh ? "创立于 2010" : "Established 2010"}
+          {isZh ? "始創於 2010" : "Established 2010"}
         </motion.div>
 
         {/* Scaled Down Title */}
@@ -54,9 +53,9 @@ const AboutBanner: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl md:text-7xl font-[1000] text-slate-900 mb-4 tracking-tighter leading-[0.95]"
         >
-          {isZh ? "棋艺" : "MASTERS"} <br />
+          {isZh ? "棋藝" : "MASTERS"} <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-indigo-900">
-            {isZh ? "大师团队" : "OF THE BOARD"}
+            {isZh ? "導師團隊" : "OF THE BOARD"}
           </span>
         </motion.h1>
         
@@ -67,7 +66,7 @@ const AboutBanner: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-sm md:text-lg text-slate-600 max-w-xl mb-8 font-medium leading-snug"
         >
-          {isZh ? "以精英棋艺导师体系，把潜力转化为真正实力。" : "Dubai&apos;s premier strategy academy. We turn potential into excellence through elite chess mentorship."}
+          {isZh ? "憑藉精英導師體系，將學員潛能轉化為實質成就。" : "Hong Kong's premier strategy academy. We turn potential into excellence through elite chess mentorship."}
         </motion.p>
 
         {/* Smaller Breadcrumb */}
@@ -75,25 +74,25 @@ const AboutBanner: React.FC = () => {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white shadow-xl border border-slate-100 mb-12"
         >
           <Link href="/" className="text-slate-400 hover:text-orange-500 transition-colors flex items-center gap-2 text-[10px] font-black uppercase">
-            <Home size={12} /> {isZh ? "主页" : "Home"}
+            <Home size={12} /> {isZh ? "主頁" : "Home"}
           </Link>
           <ChevronRight className="w-3 h-3 text-slate-200" strokeWidth={3} />
-          <span className="text-slate-900 font-black text-[10px] uppercase">{isZh ? "关于学院" : "About Academy"}</span>
+          <span className="text-slate-900 font-black text-[10px] uppercase">{isZh ? "關於本院" : "About Academy"}</span>
         </motion.nav>
 
         {/* Tightened Stats Grid */}
         <div className="grid grid-cols-3 gap-8 md:gap-16 border-t border-slate-100 pt-8 w-full max-w-2xl">
             <div className="flex flex-col items-center">
                 <span className="text-2xl md:text-3xl font-black text-slate-900">15+</span>
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{isZh ? "年经验" : "Years"}</span>
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{isZh ? "載經驗" : "Years"}</span>
             </div>
             <div className="flex flex-col items-center">
                 <span className="text-2xl md:text-3xl font-black text-slate-900">500+</span>
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{isZh ? "学员" : "Students"}</span>
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{isZh ? "位學員" : "Students"}</span>
             </div>
             <div className="flex flex-col items-center">
                 <span className="text-2xl md:text-3xl font-black text-slate-900 uppercase">FIDE</span>
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{isZh ? "认证" : "Certified"}</span>
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{isZh ? "專業認證" : "Certified"}</span>
             </div>
         </div>
       </div>

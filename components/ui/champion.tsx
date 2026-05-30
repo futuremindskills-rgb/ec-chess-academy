@@ -48,10 +48,10 @@ const ChampionGallery: React.FC = () => {
     <section className="py-20 bg-slate-50 overflow-hidden border-t-4 border-slate-900">
       <div className="mb-12 text-center px-4">
         <h3 className="text-2xl md:text-4xl font-[1000] text-slate-900 uppercase tracking-tighter">
-          {isZh ? "卓越" : "Gallery of"} <span className="text-orange-500">{isZh ? "影像集" : "Excellence"}</span>
+          {isZh ? "榮譽" : "Gallery of"} <span className="text-orange-500">{isZh ? "影像特輯" : "Excellence"}</span>
         </h3>
         <p className="text-slate-500 font-bold uppercase text-[10px] md:text-xs tracking-[0.3em] mt-2">
-          {isZh ? "记录香港赛场上的荣耀时刻" : "Capturing the moments of victory across Hong Kong"}
+          {isZh ? "紀錄學員在香港賽場上的榮耀時刻" : "Capturing the moments of victory across Hong Kong"}
         </p>
       </div>
 
@@ -101,7 +101,7 @@ const ChampionGallery: React.FC = () => {
       <div className="mt-16 flex justify-center">
         <div className="inline-flex items-center gap-4 bg-slate-900 text-white px-6 py-3 rounded-full font-black uppercase text-[10px] tracking-widest shadow-2xl">
           <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          {isZh ? "加入荣耀殿堂" : "Join the hall of fame"}
+          {isZh ? "加入榮譽榜" : "Join the hall of fame"}
         </div>
       </div>
     </section>

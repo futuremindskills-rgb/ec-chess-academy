@@ -45,14 +45,36 @@ const faqData = [
 const FAQSection: React.FC = () => {
   const locale = useLocale();
   const isZh = locale === "zh";
+
   const localizedFaq = isZh
     ? [
-        { ...faqData[0], question: "几岁开始学习最好？", answer: "建议从4岁开始，通过认知游戏建立空间感与基础逻辑。", category: "入门" },
-        { ...faqData[1], question: "有 FIDE 认证教练吗？", answer: "有，我们的主教练团队具备FIDE认证，并拥有超过15年国际教学经验。", category: "专业训练" },
-        { ...faqData[2], question: "提供线上或混合课程吗？", answer: "提供。我们使用先进平台确保学生在家也能保持高质量训练。", category: "课程安排" },
-        { ...faqData[3], question: "如何追踪学习进度？", answer: "每学期提供数字化成长报告，涵盖等级提升、战术准确率与策略重点。", category: "学院体系" }
+        { 
+          ...faqData[0], 
+          question: "小朋友幾多歲開始學習最好？", 
+          answer: "我們建議由 4 歲起開始學習。在此階段，我們專注於「認知遊戲」，透過有趣的棋藝主題遊戲建立空間感及基礎邏輯。", 
+          category: "入門階段" 
+        },
+        { 
+          ...faqData[1], 
+          question: "本院有提供 FIDE 專業認證教練嗎？", 
+          answer: "有。我們的主教練團隊具備 FIDE 國際棋聯認證，並擁有超過 15 年國際教學經驗，嚴格遵循國際競賽標準。", 
+          category: "專業訓練" 
+        },
+        { 
+          ...faqData[2], 
+          question: "你們有提供網上或混合模式課程嗎？", 
+          answer: "絕對有。我們使用先進的棋類軟件及互動平台，確保學員在家中亦能獲得高質素的戰術訓練。", 
+          category: "課程安排" 
+        },
+        { 
+          ...faqData[3], 
+          question: "如何追蹤學員的學習進度？", 
+          answer: "每位學員每學期均會收到一份數碼化「成長報告」，詳細記錄其等級分變動、戰術準確度及重點策略分析。", 
+          category: "學院體系" 
+        }
       ]
     : faqData;
+
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   return (
@@ -74,13 +96,15 @@ const FAQSection: React.FC = () => {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest mb-4 shadow-lg"
           >
             <ShieldCheck size={12} className="text-yellow-400" />
-            {isZh ? "策略支持" : "Strategic Support"}
+            {isZh ? "專業支援" : "Strategic Support"}
           </motion.div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 tracking-tighter leading-none uppercase mb-6">
-            {isZh ? "常见" : "Frequently Asked"} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500">{isZh ? "问题" : "Inquiries"}</span>
+            {isZh ? "常見" : "Frequently Asked"} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500">{isZh ? "問題" : "Inquiries"}</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-xl mx-auto">
-            {isZh ? "了解开启孩子棋艺学习之旅所需的一切信息。" : "Everything you need to know about starting your child's chess journey with Dubai's premier academy."}
+            {isZh 
+              ? "了解開啟孩子棋藝學習之旅所需的一切資訊。" 
+              : "Everything you need to know about starting your child's chess journey with Hong Kong's premier academy."}
           </p>
         </div>
 
@@ -149,8 +173,6 @@ const FAQSection: React.FC = () => {
               </AnimatePresence>
             </motion.div>
           ))}
-
-          
         </div>
       </div>
     </section>

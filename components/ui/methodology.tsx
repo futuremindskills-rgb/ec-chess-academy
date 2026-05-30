@@ -19,11 +19,11 @@ const ecTeachingSteps = [
   {
     step: "01",
     titleEn: "Review",
-    titleZh: "棋局複習",
+    titleZh: "棋局複盤",
     subtitleEn: "Warm-Up Match",
-    subtitleZh: "熱身與分析",
+    subtitleZh: "對局回顧與分析",
     descEn: "Analyzing recent games to identify specific learning needs and focus areas.",
-    descZh: "分析近期對局，精確識別學員的學習需求與需要強化的薄弱環節。",
+    descZh: "透過分析近期對局，精確識別學員的學習進度，並針對薄弱環節進行專項強化。",
     image: "/47.jpeg",
     icon: <Swords className="w-5 h-5 text-slate-900" />,
     color: "bg-[#FFD700]", // YELLOW
@@ -33,11 +33,11 @@ const ecTeachingSteps = [
   {
     step: "02",
     titleEn: "Lecture",
-    titleZh: "專題講授",
+    titleZh: "專題教學",
     subtitleEn: "Thematic Learning",
-    subtitleZh: "主題核心教學",
+    subtitleZh: "國際大師課程",
     descEn: "High-level thematic lessons using professional international textbooks.",
-    descZh: "採用國際專業教材，進行高水準的專題課程，深入講解戰略核心。",
+    descZh: "採用國際專業教材，進行高水平的專題教學，深入淺出講解各項戰略核心。",
     image: "/22.jpeg",
     icon: <BookOpen className="w-5 h-5 text-white" />,
     color: "bg-[#8A2BE2]", // PURPLE
@@ -51,7 +51,7 @@ const ecTeachingSteps = [
     subtitleEn: "Consolidation",
     subtitleZh: "知識鞏固訓練",
     descEn: "Deepening knowledge through targeted memory and calculation exercises.",
-    descZh: "透過針對性的記憶與計算訓練，加深學員對課堂知識的理解與應用。",
+    descZh: "透過針對性的記憶與計算力訓練，加深學員對課堂知識的理解並學以致用。",
     image: "/20.jpeg",
     icon: <Target className="w-5 h-5 text-white" />,
     color: "bg-[#4F46E5]", // INDIGO
@@ -61,11 +61,11 @@ const ecTeachingSteps = [
   {
     step: "04",
     titleEn: "Mini-Game",
-    titleZh: "趣味小遊戲",
+    titleZh: "棋藝遊戲",
     subtitleEn: "Summary & Fun",
-    subtitleZh: "總結與互動",
+    subtitleZh: "互動總結與評核",
     descEn: "Summarizing the lesson through interactive, self-developed chess games.",
-    descZh: "透過自主研發的互動棋類遊戲，在輕鬆氛圍中完成課程總結與複習。",
+    descZh: "透過本院自研的互動棋藝遊戲，在輕鬆的氛圍中鞏固課堂重點並完成複習。",
     image: "/1.jpeg",
     icon: <Gamepad2 className="w-5 h-5 text-white" />,
     color: "bg-[#1a5f5f]", // EC TEAL
@@ -98,17 +98,17 @@ export default function ECTeachingProcess() {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] mb-4 shadow-lg"
           >
             <ShieldCheck size={14} className="text-[#f59e0b]" />
-            {isZh ? "EC 國際教學標準" : "EC Teaching Standard"}
+            {isZh ? "EC 國際教學規範" : "EC Teaching Standard"}
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-[1000] text-slate-900 tracking-tighter leading-none uppercase mb-6"
+            className="text-3xl md:text-5xl font-[1000] text-slate-900 tracking-tighter leading-none uppercase mb-6"
           >
             {isZh ? "60 分鐘" : "The 60-Minute"} <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] via-indigo-600 to-[#f59e0b]">
-              {isZh ? "大師養成藍圖" : "Mastery Blueprint"}
+              {isZh ? "大師成長藍圖" : "Mastery Blueprint"}
             </span>
           </motion.h2>
         </div>
@@ -190,7 +190,7 @@ export default function ECTeachingProcess() {
                 </div>
                 <div>
                    <h5 className="text-white font-[1000] text-3xl md:text-4xl uppercase tracking-tighter leading-none mb-3">
-                     {isZh ? "總時長：60 分鐘" : "Total Session: 60 Minutes"}
+                     {isZh ? "課堂總時長：60 分鐘" : "Total Session: 60 Minutes"}
                    </h5>
                    <p className="text-[#f59e0b] text-[11px] md:text-xs font-black uppercase tracking-[0.3em]">
                      {isZh ? "專注力與高效記憶平衡架構" : "Balanced Focus & Retention Framework"}
@@ -201,7 +201,7 @@ export default function ECTeachingProcess() {
             <div className="bg-white/5 border border-white/10 p-8 rounded-[32px] backdrop-blur-sm relative z-10 w-full lg:max-w-md">
                 <p className="text-slate-300 text-sm md:text-base font-bold leading-relaxed italic">
                     &quot;{isZh 
-                      ? "我們透過自主研發的棋類互動遊戲，在輕鬆的氛圍中激活思維，確保學員在快樂中鞏固課堂所學。" 
+                      ? "我們透過自研的棋藝互動遊戲，在輕鬆的氛圍中啟發學員思維，確保小朋友能在快樂中鞏固課堂所學。" 
                       : "We use self-developed mini-games to stimulate brain activity in a relaxed atmosphere, ensuring lessons are summarized and enjoyed."}&quot;
                 </p>
             </div>

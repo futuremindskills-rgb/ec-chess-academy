@@ -22,7 +22,7 @@ export default function MethodologySection() {
       titleEn: "Concept-Based Mastery",
       titleZh: "概念主導教學",
       descEn: "We move beyond memorizing opening moves. Our focus is on the 'Deep Logic'—ensuring students grasp the fundamental positional principles that govern the board.",
-      descZh: "我們不只是背誦開局。我們專注於「深層邏輯」——確保學生掌握主宰棋盤的基本空間與位置原則，建立紮實基礎。",
+      descZh: "我們不主張死記硬背開局。本院專注於「深層邏輯」——確保學員掌握主宰棋盤的基本空間及位置原則，建立紮實根基。",
       icon: <Lightbulb className="w-7 h-7 md:w-8 md:h-8 text-orange-500" />,
       color: "bg-orange-500",
     },
@@ -30,7 +30,7 @@ export default function MethodologySection() {
       titleEn: "Tactical Scaffolding",
       titleZh: "戰術循序漸進",
       descEn: "Complex strategies are broken down into manageable patterns—Forks, Pins, and Skewers. We use 'Step-by-Step' logic to build a powerful tactical database.",
-      descZh: "將複雜戰略分解為易於理解的模式，如雙重攻擊、牽制與串擊。我們透過「步進式」邏輯引導學生建立強大的戰術資料庫。",
+      descZh: "將複雜戰略分解為易於理解的模式，如雙重攻擊、牽制及串擊。我們透過「步進式」邏輯引導學員建立強大的戰術資料庫。",
       icon: <Layers className="w-7 h-7 md:w-8 md:h-8 text-purple-600" />,
       color: "bg-purple-600",
     },
@@ -38,7 +38,7 @@ export default function MethodologySection() {
       titleEn: "Metacognitive Thinking",
       titleZh: "元認知思維訓練",
       descEn: "We teach students 'how to calculate'—monitoring their own thought process, identifying opponent threats, and regulating their focus for accuracy.",
-      descZh: "我們教導學生「如何計算」——監控自己的思維過程，識別對手的威脅，並在長時間比賽中調節專注力與思維準確性。",
+      descZh: "我們教導學員「如何計算」——監控個人的思維過程，識別對手的威脅，並於長時間比賽中調節專注力與思維準確性。",
       icon: <BrainCircuit className="w-7 h-7 md:w-8 md:h-8 text-indigo-600" />,
       color: "bg-indigo-600",
     },
@@ -46,7 +46,7 @@ export default function MethodologySection() {
       titleEn: "Tournament Resilience",
       titleZh: "競技抗壓韌性",
       descEn: "Chess isn't just abstract theory. We build the 'Champion Mindset'—from time management under pressure to recovering from mistakes with analytical grit.",
-      descZh: "下棋不只是抽象理論。我們建立「冠軍心態」——從高壓下的時間管理，到以分析韌性從錯誤中恢復並保持冷靜。",
+      descZh: "棋藝不只是抽象理論。我們致力建立「冠軍心態」——由高壓下的時間管理，到以分析力及抗壓韌性從錯誤中恢復並保持冷靜。",
       icon: <ShieldCheck className="w-7 h-7 md:w-8 md:h-8 text-cyan-500" />,
       color: "bg-cyan-500",
     }
@@ -76,7 +76,7 @@ export default function MethodologySection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={`text-4xl sm:text-5xl md:text-7xl font-[1000] text-slate-900 leading-[1.1] md:leading-[0.9] tracking-tighter uppercase mb-8 ${isZh ? 'tracking-normal' : ''}`}
+            className="text-3xl sm:text-5xl md:text-5xl font-[1000] text-slate-900 leading-[1.1] md:leading-[0.9] tracking-tighter uppercase mb-8"
           >
             {isZh ? "教學成就" : "Teaching for"} <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-950 italic">
@@ -92,7 +92,7 @@ export default function MethodologySection() {
             className="text-base md:text-xl text-slate-500 font-medium leading-relaxed max-w-3xl mx-auto"
           >
             {isZh 
-              ? "在 EC 象棋學院，我們連接基礎走法與競技卓越。我們的教學哲學融合了 FIDE 國際嚴謹標準與香港 15 年的專業培訓經驗。" 
+              ? "在 EC 卓思棋院，我們致力銜接基礎走法與競技表現。我們的教學哲學融合了 FIDE 國際嚴謹規範與香港 15 年的專業培訓經驗。" 
               : "At EC Chess Academy, we bridge the gap between simple moves and competitive excellence. Our philosophy blends international FIDE rigor with 15 years of HK training experience."}
           </motion.p>
         </div>
@@ -146,7 +146,7 @@ export default function MethodologySection() {
 
                 <div className={`mt-8 flex items-center gap-2 font-black text-[10px] md:text-[11px] uppercase tracking-[0.2em] ${idx % 2 === 0 ? 'flex-row-reverse' : ''} text-slate-400 group-hover:text-slate-900 transition-colors`}>
                    <CheckCircle2 size={16} className="text-orange-500" />
-                   <span>{isZh ? "品質保證標準" : "Quality Standard"}</span>
+                   <span>{isZh ? "教學品質保證標準" : "Quality Standard"}</span>
                 </div>
               </div>
             </motion.div>
@@ -166,14 +166,14 @@ export default function MethodologySection() {
               <div className="absolute bottom-0 left-0 w-64 md:w-96 h-64 md:h-96 bg-orange-500/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
               
               <h3 className="text-2xl sm:text-3xl md:text-5xl font-[1000] uppercase tracking-tighter mb-10 relative z-10 leading-tight">
-                {isZh ? "棋類不只是遊戲，更是認知能力構建的" : "Chess is more than a game—it's a"}{" "}
+                {isZh ? "棋藝不只是遊戲，更是認知能力構建的" : "Chess is more than a game—it's a"}{" "}
                 <span className="text-orange-400 italic">{isZh ? "藍圖" : "blueprint"}</span>
                 {isZh ? "。" : " for cognitive architecture."}
               </h3>
               
               <div className="flex flex-col items-center gap-6 relative z-10">
                 <p className="text-slate-400 font-black text-xs md:text-sm uppercase tracking-[0.3em]">
-                  {isZh ? "— EC 學院教學理念" : "— The EC Academy Philosophy"}
+                  {isZh ? "— EC 卓思棋院教學理念" : "— The EC Academy Philosophy"}
                 </p>
                 <div className="h-[2px] w-20 bg-orange-500/50" />
                 <button className="flex items-center gap-3 text-xs md:text-sm font-black uppercase tracking-widest text-orange-400 hover:text-white transition-all group">

@@ -57,28 +57,28 @@ const PageBanner: React.FC<PageBannerProps> = ({
         </motion.div>
 
         {/* --- 2. THE OVERLAY (Fading into the white background) --- */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/20 to-white z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/10 to-white z-10" />
         <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10" />
       </div>
 
       {/* --- 3. MAIN CONTENT --- */}
       <div className="container mx-auto px-6 relative z-20 flex flex-col items-center text-center">
         
-        {/* Top Mini Badge */}
+        {/* Top Mini Badge - Localized for HK */}
         <motion.div 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] mb-6 shadow-xl"
         >
           <HelpCircle size={12} className="text-orange-400" />
-          {isZh ? "專屬支持" : "Direct Support"}
+          {isZh ? "專屬支援" : "Direct Support"}
         </motion.div>
 
         {/* Title with Masters Moves Gradient */}
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-7xl lg:text-8xl font-[1000] text-slate-900 mb-6 tracking-tighter leading-[0.9] uppercase"
+          className="text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 mb-6 tracking-tighter leading-[0.9] uppercase"
         >
           {title} <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1a5f5f] to-orange-500 italic">
@@ -96,7 +96,7 @@ const PageBanner: React.FC<PageBannerProps> = ({
           {description}
         </motion.p>
 
-        {/* Breadcrumb Navigation */}
+        {/* Breadcrumb Navigation - Localized for HK */}
         <motion.nav 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}

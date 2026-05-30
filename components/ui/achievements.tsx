@@ -18,55 +18,56 @@ import { useLocale } from 'next-intl';
 export default function AchievementsSection() {
   const locale = useLocale();
   const isZh = locale === "zh";
+  
   const stats = [
-    { label: isZh ? "FIDE 分数提升" : "FIDE Rating Gained", value: "3000+", icon: <TrendingUp /> },
-    { label: isZh ? "赛事获胜" : "Tournament Wins", value: "50+", icon: <Trophy /> },
-    { label: isZh ? "在读学员" : "Active Students", value: "500+", icon: <Users /> },
-    { label: isZh ? "精英教练" : "Elite Coaches", value: "12", icon: <Crown /> },
+    { label: isZh ? "FIDE 等級分提升" : "FIDE Rating Gained", value: "3000+", icon: <TrendingUp /> },
+    { label: isZh ? "賽事獎項" : "Tournament Wins", value: "50+", icon: <Trophy /> },
+    { label: isZh ? "在讀學員" : "Active Students", value: "500+", icon: <Users /> },
+    { label: isZh ? "精英導師" : "Elite Coaches", value: "12", icon: <Crown /> },
   ];
 
-const milestones = [
-  {
-    year: '2024',
-    title: isZh ? '数字化精通' : 'Digital Mastery',
-    subtitle: isZh ? 'AI 分析' : 'AI Analysis',
-    description: isZh
-      ? '将先进引擎分析整合进课程体系，为专业级训练提供支持。'
-      : 'Integrated advanced engine analysis into our curriculum for pro-level training.',
-    icon: <Zap className="w-5 h-5 md:w-6 md:h-6 text-white" />,
-    bg: "bg-indigo-600",
-  },
-  {
-    year: '2020',
-    title: isZh ? '香港冠军赛' : 'HK Championship',
-    subtitle: isZh ? '领奖台荣耀' : 'Podium Success',
-    description: isZh
-      ? '学员在香港青少年公开赛中获得多个前三名成绩。'
-      : 'Our students achieved multiple Top 3 finishes in the HK Junior Open championships.',
-    icon: <Star className="w-5 h-5 md:w-6 md:h-6 text-white" />,
-    bg: "bg-orange-500",
-  },
-  {
-    year: '2015',
-    title: isZh ? 'FIDE 中心' : 'FIDE Hub',
-    subtitle: isZh ? '国际标准' : 'Global Standards',
-    description: isZh
-      ? '正式获认可为 FIDE 培训中心，并拥有国际认证导师。'
-      : 'Officially recognized as a FIDE Training Hub with international certified instructors.',
-    icon: <ShieldCheck className="w-5 h-5 md:w-6 md:h-6 text-white" />,
-    bg: "bg-purple-600",
-  },
-  {
-    year: '2010',
-    title: isZh ? '学院起源' : 'The Foundation',
-    subtitle: isZh ? '香港创立' : 'HK Origins',
-    description: isZh
-      ? 'EC Chess 于香港成立，致力于培养具战略思维的年轻人才。'
-      : 'Established EC Chess in Hong Kong with a mission to develop strategic young minds.',
-    icon: <Medal className="w-5 h-5 md:w-6 md:h-6 text-slate-900" />,
-    bg: "bg-slate-100",
-  },
-];
+  const milestones = [
+    {
+      year: '2024',
+      title: isZh ? '數碼化教學' : 'Digital Mastery',
+      subtitle: isZh ? 'AI 棋局分析' : 'AI Analysis',
+      description: isZh
+        ? '將先進分析引擎整合至課程體系，為專業級訓練提供強力支援。'
+        : 'Integrated advanced engine analysis into our curriculum for pro-level training.',
+      icon: <Zap className="w-5 h-5 md:w-6 md:h-6 text-white" />,
+      bg: "bg-indigo-600",
+    },
+    {
+      year: '2020',
+      title: isZh ? '全港錦標賽' : 'HK Championship',
+      subtitle: isZh ? '勇奪三甲佳績' : 'Podium Success',
+      description: isZh
+        ? '學員於全港青少年公開賽中表現卓越，多次登上頒獎台。'
+        : 'Our students achieved multiple Top 3 finishes in the HK Junior Open championships.',
+      icon: <Star className="w-5 h-5 md:w-6 md:h-6 text-white" />,
+      bg: "bg-orange-500",
+    },
+    {
+      year: '2015',
+      title: isZh ? 'FIDE 認證中心' : 'FIDE Hub',
+      subtitle: isZh ? '接軌國際標準' : 'Global Standards',
+      description: isZh
+        ? '正式獲認可為 FIDE 培訓中心，並擁有國際認證導師資格。'
+        : 'Officially recognized as a FIDE Training Hub with international certified instructors.',
+      icon: <ShieldCheck className="w-5 h-5 md:w-6 md:h-6 text-white" />,
+      bg: "bg-purple-600",
+    },
+    {
+      year: '2010',
+      title: isZh ? '棋院成立' : 'The Foundation',
+      subtitle: isZh ? '紮根香港' : 'HK Origins',
+      description: isZh
+        ? 'EC 卓思棋院於香港創立，致力培育具戰略思維的年輕一代。'
+        : 'Established EC Chess in Hong Kong with a mission to develop strategic young minds.',
+      icon: <Medal className="w-5 h-5 md:w-6 md:h-6 text-slate-900" />,
+      bg: "bg-slate-100",
+    },
+  ];
 
   return (
     <section className="relative py-16 md:py-24 lg:py-32 bg-white font-sans overflow-hidden">
@@ -82,20 +83,20 @@ const milestones = [
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] shadow-xl"
             >
               <Star size={12} className="text-orange-400 fill-orange-400" />
-              <span>{isZh ? "成果验证" : "Proven Excellence"}</span>
+              <span>{isZh ? "實績見證" : "Proven Excellence"}</span>
             </motion.div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[1000] text-slate-900 leading-[1.1] md:leading-[0.9] tracking-tighter uppercase">
-              {isZh ? "让策略" : "Where Strategy"} <br className="hidden sm:block" />
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-[1000] text-slate-900 leading-[1.1] md:leading-[0.9] tracking-tighter uppercase">
+              {isZh ? "將策略" : "Where Strategy"} <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-600 to-indigo-600 italic">
-                {isZh ? "转化为成功" : "Becomes Success."}
+                {isZh ? "轉化為成功" : "Becomes Success."}
               </span>
             </h2>
             <p className="text-slate-500 text-base md:text-xl font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
-              {isZh ? "我们不只教步骤，更培养冠军。成绩背后是对精英训练与长期认知成长的坚持。" : "We don&apos;t just teach moves; we produce champions. Our record reflects a commitment to elite training and long-term cognitive growth."}
+              {isZh ? "我們不只傳授棋藝，更致力培育冠軍。亮麗成績背後，是我們對精英訓練及學員認知成長的堅持。" : "We don't just teach moves; we produce champions. Our record reflects a commitment to elite training and long-term cognitive growth."}
             </p>
           </div>
 
-          {/* 3D-Shadow Stats Grid */}
+          {/* Stats Grid */}
           <div className="w-full lg:w-1/2 grid grid-cols-2 gap-4 md:gap-6">
             {stats.map((stat, idx) => (
               <div key={idx} className="group relative">
@@ -154,22 +155,21 @@ const milestones = [
 
         {/* --- PART 3: CERTIFICATIONS STRIP --- */}
         <div className="bg-[#0f172a] rounded-[32px] md:rounded-[50px] p-8 md:p-16 relative overflow-hidden shadow-2xl">
-          {/* Decorative Crown */}
           <div className="absolute -bottom-10 -right-10 opacity-10 pointer-events-none rotate-12 hidden md:block">
             <Crown size={240} className="text-white" />
           </div>
 
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
             <div className="text-center lg:text-left">
-              <h3 className="text-2xl md:text-4xl font-[1000] text-white uppercase tracking-tighter mb-2 leading-none">{isZh ? "学院资质" : "Academy Credentials"}</h3>
-              <p className="text-slate-400 font-bold uppercase text-[8px] md:text-[10px] tracking-[0.3em]">{isZh ? "获香港与国际机构认可" : "Recognized by HK & International Strategic bodies"}</p>
+              <h3 className="text-2xl md:text-4xl font-[1000] text-white uppercase tracking-tighter mb-2 leading-none">{isZh ? "棋院專業資歷" : "Academy Credentials"}</h3>
+              <p className="text-slate-400 font-bold uppercase text-[8px] md:text-[10px] tracking-[0.3em]">{isZh ? "獲得香港及國際專業機構認可" : "Recognized by HK & International Strategic bodies"}</p>
             </div>
 
             <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 w-full lg:w-auto">
               {[
-                isZh ? "FIDE 认证学院" : "FIDE Certified Academy",
-                isZh ? "香港代表训练中心" : "HK Representative Training Hub",
-                isZh ? "大师级教学体系" : "Grandmaster Level Pedagogy",
+                isZh ? "FIDE 認證學院" : "FIDE Certified Academy",
+                isZh ? "香港代表隊訓練基地" : "HK Representative Training Hub",
+                isZh ? "大師級教學體系" : "Grandmaster Level Pedagogy",
               ].map((cert, i) => (
                 <div key={i} className="flex items-center gap-3 bg-white/5 backdrop-blur-xl px-5 py-4 rounded-2xl md:rounded-3xl border border-white/10 hover:bg-white/10 transition-colors">
                   <CheckCircle2 className="w-5 h-5 text-orange-500 shrink-0" />
