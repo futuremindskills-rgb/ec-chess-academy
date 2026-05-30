@@ -9,17 +9,27 @@ const intlMiddleware = createMiddleware(routing);
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Keep auth/admin pages outside locale prefixing
-  if (pathname === "/login" || pathname.startsWith("/admin")) {
+  /**
+   * Routes that should NOT be locale-prefixed
+   */
+  if (
+    pathname === "/login" ||
+    pathname === "/payment-status" ||
+    pathname.startsWith("/admin")
+  ) {
     return NextResponse.next();
   }
 
-  // Keep webhook handlers untouched
+  /**
+   * Keep webhook handlers untouched
+   */
   if (pathname.startsWith("/api/webhook")) {
     return NextResponse.next();
   }
 
-  // Public APIs
+  /**
+   * Public APIs
+   */
   if (
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/uploadthing")
@@ -28,6 +38,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   const isAdminPath = pathname.startsWith("/admin");
+
   const isApiMutation =
     pathname.startsWith("/api") &&
     ["POST", "PUT", "DELETE"].includes(req.method);
@@ -37,20 +48,33 @@ export default async function middleware(req: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
+  /**
+   * Protect admin pages and API mutations
+   */
   if ((isAdminPath || isApiMutation) && !token) {
     if (pathname.startsWith("/api")) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
     }
 
     const url = new URL("/login", req.url);
     url.searchParams.set("callbackUrl", pathname);
+
     return NextResponse.redirect(url);
   }
 
+  /**
+   * Skip locale middleware for APIs
+   */
   if (pathname.startsWith("/api")) {
     return NextResponse.next();
   }
 
+  /**
+   * Apply next-intl to all other routes
+   */
   return intlMiddleware(req);
 }
 
