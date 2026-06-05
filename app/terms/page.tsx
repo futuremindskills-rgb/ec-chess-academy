@@ -14,16 +14,16 @@ export default function TermsPage() {
   const termsSection = [
     {
       id: "general",
-      title: isZh ? "一般条款与条件" : "General Terms & Conditions",
+      title: isZh ? "一般條款與條件" : "General Terms & Conditions",
       icon: Scale,
       color: "from-blue-500 to-cyan-500",
       bgColor: "bg-gradient-to-br from-blue-50 to-cyan-50",
       content: isZh
         ? [
-            "本院保留调整、拒绝或改期线上/线下课程的权利。",
-            "本协议受香港特别行政区法律管辖并据其解释。",
-            "在服务协议结束后，课程可经双方同意终止。",
-            "本院重视并保护教练及员工的知识产权权益。"
+            "本院保留調整、拒絕或改期線上/線下課程的權利。",
+            "本協議受香港特別行政區法律管轄並據其解釋。",
+            "在服務協議結束後，課程可經雙方同意終止。",
+            "本院重視並保護教練及員工的知識產權權益。"
           ]
         : [
             "Bharat chess academy reserves all right to change, deny or reschedule any class, both online and offline.",
@@ -34,14 +34,14 @@ export default function TermsPage() {
     },
     {
       id: "refunds",
-      title: isZh ? "退款与取消政策" : "Refunds & Cancellation Policy",
+      title: isZh ? "退款與取消政策" : "Refunds & Cancellation Policy",
       icon: CreditCard,
       color: "from-emerald-500 to-green-500",
       bgColor: "bg-gradient-to-br from-emerald-50 to-green-50",
       content: isZh
         ? [
-            "费用支付并完成课程/赛事预约后，不设退款或取消。",
-            "已预约课程须按时出席。"
+            "費用支付並完成課程/賽事預約後，不設退款或取消。",
+            "已預約課程須按時出席。"
           ]
         : [
             "No refunds or cancellations once fees are paid and classes/tournaments booked.",
@@ -50,17 +50,17 @@ export default function TermsPage() {
     },
     {
       id: "privacy",
-      title: isZh ? "私隐政策" : "Privacy Policy",
+      title: isZh ? "私隱政策" : "Privacy Policy",
       icon: Shield,
       color: "from-purple-500 to-pink-500",
       bgColor: "bg-gradient-to-br from-purple-50 to-pink-50",
       content: isZh
         ? [
-            "我们将根据适用法律及私隐政策收集并使用个人资料。",
-            "资料仅用于提供及优化服务与沟通。",
-            "学员资料将被保密，用户可申请查阅或更正。",
-            "除非明确拒绝，本院可将照片/影片用于宣传。",
-            "我们采取安全措施保护资料，但无法保证绝对安全。"
+            "我們將根據適用法律及私隱政策收集並使用個人資料。",
+            "資料僅用於提供及優化服務與溝通。",
+            "學員資料將被保密，用戶可申請查閱或更正。",
+            "除非明確拒絕，本院可將照片/影片用於宣傳。",
+            "我們採取安全措施保護資料，但無法保證絕對安全。"
           ]
         : [
             "We collect and use personal data per applicable laws and our Privacy Policy.",
@@ -87,10 +87,10 @@ export default function TermsPage() {
             {isZh ? "法律政策" : "Legal Policies"}
           </Badge>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
-            {isZh ? "条款与政策" : "Terms & Policies"}
+            {isZh ? "條款與政策" : "Terms & Policies"}
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            {isZh ? "了解相关政策有助于为每位学员提供更优质、透明的学习体验。" : "Understanding our policies ensures the best learning experience for everyone at Bharat Chess Academy"}
+            {isZh ? "了解相關政策有助於為每位學員提供更優質、透明的學習體驗。" : "Understanding our policies ensures the best learning experience for everyone at Bharat Chess Academy"}
           </p>
         </div>
       </section>
@@ -192,10 +192,10 @@ export default function TermsPage() {
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border-2 border-gray-200/50 shadow-lg">
               <Lock className="w-12 h-12 text-gray-600 mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                {isZh ? "对我们的政策有疑问？" : "Questions About Our Policies?"}
+                {isZh ? "對我們的政策有疑問？" : "Questions About Our Policies?"}
               </h3>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                {isZh ? "我们的支持团队可协助解释任何条款与政策细节，我们坚持透明沟通。" : "Our support team is here to help clarify any aspect of our terms and policies. We believe in transparent communication."}
+                {isZh ? "我們的支援團隊可協助解釋任何條款與政策細節，我們堅持透明溝通。" : "Our support team is here to help clarify any aspect of our terms and policies. We believe in transparent communication."}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Badge className="bg-blue-500/10 text-blue-700 border border-blue-500/20 px-4 py-2">
