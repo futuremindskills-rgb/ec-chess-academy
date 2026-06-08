@@ -1,4 +1,4 @@
-// api/webhooks/asiapay/route.ts
+// app/api/webhook/asiapay/route.ts
 
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
@@ -7,50 +7,36 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
+    console.log("🚀 ASIAPAY WEBHOOK HIT");
+
     /* -------------------------------------------------------------------------- */
     /*                                  RAW BODY                                  */
     /* -------------------------------------------------------------------------- */
 
     const raw = await req.text();
 
-    console.log("🟡 RAW WEBHOOK BODY:", raw);
+    console.log("🟡 ASIAPAY WEBHOOK RAW:");
+    console.log(raw);
 
     const params = new URLSearchParams(raw);
 
-    const payload = Object.fromEntries(params);
+    const payload = Object.fromEntries(params.entries());
 
-    console.log("🟡 ASIAPAY WEBHOOK PAYLOAD:", payload);
+    console.log("🟡 ASIAPAY PAYLOAD:", payload);
 
     /* -------------------------------------------------------------------------- */
     /*                              EXTRACT FIELDS                                */
     /* -------------------------------------------------------------------------- */
 
-    const successCode =
-      params.get("successcode") || "";
-
-    const ref =
-      params.get("Ref") || "";
-
-    const payRef =
-      params.get("PayRef") || "";
-
-    const amt =
-      params.get("Amt") || "";
-
-    const cur =
-      params.get("Cur") || "";
-
-    const src =
-      params.get("src") || "";
-
-    const prc =
-      params.get("prc") || "";
-
-    const bank =
-      params.get("bank") || "";
-
-    const incomingHash =
-      params.get("secureHash") || "";
+    const successCode = params.get("successcode") || "";
+    const ref = params.get("Ref") || "";
+    const payRef = params.get("PayRef") || "";
+    const amt = params.get("Amt") || "";
+    const cur = params.get("Cur") || "";
+    const src = params.get("src") || "";
+    const prc = params.get("prc") || "";
+    const bank = params.get("bank") || "";
+    const incomingHash = params.get("secureHash") || "";
 
     /* -------------------------------------------------------------------------- */
     /*                               VALIDATE REF                                 */
@@ -68,15 +54,8 @@ export async function POST(req: Request) {
     /*                               VERIFY HASH                                  */
     /* -------------------------------------------------------------------------- */
 
-    /**
-     * AsiaPay Hash Format:
-     *
-     * src|prc|successcode|Ref|PayRef|Cur|Amt|bank|Secret
-     */
-
     const secret =
-      process.env
-        .ASIAPAY_SECURE_HASH_SECRET?.trim() || "";
+      process.env.ASIAPAY_SECURE_HASH_SECRET?.trim() || "";
 
     const verifyString =
       `${src}|${prc}|${successCode}|${ref}|${payRef}|${cur}|${amt}|${bank}|${secret}`;
@@ -86,39 +65,16 @@ export async function POST(req: Request) {
       .update(verifyString)
       .digest("hex");
 
-    console.log(
-      "🟡 Incoming Hash:",
-      incomingHash
-    );
-
-    console.log(
-      "🟡 Calculated Hash:",
-      calculatedHash
-    );
-
-    console.log(
-      "🟡 Verify String:",
-      verifyString
-    );
-
-    /**
-     * IMPORTANT:
-     * AsiaPay sometimes sends uppercase hash
-     */
+    console.log("🟡 Incoming Hash:", incomingHash);
+    console.log("🟡 Calculated Hash:", calculatedHash);
+    console.log("🟡 Verify String:", verifyString);
 
     const isValidHash =
       incomingHash.toLowerCase() ===
       calculatedHash.toLowerCase();
 
     if (!isValidHash) {
-      console.error(
-        "❌ INVALID ASIAPAY HASH"
-      );
-
-      /**
-       * IMPORTANT:
-       * Return 200 anyway
-       */
+      console.error("❌ INVALID ASIAPAY HASH");
 
       return new Response("OK", {
         status: 200,
@@ -129,52 +85,34 @@ export async function POST(req: Request) {
     /*                        EXTRACT REGISTRATION ID                             */
     /* -------------------------------------------------------------------------- */
 
-    /**
-     * Example Ref:
-     *
-     * cmpjgfa7u0003l504jx82rkrz-12797
-     *
-     * Registration ID:
-     *
-     * cmpjgfa7u0003l504jx82rkrz
-     */
-
-    const lastDashIndex =
-      ref.lastIndexOf("-");
+    const lastDashIndex = ref.lastIndexOf("-");
 
     if (lastDashIndex === -1) {
-      console.error(
-        "❌ INVALID REF FORMAT:",
-        ref
-      );
+      console.error("❌ Invalid Ref Format:", ref);
 
       return new Response("OK", {
         status: 200,
       });
     }
 
-    const registrationId =
-      ref.substring(0, lastDashIndex);
+    const registrationId = ref.substring(0, lastDashIndex);
 
-    console.log(
-      "🟢 REGISTRATION ID:",
-      registrationId
-    );
+    console.log("🟢 Registration ID:", registrationId);
 
     /* -------------------------------------------------------------------------- */
     /*                         FIND REGISTRATION                                  */
     /* -------------------------------------------------------------------------- */
 
-    const existingRegistration =
+    const registration =
       await prisma.registration.findUnique({
         where: {
           id: registrationId,
         },
       });
 
-    if (!existingRegistration) {
+    if (!registration) {
       console.error(
-        "❌ REGISTRATION NOT FOUND:",
+        "❌ Registration Not Found:",
         registrationId
       );
 
@@ -184,20 +122,17 @@ export async function POST(req: Request) {
     }
 
     console.log(
-      "🟡 CURRENT STATUS:",
-      existingRegistration.status
+      "🟡 Current Status:",
+      registration.status
     );
 
     /* -------------------------------------------------------------------------- */
     /*                     PREVENT DUPLICATE PROCESSING                           */
     /* -------------------------------------------------------------------------- */
 
-    if (
-      existingRegistration.status ===
-      "COMPLETED"
-    ) {
+    if (registration.status === "COMPLETED") {
       console.log(
-        "✅ PAYMENT ALREADY COMPLETED"
+        "✅ Registration Already Completed"
       );
 
       return new Response("OK", {
@@ -210,9 +145,10 @@ export async function POST(req: Request) {
     /* -------------------------------------------------------------------------- */
 
     if (successCode === "0") {
-      await prisma.registration.update({
+      await prisma.registration.updateMany({
         where: {
           id: registrationId,
+          status: "PENDING",
         },
         data: {
           status: "COMPLETED",
@@ -222,28 +158,21 @@ export async function POST(req: Request) {
       });
 
       console.log(
-        `✅ PAYMENT SUCCESS: ${registrationId}`
+        `✅ PAYMENT COMPLETED: ${registrationId}`
       );
     }
 
     /* -------------------------------------------------------------------------- */
-    /*                             PAYMENT FAILED                                 */
+    /*                          NON-SUCCESS STATUS                                */
     /* -------------------------------------------------------------------------- */
 
     else {
-      await prisma.registration.update({
-        where: {
-          id: registrationId,
-        },
-        data: {
-          status: "FAILED",
-          paymentGateway: "asiapay",
-        },
-      });
-
       console.log(
-        `❌ PAYMENT FAILED: ${registrationId}`
+        `⚠️ Payment not successful. successcode=${successCode}`
       );
+
+      // Do not mark FAILED automatically.
+      // Some gateways send intermediate statuses.
     }
 
     /* -------------------------------------------------------------------------- */
@@ -259,11 +188,7 @@ export async function POST(req: Request) {
       error
     );
 
-    /**
-     * IMPORTANT:
-     * Always return 200
-     * otherwise AsiaPay retries forever
-     */
+    // Always return 200 so AsiaPay does not keep retrying
 
     return new Response("OK", {
       status: 200,

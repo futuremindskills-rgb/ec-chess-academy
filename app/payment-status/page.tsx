@@ -85,69 +85,49 @@ export default async function PaymentStatusPage({
     /* -------------------------------------------------------------------------- */
 
     else if (gateway === "asiapay" && id) {
-      registration =
-        await prisma.registration.findUnique({
-          where: {
-            id,
-          },
-          include: {
-            tournament: true,
-          },
-        });
+  registration =
+    await prisma.registration.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        tournament: true,
+      },
+    });
 
-      if (!registration) {
-        redirect("/tournaments");
-      }
+  if (!registration) {
+    redirect("/tournaments");
+  }
 
-      console.log("ASIAPAY RETURN:", {
-        successcode,
-        PayRef,
+  console.log("ASIAPAY RETURN:", {
+    successcode,
+    PayRef,
+  });
+
+  // Give webhook a moment if callback is still processing
+  if (registration.status === "PENDING") {
+    await new Promise((resolve) =>
+      setTimeout(resolve, 1500)
+    );
+
+    registration =
+      await prisma.registration.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          tournament: true,
+        },
       });
+  }
 
-      /* ---------------------------------------------------------------------- */
-      /*                            PAYMENT SUCCESS                              */
-      /* ---------------------------------------------------------------------- */
-
-      if (successcode === "0") {
-        registration =
-          await prisma.registration.update({
-            where: {
-              id,
-            },
-            data: {
-              status: "COMPLETED",
-              paymentGateway: "asiapay",
-              transactionId:
-                PayRef ||
-                registration.transactionId,
-            },
-            include: {
-              tournament: true,
-            },
-          });
-
-        console.log(
-          `✅ ASIAPAY PAYMENT COMPLETED: ${id}`
-        );
-      }
-
-      /* ---------------------------------------------------------------------- */
-      /*                             PAYMENT FAILED                              */
-      /* ---------------------------------------------------------------------- */
-
-      else {
-        await prisma.registration.update({
-          where: {
-            id,
-          },
-          data: {
-            status: "FAILED",
-          },
-        });
-
-        redirect("/tournaments?status=failed");
-      }
-    }
+  if (
+  !registration ||
+  registration.status !== "COMPLETED"
+) {
+  redirect("/tournaments?status=pending");
+}
+}
 
     /* -------------------------------------------------------------------------- */
     /*                              INVALID REQUEST                                */
@@ -231,9 +211,9 @@ export default async function PaymentStatusPage({
               Status
             </span>
 
-            <span className="font-black text-[10px] uppercase bg-emerald-100 text-emerald-700 px-2 py-1 rounded border-2 border-emerald-300">
-              COMPLETED
-            </span>
+           <span className="font-black text-[10px] uppercase bg-emerald-100 text-emerald-700 px-2 py-1 rounded border-2 border-emerald-300">
+  {registration.status}
+</span>
           </div>
 
           {registration.transactionId && (
