@@ -68,19 +68,14 @@ export default function TournamentsPage() {
     fetchData();
   }, []);
 
- const filteredTournaments = tournaments.filter(t => {
-  // Hide deactivated tournaments
-  if (!t.isActive) return false;
-
-  // Hide cancelled tournaments
+const filteredTournaments = tournaments.filter(t => {
   if (t.status === "CANCELLED") return false;
-
   if (!selectedGame) return false;
 
   try {
     const cats = t.categories ? JSON.parse(t.categories) : [];
     return cats.includes(selectedGame);
-  } catch {
+  } catch (e) {
     return false;
   }
 });
@@ -242,9 +237,19 @@ export default function TournamentsPage() {
                           <button onClick={() => setViewingRegs(t)} className="w-full py-3 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px] hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-slate-900">
                             <FileText size={16} /> {isZh ? "詳情及章程" : "Regulations"}
                           </button>
-                          <button onClick={() => setSelectedTournament(t)} className="w-full py-4 bg-indigo-600 hover:bg-slate-900 text-white font-black uppercase rounded-2xl transition-all shadow-xl text-xs tracking-widest">
-                            {isZh ? "立即報名" : "Register Now"}
-                          </button>
+                          <button
+  disabled={!t.isActive}
+  onClick={() => t.isActive && setSelectedTournament(t)}
+  className={`w-full py-4 font-black uppercase rounded-2xl transition-all shadow-xl text-xs tracking-widest ${
+    t.isActive
+      ? "bg-indigo-600 hover:bg-slate-900 text-white"
+      : "bg-slate-300 text-slate-500 cursor-not-allowed"
+  }`}
+>
+  {t.isActive
+    ? (isZh ? "立即報名" : "Register Now")
+    : (isZh ? "報名已關閉" : "Registration Closed")}
+</button>
                         </div>
                       </div>
                     </div>
