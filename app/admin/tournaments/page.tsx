@@ -252,13 +252,7 @@ export default function TournamentAdmin() {
         <div className="p-20 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-blue-600" size={48} /></div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {tournaments
-  .filter(
-    t =>
-      t.isActive &&
-      t.title.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-  .map((t) => (
+            {tournaments.filter(t => t.title.toLowerCase().includes(searchTerm.toLowerCase())).map((t) => (
                 <div key={t.id} className="bg-white rounded-[32px] border-4 border-slate-900 overflow-hidden shadow-[10px_10px_0px_#f1f5f9] flex flex-col transition-all hover:translate-x-1 hover:translate-y-1">
                     <div className="relative h-44 bg-slate-100 border-b-4 border-slate-900">
                         {t.bannerImage && <img src={t.bannerImage} alt="" className="w-full h-full object-cover" />}

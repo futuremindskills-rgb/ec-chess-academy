@@ -68,17 +68,22 @@ export default function TournamentsPage() {
     fetchData();
   }, []);
 
-  const filteredTournaments = tournaments.filter(t => {
-    if (t.status === "CANCELLED") return false;
-    if (!selectedGame) return false;
+ const filteredTournaments = tournaments.filter(t => {
+  // Hide deactivated tournaments
+  if (!t.isActive) return false;
 
-    try {
-      const cats = t.categories ? JSON.parse(t.categories) : [];
-      return cats.includes(selectedGame);
-    } catch (e) {
-      return false;
-    }
-  });
+  // Hide cancelled tournaments
+  if (t.status === "CANCELLED") return false;
+
+  if (!selectedGame) return false;
+
+  try {
+    const cats = t.categories ? JSON.parse(t.categories) : [];
+    return cats.includes(selectedGame);
+  } catch {
+    return false;
+  }
+});
 
   const handleApplyCoupon = async () => {
     if (!couponInput || !selectedTournament) return;
