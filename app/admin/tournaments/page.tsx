@@ -10,7 +10,8 @@ import {
   addCoupon,
   getCoupons,
   deleteCoupon,
-  updateRegistration 
+  updateRegistration ,
+  updateTournamentStatus
 } from "@/app/actions/adminActions";
 import ImageUpload from "@/components/admin/ImageUpload";
 import { 
@@ -192,6 +193,15 @@ export default function TournamentAdmin() {
       default: return 'bg-slate-100 text-slate-700';
     }
   };
+  const toggleTournamentStatus = async (id: number) => {
+    try {
+        await updateTournamentStatus(id);
+        await loadData();
+    } catch (error) {
+        console.error(error);
+        alert("Failed to update tournament status");
+    }
+};
 
   const filteredRegistrations = viewingPlayers?.registrations?.filter((reg: any) => {
     if (playerFilter === 'PAID') return reg.status === 'COMPLETED';
@@ -242,7 +252,13 @@ export default function TournamentAdmin() {
         <div className="p-20 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-blue-600" size={48} /></div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {tournaments.filter(t => t.title.toLowerCase().includes(searchTerm.toLowerCase())).map((t) => (
+            {tournaments
+  .filter(
+    t =>
+      t.isActive &&
+      t.title.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+  .map((t) => (
                 <div key={t.id} className="bg-white rounded-[32px] border-4 border-slate-900 overflow-hidden shadow-[10px_10px_0px_#f1f5f9] flex flex-col transition-all hover:translate-x-1 hover:translate-y-1">
                     <div className="relative h-44 bg-slate-100 border-b-4 border-slate-900">
                         {t.bannerImage && <img src={t.bannerImage} alt="" className="w-full h-full object-cover" />}
@@ -268,9 +284,36 @@ export default function TournamentAdmin() {
                             </button>
                         </div>
                         <div className="pt-4 flex gap-2 border-t-2 border-slate-50">
-                            <button onClick={() => { setEditingItem(t); setBannerUrl(t.bannerImage || ""); setIsModalOpen(true); }} className="flex-1 py-3 bg-blue-50 text-blue-600 rounded-xl font-black uppercase text-[10px] border-2 border-blue-100 hover:bg-blue-600 hover:text-white">Edit</button>
-                            <button onClick={() => handleDelete(t.id)} className="p-3 bg-red-50 text-red-600 rounded-xl border-2 border-red-100 hover:bg-red-600 hover:text-white"><Trash2 size={16}/></button>
-                        </div>
+    <button
+        onClick={() => toggleTournamentStatus(t.id)}
+        className={`flex-1 py-3 rounded-xl font-black uppercase text-[10px] border-2
+        ${
+            t.isActive
+                ? "bg-green-50 text-green-600 border-green-100 hover:bg-green-600 hover:text-white"
+                : "bg-red-50 text-red-600 border-red-100 hover:bg-red-600 hover:text-white"
+        }`}
+    >
+        {t.isActive ? "Deactivate" : "Activate"}
+    </button>
+
+    <button
+        onClick={() => {
+            setEditingItem(t);
+            setBannerUrl(t.bannerImage || "");
+            setIsModalOpen(true);
+        }}
+        className="flex-1 py-3 bg-blue-50 text-blue-600 rounded-xl font-black uppercase text-[10px] border-2 border-blue-100 hover:bg-blue-600 hover:text-white"
+    >
+        Edit
+    </button>
+
+    <button
+        onClick={() => handleDelete(t.id)}
+        className="p-3 bg-red-50 text-red-600 rounded-xl border-2 border-red-100 hover:bg-red-600 hover:text-white"
+    >
+        <Trash2 size={16}/>
+    </button>
+</div>
                     </div>
                 </div>
             ))}

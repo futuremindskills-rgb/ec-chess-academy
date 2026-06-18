@@ -104,6 +104,18 @@ export async function deleteTournament(id: number) {
   revalidatePath('/admin/tournaments')
 }
 
+export async function updateTournamentStatus(id: number) {
+    const tournament = await prisma.tournament.findUnique({
+        where: { id }
+    });
+
+    return prisma.tournament.update({
+        where: { id },
+        data: {
+            isActive: !tournament?.isActive
+        }
+    });
+}
 /* ==========================================================================
    BLOGS
    ========================================================================== */

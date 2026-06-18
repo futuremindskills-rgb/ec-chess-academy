@@ -27,6 +27,7 @@ enum RegistrationStatus {
 model Tournament {
   id             Int              @id @default(autoincrement())
   title          String
+  isActive     Boolean  @default(true)
   description    String?          @db.Text
   entryFee       Int              // The amount to be sent to AsiaPay
   maxPlayers     Int
