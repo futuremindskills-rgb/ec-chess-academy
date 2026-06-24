@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Metadata } from "next";
 import { getLocale } from "next-intl/server";
+import ShareButton from "@/components/shareButton";
 
 interface Props {
   params: {
@@ -150,9 +151,9 @@ export default async function BlogDetailPage({ params }: Props) {
                     ))}
                   </div>
                   <div className="flex gap-3">
-                    <button className="flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-teal-600 transition-all shadow-lg shadow-slate-200">
-                      <Share2 size={16} /> {isZh ? "分享文章" : "Share Article"}
-                    </button>
+                   <ShareButton
+  title={post.title}
+/>
                   </div>
                 </div>
               </div>
