@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { 
   Trophy, Calendar, Clock, MapPin, ChevronRight, Zap, Target, 
   ShieldCheck, Star, Users, Loader2, DollarSign, X, User, 
@@ -42,11 +43,10 @@ export default function TournamentsPage() {
   
   const [selectedGame, setSelectedGame] = useState<GameType | null>(null);
 
-  // Modal States
   const [selectedTournament, setSelectedTournament] = useState<any>(null);
-  const [viewingRegs, setViewingRegs] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState<"stripe" | "asiapay" | null>(null);
+  const router = useRouter();
 
   // Coupon States
   const [couponInput, setCouponInput] = useState("");
@@ -234,8 +234,11 @@ const filteredTournaments = tournaments.filter(t => {
                           <div className="flex items-center gap-3"><MapPin size={18} className="text-indigo-600" /> {t.location}</div>
                         </div>
                         <div className="flex flex-col gap-3">
-                          <button onClick={() => setViewingRegs(t)} className="w-full py-3 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px] hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-slate-900">
-                            <FileText size={16} /> {isZh ? "詳情及章程" : "Regulations"}
+                          <button
+                            onClick={() => router.push(`/tournaments/${t.id}`)}
+                            className="w-full py-3 border-4 border-slate-900 rounded-2xl font-black uppercase text-[10px] hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-slate-900"
+                          >
+                            <FileText size={16} /> {isZh ? "查看詳情" : "View Details"}
                           </button>
                           <button
   disabled={!t.isActive}
@@ -446,29 +449,7 @@ const filteredTournaments = tournaments.filter(t => {
         )}
       </AnimatePresence>
 
-      {/* --- REGULATIONS MODAL --- */}
-      <AnimatePresence>
-        {viewingRegs && (
-          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md">
-            <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }}
-              className="bg-white border-4 border-slate-900 rounded-[32px] w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col shadow-[20px_20px_0px_#4f46e5]"
-            >
-              <div className="p-6 border-b-4 border-slate-900 bg-slate-50 flex justify-between items-center">
-                <h3 className="font-[1000] uppercase text-xl tracking-tighter">{isZh ? "賽事詳情及章程" : "Regulations"}</h3>
-                <button onClick={() => setViewingRegs(null)} className="p-2 border-2 border-slate-900 rounded-xl hover:bg-red-500 hover:text-white transition-all"><X size={20}/></button>
-              </div>
-              <div className="p-8 overflow-y-auto bg-white whitespace-pre-wrap font-medium text-slate-700 leading-relaxed text-sm">
-                {viewingRegs.regulations || (isZh ? "該賽事章程暫未上傳，請稍後再試。" : "Detailed regulations for this event are not yet uploaded.")}
-              </div>
-              <div className="p-6 bg-slate-50 border-t-4 border-slate-900 text-center">
-                 <button onClick={() => { setSelectedTournament(viewingRegs); setViewingRegs(null); }} className="px-12 py-4 bg-indigo-600 text-white font-black uppercase rounded-2xl text-xs hover:bg-slate-900 transition-colors shadow-lg">{isZh ? "立即前往報名" : "Start Registration"}</button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
 
-      {/* --- CONTENT SECTIONS --- */}
       <section className="py-16 md:py-24 bg-slate-900 relative overflow-hidden">
          <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0h30v30H30V0zM0 30h30v30H0V30z' fill='%23ffffff' /%3E%3C/svg%3E")` }} />
          <div className="container mx-auto px-6 relative z-10 text-center mb-12 text-white">

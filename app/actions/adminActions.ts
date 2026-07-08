@@ -77,13 +77,14 @@ export async function editTournament(id: number, formData: FormData) {
     startDate: new Date(formData.get('startDate') as string),
     endDate: new Date(formData.get('endDate') as string),
     location: formData.get('location') as string,
-    status: formData.get('status') as any,
     categories: formData.get('categories') as string,
     levels: formData.get('levels') as string,        
     regulations: formData.get('regulations') as string,
   }
   
   if (bannerImage) dataToUpdate.bannerImage = bannerImage
+  const status = formData.get('status') as string;
+  if (status) dataToUpdate.status = status;
 
   await prisma.tournament.update({ where: { id }, data: dataToUpdate })
   revalidatePath('/tournaments')
@@ -95,6 +96,14 @@ export async function getTournaments() {
   return await prisma.tournament.findMany({ 
     include: { registrations: { orderBy: { createdAt: 'desc' } } }, 
     orderBy: { startDate: 'desc' } 
+  });
+}
+
+export async function getTournamentById(id: number) {
+  noStore();
+  return await prisma.tournament.findUnique({
+    where: { id },
+    include: { registrations: { orderBy: { createdAt: 'desc' } } },
   });
 }
 
@@ -122,6 +131,22 @@ export async function updateTournamentStatus(id: number) {
 
 export async function addBlogPost(formData: FormData) {
   const title = formData.get('title') as string
+
+  // Generate a clean ASCII-only slug so URLs are WhatsApp/share-friendly
+  // Strips Chinese and other non-ASCII chars, falls back to timestamp
+  const generateSlug = (t: string): string => {
+    const ascii = t
+      .toLowerCase()
+      .replace(/[\u0100-\uFFFF]/g, '')   // Strip non-ASCII (Chinese, etc.)
+      .replace(/[^a-z0-9\s-]/g, '')      // Strip special chars
+      .trim()
+      .replace(/\s+/g, '-')              // Spaces → hyphens
+      .replace(/-+/g, '-')              // Collapse multiple hyphens
+      .replace(/^-|-$/g, '');           // Trim leading/trailing hyphens
+
+    return ascii || `blog-${Date.now()}`;
+  };
+
   const data = {
     title,
     excerpt: formData.get('excerpt') as string,
@@ -129,7 +154,7 @@ export async function addBlogPost(formData: FormData) {
     category: formData.get('category') as string,
     readTime: formData.get('readTime') as string,
     image: formData.get('image') as string,
-    slug: title.toLowerCase().replace(/ /g, '-'),
+    slug: generateSlug(title),
   }
 
   await prisma.blogPost.create({ data })

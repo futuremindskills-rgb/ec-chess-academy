@@ -14,6 +14,7 @@ import {
   updateTournamentStatus
 } from "@/app/actions/adminActions";
 import ImageUpload from "@/components/admin/ImageUpload";
+import PdfUpload from "@/components/admin/PdfUpload";
 import { 
   Plus, Trash2, X, Loader2, Search, 
   Gamepad2, ChevronDown, ChevronUp, 
@@ -40,6 +41,7 @@ export default function TournamentAdmin() {
   const [editingItem, setEditingItem] = useState<any>(null);
   const [editingRegistration, setEditingRegistration] = useState<any>(null);
   const [bannerUrl, setBannerUrl] = useState("");
+  const [regulationsPdfUrl, setRegulationsPdfUrl] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => { loadData(); }, []);
@@ -113,6 +115,7 @@ export default function TournamentAdmin() {
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true);
     if (bannerUrl) formData.set("bannerImage", bannerUrl);
+    if (regulationsPdfUrl) formData.set("regulations", regulationsPdfUrl);
     
     const selectedCategories = Array.from(formData.getAll("categories"));
     formData.set("categories", JSON.stringify(selectedCategories));
@@ -182,6 +185,7 @@ export default function TournamentAdmin() {
     setIsModalOpen(false);
     setEditingItem(null);
     setBannerUrl("");
+    setRegulationsPdfUrl("");
   }
 
   const getStatusColor = (status: string) => {
@@ -294,6 +298,7 @@ export default function TournamentAdmin() {
         onClick={() => {
             setEditingItem(t);
             setBannerUrl(t.bannerImage || "");
+            setRegulationsPdfUrl(t.regulations || "");
             setIsModalOpen(true);
         }}
         className="flex-1 py-3 bg-blue-50 text-blue-600 rounded-xl font-black uppercase text-[10px] border-2 border-blue-100 hover:bg-blue-600 hover:text-white"
@@ -348,8 +353,8 @@ export default function TournamentAdmin() {
                     <input name="levels" placeholder="e.g. Grade 1, Grade 2" defaultValue={editingItem?.levels ? JSON.parse(editingItem.levels).join(", ") : ""} className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black uppercase text-xs outline-none" />
                 </div>
                 <div className="md:col-span-2">
-                    <label className="block text-[10px] font-black uppercase text-slate-900 mb-2 flex items-center gap-2"><BookOpen size={14} className="text-indigo-600"/> Regulations 章程</label>
-                    <textarea name="regulations" rows={5} defaultValue={editingItem?.regulations} placeholder="Rules..." className="w-full p-4 border-4 border-slate-900 rounded-2xl font-black text-xs outline-none resize-none"/>
+                    <label className="block text-[10px] font-black uppercase text-slate-900 mb-2 flex items-center gap-2"><BookOpen size={14} className="text-indigo-600"/> Regulations PDF 章程</label>
+                    <PdfUpload value={regulationsPdfUrl} onChange={setRegulationsPdfUrl} />
                 </div>
                 <div>
                     <label className="block text-[10px] font-black uppercase text-slate-900 mb-2">Fee (HKD)</label>
