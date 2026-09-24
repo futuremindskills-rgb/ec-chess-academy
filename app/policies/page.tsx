@@ -61,7 +61,7 @@ export default function PolicyPage() {
               <p><strong>{isZh ? "資料收集：" : "Data Collection:"}</strong> {isZh ? "我們收集學員姓名、出生日期、學校資料及家長聯絡方式（電話/電郵），僅用於報名、評級證書申請及溝通聯絡。" : "We collect student names, dates of birth, school info, and parent contact details (phone/email) solely for enrollment, grading certificates (China Chess Association), and communication."}</p>
               <p><strong>{isZh ? "WhatsApp 群組：" : "WhatsApp Groups:"}</strong> {isZh ? "報名即表示同意將電話號碼加入賽事群組，以便即時公佈配對及通知。" : "By registering, you agree to your phone number being added to competition-specific WhatsApp groups for real-time pairings and announcements."}</p>
               <p><strong>{isZh ? "攝影與媒體：" : "Photography/Media:"}</strong> {isZh ? "本院可於課程及賽事期間拍攝照片/影片用於官網及社交媒體宣傳；如需退出請書面通知。" : "EC Chess Academy reserves the right to take photographs or videos during classes and tournaments for promotional purposes on our website and social media. If you wish to opt-out, please notify us in writing."}</p>
-              <p><strong>{isZh ? "資料查閱：" : "Data Access:"}</strong> {isZh ? "你有權查閱及更正個人資料，請聯絡資料保護主任（2838-6698）。" : "You have the right to request access to and correction of your personal data by contacting our Data Protection Officer at 2838-6698."}</p>
+              <p><strong>{isZh ? "資料查閱：" : "Data Access:"}</strong> {isZh ? "你有權查閱及更正個人資料，請聯絡資料保護主任（4614-4561）。" : "You have the right to request access to and correction of your personal data by contacting our Data Protection Officer at 4614-4561."}</p>
             </div>
           </PolicySection>
 
@@ -100,7 +100,7 @@ export default function PolicyPage() {
             <div className="flex flex-col md:flex-row justify-center gap-8">
                 <div>
                     <p className="text-[10px] font-black text-slate-400 uppercase">{isZh ? "電話 / WhatsApp" : "Phone / WhatsApp"}</p>
-                    <p className="font-black text-indigo-600">2838-6698 / 6850-5091</p>
+                    <p className="font-black text-indigo-600">4614-4561</p>
                 </div>
                 <div>
                     <p className="text-[10px] font-black text-slate-400 uppercase">{isZh ? "地址" : "Address"}</p>
