@@ -164,7 +164,28 @@ export function HeroSection({ bannerData }: HeroSectionProps) {
               className="relative order-1 lg:order-2 w-full max-w-[500px] lg:max-w-none mx-auto"
             >
               <div className="relative z-10 w-full aspect-square sm:aspect-video lg:aspect-[4/3] rounded-[2rem] md:rounded-[4rem] overflow-hidden border-[8px] md:border-[16px] border-white/10 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)] bg-[#0f172a]">
-                <video autoPlay muted loop playsInline preload="metadata" poster="/demo.png" className="w-full h-full object-cover">
+                {/* Mobile: Ultra-fast Static Image for Instant LCP < 1.0s */}
+                <div className="block md:hidden relative w-full h-full">
+                  <Image 
+                    src="/demo.png" 
+                    alt="EC Chess Academy HK" 
+                    fill 
+                    priority 
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                </div>
+
+                {/* Desktop: Autoplaying Video */}
+                <video 
+                  autoPlay 
+                  muted 
+                  loop 
+                  playsInline 
+                  preload="none" 
+                  poster="/demo.png" 
+                  className="hidden md:block w-full h-full object-cover"
+                >
                   <source src="/chess-video.mp4" type="video/mp4" />
                 </video>
               </div>
