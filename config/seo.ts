@@ -225,6 +225,41 @@ export const SEO_CONFIG = {
       },
     } satisfies PageSeoConfig,
 
+    // --- Shek Mun Teaching Point (Phonics Lab) ---
+    shekMunPhonicsLab: {
+      path: "/courses/shek-mun-phonics-lab",
+      ogImage: "/1.webp",
+      robots: { index: true, follow: true },
+      en: {
+        title: "Shek Mun Chess Teaching Point | EC Chess × Phonics Lab HK",
+        description: "Official EC Chess Teaching Point at Phonics Lab Education (Kings Wing Plaza 2, Shek Mun, Shatin). Master coaching for International Chess, Xiangqi & Go.",
+        keywords: [
+          "shek mun chess class",
+          "shatin chess coaching",
+          "phonics lab chess",
+          "kings wing plaza chess",
+          "kids chess lessons shatin",
+          "shek mun weiqi go"
+        ],
+        ogTitle: "Shek Mun Chess Teaching Point | EC Chess × Phonics Lab",
+        ogDescription: "Professional chess, Xiangqi & Go courses at Kings Wing Plaza 2, Shek Mun, Shatin. Taught by certified master coaches.",
+      },
+      zh: {
+        title: "沙田石門教學點 | EC 卓思棋院 × 英研教育 Phonics Lab - 專業棋藝培訓",
+        description: "EC 卓思棋院進駐沙田石門京瑞廣場 2 期（英研教育 Phonics Lab）！由本院 FIDE 認證教練親授國際象棋、中國象棋及圍棋課程，現正接受試堂預約。",
+        keywords: [
+          "沙田學棋",
+          "石門國際象棋班",
+          "京瑞廣場棋院",
+          "英研教育棋藝班",
+          "石門圍棋班",
+          "沙田象棋班"
+        ],
+        ogTitle: "沙田石門教學點 | EC 卓思棋院 × 英研教育 Phonics Lab",
+        ogDescription: "沙田石門京瑞廣場 2 期專業棋藝教學點，國際象棋、中國象棋及圍棋課程現正熱烈招生！",
+      },
+    } satisfies PageSeoConfig,
+
     // --- Tournaments ---
     tournaments: {
       path: "/tournaments",

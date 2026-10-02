@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import { useLocale } from 'next-intl';
 
+import Link from 'next/link';
+
 const branchData = {
   kowloon: {
     nameEn: 'Kowloon City',
@@ -24,7 +26,8 @@ const branchData = {
     color: 'bg-[#4F46E5]',
     image: '/kow.jpg',
     mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.0371302835154!2d114.1866324760592!3d22.32483864169542!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340406d4e287a26f%3A0x6b772276587d6091!2s348-352%20Prince%20Edward%20Rd%20W%2C%20Kowloon%20City!5e0!3m2!1sen!2shk!4v1710000000000!5m2!1sen!2shk",
-    directions: "https://www.google.com/maps/dir/?api=1&destination=348+Prince+Edward+Road+West+Kowloon+City"
+    directions: "https://www.google.com/maps/dir/?api=1&destination=348+Prince+Edward+Road+West+Kowloon+City",
+    pageUrl: null
   },
   yuenlong: {
     nameEn: 'Yuen Long',
@@ -37,19 +40,34 @@ const branchData = {
     color: 'bg-slate-900',
     image: '/yew.jpg',
     mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.176461933068!2d114.02758257606085!3d22.44118944111354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3403f0724f2b18a3%3A0x2f6b8973949f2571!2sYuen%20Long%20Centre%2C%2055%20Sau%20Fu%20St%2C%20Yuen%20Long!5e0!3m2!1sen!2shk!4v1710000000000!5m2!1sen!2shk",
-    directions: "https://www.google.com/maps/dir/?api=1&destination=Yuen+Long+Centre+Sau+Fu+Street"
+    directions: "https://www.google.com/maps/dir/?api=1&destination=Yuen+Long+Centre+Sau+Fu+Street",
+    pageUrl: null
+  },
+  shekmun: {
+    nameEn: 'Shek Mun (Phonics Lab)',
+    nameZh: '沙田石門 (Phonics Lab)',
+    branchNumEn: 'Teaching Point',
+    branchNumZh: '合作教學點',
+    addressEn: 'Flat B, 7/F, Kings Wing Plaza 2, 1 On Kwan Street, Shek Mun, Shatin',
+    addressZh: '沙田石門安群街 1 號京瑞廣場 2 期 7 樓 B 室 (英研教育)',
+    phone: '4614 4561 / 6224 2973',
+    color: 'bg-emerald-950',
+    image: '/1.webp',
+    mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.6580978932684!2d114.2065874760604!3d22.38870194042845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34040645c381c863%3A0xe54d7f5731f8f946!2sKings%20Wing%20Plaza%202!5e0!3m2!1sen!2shk!4v1710000000000!5m2!1sen!2shk",
+    directions: "https://www.google.com/maps/dir/?api=1&destination=Kings+Wing+Plaza+2+Shek+Mun+Hong+Kong",
+    pageUrl: "/courses/shek-mun-phonics-lab"
   }
 };
 
 const VisitCampusCTA: React.FC = () => {
   const locale = useLocale();
   const isZh = locale === "zh";
-  const [selected, setSelected] = useState<'kowloon' | 'yuenlong' | null>(null);
+  const [selected, setSelected] = useState<'kowloon' | 'yuenlong' | 'shekmun' | null>(null);
 
   return (
     <section className="relative py-20 bg-white min-h-[700px] flex items-center overflow-hidden font-sans">
       
-      <div className="container mx-auto px-6 max-w-6xl relative z-10">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
         
         {/* HEADER */}
         <div className="text-center mb-16">
@@ -58,10 +76,10 @@ const VisitCampusCTA: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] mb-4 shadow-lg"
           >
-            <ShieldCheck size={12} className="text-amber-400" /> {isZh ? "棋院校區" : "Academy Locations"}
+            <ShieldCheck size={12} className="text-amber-400" /> {isZh ? "棋院校區及教學點" : "Academy Locations & Teaching Points"}
           </motion.div>
           <h2 className="text-3xl md:text-5xl font-[1000] text-slate-900 tracking-tighter uppercase">
-            {isZh ? "親臨我們的" : "Visit Our"} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 italic font-serif">{isZh ? "香港分校" : "HK Centers"}</span>
+            {isZh ? "親臨我們的" : "Visit Our"} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 italic font-serif">{isZh ? "分校及教學點" : "HK Centers & Teaching Points"}</span>
           </h2>
         </div>
 
@@ -73,13 +91,13 @@ const VisitCampusCTA: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto"
+              className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto"
             >
-              {(['kowloon', 'yuenlong'] as const).map((key) => (
+              {(['kowloon', 'yuenlong', 'shekmun'] as const).map((key) => (
                 <button 
                   key={key}
                   onClick={() => setSelected(key)}
-                  className="group relative h-64 md:h-80 rounded-[45px] overflow-hidden text-left transition-all hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] shadow-xl"
+                  className="group relative h-72 md:h-80 rounded-[40px] overflow-hidden text-left transition-all hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] shadow-xl"
                 >
                   <img 
                     src={branchData[key].image} 
@@ -88,21 +106,21 @@ const VisitCampusCTA: React.FC = () => {
                   />
                   
                   <div className={`absolute inset-0 ${branchData[key].color} opacity-40 group-hover:opacity-20 transition-opacity duration-500`} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
-                  <div className="relative z-10 h-full p-10 flex flex-col justify-end">
+                  <div className="relative z-10 h-full p-8 flex flex-col justify-end">
                     <div className="flex justify-between items-end">
                        <div>
-                          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-white/70 mb-2">
+                          <p className="text-[10px] font-black uppercase tracking-[0.25em] text-amber-300 mb-2">
                             {isZh ? branchData[key].branchNumZh : branchData[key].branchNumEn}
                           </p>
-                          <h3 className="text-3xl md:text-4xl font-[1000] text-white tracking-tight uppercase leading-none">
+                          <h3 className="text-2xl md:text-3xl font-[1000] text-white tracking-tight uppercase leading-tight">
                             {isZh ? branchData[key].nameZh : branchData[key].nameEn}
                           </h3>
                        </div>
                        
-                       <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 group-hover:bg-white group-hover:text-slate-900 transition-all duration-300">
-                          <ChevronRight size={28} className="group-hover:translate-x-1 transition-transform" />
+                       <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 group-hover:bg-white group-hover:text-slate-900 transition-all duration-300 shrink-0">
+                          <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
                        </div>
                     </div>
                   </div>
@@ -125,12 +143,12 @@ const VisitCampusCTA: React.FC = () => {
                 <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-indigo-50">
                   <ArrowLeft size={16} />
                 </div>
-                <span className="text-[11px] font-black uppercase tracking-widest">{isZh ? "返回校區列表" : "Return to branches"}</span>
+                <span className="text-[11px] font-black uppercase tracking-widest">{isZh ? "返回校區及教學點列表" : "Return to Locations"}</span>
               </button>
 
               <div className="grid lg:grid-cols-12 gap-6 items-stretch">
                 {/* BRANCH CARD */}
-                <div className={`lg:col-span-4 p-10 rounded-[3rem] text-white flex flex-col justify-between ${branchData[selected].color} shadow-2xl relative overflow-hidden group`}>
+                <div className={`lg:col-span-4 p-8 md:p-10 rounded-[3rem] text-white flex flex-col justify-between ${branchData[selected].color} shadow-2xl relative overflow-hidden group`}>
                    <img 
                       src={branchData[selected].image} 
                       className="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:scale-110 transition-transform duration-[10s]" 
@@ -138,18 +156,27 @@ const VisitCampusCTA: React.FC = () => {
                    />
 
                    <div className="relative z-10">
-                      <div className="bg-white/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-10 backdrop-blur-md border border-white/10">
+                      <div className="bg-white/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-md border border-white/10">
                          <MapPin size={28} />
                       </div>
-                      <p className="text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-2">
+                      <p className="text-[11px] font-black uppercase tracking-[0.2em] text-amber-300 mb-2">
                         {isZh ? branchData[selected].branchNumZh : branchData[selected].branchNumEn}
                       </p>
-                      <h3 className="text-4xl font-[1000] tracking-tighter uppercase mb-6 leading-none">
+                      <h3 className="text-3xl md:text-4xl font-[1000] tracking-tighter uppercase mb-4 leading-tight">
                         {isZh ? branchData[selected].nameZh : branchData[selected].nameEn}
                       </h3>
-                      <p className="text-sm font-bold text-white/80 leading-relaxed mb-8 max-w-[250px]">
+                      <p className="text-xs sm:text-sm font-bold text-white/80 leading-relaxed mb-6">
                          {isZh ? branchData[selected].addressZh : branchData[selected].addressEn}
                       </p>
+
+                      {branchData[selected].pageUrl && (
+                        <Link 
+                          href={branchData[selected].pageUrl!}
+                          className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-amber-300 hover:text-white mb-6 underline underline-offset-4"
+                        >
+                          {isZh ? "查看石門教學點專頁" : "View Shek Mun Page"} →
+                        </Link>
+                      )}
                    </div>
 
                    <div className="relative z-10 space-y-4">
@@ -157,13 +184,13 @@ const VisitCampusCTA: React.FC = () => {
                          <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
                             <Phone size={18} />
                          </div>
-                         <span className="text-lg font-black tracking-tight">{branchData[selected].phone}</span>
+                         <span className="text-base font-black tracking-tight">{branchData[selected].phone}</span>
                       </div>
                       <a 
                          href={branchData[selected].directions}
                          target="_blank"
                          rel="noopener noreferrer"
-                         className="flex items-center justify-between bg-white text-slate-900 p-6 rounded-[2rem] font-black transition-all hover:bg-slate-100 group/btn"
+                         className="flex items-center justify-between bg-white text-slate-900 p-5 rounded-[2rem] font-black transition-all hover:bg-slate-100 group/btn"
                       >
                          <span className="text-[11px] font-black uppercase tracking-[0.2em]">{isZh ? "獲取路線" : "Get Directions"}</span>
                          <Navigation size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
@@ -172,7 +199,7 @@ const VisitCampusCTA: React.FC = () => {
                 </div>
 
                 {/* MAP CONTAINER */}
-                <div className="lg:col-span-8 h-[500px] lg:h-auto bg-slate-100 rounded-[3.5rem] overflow-hidden border-[12px] border-white shadow-2xl relative">
+                <div className="lg:col-span-8 h-[450px] lg:h-auto bg-slate-100 rounded-[3.5rem] overflow-hidden border-[12px] border-white shadow-2xl relative">
                    <iframe 
                       src={branchData[selected].mapUrl}
                       className="w-full h-full border-0 grayscale-[0.1] contrast-[1.05]"

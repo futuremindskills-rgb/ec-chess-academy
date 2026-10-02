@@ -206,11 +206,35 @@ export default function Footer() {
                 </div>
                 <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress" className="text-xs text-slate-300 leading-relaxed mb-2">
                   <span className="font-semibold text-white">Address: </span>
-                  <span itemProp="addressLocality">Yuen Long</span>, <span itemProp="addressCountry">Hong Kong</span> Branch Academy
+                  <span itemProp="streetAddress">Room 218, Yuen Long Centre, 55 Sau Fu Street</span>,{" "}
+                  <span itemProp="addressLocality">Yuen Long</span>, <span itemProp="addressCountry">Hong Kong</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs font-bold text-white">
                   <Phone size={12} className="text-indigo-400" />
                   <span>Phone: <span itemProp="telephone">+852 5406 6800</span></span>
+                </div>
+              </div>
+
+              {/* Shek Mun Teaching Point */}
+              <div itemScope itemType="https://schema.org/LocalBusiness" className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-emerald-500/50 transition-all">
+                <meta itemProp="name" content="EC Chess Academy HK - Shek Mun Teaching Point (Phonics Lab)" />
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2 text-emerald-400 font-black text-xs uppercase tracking-widest">
+                    <MapPin size={14} />
+                    <span>{t("shekMun")}</span>
+                  </div>
+                  <Link href="/courses/shek-mun-phonics-lab" className="text-[9px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded hover:bg-emerald-500 transition-colors">
+                    {t("enquireNow")}
+                  </Link>
+                </div>
+                <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress" className="text-xs text-slate-300 leading-relaxed mb-2">
+                  <span className="font-semibold text-white">Address: </span>
+                  <span itemProp="streetAddress">Flat B, 7/F, Kings Wing Plaza 2, 1 On Kwan St</span>,{" "}
+                  <span itemProp="addressLocality">Shek Mun, Shatin</span>, <span itemProp="addressCountry">Hong Kong</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs font-bold text-white">
+                  <Phone size={12} className="text-emerald-400" />
+                  <span>Phone: <span itemProp="telephone">+852 4614 4561 / 6224 2973</span></span>
                 </div>
               </div>
             </div>

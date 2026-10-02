@@ -105,9 +105,10 @@ const OutreachSection = () => {
       ]
     },
     {
-      categoryEn: "NGOs & Community",
-      categoryZh: "非牟利機構及社群",
+      categoryEn: "NGOs & Partner Centers",
+      categoryZh: "非牟利機構及合作教學點",
       schools: [
+        "英研教育 Phonics Lab (石門)",
         "聖雅各福群會",
         "香港仔坊會",
         "女青年會 (何文田)",

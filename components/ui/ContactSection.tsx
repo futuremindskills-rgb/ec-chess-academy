@@ -86,6 +86,12 @@ const ContactSection: React.FC = () => {
       address: isZh ? "元朗壽富街元朗中心 218 室" : "Room 218, Yuen Long Centre, Sau Fu Street",
       image: "/yew.jpg",
       accent: "text-indigo-400"
+    },
+    {
+      name: isZh ? "沙田石門教學點 (Phonics Lab)" : "Shek Mun Teaching Point (Phonics Lab)",
+      address: isZh ? "沙田石門安群街 1 號京瑞廣場 2 期 7 樓 B 室" : "Flat B, 7/F, Kings Wing Plaza 2, 1 On Kwan St, Shek Mun",
+      image: "/1.webp",
+      accent: "text-emerald-400"
     }
   ];
 
@@ -208,6 +214,7 @@ const ContactSection: React.FC = () => {
                           <select name="location" required className="w-full px-6 py-4 bg-white border-2 border-slate-100 rounded-[20px] focus:border-indigo-500 outline-none transition-all font-bold text-slate-900 appearance-none cursor-pointer">
                              <option value="Kowloon City">{isZh ? "九龍城分校" : "Kowloon City Branch"}</option>
                              <option value="Yuen Long">{isZh ? "元朗分校" : "Yuen Long Branch"}</option>
+                             <option value="Shek Mun">{isZh ? "沙田石門教學點 (Phonics Lab)" : "Shek Mun Teaching Point (Phonics Lab)"}</option>
                              <option value="Online">{isZh ? "線上課程" : "Online Sessions"}</option>
                           </select>
                           <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
