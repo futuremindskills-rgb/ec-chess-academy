@@ -91,6 +91,7 @@ const FAQSection: React.FC = () => {
                     loop
                     muted
                     playsInline
+                    preload="none"
                     className="w-full h-full object-contain"
                   />
                 </motion.div>
