@@ -29,6 +29,7 @@ export function TopBanner({ imageUrl, link }: TopBannerProps) {
           e.preventDefault()
           setIsVisible(false)
         }}
+        aria-label="Close announcement banner"
         className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-1 bg-black/20 hover:bg-black/40 rounded-full text-white"
       >
         <X size={16} />

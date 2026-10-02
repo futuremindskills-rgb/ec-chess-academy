@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Trophy, ShieldCheck, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -116,10 +117,12 @@ const AboutSection: React.FC = () => {
                   borderRadius: "30% 70% 70% 30% / 30% 30% 70% 70%", 
                 }}
               >
-                <img 
+                <Image 
                   src="/3.webp" 
                   alt="About EC Chess Academy" 
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 480px"
+                  className="object-cover transition-transform duration-700 hover:scale-110"
                 />
               </div>
 

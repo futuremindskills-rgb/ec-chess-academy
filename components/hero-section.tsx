@@ -187,6 +187,7 @@ export function HeroSection({ bannerData }: HeroSectionProps) {
                   className="hidden md:block w-full h-full object-cover"
                 >
                   <source src="/chess-video.mp4" type="video/mp4" />
+                  <track kind="captions" srcLang="en" label="English" />
                 </video>
               </div>
 

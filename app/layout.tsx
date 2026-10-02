@@ -18,16 +18,17 @@ export const metadata: Metadata = {
   description: "Hong Kong's premier strategy academy. Expert FIDE-certified coaching for International Chess, Chinese Chess (Xiangqi), and Go (Weiqi) for all ages.",
   metadataBase: new URL("https://ecchess.com"),
   alternates: {
-    canonical: "/",
+    canonical: "/en",
     languages: {
       en: "/en",
       zh: "/zh",
+      "x-default": "/en",
     },
   },
   openGraph: {
     title: "EC Chess Academy HK | Elite Chess & Strategy Training",
     description: "Hong Kong's premier strategy academy. Expert FIDE-certified coaching for International Chess, Chinese Chess, and Go (Weiqi) for all skill levels.",
-    url: "https://ecchess.com",
+    url: "https://ecchess.com/en",
     siteName: "EC Chess Academy HK",
     locale: "en_HK",
     type: "website",
@@ -63,10 +64,10 @@ export default function RootLayout({
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-WVZSVNQNLW"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
 
-        <Script id="ga-script" strategy="afterInteractive">
+        <Script id="ga-script" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
 
@@ -85,7 +86,7 @@ export default function RootLayout({
         </Script>
 
         {/* Google Tag Manager */}
-        <Script id="gtm-script" strategy="afterInteractive">
+        <Script id="gtm-script" strategy="lazyOnload">
           {`
             (function(w,d,s,l,i){
               w[l]=w[l]||[];

@@ -93,7 +93,9 @@ const FAQSection: React.FC = () => {
                     playsInline
                     preload="none"
                     className="w-full h-full object-contain"
-                  />
+                  >
+                    <track kind="captions" srcLang="en" label="English" />
+                  </video>
                 </motion.div>
 
                 {/* Floating Label */}
@@ -120,6 +122,8 @@ const FAQSection: React.FC = () => {
               >
                 <button
                   onClick={() => setActiveIndex(activeIndex === idx ? null : idx)}
+                  aria-expanded={activeIndex === idx}
+                  aria-label={faq.question}
                   className="w-full p-5 md:p-7 flex items-center justify-between text-left gap-4"
                 >
                   <div className="flex items-center gap-4 md:gap-5">

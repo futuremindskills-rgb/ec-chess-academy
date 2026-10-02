@@ -162,12 +162,14 @@ const InnerImageSlider = ({ images }: { images: string[] }) => {
         <>
           <button
             onClick={prevImg}
+            aria-label="Previous achievement photo"
             className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-900 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-md"
           >
             <ChevronLeft size={16} />
           </button>
           <button
             onClick={nextImg}
+            aria-label="Next achievement photo"
             className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-900 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-md"
           >
             <ChevronRight size={16} />
@@ -392,6 +394,7 @@ const SuccessStoriesSlider: React.FC = () => {
           <div className="mt-12 md:mt-16 flex items-center justify-center gap-5">
             <button
               onClick={prev}
+              aria-label="Previous student success story"
               className="group relative w-14 h-14 md:w-16 md:h-16 bg-white rounded-full border-2 border-slate-900 flex items-center justify-center active:translate-y-0.5 shadow-xl"
             >
               <div className="absolute inset-0 bg-slate-900 rounded-full translate-x-1.5 translate-y-1.5 -z-10 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
@@ -399,10 +402,11 @@ const SuccessStoriesSlider: React.FC = () => {
             </button>
 
             <div className="flex items-center gap-2">
-              {successStories.map((_, i) => (
+              {successStories.map((item, i) => (
                 <button
                   key={i}
                   onClick={() => setIndex(i)}
+                  aria-label={`View story ${i + 1}: ${item.name}`}
                   className={`transition-all duration-300 rounded-full ${
                     i === index ? "w-10 h-3 bg-slate-900" : "w-3 h-3 bg-slate-300 hover:bg-slate-400"
                   }`}
@@ -412,6 +416,7 @@ const SuccessStoriesSlider: React.FC = () => {
 
             <button
               onClick={next}
+              aria-label="Next student success story"
               className="group relative w-14 h-14 md:w-16 md:h-16 bg-white rounded-full border-2 border-slate-900 flex items-center justify-center active:translate-y-0.5 shadow-xl"
             >
               <div className="absolute inset-0 bg-slate-900 rounded-full translate-x-1.5 translate-y-1.5 -z-10 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />

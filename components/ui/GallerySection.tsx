@@ -267,15 +267,26 @@ export default function FullGalleryPage() {
             </div>
 
             {/* Close Button */}
-            <button className="absolute top-6 right-6 p-4 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors z-[110]">
+            <button
+              aria-label="Close image preview"
+              className="absolute top-6 right-6 p-4 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors z-[110]"
+            >
               <X size={24} />
             </button>
             
             {/* Nav Arrows */}
-            <button className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 p-4 text-white/40 hover:text-white transition-colors" onClick={handlePrev}>
+            <button
+              aria-label="Previous photo"
+              className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 p-4 text-white/40 hover:text-white transition-colors"
+              onClick={handlePrev}
+            >
               <ChevronLeft size={48} />
             </button>
-            <button className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 p-4 text-white/40 hover:text-white transition-colors" onClick={handleNext}>
+            <button
+              aria-label="Next photo"
+              className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 p-4 text-white/40 hover:text-white transition-colors"
+              onClick={handleNext}
+            >
               <ChevronRight size={48} />
             </button>
 

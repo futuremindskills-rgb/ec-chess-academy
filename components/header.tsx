@@ -137,6 +137,7 @@ const Header: React.FC = () => {
 
             <button
               onClick={toggleLanguage}
+              aria-label="Switch language between English and Chinese"
               className="hidden md:inline-flex items-center justify-center whitespace-nowrap px-5 py-3 text-[12px] font-black tracking-widest text-slate-700 border border-gray-200 rounded-full hover:bg-slate-100 transition-all duration-300"
             >
               {t("switchLanguage")}
@@ -155,6 +156,7 @@ const Header: React.FC = () => {
 
             <button
               onClick={() => setIsMobileMenuOpen(true)}
+              aria-label="Open mobile navigation menu"
               className="lg:hidden p-2 text-slate-900 hover:bg-slate-100 rounded-xl transition-colors"
             >
               <MenuIcon className="w-7 h-7" />
@@ -201,6 +203,7 @@ const Header: React.FC = () => {
 
             <button
               onClick={() => setIsMobileMenuOpen(false)}
+              aria-label="Close mobile navigation menu"
               className="p-2 text-slate-400 hover:text-slate-900 transition-colors"
             >
               <XIcon className="w-7 h-7" />
@@ -212,6 +215,7 @@ const Header: React.FC = () => {
           <div className="px-6 pt-6">
             <button
               onClick={toggleLanguage}
+              aria-label="Switch language between English and Chinese"
               className="w-full py-4 text-sm font-black tracking-widest text-slate-700 border border-gray-200 rounded-2xl"
             >
               {t("switchLanguage")}
