@@ -72,7 +72,13 @@ export default function Footer() {
           <div className="lg:col-span-4 space-y-6">
             <Link href="/" className="flex items-center gap-2 group">
               <div className="w-auto h-20 p-2 shadow-xl">
-                 <img src="/icon.png" alt="EC Chess Academy HK" className="w-full h-full object-contain" />
+                 <img 
+                   src="/icon.png" 
+                   alt="EC Chess Academy HK" 
+                   width={80} 
+                   height={80} 
+                   className="w-full h-full object-contain" 
+                 />
               </div>
               <div className="flex flex-col">
                 <span className="font-black text-3xl tracking-tighter uppercase leading-none">
@@ -162,7 +168,8 @@ export default function Footer() {
             
             <div className="space-y-6">
               {/* Kowloon City Branch */}
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-orange-500/50 transition-all">
+              <div itemScope itemType="https://schema.org/LocalBusiness" className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-orange-500/50 transition-all">
+                <meta itemProp="name" content="EC Chess Academy HK - Kowloon City Branch" />
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2 text-orange-400 font-black text-xs uppercase tracking-widest">
                     <MapPin size={14} />
@@ -172,17 +179,22 @@ export default function Footer() {
                     {t("enquireNow")}
                   </Link>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed mb-2">
-                  Hong Kong, Kowloon City, Prince Edward Rd W, 352號薈學坊3樓B室 (Room B, 3/F, 352 Prince Edward Rd West)
-                </p>
+                <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress" className="text-xs text-slate-300 leading-relaxed mb-2">
+                  <span className="font-semibold text-white">Address: </span>
+                  <span itemProp="streetAddress">Room B, 3/F, 352 Prince Edward Road West</span>,{" "}
+                  <span itemProp="addressLocality">Kowloon City</span>,{" "}
+                  <span itemProp="addressRegion">Kowloon</span>,{" "}
+                  <span itemProp="addressCountry">Hong Kong</span> (352號薈學坊3樓B室)
+                </div>
                 <div className="flex items-center gap-2 text-xs font-bold text-white">
                   <Phone size={12} className="text-orange-400" />
-                  <span>Tel / WhatsApp: +852 4614 4561</span>
+                  <span>Phone: <span itemProp="telephone">+852 4614 4561</span></span>
                 </div>
               </div>
 
               {/* Yuen Long Branch */}
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-indigo-500/50 transition-all">
+              <div itemScope itemType="https://schema.org/LocalBusiness" className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-indigo-500/50 transition-all">
+                <meta itemProp="name" content="EC Chess Academy HK - Yuen Long Branch" />
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2 text-indigo-400 font-black text-xs uppercase tracking-widest">
                     <MapPin size={14} />
@@ -192,12 +204,13 @@ export default function Footer() {
                     {t("enquireNow")}
                   </Link>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed mb-2">
-                  Hong Kong, Yuen Long Branch Academy
-                </p>
+                <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress" className="text-xs text-slate-300 leading-relaxed mb-2">
+                  <span className="font-semibold text-white">Address: </span>
+                  <span itemProp="addressLocality">Yuen Long</span>, <span itemProp="addressCountry">Hong Kong</span> Branch Academy
+                </div>
                 <div className="flex items-center gap-2 text-xs font-bold text-white">
                   <Phone size={12} className="text-indigo-400" />
-                  <span>Tel / WhatsApp: +852 5406 6800</span>
+                  <span>Phone: <span itemProp="telephone">+852 5406 6800</span></span>
                 </div>
               </div>
             </div>

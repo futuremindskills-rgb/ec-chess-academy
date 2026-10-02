@@ -104,6 +104,9 @@ const GameCurriculumSection: React.FC = () => {
                      <img 
                         src={game.image} 
                         alt={game.name} 
+                        width={112}
+                        height={112}
+                        loading="lazy"
                         className="relative z-10 w-full h-full object-contain drop-shadow-2xl transform group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500"
                      />
                   </div>

@@ -33,7 +33,7 @@ const successStories = [
     insight:
       "Guanhong's calm judgement and steady mindset allowed him to stand out in a highly competitive open field.",
     insightZh: "冠宏憑藉冷靜的判斷力及穩定的心理素質，在高強度的公開賽中脫穎而出。",
-    images: ["/ng1.jpeg", "/ng2.jpeg", "/ng3.jpeg"],
+    images: ["/ng1.jpg", "/ng2.jpg", "/ng3.jpg"],
     cardBg: "bg-[#F5F3FF]",
     accent: "text-purple-600",
     glow: "shadow-purple-200/70",
@@ -58,7 +58,7 @@ const successStories = [
     insight:
       "Xu Nan's focus and stability during high-pressure matches led him through numerous rounds to a well-deserved silver medal.",
     insightZh: "栩南在高壓對局中保持專注穩定，歷經多輪賽事，最終奪得銀牌，實至名歸。",
-    images: ["/luo1.jpeg", "/luo2.jpeg"],
+    images: ["/luo1.jpg", "/luo2.jpg"],
     cardBg: "bg-[#FFF7ED]",
     accent: "text-orange-600",
     glow: "shadow-orange-200/70",
@@ -83,7 +83,7 @@ const successStories = [
     insight:
       "Ping Hei's disciplined attitude and consistent effort resulted in a fantastic podium finish in the U7 division.",
     insightZh: "秉禧以自律的態度及持續的努力，在 U7 組別成功登上頒獎台，成績優異。",
-    images: ["/wong1.jpeg", "/wong2.jpeg", "/wong3.jpeg"],
+    images: ["/wong1.jpg", "/wong2.jpg", "/wong3.jpg"],
     cardBg: "bg-[#EEF2FF]",
     accent: "text-indigo-600",
     glow: "shadow-indigo-200/70",
@@ -109,10 +109,10 @@ const successStories = [
       "Tsz Chun has maintained consistent excellence over several years, securing silver in both U12 and High Primary categories.",
     insightZh: "梓進多年來保持穩定的高水平發揮，於 U12 及高小組賽事中連續奪得銀牌。",
     images: [
-      "/jim1.jpeg", "/jim2.jpeg", "/jim3.jpeg", "/jim4.jpeg", "/jim5.jpeg",
-      "/jim6.jpeg", "/jim7.jpeg", "/jim8.jpeg", "/jim9.jpeg", "/jim10.jpeg",
-      "/jim11.jpeg", "/jim12.jpeg", "/jim13.jpeg", "/jim14.jpeg", "/jim15.jpeg",
-      "/jim16.jpeg", "/jim17.jpeg", "/jim18.jpeg", "/jim19.jpeg",
+      "/jim1.jpg", "/jim2.jpg", "/jim3.jpg", "/jim4.jpg", "/jim5.jpg",
+      "/jim6.jpg", "/jim7.jpg", "/jim8.jpg", "/jim9.jpg", "/jim10.jpg",
+      "/jim11.jpg", "/jim12.jpg", "/jim13.jpg", "/jim14.jpg", "/jim15.jpg",
+      "/jim16.jpg", "/jim17.jpg", "/jim18.jpg", "/jim19.jpg",
     ],
     cardBg: "bg-[#F0FDF4]",
     accent: "text-emerald-600",

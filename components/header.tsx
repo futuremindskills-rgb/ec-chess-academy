@@ -104,7 +104,9 @@ const Header: React.FC = () => {
             <div>
               <img
                 src="/eclogo.png"
-                alt="EC Chess"
+                alt="EC Chess Academy HK"
+                width={180}
+                height={56}
                 className="w-auto h-14 object-contain"
               />
             </div>
@@ -189,8 +191,10 @@ const Header: React.FC = () => {
           <div className="p-6 flex items-center justify-between border-b border-gray-50">
             <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
               <img
-                src="/ecchess.jpeg"
+                src="/ecchess.jpg"
                 alt="EC Chess"
+                width={24}
+                height={24}
                 className="w-6 h-6 object-contain brightness-0 invert"
               />
             </div>

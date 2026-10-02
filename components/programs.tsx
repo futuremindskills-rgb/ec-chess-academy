@@ -82,6 +82,9 @@ const ProgramsSection: React.FC = () => {
                 <img 
                   src={program.image} 
                   alt={program.title}
+                  width={160}
+                  height={160}
+                  loading="lazy"
                   className="w-full h-full object-contain relative z-10 drop-shadow-2xl"
                   onError={(e) => {
                     e.currentTarget.src = "https://via.placeholder.com/150?text=Chess";

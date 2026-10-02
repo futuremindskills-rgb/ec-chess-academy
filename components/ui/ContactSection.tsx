@@ -78,13 +78,13 @@ const ContactSection: React.FC = () => {
     {
       name: isZh ? "九龍城分校" : "Kowloon City Branch",
       address: isZh ? "太子道西 348-352 號 Smart-A 3/B 室" : "Smart-A Unit 3/B, 348-352 Prince Edward Road West",
-      image: "/kow.jpeg",
+      image: "/kow.jpg",
       accent: "text-amber-400"
     },
     {
       name: isZh ? "元朗分校" : "Yuen Long Branch",
       address: isZh ? "元朗壽富街元朗中心 218 室" : "Room 218, Yuen Long Centre, Sau Fu Street",
-      image: "/yew.jpeg",
+      image: "/yew.jpg",
       accent: "text-indigo-400"
     }
   ];

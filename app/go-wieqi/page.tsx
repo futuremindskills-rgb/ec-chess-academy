@@ -28,7 +28,7 @@ const learningLevels = [
     subtitleZh: "基礎級別",
     levelNum: "Level 01",
     levelNumZh: "級別 01",
-    image: "/wei1.jpeg",
+    image: "/wei1.jpg",
     icon: <GraduationCap className="text-white" size={24} />,
     desc: "Starting on the 9x9 board, we focus on the rules of liberties, capturing stones, and the etiquette of the game.",
     descZh: "從 9×9 棋盤起步，重點學習氣、吃子規則及棋局禮儀。",
@@ -173,7 +173,7 @@ export default function WeiqiPage() {
           
           <div className="relative">
             <div className="relative z-10 border-4 border-white rounded-[4rem] overflow-hidden aspect-square shadow-[15px_15px_0px_#f97316]">
-              <img src="/39.jpeg" className="w-full h-full object-cover" alt="Go Weiqi Focus" />
+              <img src="/39.jpg" className="w-full h-full object-cover" alt="Go Weiqi Focus" />
             </div>
             <div className="absolute -bottom-6 -right-6 z-20 bg-orange-500 p-6 rounded-3xl border-4 border-slate-900 text-white rotate-3 hidden md:block">
               <Target size={32} className="mb-2" />

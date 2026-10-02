@@ -22,7 +22,7 @@ const branchData = {
     addressZh: '太子道西 348-352 號 Smart-A 3/B 室',
     phone: '4614 4561',
     color: 'bg-[#4F46E5]',
-    image: '/kow.jpeg',
+    image: '/kow.jpg',
     mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.0371302835154!2d114.1866324760592!3d22.32483864169542!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340406d4e287a26f%3A0x6b772276587d6091!2s348-352%20Prince%20Edward%20Rd%20W%2C%20Kowloon%20City!5e0!3m2!1sen!2shk!4v1710000000000!5m2!1sen!2shk",
     directions: "https://www.google.com/maps/dir/?api=1&destination=348+Prince+Edward+Road+West+Kowloon+City"
   },
@@ -35,7 +35,7 @@ const branchData = {
     addressZh: '元朗壽富街元朗中心 218 室',
     phone: '5406 6800',
     color: 'bg-slate-900',
-    image: '/yew.jpeg',
+    image: '/yew.jpg',
     mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.176461933068!2d114.02758257606085!3d22.44118944111354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3403f0724f2b18a3%3A0x2f6b8973949f2571!2sYuen%20Long%20Centre%2C%2055%20Sau%20Fu%20St%2C%20Yuen%20Long!5e0!3m2!1sen!2shk!4v1710000000000!5m2!1sen!2shk",
     directions: "https://www.google.com/maps/dir/?api=1&destination=Yuen+Long+Centre+Sau+Fu+Street"
   }

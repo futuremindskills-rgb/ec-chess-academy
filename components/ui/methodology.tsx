@@ -24,7 +24,7 @@ const ecTeachingSteps = [
     subtitleZh: "對局回顧與分析",
     descEn: "Analyzing recent games to identify specific learning needs and focus areas.",
     descZh: "透過分析近期對局，精確識別學員的學習進度，並針對薄弱環節進行專項強化。",
-    image: "/47.jpeg",
+    image: "/47.jpg",
     icon: <Swords className="w-5 h-5 text-slate-900" />,
     color: "bg-[#FFD700]", // YELLOW
     textColor: "text-slate-900",
@@ -38,7 +38,7 @@ const ecTeachingSteps = [
     subtitleZh: "國際大師課程",
     descEn: "High-level thematic lessons using professional international textbooks.",
     descZh: "採用國際專業教材，進行高水平的專題教學，深入淺出講解各項戰略核心。",
-    image: "/22.jpeg",
+    image: "/22.jpg",
     icon: <BookOpen className="w-5 h-5 text-white" />,
     color: "bg-[#8A2BE2]", // PURPLE
     textColor: "text-white",
@@ -52,7 +52,7 @@ const ecTeachingSteps = [
     subtitleZh: "知識鞏固訓練",
     descEn: "Deepening knowledge through targeted memory and calculation exercises.",
     descZh: "透過針對性的記憶與計算力訓練，加深學員對課堂知識的理解並學以致用。",
-    image: "/20.jpeg",
+    image: "/20.jpg",
     icon: <Target className="w-5 h-5 text-white" />,
     color: "bg-[#4F46E5]", // INDIGO
     textColor: "text-white",
@@ -66,7 +66,7 @@ const ecTeachingSteps = [
     subtitleZh: "互動總結與評核",
     descEn: "Summarizing the lesson through interactive, self-developed chess games.",
     descZh: "透過本院自研的互動棋藝遊戲，在輕鬆的氛圍中鞏固課堂重點並完成複習。",
-    image: "/1.jpeg",
+    image: "/1.jpg",
     icon: <Gamepad2 className="w-5 h-5 text-white" />,
     color: "bg-[#1a5f5f]", // EC TEAL
     textColor: "text-white",

@@ -21,7 +21,7 @@ const academyFeatures = [
     titleZh: "精英小班教學",
     descEn: "1:6 Coach-to-student ratio ensuring every child receives personalized tactical guidance.",
     descZh: "維持 1:6 的師生比例，確保每位學員都能獲得個人化的戰術指導與全面關注。",
-    image: "/50.jpeg",
+    image: "/50.jpg",
     icon: <Users className="w-5 h-5 text-slate-900" />,
     color: "bg-[#FFD700]", // YELLOW
     textColor: "text-slate-900",
@@ -32,7 +32,7 @@ const academyFeatures = [
     titleZh: "系統化專業教材",
     descEn: "Carefully compiled HK textbooks that systematically bridge theory with match play.",
     descZh: "由本院精心編寫的專業教材，系統化地銜接棋藝理論與實戰比賽經驗。",
-    image: "/13.jpeg",
+    image: "/13.jpg",
     icon: <BookOpenCheck className="w-5 h-5 text-white" />,
     color: "bg-[#8A2BE2]", // PURPLE
     textColor: "text-white",
@@ -54,7 +54,7 @@ const academyFeatures = [
     titleZh: "精英導師團隊",
     descEn: "FIDE-certified masters and passionate educators dedicated to nurturing elite logic.",
     descZh: "由國際棋聯 (FIDE) 認證大師領銜，致力培養學員的高階邏輯思維與競技素養。",
-    image: "/jim11.jpeg",
+    image: "/jim11.jpg",
     icon: <Award className="w-5 h-5 text-white" />,
     color: "bg-[#1a5f5f]", // TEAL
     textColor: "text-white",
@@ -65,7 +65,7 @@ const academyFeatures = [
     titleZh: "思維能力評估",
     descEn: "Regular performance feedback and testing to visualize growth and sharpen abilities.",
     descZh: "透過定期的表現反饋與測試，將進度數據化，精準磨練學員的實戰與分析能力。",
-    image: "/30.jpeg",
+    image: "/30.jpg",
     icon: <ClipboardCheck className="text-slate-900" />,
     color: "bg-[#FFD700]", // YELLOW
     textColor: "text-slate-900",
@@ -76,7 +76,7 @@ const academyFeatures = [
     titleZh: "協作式深度學習",
     descEn: "Group discussions that promote active communication and peer-to-peer problem solving.",
     descZh: "鼓勵小組討論及主動溝通，在朋輩協作解難中提升社交能力與領導才能。",
-    image: "/49.jpeg",
+    image: "/49.jpg",
     icon: <MessagesSquare className="w-5 h-5 text-white" />,
     color: "bg-[#8A2BE2]", // PURPLE
     textColor: "text-white",
