@@ -127,9 +127,9 @@ const FAQSection: React.FC = () => {
                     } ${faq.iconBg}`}>
                       {faq.icon}
                     </div>
-                    <h4 className="text-base md:text-lg lg:text-xl font-black tracking-tight text-slate-900 leading-tight">
+                    <h3 className="text-base md:text-lg lg:text-xl font-black tracking-tight text-slate-900 leading-tight">
                       {faq.question}
-                    </h4>
+                    </h3>
                   </div>
                   <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center transition-all ${
                     activeIndex === idx ? "bg-slate-900 text-white rotate-180" : "bg-white/50 text-slate-600"

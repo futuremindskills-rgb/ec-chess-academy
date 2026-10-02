@@ -12,6 +12,7 @@ import { Suspense } from "react";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import StickySidebar from "@/components/sticky";
+import StructuredData from "@/components/seo/json-ld";
 import { routing } from "@/i18n/routing";
 
 type Props = {
@@ -120,6 +121,7 @@ export default async function LocaleLayout({
       locale={locale}
       messages={messages}
     >
+      <StructuredData locale={locale} />
       <Header />
 
       <StickySidebar />

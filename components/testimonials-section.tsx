@@ -137,9 +137,9 @@ const TestimonialsGrid: React.FC = () => {
                       </div>
                     </div>
                     <div>
-                      <h4 className="font-black uppercase tracking-tight text-lg md:text-xl italic text-white leading-none">
+                      <h3 className="font-black uppercase tracking-tight text-lg md:text-xl italic text-white leading-none">
                         {isZh ? item.nameZh : item.nameEn}
-                      </h4>
+                      </h3>
                       <div className="inline-block px-2.5 py-1 bg-black/30 backdrop-blur-md rounded-lg mt-2">
                         <p className="text-[10px] md:text-[11px] font-black text-white uppercase tracking-widest leading-none">
                           {isZh ? item.roleZh : item.roleEn}
@@ -151,9 +151,9 @@ const TestimonialsGrid: React.FC = () => {
                   {/* QUOTE */}
                   <div className="flex-1 mb-8">
                     <Quote className="text-white/40 mb-4 w-8 h-8" strokeWidth={3} />
-                    <h3 className={`text-xl md:text-2xl font-[900] leading-tight tracking-tight text-white ${isZh ? 'font-bold' : 'italic'}`}>
+                    <blockquote className={`text-xl md:text-2xl font-[900] leading-tight tracking-tight text-white ${isZh ? 'font-bold' : 'italic'}`}>
                       &quot;{isZh ? item.quoteZh : item.quoteEn}&quot;
-                    </h3>
+                    </blockquote>
                   </div>
 
                   {/* BOTTOM: DATA BADGE */}

@@ -68,11 +68,11 @@ export default function Footer() {
       <div className="container mx-auto px-6 lg:px-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
           
-          {/* LOGO COLUMN */}
+          {/* LOGO & CONTACT COLUMN */}
           <div className="lg:col-span-4 space-y-6">
             <Link href="/" className="flex items-center gap-2 group">
               <div className="w-auto h-20 p-2 shadow-xl">
-                 <img src="/icon.png" alt="EC Chess" className="w-full h-full object-contain" />
+                 <img src="/icon.png" alt="EC Chess Academy HK" className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
                 <span className="font-black text-3xl tracking-tighter uppercase leading-none">
@@ -82,19 +82,38 @@ export default function Footer() {
               </div>
             </Link>
             
-            <div className="space-y-4 pt-4">
-              <div className="flex items-center gap-3 group cursor-pointer">
+            <div className="space-y-4 pt-2">
+              <a 
+                href="mailto:enquiry.ecchess@gmail.com" 
+                className="flex items-center gap-3 group text-slate-300 hover:text-white transition-colors"
+                aria-label="Email EC Chess Academy"
+              >
                 <div className="p-2 rounded-lg bg-white/10 group-hover:bg-indigo-500 transition-all">
                   <Mail size={18} />
                 </div>
                 <span className="text-sm font-medium">enquiry.ecchess@gmail.com</span>
+              </a>
+              <div className="flex items-center gap-3 text-slate-300">
+                <div className="p-2 rounded-lg bg-white/10">
+                  <Phone size={18} />
+                </div>
+                <span className="text-sm font-medium">+852 4614 4561 / +852 5406 6800</span>
               </div>
-              <div className="flex gap-4 pt-2">
-                <Link href="https://www.facebook.com/ecchess" className="p-2 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
-                  <Facebook size={20} />
+              <div className="flex gap-3 pt-2">
+                <Link href="https://www.facebook.com/ecchess" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2.5 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
+                  <Facebook size={18} />
                 </Link>
-                <Link href="https://www.instagram.com/ec_chess/" className="p-2 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
-                  <Instagram size={20} />
+                <Link href="https://www.instagram.com/ec_chess/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2.5 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
+                  <Instagram size={18} />
+                </Link>
+                <Link href="https://twitter.com/ecchess" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" className="p-2.5 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
+                  <svg className="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </Link>
+                <Link href="https://www.linkedin.com/company/ecchess" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2.5 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
+                  <svg className="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.78c-.9 0-1.63.73-1.63 1.63s.73 1.63 1.63 1.63 1.63-.73 1.63-1.63-.73-1.63-1.63-1.63z"/></svg>
+                </Link>
+                <Link href="https://www.youtube.com/@ecchess" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="p-2.5 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
+                  <svg className="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                 </Link>
               </div>
             </div>
@@ -102,7 +121,7 @@ export default function Footer() {
 
           {/* LINKS COLUMN */}
           <div className="lg:col-span-2">
-            <h4 className="text-lg font-black uppercase tracking-widest mb-4">{t("usefulLinks")}</h4>
+            <h3 className="text-lg font-black uppercase tracking-widest mb-4">{t("usefulLinks")}</h3>
             <div className="w-10 h-1.5 bg-indigo-500 rounded-full mb-6" />
             <ul className="space-y-4 text-slate-300">
               {footerLinks.map((link) => (
@@ -120,7 +139,7 @@ export default function Footer() {
 
           {/* COMPANY COLUMN */}
           <div className="lg:col-span-2">
-            <h4 className="text-lg font-black uppercase tracking-widest mb-4">{t("ourCompany")}</h4>
+            <h3 className="text-lg font-black uppercase tracking-widest mb-4">{t("ourCompany")}</h3>
             <div className="w-10 h-1.5 bg-purple-500 rounded-full mb-6" />
             <ul className="space-y-4 text-slate-300">
               {links.map((link) => (
@@ -138,49 +157,49 @@ export default function Footer() {
 
           {/* BRANCHES COLUMN */}
           <div className="lg:col-span-4 space-y-6">
-            <h4 className="text-lg font-black uppercase tracking-widest mb-4">{t("hkBranches")}</h4>
+            <h3 className="text-lg font-black uppercase tracking-widest mb-4">{t("hkBranches")}</h3>
             <div className="w-10 h-1.5 bg-orange-500 rounded-full mb-6" />
             
-            <div className="space-y-8">
+            <div className="space-y-6">
               {/* Kowloon City Branch */}
-              <Link href="https://form.wa.link/ecchess" target="_blank" className="block group">
-                <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-2 text-orange-400">
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-orange-500/50 transition-all">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2 text-orange-400 font-black text-xs uppercase tracking-widest">
                     <MapPin size={14} />
-                    <span className="text-[10px] font-black uppercase tracking-widest">{t("kowloonCity")}</span>
+                    <span>{t("kowloonCity")}</span>
                   </div>
-                    <span className="text-[8px] font-black bg-orange-500 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">{t("enquireNow")}</span>
+                  <Link href="https://form.wa.link/ecchess" target="_blank" className="text-[9px] font-black bg-orange-500 text-white px-2 py-0.5 rounded hover:bg-orange-600 transition-colors">
+                    {t("enquireNow")}
+                  </Link>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-white/10 group-hover:bg-orange-500 group-hover:scale-110 transition-all">
-                    <MessageCircle size={16} />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-bold tracking-widest">4614 4561</span>
-                    <span className="text-[9px] text-slate-400 font-bold group-hover:text-white">{t("clickForWhatsApp")}</span>
-                  </div>
+                <p className="text-xs text-slate-300 leading-relaxed mb-2">
+                  Hong Kong, Kowloon City, Prince Edward Rd W, 352號薈學坊3樓B室 (Room B, 3/F, 352 Prince Edward Rd West)
+                </p>
+                <div className="flex items-center gap-2 text-xs font-bold text-white">
+                  <Phone size={12} className="text-orange-400" />
+                  <span>Tel / WhatsApp: +852 4614 4561</span>
                 </div>
-              </Link>
+              </div>
 
               {/* Yuen Long Branch */}
-              <Link href="https://form.wa.link/ecchessylc" target="_blank" className="block group">
-                <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-2 text-indigo-400">
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-indigo-500/50 transition-all">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2 text-indigo-400 font-black text-xs uppercase tracking-widest">
                     <MapPin size={14} />
-                    <span className="text-[10px] font-black uppercase tracking-widest">{t("yuenLong")}</span>
+                    <span>{t("yuenLong")}</span>
                   </div>
-                    <span className="text-[8px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">{t("enquireNow")}</span>
+                  <Link href="https://form.wa.link/ecchessylc" target="_blank" className="text-[9px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded hover:bg-indigo-600 transition-colors">
+                    {t("enquireNow")}
+                  </Link>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-white/10 group-hover:bg-indigo-500 group-hover:scale-110 transition-all">
-                    <MessageCircle size={16} />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-bold tracking-widest">5406 6800</span>
-                    <span className="text-[9px] text-slate-400 font-bold group-hover:text-white">{t("clickForWhatsApp")}</span>
-                  </div>
+                <p className="text-xs text-slate-300 leading-relaxed mb-2">
+                  Hong Kong, Yuen Long Branch Academy
+                </p>
+                <div className="flex items-center gap-2 text-xs font-bold text-white">
+                  <Phone size={12} className="text-indigo-400" />
+                  <span>Tel / WhatsApp: +852 5406 6800</span>
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
 

@@ -4,7 +4,10 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  compress: true,
+  poweredByHeader: false,
   images: {
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       // 1. Cloudinary (For your course/gallery images)
       { protocol: 'https', hostname: 'res.cloudinary.com' },
