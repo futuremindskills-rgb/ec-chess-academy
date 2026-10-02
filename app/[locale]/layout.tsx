@@ -14,6 +14,7 @@ import Header from "@/components/header";
 import StickySidebar from "@/components/sticky";
 import StructuredData from "@/components/seo/json-ld";
 import { routing } from "@/i18n/routing";
+import { SEO_CONFIG, getPageMetadata } from "@/config/seo";
 
 type Props = {
   children: React.ReactNode;
@@ -43,62 +44,17 @@ export async function generateMetadata({
     return {};
   }
 
-  const t = await getTranslations({
-    locale,
-    namespace: "metadata",
-  });
+  const baseMetadata = getPageMetadata("home", locale);
 
   return {
-    title: t("title"),
-
-    description: t("description"),
-
-    metadataBase: new URL("https://ecchess.com"),
-
-    alternates: {
-      canonical: `/${locale}`,
-
-      languages: {
-        en: "/en",
-        zh: "/zh",
-        "x-default": "/en",
-      },
-    },
-
-    openGraph: {
-      title: t("title"),
-
-      description: t("ogDescription"),
-
-      url: `https://ecchess.com/${locale}`,
-
-      siteName: t("siteName"),
-
-      locale: locale === "zh" ? "zh_HK" : "en_HK",
-
-      type: "website",
-
-      images: [
-        {
-          url: "/og-image.jpg",
-          width: 1200,
-          height: 630,
-          alt: t("siteName"),
-        },
-      ],
-    },
-
-    twitter: {
-      card: "summary_large_image",
-
-      title: t("siteName"),
-
-      description: t("twitterDescription"),
-
-      images: ["/og-image.jpg"],
-    },
-
+    ...baseMetadata,
     manifest: "/site.webmanifest",
+    verification: {
+      google: SEO_CONFIG.verification.googleSiteVerification || undefined,
+      other: SEO_CONFIG.verification.bingSiteVerification
+        ? { "msvalidate.01": [SEO_CONFIG.verification.bingSiteVerification] }
+        : undefined,
+    },
   };
 }
 
