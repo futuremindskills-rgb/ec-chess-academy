@@ -76,7 +76,7 @@ const CoachCtaSection: React.FC = () => {
                 <Link href="/contact" className="w-full sm:w-auto">
                   <button className="w-full group bg-slate-900 text-white font-black uppercase tracking-widest text-[10px] md:text-xs py-4 md:py-5 px-8 md:px-10 rounded-2xl flex items-center justify-center gap-3 transition-all hover:bg-orange-500 hover:-translate-y-1 shadow-xl active:scale-95">
                     <MessageCircle size={18} className="fill-current" />
-                    {isZh ? "免費水平評估" : "Free Assessment"}
+                    {isZh ? "專業水平評估" : "Skill Assessment"}
                   </button>
                 </Link>
                 <Link href="/about" className="w-full sm:w-auto">

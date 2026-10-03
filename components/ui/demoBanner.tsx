@@ -73,7 +73,7 @@ const DemoBanner: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-sm md:text-lg text-slate-600 max-w-xl mb-10 font-medium leading-snug"
         >
-          Book a free 30-minute assessment and demo session with our FIDE-certified coaches to evaluate your child&apos;s potential.
+          Book a 30-minute assessment and demo session with our FIDE-certified coaches to evaluate your child&apos;s potential.
         </motion.p>
 
         {/* Action Button & Breadcrumb Group */}
@@ -83,7 +83,7 @@ const DemoBanner: React.FC = () => {
               className="px-8 py-4 bg-[#1a5f5f] text-white font-black rounded-2xl hover:bg-[#134747] transition-all flex items-center gap-2 shadow-xl shadow-[#1a5f5f]/20 hover:scale-105"
             >
                 <CalendarCheck size={20} />
-                BOOK YOUR FREE DEMO
+                BOOK YOUR DEMO
             </Link>
 
             <motion.nav 

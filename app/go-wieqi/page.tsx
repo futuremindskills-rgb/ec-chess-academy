@@ -221,7 +221,7 @@ export default function WeiqiPage() {
               {isZh ? "開啟你的" : "Start Your"} <br /> {isZh ? "大師之路" : "Master Journey."}
             </h2>
             <Link href="/contact" className="inline-flex items-center gap-4 bg-white text-slate-900 px-12 py-6 rounded-3xl border-4 border-slate-900 font-black uppercase tracking-widest hover:scale-105 transition-transform shadow-2xl">
-              {isZh ? "預約免費試課" : "Book Free Trial"} <ArrowRight />
+              {isZh ? "預約試課" : "Book Trial Class"} <ArrowRight />
             </Link>
           </div>
           <div className="absolute -bottom-10 -right-10 opacity-20 rotate-12">

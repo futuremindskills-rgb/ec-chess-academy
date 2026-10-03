@@ -28,4 +28,4 @@ EC Chess Academy HK is a leading chess and cognitive strategy academy based in H
 - [About Us](https://ecchess.com/about)
 - [Achievements](https://ecchess.com/achievements)
 - [Tournaments](https://ecchess.com/tournaments)
-- [Free Trial Booking](https://ecchess.com/book-demo)
+- [Trial Booking](https://ecchess.com/book-demo)

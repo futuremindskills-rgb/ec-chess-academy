@@ -365,23 +365,23 @@ export const SEO_CONFIG = {
       },
     } satisfies PageSeoConfig,
 
-    // --- Book Free Demo ---
+    // --- Book Demo ---
     bookDemo: {
       path: "/book-demo",
       ogImage: "/demo.webp",
       robots: { index: true, follow: true },
       en: {
-        title: "Book a Free Chess Trial Class | Assessment & Placement | EC Chess",
-        description: "Book a free trial class and skill assessment at EC Chess Academy. Discover your child's chess potential with our FIDE-certified instructors.",
-        keywords: ["free chess trial hk", "free demo chess class", "chess skill assessment hk"],
-        ogTitle: "Book a Free Chess Trial Class | EC Chess Academy HK",
+        title: "Book a Chess Trial Class | Assessment & Placement | EC Chess",
+        description: "Book a trial class and skill assessment at EC Chess Academy. Discover your child's chess potential with our FIDE-certified instructors.",
+        keywords: ["chess trial hk", "demo chess class", "chess skill assessment hk"],
+        ogTitle: "Book a Chess Trial Class | EC Chess Academy HK",
         ogDescription: "Experience an interactive trial session and personalized level assessment for your child.",
       },
       zh: {
-        title: "預約免費試堂與棋力評估 | EC 卓思棋院",
-        description: "立即預約免費試堂及專業棋力水平評估。讓孩子體驗國際象棋、中國象棋及圍棋的樂趣與思維挑戰。",
-        keywords: ["預約試堂", "免費學棋試堂", "兒童棋力評估", "免費試學"],
-        ogTitle: "預約免費試堂與棋力評估 | EC 卓思棋院 (香港)",
+        title: "預約試堂與棋力評估 | EC 卓思棋院",
+        description: "立即預約試堂及專業棋力水平評估。讓孩子體驗國際象棋、中國象棋及圍棋的樂趣與思維挑戰。",
+        keywords: ["預約試堂", "學棋試堂", "兒童棋力評估", "試堂體驗"],
+        ogTitle: "預約試堂與棋力評估 | EC 卓思棋院 (香港)",
         ogDescription: "專業導師一對一棋力分析，為孩子度身訂造最適切的學習進階階梯。",
       },
     } satisfies PageSeoConfig,

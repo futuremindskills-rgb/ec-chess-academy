@@ -10,8 +10,8 @@ export default function FinalCTASection() {
   const benefits = [
     {
       icon: <Star className="w-6 h-6" />,
-      text: isZh ? "免費試聽課" : "Free Trial Class",
-      subtext: isZh ? "無需承諾" : "No commitment needed",
+      text: isZh ? "專業試堂" : "Trial Assessment",
+      subtext: isZh ? "因材施教" : "Personalized placement",
     },
     {
       icon: <Users className="w-6 h-6" />,
@@ -40,7 +40,7 @@ export default function FinalCTASection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
         <div className="text-center">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border border-amber-400/30 rounded-full px-4 py-2 mb-8 backdrop-blur-sm">
-            <span className="text-sm font-semibold text-amber-300">{isZh ? "限時優惠" : "Limited Time Offer"}</span>
+            <span className="text-sm font-semibold text-amber-300">{isZh ? "專業培訓" : "Elite Coaching"}</span>
           </div>
           
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8">
@@ -74,7 +74,7 @@ export default function FinalCTASection() {
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <button className="group bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-gray-900 font-bold py-5 px-12 rounded-xl text-lg flex items-center gap-3 shadow-lg shadow-amber-500/20 hover:shadow-xl transition-all duration-300">
-              <span>{isZh ? "預約免費試聽" : "Book Free Trial"}</span>
+              <span>{isZh ? "預約試堂" : "Book Trial Class"}</span>
               <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             

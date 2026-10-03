@@ -55,7 +55,7 @@ const StickySidebar: React.FC = () => {
         backdrop-blur-sm
       ">
         
-        {/* FREE TRIAL BUTTON */}
+        {/* TRIAL BUTTON */}
         <Link href="/contact" className="group flex flex-col items-center gap-1 lg:gap-2">
           <motion.div 
             whileHover={{ scale: 1.15, rotate: 12 }}
@@ -69,7 +69,7 @@ const StickySidebar: React.FC = () => {
             />
           </motion.div>
           <span className={`text-[8px] lg:text-[10px] font-[1000] text-white uppercase text-center leading-none tracking-tighter ${isZh ? 'font-bold' : ''}`}>
-            {isZh ? <>預約<br/>試堂</> : <>Free <br/> Trial</>}
+            {isZh ? <>預約<br/>試堂</> : <>Book <br/> Trial</>}
           </span>
         </Link>
 

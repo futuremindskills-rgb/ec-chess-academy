@@ -35,7 +35,7 @@ export default function BookDemoPage() {
             >
               <h2 className="text-4xl md:text-6xl font-[1000] tracking-tighter uppercase leading-[0.9]">
                 Why take a <br/>
-                <span className="text-orange-500 italic">Free Demo?</span>
+                <span className="text-orange-500 italic">Demo Lesson?</span>
               </h2>
               <div className="w-24 h-2.5 bg-orange-500 rounded-full" />
             </motion.div>
@@ -45,7 +45,7 @@ export default function BookDemoPage() {
                 { title: "Level Assessment", desc: "Discover your current skill level.", icon: <Target className="text-orange-500" /> },
                 { title: "Live Style", desc: "Experience our teaching live.", icon: <Video className="text-purple-600" /> },
                 { title: "Personal Roadmap", desc: "Get a custom growth plan.", icon: <Zap className="text-indigo-600" /> },
-                { title: "Zero Commitment", desc: "Pure learning, no pressure.", icon: <ShieldCheck className="text-cyan-500" /> },
+                { title: "Expert Feedback", desc: "Pure learning, dedicated guidance.", icon: <ShieldCheck className="text-cyan-500" /> },
               ].map((item, i) => (
                 <motion.div 
                   key={i}
@@ -172,15 +172,15 @@ export default function BookDemoPage() {
               </form>
             </div>
 
-            {/* FREE STICKER (Smart positioning) */}
+            {/* TRIAL STICKER */}
             <motion.div 
                animate={{ rotate: [12, 8, 12] }}
                transition={{ duration: 4, repeat: Infinity }}
                className="absolute -top-6 -right-2 sm:-right-8 w-24 h-24 md:w-32 md:h-32 bg-yellow-400 rounded-full border-4 border-slate-900 shadow-2xl flex items-center justify-center z-30"
             >
                <div className="text-center leading-none">
-                  <span className="text-[10px] md:text-xs font-black uppercase tracking-tighter">Cost</span>
-                  <div className="text-3xl md:text-5xl font-[1000] text-slate-900 tracking-tighter">FREE</div>
+                  <span className="text-[10px] md:text-xs font-black uppercase tracking-tighter">Session</span>
+                  <div className="text-2xl md:text-4xl font-[1000] text-slate-900 tracking-tighter">TRIAL</div>
                </div>
             </motion.div>
           </motion.div>
@@ -238,7 +238,7 @@ export default function BookDemoPage() {
               whileTap={{ scale: 0.95 }}
               className="px-10 md:px-16 py-6 md:py-8 bg-orange-500 text-white rounded-[20px] md:rounded-[30px] font-[1000] uppercase tracking-widest text-xs md:text-sm hover:bg-white hover:text-slate-900 transition-all shadow-2xl"
             >
-              Claim Your Free Demo
+              Claim Your Demo Slot
             </motion.button>
           </div>
         </div>

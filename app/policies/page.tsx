@@ -40,9 +40,10 @@ export default function PolicyPage() {
                 <li>{isZh ? "如懸掛三號風球或紅/黃暴雨，比賽照常進行。" : "If Typhoon Signal No. 3 or Red/Yellow Rainstorm is in effect, competitions proceed as scheduled."}</li>
               </ul>
               
-              <p className="font-bold text-slate-900 underline mt-6">{isZh ? "常規課程：" : "Regular Courses:"}</p>
+              <p className="font-bold text-slate-900 underline mt-6">{isZh ? "常規課程與試堂：" : "Regular Courses & Trial Lessons:"}</p>
               <ul className="list-disc pl-5 space-y-2 text-sm">
                 <li>{isZh ? "學費須於首課前全額支付。" : "Tuition fees must be paid in full before the first lesson."}</li>
+                <li>{isZh ? "試堂及棋力評估均為收費項目，恕不提供免費試堂。" : "Trial lessons and assessments are paid sessions; complimentary/free trials are not offered."}</li>
                 <li>{isZh ? "病假須提交醫生證明方可安排補課，缺課不提供現金退款。" : "Requests for sick leave must be accompanied by a medical certificate to qualify for a make-up class. No cash refunds are provided for missed classes."}</li>
               </ul>
             </div>

@@ -224,7 +224,7 @@ export default function AchievementsPage() {
                     href="/contact" 
                     className="w-full sm:w-auto px-8 md:px-12 py-4 md:py-5 bg-slate-900 text-white rounded-xl md:rounded-2xl font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-orange-600 transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-orange-200 active:scale-95"
                   >
-                    {isZh ? "預約免費試堂" : "Book Free Demo"} <ChevronRight size={18} />
+                    {isZh ? "預約試堂" : "Book Demo"} <ChevronRight size={18} />
                   </Link>
                   <Link 
                     href="/courses" 
