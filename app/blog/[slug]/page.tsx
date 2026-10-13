@@ -24,8 +24,13 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const posts = await getBlogPosts();
-  const decodedSlug = decodeURIComponent(params.slug);
-  const post = posts.find((p: any) => p.slug === decodedSlug);
+  let decodedSlug = params.slug;
+  try {
+    decodedSlug = decodeURIComponent(params.slug);
+  } catch (e) {
+    // fallback if already decoded
+  }
+  const post = posts.find((p: any) => p.slug === decodedSlug || p.slug === params.slug);
   if (!post) return { title: "Post Not Found" };
 
   return {
@@ -39,8 +44,13 @@ export default async function BlogDetailPage({ params }: Props) {
   const locale = await getLocale();
   const isZh = locale === "zh";
   const posts = await getBlogPosts();
-  const decodedSlug = decodeURIComponent(params.slug);
-  const post = posts.find((p: any) => p.slug === decodedSlug);
+  let decodedSlug = params.slug;
+  try {
+    decodedSlug = decodeURIComponent(params.slug);
+  } catch (e) {
+    // fallback if already decoded
+  }
+  const post = posts.find((p: any) => p.slug === decodedSlug || p.slug === params.slug);
 
   if (!post) notFound();
 

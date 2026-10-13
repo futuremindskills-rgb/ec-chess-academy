@@ -8,6 +8,7 @@ import {
   getBlogPosts 
 } from "@/app/actions/adminActions";
 import ImageUpload from "@/components/admin/ImageUpload";
+import Link from "next/link";
 import { 
   Plus, 
   Pencil, 
@@ -17,7 +18,9 @@ import {
   FileText, 
   Loader2, 
   Clock,
-  Sparkles
+  Sparkles,
+  ExternalLink,
+  Globe
 } from "lucide-react";
 
 export default function BlogAdmin() {
@@ -29,6 +32,7 @@ export default function BlogAdmin() {
   // Form State
   const [editingItem, setEditingItem] = useState<any>(null);
   const [imageUrl, setImageUrl] = useState("");
+  const [slug, setSlug] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
   // Initial Data Fetch
@@ -61,7 +65,12 @@ export default function BlogAdmin() {
         return;
     }
 
-    // 2. Handle Checkbox Logic 
+    // 2. Add custom slug from state if provided
+    if (slug) {
+      formData.set("slug", slug.trim());
+    }
+
+    // 3. Handle Checkbox Logic 
     // (HTML forms don't send anything if unchecked, so we explicitly set it)
     const featured = formData.get("featured") === "on";
     formData.set("featured", featured ? "true" : "false");
@@ -95,12 +104,14 @@ export default function BlogAdmin() {
   function openAdd() {
     setEditingItem(null);
     setImageUrl("");
+    setSlug("");
     setIsModalOpen(true);
   }
 
   function openEdit(post: any) {
     setEditingItem(post);
     setImageUrl(post.image);
+    setSlug(post.slug || "");
     setIsModalOpen(true);
   }
 
@@ -108,6 +119,7 @@ export default function BlogAdmin() {
     setIsModalOpen(false);
     setEditingItem(null);
     setImageUrl("");
+    setSlug("");
   }
 
   const filteredPosts = posts.filter(post => 
@@ -189,6 +201,12 @@ export default function BlogAdmin() {
                   <div className="flex items-center gap-2 text-xs text-slate-400 font-bold uppercase mb-2">
                     <Clock size={12} /> {post.readTime}
                   </div>
+
+                  <div className="flex items-center gap-1.5 text-xs text-slate-500 font-mono mb-2 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100 w-fit max-w-full">
+                    <Globe size={12} className="text-amber-500 shrink-0" />
+                    <span className="text-slate-400">/blog/</span>
+                    <span className="truncate font-semibold text-slate-700">{post.slug}</span>
+                  </div>
                   
                   <h3 className="font-bold text-slate-900 text-lg leading-tight mb-2 line-clamp-2">
                     {post.title}
@@ -198,19 +216,31 @@ export default function BlogAdmin() {
                     {post.excerpt}
                   </p>
 
-                  <div className="pt-4 border-t border-slate-100 flex justify-end gap-2">
-                    <button 
-                      onClick={() => openEdit(post)} 
-                      className="p-2 bg-slate-50 text-indigo-600 rounded-lg hover:bg-indigo-50 border border-slate-200 transition-colors"
+                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <Link 
+                      href={`/blog/${encodeURIComponent(post.slug)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 hover:text-amber-600 transition-colors"
                     >
-                      <Pencil size={16} />
-                    </button>
-                    <button 
-                      onClick={() => handleDelete(post.id)} 
-                      className="p-2 bg-slate-50 text-red-600 rounded-lg hover:bg-red-50 border border-slate-200 transition-colors"
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                      <ExternalLink size={14} /> View Post
+                    </Link>
+                    <div className="flex items-center gap-2">
+                      <button 
+                        onClick={() => openEdit(post)} 
+                        className="p-2 bg-slate-50 text-indigo-600 rounded-lg hover:bg-indigo-50 border border-slate-200 transition-colors"
+                        title="Edit article"
+                      >
+                        <Pencil size={16} />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(post.id)} 
+                        className="p-2 bg-slate-50 text-red-600 rounded-lg hover:bg-red-50 border border-slate-200 transition-colors"
+                        title="Delete article"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -288,6 +318,32 @@ export default function BlogAdmin() {
                             placeholder="Enter a catchy title..." 
                             className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none font-bold text-lg text-slate-900" 
                         />
+                    </div>
+
+                    <div className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <label className="block text-xs font-bold text-slate-500 uppercase">
+                            URL Slug (網址別名)
+                          </label>
+                          <span className="text-[11px] font-semibold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200">
+                            支援中文 (Supports Chinese)
+                          </span>
+                        </div>
+                        <div className="relative flex items-center">
+                          <span className="absolute left-4 text-xs font-mono text-slate-400 select-none">
+                            /blog/
+                          </span>
+                          <input 
+                            name="slug" 
+                            value={slug}
+                            onChange={(e) => setSlug(e.target.value)}
+                            placeholder="e.g. 國際象棋入門 or chess-guide (Leave empty to auto-generate)" 
+                            className="w-full pl-16 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none font-medium text-sm text-slate-800 focus:border-amber-500 focus:bg-white transition-all" 
+                          />
+                        </div>
+                        <p className="text-[11px] text-slate-400 leading-normal">
+                          Type custom Chinese or English words. Hyphens and characters will be formatted cleanly. If left blank, it will be automatically generated from the title.
+                        </p>
                     </div>
 
                     <div className="space-y-2">

@@ -11,34 +11,45 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-  console.log("👉 CREDENTIALS RECEIVED:", credentials)
-  console.log("👉 ENV EMAIL:", process.env.ADMIN_EMAIL)
-  console.log("👉 ENV PASSWORD:", process.env.ADMIN_PASSWORD)
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
-  if (!credentials?.email || !credentials?.password) {
-    console.log("❌ Missing credentials")
-    return null
-  }
+        const inputEmail = credentials.email.trim().toLowerCase();
+        const inputPassword = credentials.password.trim();
+        const adminEmail = (process.env.ADMIN_EMAIL || "").trim().toLowerCase();
+        const adminPassword = (process.env.ADMIN_PASSWORD || "").trim();
 
-  const isValidUser =
-    credentials.email === process.env.ADMIN_EMAIL &&
-    credentials.password === process.env.ADMIN_PASSWORD
+        const isValidUser =
+          inputEmail === adminEmail && inputPassword === adminPassword;
 
-  console.log("👉 IS VALID USER:", isValidUser)
+        if (isValidUser) {
+          return {
+            id: "1",
+            name: "Admin",
+            email: credentials.email.trim(),
+          };
+        }
 
-  if (isValidUser) {
-    return {
-      id: "1",
-      name: "Admin",
-      email: credentials.email,
-    }
-  }
-
-  return null
-}
-
-    })
+        return null;
+      },
+    }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token && session.user) {
+        session.user.email = token.email as string;
+      }
+      return session;
+    },
+  },
   pages: {
     signIn: "/login", // Custom login page path
   },

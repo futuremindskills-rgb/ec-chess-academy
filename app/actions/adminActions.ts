@@ -129,51 +129,99 @@ export async function updateTournamentStatus(id: number) {
    BLOGS
    ========================================================================== */
 
+/**
+ * Formats any string into a clean, URL-safe slug preserving Chinese (CJK)
+ * characters, letters, numbers, hyphens, and underscores.
+ */
+export function formatSlug(input: string): string {
+  if (!input) return "";
+  return input
+    .trim()
+    .toLowerCase()
+    // Replace whitespace and common separators with hyphens
+    .replace(/[\s\t\n]+/g, "-")
+    // Keep letters (any language including Chinese \p{L}), numbers (\p{N}), hyphens (-), and underscores (_)
+    // Remove characters that are unsafe or awkward in URLs:
+    .replace(/[^\p{L}\p{N}\-_]+/gu, "-")
+    // Collapse consecutive hyphens
+    .replace(/-+/g, "-")
+    // Trim hyphens from beginning and end
+    .replace(/^-+|-+$/g, "");
+}
+
+/**
+ * Ensures slug uniqueness by appending -1, -2, etc. if a matching slug
+ * is already taken by another blog post.
+ */
+async function generateUniqueSlug(baseSlug: string, currentId?: number): Promise<string> {
+  const fallback = `blog-${Date.now()}`;
+  const initial = baseSlug.trim() || fallback;
+  let slug = initial;
+  let counter = 1;
+
+  while (true) {
+    const existing = await prisma.blogPost.findUnique({
+      where: { slug },
+      select: { id: true, slug: true },
+    });
+
+    if (!existing || (currentId && existing.id === currentId)) {
+      return slug;
+    }
+
+    slug = `${initial}-${counter}`;
+    counter++;
+  }
+}
+
 export async function addBlogPost(formData: FormData) {
-  const title = formData.get('title') as string
+  const title = (formData.get('title') as string) || '';
+  const customSlug = (formData.get('slug') as string) || '';
 
-  // Generate a clean ASCII-only slug so URLs are WhatsApp/share-friendly
-  // Strips Chinese and other non-ASCII chars, falls back to timestamp
-  const generateSlug = (t: string): string => {
-    const ascii = t
-      .toLowerCase()
-      .replace(/[\u0100-\uFFFF]/g, '')   // Strip non-ASCII (Chinese, etc.)
-      .replace(/[^a-z0-9\s-]/g, '')      // Strip special chars
-      .trim()
-      .replace(/\s+/g, '-')              // Spaces → hyphens
-      .replace(/-+/g, '-')              // Collapse multiple hyphens
-      .replace(/^-|-$/g, '');           // Trim leading/trailing hyphens
-
-    return ascii || `blog-${Date.now()}`;
-  };
+  // Use provided custom slug (supports Chinese) or fallback to title
+  const formattedSlug = formatSlug(customSlug) || formatSlug(title);
+  const slug = await generateUniqueSlug(formattedSlug);
 
   const data = {
     title,
-    excerpt: formData.get('excerpt') as string,
-    content: formData.get('content') as string,
-    category: formData.get('category') as string,
-    readTime: formData.get('readTime') as string,
-    image: formData.get('image') as string,
-    slug: generateSlug(title),
+    excerpt: (formData.get('excerpt') as string) || '',
+    content: (formData.get('content') as string) || '',
+    category: (formData.get('category') as string) || 'Chess & Logic',
+    readTime: (formData.get('readTime') as string) || '5 min read',
+    image: (formData.get('image') as string) || '',
+    slug,
+    featured: formData.get('featured') === 'true',
   }
 
-  await prisma.blogPost.create({ data })
+  const post = await prisma.blogPost.create({ data })
   revalidatePath('/blog')
+  revalidatePath('/admin/blog')
+  return post
 }
 
 export async function editBlogPost(id: number, formData: FormData) {
   const image = formData.get('image') as string
+  const customSlug = formData.get('slug') as string | null
+
   const data: any = {
     title: formData.get('title') as string,
     excerpt: formData.get('excerpt') as string,
     category: formData.get('category') as string,
     readTime: formData.get('readTime') as string,
     content: formData.get('content') as string,
+    featured: formData.get('featured') === 'true',
   }
   if (image) data.image = image
 
-  await prisma.blogPost.update({ where: { id }, data })
+  if (customSlug !== null && customSlug !== undefined) {
+    const formatted = formatSlug(customSlug) || formatSlug(data.title);
+    data.slug = await generateUniqueSlug(formatted, id);
+  }
+
+  const updated = await prisma.blogPost.update({ where: { id }, data })
   revalidatePath('/blog')
+  revalidatePath('/admin/blog')
+  return updated
 }
 
 export async function getBlogPosts() {
@@ -183,6 +231,7 @@ export async function getBlogPosts() {
 export async function deleteBlogPost(id: number) {
   await prisma.blogPost.delete({ where: { id } })
   revalidatePath('/blog')
+  revalidatePath('/admin/blog')
 }
 
 /**

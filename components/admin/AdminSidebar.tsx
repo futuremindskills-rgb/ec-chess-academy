@@ -11,6 +11,7 @@ import {
   Trophy, 
   MessageSquare 
 } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 const navItems = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -60,7 +61,10 @@ export default function AdminSidebar() {
 
       {/* Footer / Sign Out */}
       <div className="p-4 border-t border-slate-800">
-        <button className="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-500/10 rounded-xl w-full transition-colors font-bold text-sm">
+        <button 
+          onClick={() => signOut({ callbackUrl: "/login" })}
+          className="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-500/10 rounded-xl w-full transition-colors font-bold text-sm cursor-pointer"
+        >
           <LogOut size={20} />
           Sign Out
         </button>

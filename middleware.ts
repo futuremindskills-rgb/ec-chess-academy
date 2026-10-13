@@ -10,35 +10,24 @@ export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   /**
-   * Routes that should NOT be locale-prefixed
+   * Keep webhook handlers and public auth/uploadthing APIs untouched
    */
   if (
-    pathname === "/login" ||
-    pathname === "/payment-status" ||
-    pathname.startsWith("/admin")
-  ) {
-    return NextResponse.next();
-  }
-
-  /**
-   * Keep webhook handlers untouched
-   */
-  if (pathname.startsWith("/api/webhook")) {
-    return NextResponse.next();
-  }
-
-  /**
-   * Public APIs
-   */
-  if (
+    pathname.startsWith("/api/webhook") ||
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/uploadthing")
   ) {
     return NextResponse.next();
   }
 
-  const isAdminPath = pathname.startsWith("/admin");
+  /**
+   * Redirect /admin/login to /login
+   */
+  if (pathname === "/admin/login") {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 
+  const isAdminPath = pathname.startsWith("/admin");
   const isApiMutation =
     pathname.startsWith("/api") &&
     ["POST", "PUT", "DELETE"].includes(req.method);
@@ -59,16 +48,27 @@ export default async function middleware(req: NextRequest) {
       );
     }
 
-    const url = new URL("/login", req.url);
-    url.searchParams.set("callbackUrl", pathname);
-
-    return NextResponse.redirect(url);
+    const loginUrl = new URL("/login", req.url);
+    loginUrl.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   /**
-   * Skip locale middleware for APIs
+   * If already logged in, redirect /login to /admin
    */
-  if (pathname.startsWith("/api")) {
+  if (pathname === "/login" && token) {
+    return NextResponse.redirect(new URL("/admin", req.url));
+  }
+
+  /**
+   * Routes that should NOT be locale-prefixed
+   */
+  if (
+    pathname === "/login" ||
+    pathname === "/payment-status" ||
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/api")
+  ) {
     return NextResponse.next();
   }
 

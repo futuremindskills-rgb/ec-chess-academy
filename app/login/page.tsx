@@ -26,14 +26,15 @@ function LoginForm() {
     try {
       const res = await signIn("credentials", {
         redirect: false,
-        email,
-        password,
+        email: email.trim().toLowerCase(),
+        password: password.trim(),
       });
 
       if (res?.error) {
         setError("Invalid email or password");
       } else {
-        router.replace("/admin");
+        router.replace(callbackUrl);
+        router.refresh();
       }
     } catch (err) {
       setError("Something went wrong");
@@ -71,6 +72,8 @@ function LoginForm() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              autoCapitalize="none"
+              autoCorrect="off"
               className="w-full pl-11 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all font-medium"
               placeholder="admin@ecchessacademy.com"
               required
