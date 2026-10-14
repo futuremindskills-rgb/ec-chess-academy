@@ -22,7 +22,7 @@ const GameCurriculumSection: React.FC = () => {
       color: "from-blue-500 to-indigo-600",
       accent: "text-blue-600",
       bgAccent: "bg-blue-600",
-      image: "/go.png",
+      image: "/go.webp",
       href: "/go-wieqi",
     },
     {
@@ -34,7 +34,7 @@ const GameCurriculumSection: React.FC = () => {
       color: "from-purple-500 to-indigo-600",
       accent: "text-purple-600",
       bgAccent: "bg-purple-600",
-      image: "/chess.png",
+      image: "/chess.webp",
       href: "/international-chess",
     },
     {
@@ -46,7 +46,7 @@ const GameCurriculumSection: React.FC = () => {
       color: "from-orange-500 to-red-600",
       accent: "text-orange-600",
       bgAccent: "bg-orange-600",
-      image: "/c-chess.png",
+      image: "/c-chess.webp",
       href: "/chinese-chess",
     }
   ];

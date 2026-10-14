@@ -10,6 +10,7 @@ import {
   Globe, 
   LineChart
 } from "lucide-react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 const FAQSection: React.FC = () => {
@@ -83,19 +84,16 @@ const FAQSection: React.FC = () => {
                 <motion.div
                   animate={{ y: [0, -15, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="w-full h-full"
+                  className="relative w-full h-full flex items-center justify-center"
                 >
-                  <video
-                    src="/faq.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="none"
+                  <Image
+                    src="/faq.webp"
+                    alt="EC Chess Mastery Process"
+                    width={500}
+                    height={500}
                     className="w-full h-full object-contain"
-                  >
-                    <track kind="captions" srcLang="en" label="English" />
-                  </video>
+                    loading="lazy"
+                  />
                 </motion.div>
 
                 {/* Floating Label */}

@@ -167,7 +167,7 @@ export function HeroSection({ bannerData }: HeroSectionProps) {
                 {/* Mobile: Ultra-fast Static Image for Instant LCP < 1.0s */}
                 <div className="block md:hidden relative w-full h-full">
                   <Image 
-                    src="/demo.png" 
+                    src="/demo.webp" 
                     alt="EC Chess Academy HK" 
                     fill 
                     priority 
@@ -183,7 +183,7 @@ export function HeroSection({ bannerData }: HeroSectionProps) {
                   loop 
                   playsInline 
                   preload="none" 
-                  poster="/demo.png" 
+                  poster="/demo.webp" 
                   className="hidden md:block w-full h-full object-cover"
                 >
                   <source src="/chess-video.mp4" type="video/mp4" />

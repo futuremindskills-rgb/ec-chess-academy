@@ -73,6 +73,14 @@ export default async function middleware(req: NextRequest) {
   }
 
   /**
+   * Fast permanent 308 redirect for root path to canonical /en
+   * Eliminates the 307 temporary redirect chain flagged in PageSpeed audits
+   */
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/en", req.url), 308);
+  }
+
+  /**
    * Apply next-intl to all other routes
    */
   return intlMiddleware(req);

@@ -17,6 +17,12 @@ import {
 
 export default function Footer() {
   const t = useTranslations("footer");
+  const [email, setEmail] = React.useState<string>("");
+
+  React.useEffect(() => {
+    setEmail(["enquiry", "ecchess@gmail.com"].join("."));
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -90,20 +96,34 @@ export default function Footer() {
             
             <div className="space-y-4 pt-2">
               <a 
-                href="mailto:enquiry.ecchess@gmail.com" 
+                href={email ? `mailto:${email}` : "#"} 
+                onClick={(e) => {
+                  if (!email) {
+                    e.preventDefault();
+                    window.location.href = `mailto:enquiry` + `.ecchess` + `@` + `gmail.com`;
+                  }
+                }}
                 className="flex items-center gap-3 group text-slate-300 hover:text-white transition-colors"
                 aria-label="Email EC Chess Academy"
               >
                 <div className="p-2 rounded-lg bg-white/10 group-hover:bg-indigo-500 transition-all">
                   <Mail size={18} />
                 </div>
-                <span className="text-sm font-medium">enquiry.ecchess@gmail.com</span>
+                <span className="text-sm font-medium">{email || "enquiry [at] ecchess.com"}</span>
               </a>
               <div className="flex items-center gap-3 text-slate-300">
                 <div className="p-2 rounded-lg bg-white/10">
                   <Phone size={18} />
                 </div>
                 <span className="text-sm font-medium">+852 4614 4561 / +852 5406 6800</span>
+              </div>
+              <div className="flex items-start gap-3 text-slate-300">
+                <div className="p-2 rounded-lg bg-white/10 shrink-0 mt-0.5">
+                  <MapPin size={18} />
+                </div>
+                <address className="not-italic text-sm font-medium leading-relaxed">
+                  Room B, 3/F, 352 Prince Edward Road West, Kowloon City, Hong Kong
+                </address>
               </div>
               <div className="flex gap-3 pt-2">
                 <Link href="https://www.facebook.com/ecchess" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2.5 bg-white/10 rounded-full hover:bg-white hover:text-indigo-900 transition-all">
