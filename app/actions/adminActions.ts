@@ -133,7 +133,7 @@ export async function updateTournamentStatus(id: number) {
  * Formats any string into a clean, URL-safe slug preserving Chinese (CJK)
  * characters, letters, numbers, hyphens, and underscores.
  */
-export function formatSlug(input: string): string {
+function formatSlug(input: string): string {
   if (!input) return "";
   return input
     .trim()
