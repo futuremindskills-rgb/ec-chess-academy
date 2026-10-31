@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ...baseTournaments.openGraph,
         title,
         description,
-        images: tournament.posterUrl ? [{ url: tournament.posterUrl }] : baseTournaments.openGraph?.images,
+        images: tournament.bannerImage ? [{ url: tournament.bannerImage }] : baseTournaments.openGraph?.images,
       },
     };
   } catch {

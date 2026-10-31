@@ -942,11 +942,12 @@ export function getPageMetadata(pageKey: PageKey, locale: string = "en"): Metada
  * Works with both Next.js 14 (sync params) and 15+ (Promise params).
  */
 export function createPageMetadata(pageKey: PageKey) {
-  return async function generateMetadata(
-    props?: { params?: Promise<{ locale?: string; [key: string]: any }> | { locale?: string; [key: string]: any } }
-  ): Promise<Metadata> {
-    const resolvedParams = props?.params ? await props.params : undefined;
-    return getPageMetadata(pageKey, resolvedParams?.locale || "en");
+  return async function generateMetadata({
+    params,
+  }: {
+    params: { locale?: string; [key: string]: any };
+  }): Promise<Metadata> {
+    return getPageMetadata(pageKey, params?.locale || "en");
   };
 }
 
