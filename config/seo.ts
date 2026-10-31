@@ -95,8 +95,9 @@ export const SEO_CONFIG = {
   // 2. VERIFICATION & TRACKING IDS
   // ==========================================
   verification: {
-    googleSiteVerification: "google2927da2fac444a7f", // HTML-file token (served from /public). Not emitted as a meta tag.
-    googleMetaToken: "", // Optional: content value of <meta name="google-site-verification">
+    // Verification token from google2927da2fac444a7f.html
+    googleSiteVerification: "ZnMsEcyvUGWMNXkHI7RjgyAipJV0tRHh8sj16HuUceg",
+    googleMetaToken: "ZnMsEcyvUGWMNXkHI7RjgyAipJV0tRHh8sj16HuUceg",
     bingSiteVerification: "", // Optional: Bing Webmaster tools token (emitted as msvalidate.01)
     yandexVerification: "",
   },
@@ -870,7 +871,9 @@ export function getPageMetadata(pageKey: PageKey, locale: string = "en"): Metada
 
   const v = SEO_CONFIG.verification;
   const verification: NonNullable<Metadata["verification"]> = {};
-  if (v.googleMetaToken) verification.google = v.googleMetaToken;
+  if (v.googleMetaToken || v.googleSiteVerification) {
+    verification.google = v.googleMetaToken || v.googleSiteVerification;
+  }
   if (v.yandexVerification) verification.yandex = v.yandexVerification;
   if (v.bingSiteVerification) verification.other = { "msvalidate.01": v.bingSiteVerification };
 
@@ -939,13 +942,11 @@ export function getPageMetadata(pageKey: PageKey, locale: string = "en"): Metada
  * Works with both Next.js 14 (sync params) and 15+ (Promise params).
  */
 export function createPageMetadata(pageKey: PageKey) {
-  return async function generateMetadata({
-    params,
-  }: {
-    params: Promise<{ locale?: string }> | { locale?: string };
-  }): Promise<Metadata> {
-    const resolved = await params;
-    return getPageMetadata(pageKey, resolved?.locale || "en");
+  return async function generateMetadata(
+    props?: { params?: Promise<{ locale?: string; [key: string]: any }> | { locale?: string; [key: string]: any } }
+  ): Promise<Metadata> {
+    const resolvedParams = props?.params ? await props.params : undefined;
+    return getPageMetadata(pageKey, resolvedParams?.locale || "en");
   };
 }
 

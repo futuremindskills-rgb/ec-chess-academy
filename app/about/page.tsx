@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import AboutBanner from "@/components/ui/AboutBanner";
 import AboutSection from "@/components/ui/AboutSection";
 import FaqSection from "@/components/stats-section";
@@ -7,8 +8,10 @@ import AchievementsSection from "@/components/ui/achievements";
 import TeamSection from "@/components/ui/team-section";
 import FinalCTASection from "@/components/ui/final-cta-section";
 import DemoBookingCTA from "@/components/demo-booking-cta";
-import    CompactCoachSlider  from "@/components/coach";
+import CompactCoachSlider from "@/components/coach";
+import { getPageMetadata } from "@/config/seo";
 
+export const metadata: Metadata = getPageMetadata("about", "en");
 
 export default function AboutPage() {
   return (

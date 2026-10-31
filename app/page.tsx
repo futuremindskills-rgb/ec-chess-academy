@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { PrismaClient } from '@prisma/client'
 const globalForPrisma = global as unknown as { prisma: PrismaClient }
 const prisma = globalForPrisma.prisma || new PrismaClient()
@@ -14,6 +15,9 @@ import ProgramsSection from "@/components/programs";
 import AboutSection from "@/components/about-section";
 import CurriculumSection from "@/components/courses-section";
 import SuccessStoriesSlider from "@/components/ui/stories";
+import { getPageMetadata } from "@/config/seo";
+
+export const metadata: Metadata = getPageMetadata("home", "en");
 
 export default async function HomePage() {
   // Fetch the banner data from the database

@@ -16,5 +16,5 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://www.ecchess.com/sitemap.xml
-# LLMs documentation: https://www.ecchess.com/llms.txt
+Sitemap: https://ecchess.com/sitemap.xml
+# LLMs documentation: https://ecchess.com/llms.txt

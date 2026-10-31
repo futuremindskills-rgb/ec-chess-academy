@@ -50,7 +50,10 @@ export async function generateMetadata({
     ...baseMetadata,
     manifest: "/site.webmanifest",
     verification: {
-      google: SEO_CONFIG.verification.googleSiteVerification || undefined,
+      google:
+        SEO_CONFIG.verification.googleMetaToken ||
+        SEO_CONFIG.verification.googleSiteVerification ||
+        undefined,
       other: SEO_CONFIG.verification.bingSiteVerification
         ? { "msvalidate.01": [SEO_CONFIG.verification.bingSiteVerification] }
         : undefined,

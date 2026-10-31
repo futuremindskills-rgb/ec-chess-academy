@@ -4,7 +4,6 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { NextIntlClientProvider } from "next-intl";
 import enMessages from "@/messages/en.json";
-import StructuredData from "@/components/seo/json-ld";
 import { SEO_CONFIG, getPageMetadata } from "@/config/seo";
 import "./globals.css";
 
@@ -20,7 +19,10 @@ export const metadata: Metadata = {
   ...baseHomeMetadata,
   manifest: "/site.webmanifest",
   verification: {
-    google: SEO_CONFIG.verification.googleSiteVerification || undefined,
+    google:
+      SEO_CONFIG.verification.googleMetaToken ||
+      SEO_CONFIG.verification.googleSiteVerification ||
+      undefined,
     other: SEO_CONFIG.verification.bingSiteVerification
       ? { "msvalidate.01": [SEO_CONFIG.verification.bingSiteVerification] }
       : undefined,
@@ -85,7 +87,6 @@ export default function RootLayout({
       </head>
 
       <body className="bg-white font-sans antialiased text-slate-900">
-        <StructuredData locale="en" />
         {/* GTM NoScript */}
         <noscript>
           <iframe
