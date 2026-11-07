@@ -105,6 +105,7 @@ export const SEO_CONFIG = {
   analytics: {
     googleAnalyticsId: "G-WVZSVNQNLW",
     googleTagManagerId: "GTM-KNXZDXMT",
+    googleAdsId: "AW-11267158852",
   },
 
   // ==========================================
