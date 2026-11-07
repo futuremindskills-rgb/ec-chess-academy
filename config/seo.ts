@@ -620,6 +620,24 @@ export const SEO_CONFIG = {
         breadcrumb: "服務條款",
       },
     } satisfies PageSeoConfig,
+
+    // --- Thank You ---
+    thankYou: {
+      path: "/thank-you",
+      robots: { index: false, follow: false },
+      en: {
+        title: "Thank You | EC Chess Academy HK",
+        description:
+          "Thank you for contacting EC Chess Academy HK. We have received your enquiry and our team will get back to you within 24 hours.",
+        breadcrumb: "Thank You",
+      },
+      zh: {
+        title: "感謝您的查詢 | EC 卓思棋院 (香港)",
+        description:
+          "感謝您聯絡 EC 卓思棋院。我們已收到您的查詢，教練團隊將於 24 小時內與您聯絡。",
+        breadcrumb: "感謝您",
+      },
+    } satisfies PageSeoConfig,
   },
 
   // ==============================================================================

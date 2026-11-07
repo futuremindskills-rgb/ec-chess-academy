@@ -11,6 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static pages from central SEO configuration
   (Object.keys(pages) as PageKey[]).forEach((pageKey) => {
     const page = pages[pageKey];
+    if (page.robots?.index === false) return;
     for (const locale of site.locales) {
       entries.push({
         url: `${baseUrl}/${locale}${page.path}`,

@@ -13,8 +13,10 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { useLocale } from 'next-intl';
+import { useRouter } from '@/i18n/navigation';
 
 const ContactSection: React.FC = () => {
+  const router = useRouter();
   const locale = useLocale();
   const isZh = locale === "zh";
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,6 +47,7 @@ const ContactSection: React.FC = () => {
 
       if (result.success) {
         setIsSuccess(true);
+        router.push('/thank-you');
       } else {
         throw new Error('Failed to send');
       }
