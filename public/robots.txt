@@ -1,5 +1,12 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /login
+Disallow: /api/
+Disallow: /payment-status
+Disallow: /payment-success
+Disallow: /thank-you
 
 User-agent: GPTBot
 Allow: /
