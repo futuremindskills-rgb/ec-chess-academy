@@ -41,23 +41,18 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <head>
-        {/* Google Ads Tag (gtag.js) */}
-        {SEO_CONFIG.analytics.googleAdsId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${SEO_CONFIG.analytics.googleAdsId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-ads-script" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${SEO_CONFIG.analytics.googleAdsId}');
-              `}
-            </Script>
-          </>
-        )}
+        {/* Google Tag (AW-11267158852) */}
+        <Script
+          src={`https://www.googletagmanager.com/gtm.js?id=${SEO_CONFIG.analytics.googleAdsId || "AW-11267158852"}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-tag-aw" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          `}
+        </Script>
 
         {/* Google Analytics */}
         {SEO_CONFIG.analytics.googleAnalyticsId && (
