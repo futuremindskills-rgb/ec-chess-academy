@@ -42,17 +42,15 @@ export default function RootLayout({
     >
       <head>
         {/* Google Tag (AW-11267158852) */}
-        <Script
-          src={`https://www.googletagmanager.com/gtm.js?id=${SEO_CONFIG.analytics.googleAdsId || "AW-11267158852"}`}
-          strategy="afterInteractive"
+        <script
+          async
+          src="https://www.googletagmanager.com/gtm.js?id=AW-11267158852"
         />
-        <Script id="google-tag-aw" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-          `}
-        </Script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());`,
+          }}
+        />
 
         {/* Google Analytics */}
         {SEO_CONFIG.analytics.googleAnalyticsId && (
